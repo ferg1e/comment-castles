@@ -1,7 +1,11 @@
 extends layout
 
 block content
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
     form(method="post")
-        input(placeholder="username")
-        input(placeholder="password" type="password")
+        input(name="username" placeholder="username")
+        input(name="password" placeholder="password" type="password" )
         input(type="submit" value="Sign Up")
