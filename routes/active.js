@@ -1,5 +1,6 @@
 const express = require('express')
 const {body, validationResult} = require('express-validator')
+const db = require('../db')
 
 const router = express.Router()
 
@@ -28,7 +29,7 @@ router.post(
     body('password', 'Password must be 13-100 characters')
         .notEmpty().withMessage('Please fill in a password')
         .matches(/^.{13,100}$/),
-    (req, res) => {
+    async (req, res) => {
         let errors = validationResult(req).array({onlyFirstError:true})
 
         if(errors.length) {
@@ -37,7 +38,25 @@ router.post(
                 {title:"Sign Up Form", errors:errors})
         }
         else {
-            res.send('no errors')
+            const {username, password} = req.body
+
+            try {
+                await db.createUser(username, password)
+            }
+            catch(err) {
+                let errorMessage = (err.constraint == 'tuser_username_key')
+                    ? `"${username}" already taken`
+                    : 'unknown error, please try again'
+                
+                //
+                res.render(
+                    'sign-up',
+                    {title:"Sign Up Form", errors:[
+                        {msg:errorMessage}
+                    ]})
+            }
+
+            res.send('create successful')
         }
     }
 )
