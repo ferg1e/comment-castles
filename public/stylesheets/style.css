@@ -6,3 +6,15 @@ body {
 a {
   color: #ff2222;
 }
+
+nav {
+  margin-bottom: 6px;
+}
+
+nav a {
+  margin: 0 4px;
+}
+
+nav a:first-child {
+  margin: 0 4px 0 0;
+}
