@@ -14,3 +14,10 @@ exports.createUser = (username, password) => {
             'insert into tuser(username, password) values($1, $2)',
             [username, hash]))
 }
+
+exports.getUserWithUsername = (username) => {
+    return query(
+        'select user_id, password from tuser where username = $1',
+        [username]
+    )
+}

@@ -1,4 +1,5 @@
 const express = require('express')
+const argon2 = require('argon2')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
 
@@ -58,6 +59,44 @@ router.post(
 
             res.send('create successful')
         }
+    }
+)
+
+router.get(
+    '/login',
+    (req, res) => {
+        res.render(
+            'login',
+            {title:"Login Form", errors:[]})
+    }
+)
+
+router.post(
+    '/login',
+    async (req, res) => {
+        let errors = []
+        const {rows} = await db.getUserWithUsername(req.body.username)
+
+        if(rows.length) {
+            try {
+                if(await argon2.verify(rows[0].password, req.body.password)) {
+                    res.send('login success, redirect to home...')
+                }
+                else {
+                    errors.push('Invalid username and password')
+                }
+            }
+            catch(err) {
+                errors.push('Unknown error, please try it again')
+            }
+        }
+        else {
+            errors.push('Invalid username and password')
+        }
+
+        res.render(
+            'login',
+            {title:"Login Form", errors:errors})
     }
 )
 
