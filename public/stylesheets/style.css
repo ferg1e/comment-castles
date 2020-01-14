@@ -11,7 +11,7 @@ nav {
   margin-bottom: 6px;
 }
 
-nav a {
+nav a, nav span {
   margin: 0 4px;
 }
 

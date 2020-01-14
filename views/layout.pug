@@ -8,7 +8,11 @@ html
       h1 Conversi
       nav
         a(href="/") home
-        a(href="/sign-up") sign up
-        a(href="/login") log in
+        if user
+          a(href="/logout") log out
+          span #{user.username}
+        else
+          a(href="/sign-up") sign up
+          a(href="/login") log in
     main
       block content

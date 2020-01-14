@@ -17,7 +17,7 @@ exports.createUser = (username, password) => {
 
 exports.getUserWithUsername = (username) => {
     return query(
-        'select user_id, password from tuser where username = $1',
+        'select user_id, username, password from tuser where username = $1',
         [username]
     )
 }

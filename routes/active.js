@@ -10,15 +10,32 @@ router.get(
     function(req, res) {
         res.render(
             'index',
-            {title:'Express'})
+            {
+                title:'Express',
+                user: req.session.user})
     })
 
 router.get(
     '/sign-up',
     (req, res) => {
-        res.render(
-            'sign-up',
-            {title:"Sign Up Form", errors:[]})
+        if(req.session.user) {
+            res.render(
+                'message',
+                {
+                    title: 'Sign Up Form',
+                    message: "You already signed up." +
+                        " If you want to create another account then please log out.",
+                    user: req.session.user
+                })
+        }
+        else {
+            res.render(
+                'sign-up',
+                {
+                    title:"Sign Up Form",
+                    errors:[]
+                })
+        }
     }
 )
 
@@ -65,9 +82,21 @@ router.post(
 router.get(
     '/login',
     (req, res) => {
-        res.render(
-            'login',
-            {title:"Login Form", errors:[]})
+        if(req.session.user) {
+            res.render(
+                'message',
+                {
+                    title: 'Login Form',
+                    message: "You're already logged in." +
+                        " If you want to log in with a different account then please log out.",
+                    user: req.session.user
+                })
+        }
+        else {
+            res.render(
+                'login',
+                {title:"Login Form", errors:[]})
+        }
     }
 )
 
@@ -80,7 +109,12 @@ router.post(
         if(rows.length) {
             try {
                 if(await argon2.verify(rows[0].password, req.body.password)) {
-                    res.send('login success, redirect to home...')
+                    req.session.user = {
+                        user_id: rows[0].user_id,
+                        username: rows[0].username
+                    }
+
+                    res.redirect('/')
                 }
                 else {
                     errors.push('Invalid username and password')
@@ -97,6 +131,14 @@ router.post(
         res.render(
             'login',
             {title:"Login Form", errors:errors})
+    }
+)
+
+router.get(
+    '/logout',
+    (req, res) => {
+        req.session.destroy()
+        res.redirect('/')
     }
 )
 
