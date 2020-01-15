@@ -214,4 +214,19 @@ router.post(
     }
 )
 
+router.get(
+    /^\/g\/([a-z0-9-]{3,36})$/i,
+    async (req, res) => {
+        const groupName = req.params[0]
+        const {rows} = await db.getGroupWithName(groupName)
+        
+        if(rows.length) {
+            res.send('found!')
+        }
+        else {
+            res.send("this group doesn't exist yet, create it")
+        }
+    }
+)
+
 module.exports = router
