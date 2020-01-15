@@ -1,0 +1,8 @@
+extends layout
+
+block head
+    link(rel='stylesheet', href='/stylesheets/groups.css')
+
+block content
+    each group in groups
+        a(href=`/g/${group.name}`) g/#{group.name}

@@ -37,3 +37,9 @@ exports.getGroupWithName = (name) => {
         [name]
     )
 }
+
+exports.getGroups = () => {
+    return query(
+        'select name from tgroup order by name'
+    )
+}

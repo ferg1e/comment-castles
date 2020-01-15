@@ -229,4 +229,18 @@ router.get(
     }
 )
 
+router.get(
+    '/groups',
+    async (req, res) => {
+        const {rows} = await db.getGroups()
+
+        res.render(
+            'groups',
+            {
+                groups: rows,
+                user: req.session.user
+            })
+    }
+)
+
 module.exports = router

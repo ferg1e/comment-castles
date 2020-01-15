@@ -3,11 +3,13 @@ html
   head
     title=title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block head
   body
     header
       h1 Conversi
       nav
         a(href="/") home
+        a(href="/groups") groups
         if user
           a(href="/create-group") create group
           a(href="/logout") log out
