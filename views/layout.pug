@@ -9,6 +9,7 @@ html
       nav
         a(href="/") home
         if user
+          a(href="/create-group") create group
           a(href="/logout") log out
           span #{user.username}
         else

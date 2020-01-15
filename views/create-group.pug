@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    form(method="post")
+        input(name="name" placeholder="group name")
+        input(type="submit" value="Create Group")

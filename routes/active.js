@@ -142,4 +142,76 @@ router.get(
     }
 )
 
+router.get(
+    '/create-group',
+    (req, res) => {
+        const title = 'Create Group'
+
+        if(req.session.user) {
+            res.render(
+                'create-group',
+                {
+                    title: title,
+                    errors: [],
+                    user: req.session.user
+                })
+        }
+        else {
+            res.render(
+                'message',
+                {
+                    title: title,
+                    message: "Please log in if you want to create a group."
+                })
+        }
+    }
+)
+
+router.post(
+    '/create-group',
+    body('name', 'Name must be 3-36 characters(letters, numbers and dashes only)')
+        .notEmpty().withMessage('Please fill in a name')
+        .matches(/^[a-z0-9-]{3,36}$/i),
+    async (req, res) => {
+        const errors = validationResult(req).array({onlyFirstError:true})
+
+        if(errors.length) {
+            res.render(
+                'create-group',
+                {
+                    title: "Create Group",
+                    errors: errors,
+                    user: req.session.user
+                })
+        }
+        else {
+            let name = req.body.name
+            const {rows} = await db.getGroupWithName(name)
+
+            if(rows.length) {
+                res.render(
+                    'create-group',
+                    {
+                        title: "Create Group",
+                        errors: [{msg:`"${name}" has already been created`}],
+                        user: req.session.user
+                    })
+            }
+            else {
+                await db.createGroup(
+                    req.session.user.user_id,
+                    name)
+                
+                res.render(
+                    'message',
+                    {
+                        title: 'Create Group',
+                        message: "new group successfully created",
+                        user: req.session.user
+                    })
+            }
+        }
+    }
+)
+
 module.exports = router
