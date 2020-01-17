@@ -52,3 +52,21 @@ exports.createPost = (groupId, userId, title, textContent) => {
         [shortid.generate(), groupId, userId, title, textContent]
     )
 }
+
+exports.getPostsWithGroupId = (groupId) => {
+    return query(`
+        select
+            p.title,
+            p.created_on,
+            u.username
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        where
+            p.group_id = $1
+        order by
+            p.created_on desc`,
+        [groupId]
+    )
+}

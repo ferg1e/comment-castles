@@ -1,0 +1,10 @@
+extends group
+
+block content2
+    if posts.length
+        each post in posts
+            div
+                a(href="#") #{post.title}
+            div by #{post.username} on #{post.created_on}
+    else
+        span no posts

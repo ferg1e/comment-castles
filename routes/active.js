@@ -221,11 +221,14 @@ router.get(
         const {rows} = await db.getGroupWithName(groupName)
         
         if(rows.length) {
+            const {rows: rows2} = await db.getPostsWithGroupId(rows[0].group_id)
+
             res.render(
-                'group',
+                'group-posts',
                 {
                     user: req.session.user,
-                    name: groupName
+                    name: groupName,
+                    posts: rows2
                 })
         }
         else {
