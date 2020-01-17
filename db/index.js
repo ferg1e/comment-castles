@@ -1,6 +1,7 @@
 require('dotenv').config()
 const argon2 = require('argon2')
 const {Pool} = require('pg')
+const shortid = require('shortid')
 
 const pool = new Pool()
 
@@ -41,5 +42,13 @@ exports.getGroupWithName = (name) => {
 exports.getGroups = () => {
     return query(
         'select name from tgroup order by name'
+    )
+}
+
+//post
+exports.createPost = (groupId, userId, title, textContent) => {
+    return query(
+        'insert into tpost(public_id, group_id, user_id, title, text_content) values($1, $2, $3, $4, $5)',
+        [shortid.generate(), groupId, userId, title, textContent]
     )
 }

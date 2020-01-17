@@ -1,0 +1,12 @@
+extends group
+
+block content2
+    if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+    form(method="post")
+        input(placeholder="title" name="title")
+        input(placeholder="link" name="link")
+        textarea(placeholder="text content" name="text_content")
+        input(type="submit" value="Create Post")

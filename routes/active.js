@@ -221,10 +221,80 @@ router.get(
         const {rows} = await db.getGroupWithName(groupName)
         
         if(rows.length) {
-            res.send('found!')
+            res.render(
+                'group',
+                {
+                    user: req.session.user,
+                    name: groupName
+                })
         }
         else {
             res.send("this group doesn't exist yet, create it")
+        }
+    }
+)
+
+router.get(
+    /^\/g\/([a-z0-9-]{3,36})\/new$/i,
+    async (req, res) => {
+
+        if(req.session.user) {
+            const groupName = req.params[0]
+            const {rows} = await db.getGroupWithName(groupName)
+
+            if(rows.length) {
+                res.render(
+                    'new-post',
+                    {
+                        user: req.session.user,
+                        name: groupName,
+                        errors: []
+                    })
+            }
+            else {
+                res.send('group does not exist...')
+            }
+        }
+        else {
+            res.send('please log in if you want to create a new post')
+        }
+    }
+)
+
+router.post(
+    /^\/g\/([a-z0-9-]{3,36})\/new$/i,
+    body('title', 'Title must be 4-50 characters')
+        .notEmpty().withMessage('Please fill in a title')
+        .matches(/^.{4,50}$/i),
+    body('text_content', 'Please write some content').notEmpty(),
+    async (req, res) => {
+        const groupName = req.params[0]
+        const {rows} = await db.getGroupWithName(groupName)
+
+        if(rows.length && req.session.user) {
+            const errors = validationResult(req).array({onlyFirstError:true})
+
+            if(errors.length) {
+                res.render(
+                    'new-post',
+                    {
+                        user: req.session.user,
+                        name: req.params[0],
+                        errors: errors
+                    })
+            }
+            else {
+                await db.createPost(
+                    rows[0].group_id,
+                    req.session.user.user_id,
+                    req.body.title,
+                    req.body.text_content)
+
+                res.send('good to go...')
+            }
+        }
+        else {
+            res.send('nope...')
         }
     }
 )
