@@ -316,4 +316,30 @@ router.get(
     }
 )
 
+router.get(
+    /^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i,
+    async (req, res) => {
+        const groupName = req.params[0]
+        const postPublicId = req.params[1]
+
+        const {rows} = await db.getPostWithGroupAndPublic(
+            groupName,
+            postPublicId)
+
+        if(rows.length) {
+            res.render(
+                'group-post',
+                {
+                    user: req.session.user,
+                    name: groupName,
+                    post: rows[0]
+                }
+            )
+        }
+        else {
+            res.send('not found')
+        }
+    }
+)
+
 module.exports = router

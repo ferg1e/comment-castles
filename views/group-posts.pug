@@ -4,7 +4,7 @@ block content2
     if posts.length
         each post in posts
             div
-                a(href="#") #{post.title}
+                a(href=`/g/${name}/${post.public_id}`) #{post.title}
             div by #{post.username} on #{post.created_on}
     else
         span no posts

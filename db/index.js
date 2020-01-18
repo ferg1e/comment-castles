@@ -56,6 +56,7 @@ exports.createPost = (groupId, userId, title, textContent) => {
 exports.getPostsWithGroupId = (groupId) => {
     return query(`
         select
+            p.public_id,
             p.title,
             p.created_on,
             u.username
@@ -68,5 +69,26 @@ exports.getPostsWithGroupId = (groupId) => {
         order by
             p.created_on desc`,
         [groupId]
+    )
+}
+
+exports.getPostWithGroupAndPublic = (groupName, publicId) => {
+    return query(
+        `
+        select
+            p.title,
+            p.created_on,
+            p.text_content,
+            u.username
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        join
+            tgroup g on g.group_id = p.group_id
+        where
+            p.public_id = $1 and
+            g.name = $2`,
+        [publicId, groupName]
     )
 }
