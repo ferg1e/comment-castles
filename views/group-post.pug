@@ -1,6 +1,17 @@
 extends group
 
 block content2
-    div #{post.title}
+    h3 #{post.title}
     div by #{post.username} on #{post.created_on}
     div #{post.text_content}
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    form(method="post")
+        textarea(name="text_content" placeholder="write a comment")
+        input(type="submit" value="Submit Comment")
+    div
+        each comment in comments
+            - let indentLevel = comment.path.split('.').length - 2
+            div(style=`margin: 5px 0 0 ${indentLevel*8}px`) #{comment.path} : #{comment.text_content}

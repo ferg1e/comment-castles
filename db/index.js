@@ -76,6 +76,7 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
     return query(
         `
         select
+            p.post_id,
             p.title,
             p.created_on,
             p.text_content,
@@ -91,4 +92,48 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
             g.name = $2`,
         [publicId, groupName]
     )
+}
+
+//comment
+exports.createPostComment = (postId, userId, content) => {
+    
+    /*TODO: figure out how to put this postId in
+    the query as a query param, currently
+    concat returns type 'text' which the ~
+    operator doesn't accept*/
+    let lQuery = parseInt(postId) + '.*{1}'
+
+    return query(`
+        select
+            count(1) as count
+        from
+            ttest
+        where
+            path ~ $1`,
+        [lQuery]).then(res => query(`
+        insert into ttest
+            (post_id, user_id, text_content, path)
+        values
+            ($1, $2, $3, $4)`,
+        [postId, userId, content,
+            postId + '.' + (parseInt(res.rows[0].count) + 1)])
+    )
+}
+
+exports.getPostComments = (postId) => {
+    return query(`
+        select
+            c.text_content,
+            c.path,
+            u.username,
+            c.created_on
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        where
+            c.path <@ $1
+        order by
+            c.path`,
+        [postId])
 }
