@@ -1,5 +1,9 @@
 extends group
 
+mixin commentContent(comment)
+    | #{comment.text_content} 
+    em - #{comment.username} Jun 23 2020 1:43am #[a(href="#") reply] #[a(href="#") permalink]
+
 block content2
     h3 #{post.title}
     div by #{post.username} on #{post.created_on}
@@ -20,13 +24,15 @@ block content2
 
             for comment in comments
                 if isFirst
-                    <li>#{comment.text_content}
+                    <li>
+                    +commentContent(comment)
                     - isFirst = false
                 else 
                     - let commentIndent = comment.path.split('.').length - 2
                     
                     if commentIndent > currIndent
-                        <ul><li>#{comment.text_content}
+                        <ul><li>
+                        +commentContent(comment)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
                         - let n = 0
@@ -37,9 +43,11 @@ block content2
                             </ul></li>
                             - ++n
                         
-                        <li>#{comment.text_content}
+                        <li>
+                        +commentContent(comment)
                     else
-                        </li><li>#{comment.text_content}
+                        </li><li>
+                        +commentContent(comment)
                     
                     - currIndent = commentIndent
 
