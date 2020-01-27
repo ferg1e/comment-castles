@@ -2,7 +2,7 @@ extends group
 
 mixin commentContent(comment)
     | #{comment.text_content} 
-    em - #{comment.username} Jun 23 2020 1:43am #[a(href="#") reply] #[a(href="#") permalink]
+    em !{'&ndash;'}#{comment.username} Jun 23 2020 1:43am #[a(href="#") reply] #[a(href="#") permalink]
 
 block content2
     h3 #{post.title}
