@@ -1,10 +1,6 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #ff2222;
+  background: #fefefe;
+  color: #4e4e4e;
 }
 
 nav {
@@ -17,4 +13,8 @@ nav a, nav span {
 
 nav a:first-child {
   margin: 0 4px 0 0;
+}
+
+nav a {
+  color: #ff4444;
 }
