@@ -12,6 +12,48 @@ block content2
         textarea(name="text_content" placeholder="write a comment")
         input(type="submit" value="Submit Comment")
     div
-        each comment in comments
-            - let indentLevel = comment.path.split('.').length - 2
-            div(style=`margin: 5px 0 0 ${indentLevel*8}px`) #{comment.path} : #{comment.text_content}
+        if comments.length
+            - let currIndent = 0
+            - let isFirst = true
+
+            <ul>
+
+            for comment in comments
+                if isFirst
+                    <li>#{comment.text_content}
+                    - isFirst = false
+                else 
+                    - let commentIndent = comment.path.split('.').length - 2
+                    
+                    if commentIndent > currIndent
+                        <ul><li>#{comment.text_content}
+                    else if commentIndent < currIndent
+                        - let diffIndent = currIndent - commentIndent
+                        - let n = 0
+
+                        </li>
+
+                        while n < diffIndent
+                            </ul></li>
+                            - ++n
+                        
+                        <li>#{comment.text_content}
+                    else
+                        </li><li>#{comment.text_content}
+                    
+                    - currIndent = commentIndent
+
+            if currIndent > 0 
+                - let n = 0
+
+                </li>
+
+                while n < currIndent
+                    </ul></li>
+                    - ++n
+                
+                </ul>
+            else
+                </li></ul>
+        else
+            | no comments yet

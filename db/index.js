@@ -9,6 +9,20 @@ function query(query, params) {
     return pool.query(query, params)
 }
 
+function numToOrderedAlpha(num) {
+    var first = Math.ceil(num/676)
+
+    var second = Math.ceil(num/26)%26
+    second = second ? second : 26
+
+    var third = Math.ceil(num%26)
+    third = third ? third : 26
+
+    return String.fromCharCode(96 + first) +
+        String.fromCharCode(96 + second) +
+        String.fromCharCode(96 + third)
+}
+
 //user
 exports.createUser = (username, password) => {
     return argon2.hash(password)
@@ -116,7 +130,7 @@ exports.createPostComment = (postId, userId, content) => {
         values
             ($1, $2, $3, $4)`,
         [postId, userId, content,
-            postId + '.' + (parseInt(res.rows[0].count) + 1)])
+            postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1)])
     )
 }
 
