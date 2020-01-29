@@ -5,12 +5,11 @@ mixin commentContent(comment)
     em !{'&ndash;'}#{comment.username} 
     | Jun 23 2020 1:43am 
     | #[a(href="#") reply] 
-    | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
+    | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
 
 block content2
-    h3 #{post.title}
-    div by #{post.username} on #{post.created_on}
-    div #{post.text_content}
+    div by #{comment.username} on #{comment.created_on}
+    div #{comment.text_content}
     if errors.length
         ul
             each error in errors
@@ -20,7 +19,7 @@ block content2
         input(type="submit" value="Submit Comment")
     div
         if comments.length
-            - let currIndent = 0
+            - let currIndent = comments[0].path.split('.').length - 2
             - let isFirst = true
 
             <ul>

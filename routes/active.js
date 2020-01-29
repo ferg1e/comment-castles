@@ -401,4 +401,96 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
             }
         })
 
+router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i)
+    .get(async (req, res) => {
+        const groupName = req.params[0]
+        const postPublicId = req.params[1]
+        const commentPublicId = req.params[2]
+
+        const {rows} = await db.getCommentWithGroupAndPublics(
+            groupName,
+            postPublicId,
+            commentPublicId)
+
+        if(rows.length) {
+            const{rows:comments} = await db.getCommentComments(rows[0].path)
+
+            res.render(
+                'group-comment',
+                {
+                    user: req.session.user,
+                    name: groupName,
+                    post_public_id: postPublicId,
+                    comment: rows[0],
+                    comments: comments,
+                    errors: []
+                }
+            )
+        }
+        else {
+            res.send('not found..')
+        }
+    })
+    .post(
+        body('text_content', 'Please write some content').notEmpty(),
+        async (req, res) => {
+            if(req.session.user) {
+                const groupName = req.params[0]
+                const postPublicId = req.params[1]
+                const commentPublicId = req.params[2]
+
+                const {rows} = await db.getCommentWithGroupAndPublics(
+                    groupName,
+                    postPublicId,
+                    commentPublicId)
+
+                if(rows.length) {
+                    const errors = validationResult(req).array({onlyFirstError:true})
+
+                    if(errors.length) {
+                        const{rows:comments} = await db.getCommentComments(rows[0].path)
+
+                        res.render(
+                            'group-comment',
+                            {
+                                user: req.session.user,
+                                name: groupName,
+                                post_public_id: postPublicId,
+                                comment: rows[0],
+                                comments: comments,
+                                errors: errors
+                            }
+                        )
+                    }
+                    else {
+                        const {rows:data1} = await db.createCommentComment(
+                            rows[0].post_id,
+                            req.session.user.user_id,
+                            req.body.text_content,
+                            rows[0].path)
+
+                        const{rows:comments} = await db.getCommentComments(rows[0].path)
+
+                        res.render(
+                            'group-comment',
+                            {
+                                user: req.session.user,
+                                name: groupName,
+                                post_public_id: postPublicId,
+                                comment: rows[0],
+                                comments: comments,
+                                errors: []
+                            }
+                        )
+                    }
+                }
+                else {
+                    res.send('not found')
+                }
+            }
+            else {
+                res.send('please log in')
+            }
+    })
+
 module.exports = router

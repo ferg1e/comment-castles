@@ -94,7 +94,8 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
             p.title,
             p.created_on,
             p.text_content,
-            u.username
+            u.username,
+            p.public_id
         from
             tpost p
         join
@@ -126,11 +127,33 @@ exports.createPostComment = (postId, userId, content) => {
             path ~ $1`,
         [lQuery]).then(res => query(`
         insert into ttest
-            (post_id, user_id, text_content, path)
+            (post_id, user_id, text_content, path, public_id)
         values
-            ($1, $2, $3, $4)`,
+            ($1, $2, $3, $4, $5)`,
         [postId, userId, content,
-            postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1)])
+            postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
+            shortid.generate()])
+    )
+}
+
+exports.createCommentComment = (postId, userId, content, parentPath) => {
+    let lQuery = parentPath + '.*{1}'
+
+    return query(`
+        select
+            count(1) as count
+        from
+            ttest
+        where
+            path ~ $1`,
+        [lQuery]).then(res => query(`
+        insert into ttest
+            (post_id, user_id, text_content, path, public_id)
+        values
+            ($1, $2, $3, $4, $5)`,
+        [postId, userId, content,
+            parentPath + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
+            shortid.generate()])
     )
 }
 
@@ -140,7 +163,8 @@ exports.getPostComments = (postId) => {
             c.text_content,
             c.path,
             u.username,
-            c.created_on
+            c.created_on,
+            c.public_id
         from
             ttest c
         join
@@ -150,4 +174,48 @@ exports.getPostComments = (postId) => {
         order by
             c.path`,
         [postId])
+}
+
+exports.getCommentComments = (path) => {
+    return query(`
+        select
+            c.text_content,
+            c.path,
+            u.username,
+            c.created_on,
+            c.public_id
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        where
+            c.path <@ $1 and
+            not (c.path ~ $2)
+        order by
+            c.path`,
+        [path, path])
+}
+
+exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId) => {
+    return query(`
+        select
+            c.text_content,
+            c.created_on,
+            c.path,
+            c.post_id,
+            u.username
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        join
+            tpost p on p.post_id = c.post_id
+        join
+            tgroup g on g.group_id = p.group_id
+        where
+            c.public_id = $1 and
+            p.public_id = $2 and
+            g.name = $3`,
+        [publicCommentId, publicPostId, groupName]
+    )
 }
