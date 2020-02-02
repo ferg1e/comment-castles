@@ -1,11 +1,17 @@
 extends group
 
 mixin commentContent(comment)
+    - const commentIndent = comment.path.split('.').length - 2
+    - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
+    - let colorIndex = commentIndent
+
+    - const color = colors[colorIndex]
+
     | #{comment.text_content} 
-    em !{'&ndash;'}#{comment.username} 
-    | Jun 23 2020 1:43am 
-    | #[a(href="#") reply] 
-    | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
+    em !{'&mdash;'}#{comment.username} 
+        | Jun 23 2020 1:43am 
+        | #[a(href="#") reply] 
+        | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
 
 block content2
     h3 #{post.title}
@@ -18,7 +24,7 @@ block content2
     form(method="post")
         textarea(name="text_content" placeholder="write a comment")
         input(type="submit" value="Submit Comment")
-    div
+    .comments
         if comments.length
             - let currIndent = 0
             - let isFirst = true

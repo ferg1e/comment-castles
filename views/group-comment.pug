@@ -3,9 +3,9 @@ extends group
 mixin commentContent(comment)
     | #{comment.text_content} 
     em !{'&ndash;'}#{comment.username} 
-    | Jun 23 2020 1:43am 
-    | #[a(href="#") reply] 
-    | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
+        | Jun 23 2020 1:43am 
+        | #[a(href="#") reply] 
+        | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
 
 block content2
     div by #{comment.username} on #{comment.created_on}
@@ -17,7 +17,7 @@ block content2
     form(method="post")
         textarea(name="text_content" placeholder="write a comment")
         input(type="submit" value="Submit Comment")
-    div
+    .comments
         if comments.length
             - let currIndent = comments[0].path.split('.').length - 2
             - let isFirst = true

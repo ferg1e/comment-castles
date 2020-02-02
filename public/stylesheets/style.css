@@ -18,3 +18,7 @@ nav a:first-child {
 nav a {
   color: #ff4444;
 }
+
+.comments li em {
+  color: #9f9fa7;
+}
