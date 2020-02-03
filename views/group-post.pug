@@ -14,9 +14,10 @@ mixin commentContent(comment)
         | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
 
 block content2
-    h3 #{post.title}
-    div by #{post.username} on #{post.created_on}
-    div #{post.text_content}
+    div.the-post
+        h3 #{post.title}
+        div by #{post.username} on #{post.created_on}
+        div.the-post-content #{post.text_content}
     if errors.length
         ul
             each error in errors

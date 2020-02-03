@@ -26,3 +26,15 @@ nav a {
 .posts > div {
   margin-bottom: 14px;
 }
+
+.the-post h3 {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.the-post .the-post-content {
+  background: #f2f2f2;
+  border: 1px solid #666666;
+  margin: 3px 0;
+  padding: 4px;
+}
