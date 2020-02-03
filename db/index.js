@@ -1,7 +1,10 @@
 require('dotenv').config()
 const argon2 = require('argon2')
-const {Pool} = require('pg')
+const {Pool, types} = require('pg')
 const shortid = require('shortid')
+
+//returns raw timestamp instead of converting to a js Date obj
+types.setTypeParser(1114, str => str)
 
 const pool = new Pool()
 
@@ -72,7 +75,7 @@ exports.getPostsWithGroupId = (groupId) => {
         select
             p.public_id,
             p.title,
-            p.created_on,
+            p.created_on::timestamp(0),
             u.username
         from
             tpost p
@@ -92,7 +95,7 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
         select
             p.post_id,
             p.title,
-            p.created_on,
+            p.created_on::timestamp(0),
             p.text_content,
             u.username,
             p.public_id
@@ -163,7 +166,7 @@ exports.getPostComments = (postId) => {
             c.text_content,
             c.path,
             u.username,
-            c.created_on,
+            c.created_on::timestamp(0),
             c.public_id
         from
             ttest c
@@ -182,7 +185,7 @@ exports.getCommentComments = (path) => {
             c.text_content,
             c.path,
             u.username,
-            c.created_on,
+            c.created_on::timestamp(0),
             c.public_id
         from
             ttest c
@@ -200,7 +203,7 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
     return query(`
         select
             c.text_content,
-            c.created_on,
+            c.created_on::timestamp(0),
             c.path,
             c.post_id,
             u.username

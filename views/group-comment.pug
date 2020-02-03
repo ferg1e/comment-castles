@@ -3,7 +3,7 @@ extends group
 mixin commentContent(comment)
     | #{comment.text_content} 
     em !{'&ndash;'}#{comment.username} 
-        | Jun 23 2020 1:43am 
+        | #{comment.created_on} 
         | #[a(href="#") reply] 
         | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
 

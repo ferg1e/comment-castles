@@ -9,7 +9,7 @@ mixin commentContent(comment)
 
     | #{comment.text_content} 
     em !{'&mdash;'}#{comment.username} 
-        | Jun 23 2020 1:43am 
+        | #{comment.created_on} 
         | #[a(href="#") reply] 
         | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
 
