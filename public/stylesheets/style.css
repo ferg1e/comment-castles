@@ -22,3 +22,7 @@ nav a {
 .comments li em {
   color: #9f9fa7;
 }
+
+.posts > div {
+  margin-bottom: 14px;
+}
