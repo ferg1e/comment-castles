@@ -8,8 +8,10 @@ mixin commentContent(comment)
         | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
 
 block content2
-    div by #{comment.username} on #{comment.created_on}
-    div #{comment.text_content}
+    article.the-comment
+        header by #{comment.username} on #[time #{comment.created_on}]
+        p #{comment.text_content}
+
     if errors.length
         ul
             each error in errors

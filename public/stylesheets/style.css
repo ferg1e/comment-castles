@@ -32,7 +32,8 @@ nav a {
   padding-bottom: 0;
 }
 
-.the-post .the-post-content {
+.the-post .the-post-content,
+.the-comment p {
   background: #f2f2f2;
   border: 1px solid #666666;
   margin: 3px 0;
