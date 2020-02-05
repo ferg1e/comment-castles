@@ -8,6 +8,9 @@ mixin commentContent(comment)
         | #[a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) permalink]
 
 block content2
+    nav.backpost-nav
+        a(href=`/g/${name}/${post_public_id}`) !{'&lt;'} Back to Post
+
     article.the-comment
         header by #{comment.username} on #[time #{comment.created_on}]
         p #{comment.text_content}

@@ -3,19 +3,19 @@ body {
   color: #4e4e4e;
 }
 
-nav {
-  margin-bottom: 6px;
+.main-nav ul, .post-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 
-nav a, nav span {
-  margin: 0 4px;
+.main-nav ul li, .post-nav ul li {
+  display: inline;
+  padding: 0;
+  margin: 0 6px 0 0;
 }
 
-nav a:first-child {
-  margin: 0 4px 0 0;
-}
-
-nav a {
+.main-nav a, .post-nav a {
   color: #ff4444;
 }
 
@@ -38,4 +38,16 @@ nav a {
   border: 1px solid #666666;
   margin: 3px 0;
   padding: 4px;
+}
+
+.backpost-nav {
+  margin: 10px 0;
+}
+
+.backpost-nav a {
+  padding: 4px 6px;
+  background: #ffcc80;
+  color: #000000;
+  text-decoration: none;
+  border: 1px solid #000000;
 }

@@ -7,15 +7,23 @@ html
   body
     header
       h1 Conversi
-      nav
-        a(href="/") home
-        a(href="/groups") groups
-        if user
-          a(href="/create-group") create group
-          a(href="/logout") log out
-          span #{user.username}
-        else
-          a(href="/sign-up") sign up
-          a(href="/login") log in
+      nav.main-nav
+        ul
+          li
+            a(href="/") home
+          li
+            a(href="/groups") groups
+
+          if user
+            li
+              a(href="/create-group") create group
+            li
+              a(href="/logout") log out
+            li #{user.username}
+          else
+            li
+              a(href="/sign-up") sign up
+            li
+              a(href="/login") log in
     main
       block content
