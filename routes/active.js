@@ -316,6 +316,35 @@ router.get(
     }
 )
 
+//moderate
+router.get(
+    /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
+    async (req, res) => {
+        const groupName = req.params[0]
+        const {rows} = await db.getGroupWithName(groupName)
+
+        if(rows.length) {
+            let isUserMod = true
+
+            if(isUserMod) {
+                res.render(
+                    'group-moderate',
+                    {
+                        user: req.session.user,
+                        name: groupName
+                    }
+                )
+            }
+            else {
+                res.send('you dont have permission')
+            }
+        }
+        else {
+            res.send('invalid group')
+        }
+    }
+)
+
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
         const groupName = req.params[0]

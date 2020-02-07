@@ -3,19 +3,22 @@ body {
   color: #4e4e4e;
 }
 
-.main-nav ul, .post-nav ul, .group-admin-nav ul {
+.main-nav ul, .post-nav ul, .group-admin-nav ul,
+.group-moderate-nav ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
-.main-nav ul li, .post-nav ul li, .group-admin-nav ul li {
+.main-nav ul li, .post-nav ul li, .group-admin-nav ul li,
+.group-moderate-nav ul li {
   display: inline;
   padding: 0;
   margin: 0 6px 0 0;
 }
 
-.main-nav a, .post-nav a, .group-admin-nav a {
+.main-nav a, .post-nav a, .group-admin-nav a,
+.group-moderate-nav a {
   color: #ff4444;
 }
 
