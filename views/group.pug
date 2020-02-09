@@ -8,9 +8,11 @@ block content
                 a(href=`/g/${name}`) posts
             li
                 a(href=`/g/${name}/new`) new post
-            li
-                a(href=`/g/${name}/admin`) admin
-            li
-                a(href=`/g/${name}/moderate`) moderate
+            if is_admin
+                li
+                    a(href=`/g/${name}/admin`) admin
+            if is_mod
+                li
+                    a(href=`/g/${name}/moderate`) moderate
 
     block content2

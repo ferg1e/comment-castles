@@ -114,7 +114,7 @@ router.post(
                         username: rows[0].username
                     }
 
-                    res.redirect('/')
+                    return res.redirect('/')
                 }
                 else {
                     errors.push('Invalid username and password')
@@ -215,6 +215,14 @@ router.post(
 )
 
 router.get(
+    /^\/g\/([a-z0-9-]{3,36})/i,
+    (req, res, next) => {
+        console.log(req.url)
+        next()
+    }
+)
+
+router.get(
     /^\/g\/([a-z0-9-]{3,36})$/i,
     async (req, res) => {
         const groupName = req.params[0]
@@ -222,13 +230,19 @@ router.get(
         
         if(rows.length) {
             const {rows: rows2} = await db.getPostsWithGroupId(rows[0].group_id)
+            const isAdmin = req.session.user &&
+                (req.session.user.user_id == rows[0].owned_by)
+
+            const isMod = isAdmin
 
             res.render(
                 'group-posts',
                 {
                     user: req.session.user,
                     name: groupName,
-                    posts: rows2
+                    posts: rows2,
+                    is_admin: isAdmin,
+                    is_mod: isMod
                 })
         }
         else {

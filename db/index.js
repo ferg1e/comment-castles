@@ -50,8 +50,14 @@ exports.createGroup = (userId, name) => {
 }
 
 exports.getGroupWithName = (name) => {
-    return query(
-        'select group_id from tgroup where lower(name) = lower($1)',
+    return query(`
+        select
+            group_id,
+            owned_by
+        from
+            tgroup
+        where
+            lower(name) = lower($1)`,
         [name]
     )
 }
