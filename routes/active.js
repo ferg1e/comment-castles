@@ -429,12 +429,11 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
 //group: single comment
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
-        const groupName = req.params[0]
         const postPublicId = req.params[1]
         const commentPublicId = req.params[2]
 
         const {rows} = await db.getCommentWithGroupAndPublics(
-            groupName,
+            res.locals.group.name,
             postPublicId,
             commentPublicId)
 
@@ -445,7 +444,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                 'group-comment',
                 {
                     user: req.session.user,
-                    name: groupName,
+                    name: res.locals.group.name,
                     post_public_id: postPublicId,
                     comment: rows[0],
                     comments: comments,
@@ -461,12 +460,11 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
         body('text_content', 'Please write some content').notEmpty(),
         async (req, res) => {
             if(req.session.user) {
-                const groupName = req.params[0]
                 const postPublicId = req.params[1]
                 const commentPublicId = req.params[2]
 
                 const {rows} = await db.getCommentWithGroupAndPublics(
-                    groupName,
+                    res.locals.group.name,
                     postPublicId,
                     commentPublicId)
 
@@ -480,7 +478,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                             'group-comment',
                             {
                                 user: req.session.user,
-                                name: groupName,
+                                name: res.locals.group.name,
                                 post_public_id: postPublicId,
                                 comment: rows[0],
                                 comments: comments,
@@ -501,7 +499,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                             'group-comment',
                             {
                                 user: req.session.user,
-                                name: groupName,
+                                name: res.locals.group.name,
                                 post_public_id: postPublicId,
                                 comment: rows[0],
                                 comments: comments,
@@ -523,27 +521,17 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/admin$/i,
     async (req, res) => {
-        const groupName = req.params[0]
-        const {rows} = await db.getGroupWithName(groupName)
-
-        if(rows.length) {
-            let isUserAdmin = true
-
-            if(isUserAdmin) {
-                res.render(
-                    'group-admin-home',
-                    {
-                        user: req.session.user,
-                        name: groupName
-                    }
-                )
-            }
-            else {
-                res.send('you dont have permission')
-            }
+        if(res.locals.isAdmin) {
+            res.render(
+                'group-admin-home',
+                {
+                    user: req.session.user,
+                    name: res.locals.group.name
+                }
+            )
         }
         else {
-            res.send('invalid group')
+            res.send('you dont have permission')
         }
     }
 )
