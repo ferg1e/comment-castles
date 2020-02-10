@@ -53,7 +53,8 @@ exports.getGroupWithName = (name) => {
     return query(`
         select
             group_id,
-            owned_by
+            owned_by,
+            name
         from
             tgroup
         where

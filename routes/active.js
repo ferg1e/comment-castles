@@ -214,63 +214,59 @@ router.post(
     }
 )
 
-router.get(
-    /^\/g\/([a-z0-9-]{3,36})/i,
-    (req, res, next) => {
-        console.log(req.url)
+//group: shared
+async function sharedGroupHandler(req, res, next) {
+    const groupName = req.params[0]
+    const {rows} = await db.getGroupWithName(groupName)
+
+    if(rows.length) {
+        res.locals.group = rows[0]
+        res.locals.isAdmin = req.session.user &&
+            (req.session.user.user_id == rows[0].owned_by)
+
+        res.locals.isMod = res.locals.isAdmin
         next()
     }
-)
+    else {
+        res.send('no such group')
+    }
+}
 
+router.route(/^\/g\/([a-z0-9-]{3,36})/i)
+    .get(sharedGroupHandler)
+    .post(sharedGroupHandler)
+
+//group: posts
 router.get(
     /^\/g\/([a-z0-9-]{3,36})$/i,
     async (req, res) => {
-        const groupName = req.params[0]
-        const {rows} = await db.getGroupWithName(groupName)
-        
-        if(rows.length) {
-            const {rows: rows2} = await db.getPostsWithGroupId(rows[0].group_id)
-            const isAdmin = req.session.user &&
-                (req.session.user.user_id == rows[0].owned_by)
+        const group = res.locals.group
+        const {rows} = await db.getPostsWithGroupId(group.group_id)
 
-            const isMod = isAdmin
-
-            res.render(
-                'group-posts',
-                {
-                    user: req.session.user,
-                    name: groupName,
-                    posts: rows2,
-                    is_admin: isAdmin,
-                    is_mod: isMod
-                })
-        }
-        else {
-            res.send("this group doesn't exist yet, create it")
-        }
+        res.render(
+            'group-posts',
+            {
+                user: req.session.user,
+                name: group.name,
+                posts: rows,
+                is_admin: res.locals.isAdmin,
+                is_mod: res.locals.isMod
+            })
     }
 )
 
+//group: new post
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/new$/i,
     async (req, res) => {
-
         if(req.session.user) {
-            const groupName = req.params[0]
-            const {rows} = await db.getGroupWithName(groupName)
-
-            if(rows.length) {
-                res.render(
-                    'new-post',
-                    {
-                        user: req.session.user,
-                        name: groupName,
-                        errors: []
-                    })
-            }
-            else {
-                res.send('group does not exist...')
-            }
+            res.render(
+                'new-post',
+                {
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    errors: []
+                })
         }
         else {
             res.send('please log in if you want to create a new post')
@@ -285,10 +281,7 @@ router.post(
         .matches(/^.{4,50}$/i),
     body('text_content', 'Please write some content').notEmpty(),
     async (req, res) => {
-        const groupName = req.params[0]
-        const {rows} = await db.getGroupWithName(groupName)
-
-        if(rows.length && req.session.user) {
+        if(req.session.user) {
             const errors = validationResult(req).array({onlyFirstError:true})
 
             if(errors.length) {
@@ -302,12 +295,12 @@ router.post(
             }
             else {
                 await db.createPost(
-                    rows[0].group_id,
+                    res.locals.group.group_id,
                     req.session.user.user_id,
                     req.body.title,
                     req.body.text_content)
 
-                res.send('good to go...')
+                res.send('good to go2...')
             }
         }
         else {
@@ -330,7 +323,7 @@ router.get(
     }
 )
 
-//moderate
+//group: moderate
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
     async (req, res) => {
@@ -359,6 +352,7 @@ router.get(
     }
 )
 
+//group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
         const groupName = req.params[0]
@@ -444,6 +438,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
             }
         })
 
+//group: single comment
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
         const groupName = req.params[0]
@@ -536,7 +531,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
             }
     })
 
-//admin
+//group: admin
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/admin$/i,
     async (req, res) => {
