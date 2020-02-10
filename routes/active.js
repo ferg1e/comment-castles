@@ -327,27 +327,17 @@ router.get(
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
     async (req, res) => {
-        const groupName = req.params[0]
-        const {rows} = await db.getGroupWithName(groupName)
-
-        if(rows.length) {
-            let isUserMod = true
-
-            if(isUserMod) {
-                res.render(
-                    'group-moderate',
-                    {
-                        user: req.session.user,
-                        name: groupName
-                    }
-                )
-            }
-            else {
-                res.send('you dont have permission')
-            }
+        if(res.locals.isMod) {
+            res.render(
+                'group-moderate',
+                {
+                    user: req.session.user,
+                    name: res.locals.group.name
+                }
+            )
         }
         else {
-            res.send('invalid group')
+            res.send('you dont have permission')
         }
     }
 )
@@ -355,11 +345,10 @@ router.get(
 //group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
-        const groupName = req.params[0]
         const postPublicId = req.params[1]
 
         const {rows} = await db.getPostWithGroupAndPublic(
-            groupName,
+            res.locals.group.name,
             postPublicId)
 
         if(rows.length) {
@@ -369,7 +358,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                 'group-post',
                 {
                     user: req.session.user,
-                    name: groupName,
+                    name: res.locals.group.name,
                     post: rows[0],
                     comments: comments,
                     errors: []
@@ -385,11 +374,10 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
         async (req, res) => {
 
             if(req.session.user) {
-                const groupName = req.params[0]
                 const postPublicId = req.params[1]
 
                 const {rows} = await db.getPostWithGroupAndPublic(
-                    groupName,
+                    res.locals.group.name,
                     postPublicId)
 
                 if(rows.length) {
@@ -402,7 +390,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                             'group-post',
                             {
                                 user: req.session.user,
-                                name: groupName,
+                                name: res.locals.group.name,
                                 post: rows[0],
                                 comments: comments,
                                 errors: errors
@@ -421,7 +409,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                             'group-post',
                             {
                                 user: req.session.user,
-                                name: groupName,
+                                name: res.locals.group.name,
                                 post: rows[0],
                                 comments: comments,
                                 errors: []
