@@ -265,7 +265,9 @@ router.get(
                 {
                     user: req.session.user,
                     name: res.locals.group.name,
-                    errors: []
+                    errors: [],
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
                 })
         }
         else {
@@ -290,7 +292,9 @@ router.post(
                     {
                         user: req.session.user,
                         name: req.params[0],
-                        errors: errors
+                        errors: errors,
+                        is_admin: res.locals.isAdmin,
+                        is_mod: res.locals.isMod
                     })
             }
             else {
@@ -332,7 +336,9 @@ router.get(
                 'group-moderate',
                 {
                     user: req.session.user,
-                    name: res.locals.group.name
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
                 }
             )
         }
@@ -361,7 +367,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                     name: res.locals.group.name,
                     post: rows[0],
                     comments: comments,
-                    errors: []
+                    errors: [],
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
                 }
             )
         }
@@ -393,7 +401,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                                 name: res.locals.group.name,
                                 post: rows[0],
                                 comments: comments,
-                                errors: errors
+                                errors: errors,
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
                             }
                         )
                     }
@@ -412,7 +422,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                                 name: res.locals.group.name,
                                 post: rows[0],
                                 comments: comments,
-                                errors: []
+                                errors: [],
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
                             }
                         )
                     }
@@ -448,7 +460,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                     post_public_id: postPublicId,
                     comment: rows[0],
                     comments: comments,
-                    errors: []
+                    errors: [],
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
                 }
             )
         }
@@ -482,7 +496,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                                 post_public_id: postPublicId,
                                 comment: rows[0],
                                 comments: comments,
-                                errors: errors
+                                errors: errors,
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
                             }
                         )
                     }
@@ -503,7 +519,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                                 post_public_id: postPublicId,
                                 comment: rows[0],
                                 comments: comments,
-                                errors: []
+                                errors: [],
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
                             }
                         )
                     }
@@ -526,7 +544,9 @@ router.get(
                 'group-admin-home',
                 {
                     user: req.session.user,
-                    name: res.locals.group.name
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
                 }
             )
         }
