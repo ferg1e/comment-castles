@@ -89,7 +89,8 @@ exports.getPostsWithGroupId = (groupId) => {
         join
             tuser u on u.user_id = p.user_id
         where
-            p.group_id = $1
+            p.group_id = $1 and
+            not is_removed
         order by
             p.created_on desc`,
         [groupId]
@@ -117,6 +118,17 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
             g.name = $2`,
         [publicId, groupName]
     )
+}
+
+exports.markPostRemoved = (publicId) => {
+    return query(`
+        update
+            tpost
+        set
+            is_removed = true
+        where
+            public_id = $1`,
+        [publicId])
 }
 
 //comment

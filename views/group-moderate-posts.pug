@@ -1,0 +1,19 @@
+extends group-moderate
+
+block content3
+    table
+        tr
+            th title
+            th
+
+        each p in posts
+            tr
+                td #{p.title}
+                td
+                    form(method="post")
+                        input(type="submit" value="Remove")
+                        input(type="hidden" name="remove_post_id" value=`${p.public_id}`)
+                    form(method="post")
+                        input(type="submit" value="Sticky")
+                    form(method="post")
+                        input(type="submit" value="Lock")

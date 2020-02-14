@@ -327,13 +327,13 @@ router.get(
     }
 )
 
-//group: moderate
+//group: moderate home
 router.get(
     /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
     async (req, res) => {
         if(res.locals.isMod) {
             res.render(
-                'group-moderate',
+                'group-moderate-home',
                 {
                     user: req.session.user,
                     name: res.locals.group.name,
@@ -347,6 +347,53 @@ router.get(
         }
     }
 )
+
+//group: moderate posts
+router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/posts$/i)
+    .get(async (req, res) => {
+        if(res.locals.isMod) {
+            const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id)
+
+            res.render(
+                'group-moderate-posts',
+                {
+                    posts: posts,
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
+                }
+            )
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
+    .post(async (req, res) => {
+        if(res.locals.isMod) {
+            if(typeof req.body.remove_post_id !== 'undefined') {
+                await db.markPostRemoved(req.body.remove_post_id)
+                const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id)
+
+                res.render(
+                    'group-moderate-posts',
+                    {
+                        posts: posts,
+                        user: req.session.user,
+                        name: res.locals.group.name,
+                        is_admin: res.locals.isAdmin,
+                        is_mod: res.locals.isMod
+                    }
+                )
+            }
+            else {
+                res.send('dont you do it mr.')
+            }
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
 
 //group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
