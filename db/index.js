@@ -115,7 +115,8 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
             tgroup g on g.group_id = p.group_id
         where
             p.public_id = $1 and
-            g.name = $2`,
+            g.name = $2 and
+            not p.is_removed`,
         [publicId, groupName]
     )
 }
