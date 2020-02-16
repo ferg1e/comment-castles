@@ -4,6 +4,7 @@ const {body, validationResult} = require('express-validator')
 const db = require('../db')
 
 const router = express.Router()
+const regexUsername = /^[a-z0-9-]{4,16}$/i
 
 router.get(
     '/',
@@ -43,7 +44,7 @@ router.post(
     '/sign-up',
     body('username', 'Username must be 4-16 characters(letters, numbers and dashes only)')
         .notEmpty().withMessage('Please fill in a username')
-        .matches(/^[a-z0-9-]{4,16}$/i),
+        .matches(regexUsername),
     body('password', 'Password must be 13-100 characters')
         .notEmpty().withMessage('Please fill in a password')
         .matches(/^.{13,100}$/),
@@ -224,7 +225,7 @@ async function sharedGroupHandler(req, res, next) {
         res.locals.isAdmin = req.session.user &&
             (req.session.user.user_id == rows[0].owned_by)
 
-        res.locals.isMod = res.locals.isAdmin
+        res.locals.isMod = rows[0].moderators.indexOf(req.session.user.user_id) != -1
         next()
     }
     else {
@@ -602,5 +603,86 @@ router.get(
         }
     }
 )
+
+//group: admin add mod
+router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-mod$/i)
+    .get((req, res) => {
+        if(res.locals.isAdmin) {
+            res.render(
+                'group-admin-add-mod',
+                {
+                    errors: [],
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
+                }
+            )
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
+    .post(
+        body('username', 'Please fill in a username').notEmpty(),
+        async (req, res) => {
+            if(res.locals.isAdmin) {
+                let errors = validationResult(req).array({onlyFirstError:true})
+
+                if(errors.length) {
+                    res.render(
+                        'group-admin-add-mod',
+                        {
+                            errors: errors,
+                            user: req.session.user,
+                            name: res.locals.group.name,
+                            is_admin: res.locals.isAdmin,
+                            is_mod: res.locals.isMod
+                        }
+                    )
+                }
+                else {
+                    const {rows} = await db.getUserWithUsername(req.body.username)
+
+                    if(rows.length) {
+                        const mIndex = res.locals.group.moderators.indexOf(rows[0].user_id)
+                        const isUserMod = (mIndex != -1)
+                        const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+
+                        if(isUserMod || isUserAdmin) {
+                            res.render(
+                                'group-admin-add-mod',
+                                {
+                                    errors: [{msg: 'that user is already a moderator'}],
+                                    user: req.session.user,
+                                    name: res.locals.group.name,
+                                    is_admin: res.locals.isAdmin,
+                                    is_mod: res.locals.isMod
+                                }
+                            )
+                        }
+                        else {
+                            await db.createModerator(rows[0].user_id, res.locals.group.group_id)
+                            res.send('okay to add...')
+                        }
+                    }
+                    else {
+                        res.render(
+                            'group-admin-add-mod',
+                            {
+                                errors: [{msg: 'no such user'}],
+                                user: req.session.user,
+                                name: res.locals.group.name,
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
+                            }
+                        )
+                    }
+                }
+            }
+            else {
+                res.send('you dont have permission')
+            }
+        })
 
 module.exports = router

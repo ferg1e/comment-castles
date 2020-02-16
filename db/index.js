@@ -52,13 +52,20 @@ exports.createGroup = (userId, name) => {
 exports.getGroupWithName = (name) => {
     return query(`
         select
-            group_id,
-            owned_by,
-            name
+            g.group_id,
+            g.owned_by,
+            g.name,
+            (
+                select
+                    coalesce(array_agg(user_id), '{}')
+                from
+                    tmoderator
+                where
+                    group_id = g.group_id) moderators
         from
-            tgroup
+            tgroup g
         where
-            lower(name) = lower($1)`,
+            lower(g.name) = lower($1)`,
         [name]
     )
 }
@@ -241,4 +248,14 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
             g.name = $3`,
         [publicCommentId, publicPostId, groupName]
     )
+}
+
+//moderator
+exports.createModerator = (userId, groupId) => {
+    return query(`
+        insert into tmoderator
+            (user_id, group_id)
+        values
+            ($1, $2)`,
+        [userId, groupId])
 }

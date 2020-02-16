@@ -54,3 +54,8 @@ body {
   text-decoration: none;
   border: 1px solid #000000;
 }
+
+.main-logo a {
+  text-decoration: none;
+  color: #555522;
+}
