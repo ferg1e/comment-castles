@@ -225,7 +225,9 @@ async function sharedGroupHandler(req, res, next) {
         res.locals.isAdmin = req.session.user &&
             (req.session.user.user_id == rows[0].owned_by)
 
-        res.locals.isMod = rows[0].moderators.indexOf(req.session.user.user_id) != -1
+        res.locals.isMod = (typeof req.session.user != 'undefined') &&
+            rows[0].moderators.indexOf(req.session.user.user_id) != -1
+
         next()
     }
     else {
