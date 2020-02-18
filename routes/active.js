@@ -222,12 +222,14 @@ async function sharedGroupHandler(req, res, next) {
 
     if(rows.length) {
         res.locals.group = rows[0]
-        res.locals.isAdmin = req.session.user &&
+        const isAdmin = (typeof req.session.user != 'undefined') &&
             (req.session.user.user_id == rows[0].owned_by)
 
-        res.locals.isMod = (typeof req.session.user != 'undefined') &&
+        const isMod = (typeof req.session.user != 'undefined') &&
             rows[0].moderators.indexOf(req.session.user.user_id) != -1
 
+        res.locals.isAdmin = isAdmin
+        res.locals.isMod = isMod || isAdmin
         next()
     }
     else {
