@@ -1,12 +1,15 @@
 extends group
 
+block head
+    link(rel='stylesheet', href='/stylesheets/new-post.css')
+
 block content2
     if errors.length
             ul
                 each error in errors
                     li #{error.msg}
     form(method="post")
-        input(placeholder="title" name="title")
-        input(placeholder="link" name="link")
-        textarea(placeholder="text content" name="text_content")
+        input(placeholder="title" name="title" value=`${title}`)
+        input(placeholder="link" name="link" value=`${link}`)
+        textarea(placeholder="text content" name="text_content" id="text_content") #{textContent}
         input(type="submit" value="Create Post")

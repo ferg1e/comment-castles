@@ -272,7 +272,10 @@ router.get(
                     name: res.locals.group.name,
                     errors: [],
                     is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
+                    is_mod: res.locals.isMod,
+                    title: "",
+                    link: "",
+                    textContent: ""
                 })
         }
         else {
@@ -299,7 +302,10 @@ router.post(
                         name: req.params[0],
                         errors: errors,
                         is_admin: res.locals.isAdmin,
-                        is_mod: res.locals.isMod
+                        is_mod: res.locals.isMod,
+                        title: req.body.title,
+                        link: req.body.link,
+                        textContent: req.body.text_content
                     })
             }
             else {

@@ -1,0 +1,9 @@
+form input, form textarea {
+    display: block;
+    margin-bottom: 11px;
+}
+
+form #text_content {
+    width: 370px;
+    height: 200px;
+}
