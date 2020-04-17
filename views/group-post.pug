@@ -7,11 +7,14 @@ mixin commentContent(comment)
 
     - const color = colors[colorIndex]
 
-    | #{comment.text_content} 
-    em !{'&mdash;'}#{comment.username} 
-        | #{comment.created_on} 
-        | #[a(href="#") reply] 
-        | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
+    if comment.is_removed
+        | [removed]
+    else
+        | #{comment.text_content} 
+        em !{'&mdash;'}#{comment.username} 
+            | #{comment.created_on} 
+            | #[a(href="#") reply] 
+            | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
 
 block content2
     div.the-post

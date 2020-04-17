@@ -406,6 +406,53 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/posts$/i)
         }
     })
 
+//group: moderate comments
+router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
+    .get(async (req, res) => {
+        if(res.locals.isMod) {
+            const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id)
+
+            res.render(
+                'group-moderate-comments',
+                {
+                    comments: comments,
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
+                }
+            )
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
+    .post(async (req, res) => {
+        if(res.locals.isMod) {
+            if(typeof req.body.remove_comment_id !== 'undefined') {
+                await db.markCommentRemoved(req.body.remove_comment_id)
+                const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id)
+
+                res.render(
+                    'group-moderate-comments',
+                    {
+                        comments: comments,
+                        user: req.session.user,
+                        name: res.locals.group.name,
+                        is_admin: res.locals.isAdmin,
+                        is_mod: res.locals.isMod
+                    }
+                )
+            }
+            else {
+                res.send('dont you do it mr.')
+            }
+        }
+        else {
+            res.send('permission denied')
+        }
+    })
+
 //group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {

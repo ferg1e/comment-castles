@@ -141,7 +141,7 @@ exports.markPostRemoved = (publicId) => {
 
 //comment
 exports.createPostComment = (postId, userId, content) => {
-    
+
     /*TODO: figure out how to put this postId in
     the query as a query param, currently
     concat returns type 'text' which the ~
@@ -194,7 +194,8 @@ exports.getPostComments = (postId) => {
             c.path,
             u.username,
             c.created_on::timestamp(0),
-            c.public_id
+            c.public_id,
+            c.is_removed
         from
             ttest c
         join
@@ -248,6 +249,39 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
             g.name = $3`,
         [publicCommentId, publicPostId, groupName]
     )
+}
+
+exports.getCommentsWithGroupId = (groupId) => {
+    return query(`
+        select
+            c.text_content,
+            c.created_on::timestamp(0),
+            u.username,
+            c.public_id
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        join
+            tpost p on p.post_id = c.post_id
+        where
+            p.group_id = $1 and
+            not c.is_removed
+        order by
+            c.created_on desc`,
+        [groupId]
+    )
+}
+
+exports.markCommentRemoved = (publicId) => {
+    return query(`
+        update
+            ttest
+        set
+            is_removed = true
+        where
+            public_id = $1`,
+        [publicId])
 }
 
 //moderator

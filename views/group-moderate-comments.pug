@@ -1,0 +1,15 @@
+extends group-moderate
+
+block content3
+    table
+        tr
+            th comment
+            th
+
+        each c in comments
+            tr
+                td #{c.text_content}
+                td
+                    form(method="post")
+                        input(type="submit" value="Remove")
+                        input(type="hidden" name="remove_comment_id" value=`${c.public_id}`)
