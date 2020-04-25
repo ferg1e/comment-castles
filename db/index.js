@@ -55,6 +55,7 @@ exports.getGroupWithName = (name) => {
             g.group_id,
             g.owned_by,
             g.name,
+            g.mode,
             (
                 select
                     coalesce(array_agg(user_id), '{}')
@@ -74,6 +75,17 @@ exports.getGroups = () => {
     return query(
         'select name from tgroup order by name'
     )
+}
+
+exports.updateGroupSettings = (groupId, mode) => {
+    return query(`
+        update
+            tgroup
+        set
+            mode = $1
+        where
+            group_id = $2`,
+        [mode, groupId])
 }
 
 //post

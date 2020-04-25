@@ -742,4 +742,35 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-mod$/i)
             }
         })
 
+//group: admin settings
+router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
+    .get((req, res) => {
+        if(res.locals.isAdmin) {
+            res.render(
+                'group-admin-settings',
+                {
+                    errors: [],
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod,
+                    group_mode: res.locals.group.mode
+                }
+            )
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
+    .post(
+        async (req, res) => {
+            if(res.locals.isAdmin) {
+                await db.updateGroupSettings(res.locals.group.group_id, req.body.mode)
+                res.send('updated...')
+            }
+            else {
+                res.send('you dont have permission')
+            }
+        })
+
 module.exports = router

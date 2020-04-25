@@ -1,0 +1,26 @@
+extends group-admin
+
+block content3
+    - const isPublic = group_mode == 'public'
+    - const isBlog = group_mode == 'blog'
+    - const isPrivate = group_mode == 'private'
+
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    div Group Mode
+    form(method="post")
+        div
+            input(type="radio" name="mode" id="mode0" value="public" checked=isPublic)
+            label(for="mode0") public
+
+        div
+            input(type="radio" name="mode" id="mode1" value="blog" checked=isBlog)
+            label(for="mode1") blog
+        
+        div
+            input(type="radio" name="mode" id="mode2" value="private" checked=isPrivate)
+            label(for="mode2") private
+
+        input(type="submit" value="Update")
