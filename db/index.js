@@ -62,7 +62,14 @@ exports.getGroupWithName = (name) => {
                 from
                     tmoderator
                 where
-                    group_id = g.group_id) moderators
+                    group_id = g.group_id) moderators,
+            (
+                select
+                    coalesce(array_agg(user_id), '{}')
+                from
+                    tmember
+                where
+                    group_id = g.group_id) members
         from
             tgroup g
         where
@@ -300,6 +307,16 @@ exports.markCommentRemoved = (publicId) => {
 exports.createModerator = (userId, groupId) => {
     return query(`
         insert into tmoderator
+            (user_id, group_id)
+        values
+            ($1, $2)`,
+        [userId, groupId])
+}
+
+//member
+exports.createMember = (userId, groupId) => {
+    return query(`
+        insert into tmember
             (user_id, group_id)
         values
             ($1, $2)`,

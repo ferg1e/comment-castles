@@ -742,6 +742,87 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-mod$/i)
             }
         })
 
+//group: admin add member
+router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
+    .get((req, res) => {
+        if(res.locals.isAdmin) {
+            res.render(
+                'group-admin-add-member',
+                {
+                    errors: [],
+                    user: req.session.user,
+                    name: res.locals.group.name,
+                    is_admin: res.locals.isAdmin,
+                    is_mod: res.locals.isMod
+                }
+            )
+        }
+        else {
+            res.send('you dont have permission')
+        }
+    })
+    .post(
+        body('username', 'Please fill in a username').notEmpty(),
+        async (req, res) => {
+            if(res.locals.isAdmin) {
+                let errors = validationResult(req).array({onlyFirstError:true})
+
+                if(errors.length) {
+                    res.render(
+                        'group-admin-add-member',
+                        {
+                            errors: errors,
+                            user: req.session.user,
+                            name: res.locals.group.name,
+                            is_admin: res.locals.isAdmin,
+                            is_mod: res.locals.isMod
+                        }
+                    )
+                }
+                else {
+                    const {rows} = await db.getUserWithUsername(req.body.username)
+
+                    if(rows.length) {
+                        const mIndex = res.locals.group.members.indexOf(rows[0].user_id)
+                        const isUserMember = (mIndex != -1)
+                        const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+
+                        if(isUserMember || isUserAdmin) {
+                            res.render(
+                                'group-admin-add-member',
+                                {
+                                    errors: [{msg: 'that user is already a member'}],
+                                    user: req.session.user,
+                                    name: res.locals.group.name,
+                                    is_admin: res.locals.isAdmin,
+                                    is_mod: res.locals.isMod
+                                }
+                            )
+                        }
+                        else {
+                            await db.createMember(rows[0].user_id, res.locals.group.group_id)
+                            res.send('member added...')
+                        }
+                    }
+                    else {
+                        res.render(
+                            'group-admin-add-member',
+                            {
+                                errors: [{msg: 'no such user'}],
+                                user: req.session.user,
+                                name: res.locals.group.name,
+                                is_admin: res.locals.isAdmin,
+                                is_mod: res.locals.isMod
+                            }
+                        )
+                    }
+                }
+            }
+            else {
+                res.send('you dont have permission')
+            }
+        })
+
 //group: admin settings
 router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
     .get((req, res) => {

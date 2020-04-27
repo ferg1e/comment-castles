@@ -1,0 +1,10 @@
+extends group-admin
+
+block content3
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    form(method="post")
+        input(name="username" placeholder="username")
+        input(type="submit" value="Add as Member")
