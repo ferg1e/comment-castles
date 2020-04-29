@@ -1,4 +1,11 @@
 main a {
-    margin-right: 6px;
-    color: blue;
+    color: #0000fd;
+    display: inline-block;
+    padding: 3px;
+    background:#f5efe8;
+    margin: 7px;
+}
+
+main a:hover {
+    background: #fefefe;
 }
