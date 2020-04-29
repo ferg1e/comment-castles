@@ -665,75 +665,53 @@ router.get(
 router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-mod$/i)
     .get((req, res) => {
         if(res.locals.isAdmin) {
-            res.render(
-                'group-admin-add-mod',
-                {
-                    errors: [],
-                    user: req.session.user,
-                    name: res.locals.group.name,
-                    is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
-                }
-            )
+            renderAdminModerator(req, res, [])
         }
         else {
             res.send('you dont have permission')
         }
     })
     .post(
-        body('username', 'Please fill in a username').notEmpty(),
         async (req, res) => {
             if(res.locals.isAdmin) {
-                let errors = validationResult(req).array({onlyFirstError:true})
-
-                if(errors.length) {
-                    res.render(
-                        'group-admin-add-mod',
-                        {
-                            errors: errors,
-                            user: req.session.user,
-                            name: res.locals.group.name,
-                            is_admin: res.locals.isAdmin,
-                            is_mod: res.locals.isMod
-                        }
-                    )
+                
+                //delete mod
+                if(typeof req.body.remove_mod_user_id !== 'undefined') {
+                    await db.deleteModerator(res.locals.group.group_id, req.body.remove_mod_user_id)
+                    renderAdminModerator(req, res, [])
                 }
+
+                //add mod
                 else {
-                    const {rows} = await db.getUserWithUsername(req.body.username)
+                    let errors = []
 
-                    if(rows.length) {
-                        const mIndex = res.locals.group.moderators.indexOf(rows[0].user_id)
-                        const isUserMod = (mIndex != -1)
-                        const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+                    if(req.body.username === '') {
+                        errors.push({msg: 'Please fill in a username'})
+                    }
 
-                        if(isUserMod || isUserAdmin) {
-                            res.render(
-                                'group-admin-add-mod',
-                                {
-                                    errors: [{msg: 'that user is already a moderator'}],
-                                    user: req.session.user,
-                                    name: res.locals.group.name,
-                                    is_admin: res.locals.isAdmin,
-                                    is_mod: res.locals.isMod
-                                }
-                            )
-                        }
-                        else {
-                            await db.createModerator(rows[0].user_id, res.locals.group.group_id)
-                            res.send('okay to add...')
-                        }
+                    //
+                    if(errors.length) {
+                        renderAdminModerator(req, res, errors)
                     }
                     else {
-                        res.render(
-                            'group-admin-add-mod',
-                            {
-                                errors: [{msg: 'no such user'}],
-                                user: req.session.user,
-                                name: res.locals.group.name,
-                                is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                        const {rows} = await db.getUserWithUsername(req.body.username)
+    
+                        if(rows.length) {
+                            const mIndex = res.locals.group.moderators.indexOf(rows[0].user_id)
+                            const isUserMod = (mIndex != -1)
+                            const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+    
+                            if(isUserMod || isUserAdmin) {
+                                renderAdminModerator(req, res, [{msg: 'that user is already a moderator'}])
                             }
-                        )
+                            else {
+                                await db.createModerator(rows[0].user_id, res.locals.group.group_id)
+                                renderAdminModerator(req, res, [])
+                            }
+                        }
+                        else {
+                            renderAdminModerator(req, res, [{msg: 'no such user'}])
+                        }
                     }
                 }
             }
@@ -741,6 +719,23 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-mod$/i)
                 res.send('you dont have permission')
             }
         })
+
+//
+async function renderAdminModerator(req, res, errors) {
+    const {rows:mods} = await db.getGroupMods(res.locals.group.group_id)
+
+    res.render(
+        'group-admin-add-mod',
+        {
+            errors: errors,
+            user: req.session.user,
+            name: res.locals.group.name,
+            is_admin: res.locals.isAdmin,
+            is_mod: res.locals.isMod,
+            mods: mods
+        }
+    )
+}
 
 //group: admin add member
 router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)

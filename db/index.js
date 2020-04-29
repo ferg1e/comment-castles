@@ -313,6 +313,34 @@ exports.createModerator = (userId, groupId) => {
         [userId, groupId])
 }
 
+exports.getGroupMods = (groupId) => {
+    return query(`
+        select
+            m.user_id,
+            u.username
+        from
+            tmoderator m
+        join
+            tuser u on u.user_id = m.user_id
+        where
+            m.group_id = $1
+        order by
+            u.username`,
+        [groupId]
+    )
+}
+
+exports.deleteModerator = (groupId, userId) => {
+    return query(`
+        delete from
+            tmoderator
+        where
+            group_id = $1 and
+            user_id = $2`,
+        [groupId, userId]
+    )
+}
+
 //member
 exports.createMember = (userId, groupId) => {
     return query(`
