@@ -8,3 +8,13 @@ block content3
     form(method="post")
         input(name="username" placeholder="username")
         input(type="submit" value="Add as Member")
+
+    if members.length
+        table
+            each m in members
+                tr
+                    td #{m.username}
+                    td
+                        form(method="post")
+                            input(type="submit" value="Remove")
+                            input(type="hidden" name="remove_user_id" value=`${m.user_id}`)

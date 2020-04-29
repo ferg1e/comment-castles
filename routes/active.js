@@ -228,9 +228,20 @@ async function sharedGroupHandler(req, res, next) {
         const isMod = (typeof req.session.user != 'undefined') &&
             rows[0].moderators.indexOf(req.session.user.user_id) != -1
 
+        const isMember = (typeof req.session.user != 'undefined') &&
+            rows[0].members.indexOf(req.session.user.user_id) != -1
+
         res.locals.isAdmin = isAdmin
         res.locals.isMod = isMod || isAdmin
-        next()
+        res.locals.isMember = isMember || isAdmin
+
+        //only let admins, mods and members of group into private group
+        if(rows[0].mode == 'private' && !(res.locals.isMod || res.locals.isMember)) {
+            res.send('you don\'t have permission')
+        }
+        else {
+            next()
+        }
     }
     else {
         res.send('no such group')
@@ -741,75 +752,53 @@ async function renderAdminModerator(req, res, errors) {
 router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
     .get((req, res) => {
         if(res.locals.isAdmin) {
-            res.render(
-                'group-admin-add-member',
-                {
-                    errors: [],
-                    user: req.session.user,
-                    name: res.locals.group.name,
-                    is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
-                }
-            )
+            renderAdminMember(req, res, [])
         }
         else {
             res.send('you dont have permission')
         }
     })
     .post(
-        body('username', 'Please fill in a username').notEmpty(),
         async (req, res) => {
             if(res.locals.isAdmin) {
-                let errors = validationResult(req).array({onlyFirstError:true})
-
-                if(errors.length) {
-                    res.render(
-                        'group-admin-add-member',
-                        {
-                            errors: errors,
-                            user: req.session.user,
-                            name: res.locals.group.name,
-                            is_admin: res.locals.isAdmin,
-                            is_mod: res.locals.isMod
-                        }
-                    )
+                
+                //delete member
+                if(typeof req.body.remove_user_id !== 'undefined') {
+                    await db.deleteMember(res.locals.group.group_id, req.body.remove_user_id)
+                    renderAdminMember(req, res, [])
                 }
+
+                //add member
                 else {
-                    const {rows} = await db.getUserWithUsername(req.body.username)
+                    let errors = []
 
-                    if(rows.length) {
-                        const mIndex = res.locals.group.members.indexOf(rows[0].user_id)
-                        const isUserMember = (mIndex != -1)
-                        const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+                    if(req.body.username === '') {
+                        errors.push({msg: 'Please fill in a username'})
+                    }
 
-                        if(isUserMember || isUserAdmin) {
-                            res.render(
-                                'group-admin-add-member',
-                                {
-                                    errors: [{msg: 'that user is already a member'}],
-                                    user: req.session.user,
-                                    name: res.locals.group.name,
-                                    is_admin: res.locals.isAdmin,
-                                    is_mod: res.locals.isMod
-                                }
-                            )
-                        }
-                        else {
-                            await db.createMember(rows[0].user_id, res.locals.group.group_id)
-                            res.send('member added...')
-                        }
+                    //
+                    if(errors.length) {
+                        renderAdminMember(req, res, errors)
                     }
                     else {
-                        res.render(
-                            'group-admin-add-member',
-                            {
-                                errors: [{msg: 'no such user'}],
-                                user: req.session.user,
-                                name: res.locals.group.name,
-                                is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                        const {rows} = await db.getUserWithUsername(req.body.username)
+    
+                        if(rows.length) {
+                            const mIndex = res.locals.group.members.indexOf(rows[0].user_id)
+                            const isUserMember = (mIndex != -1)
+                            const isUserAdmin = (rows[0].user_id == res.locals.group.owned_by)
+    
+                            if(isUserMember || isUserAdmin) {
+                                renderAdminMember(req, res, [{msg: 'that user is already a member'}])
                             }
-                        )
+                            else {
+                                await db.createMember(rows[0].user_id, res.locals.group.group_id)
+                                renderAdminMember(req, res, [])
+                            }
+                        }
+                        else {
+                            renderAdminMember(req, res, [{msg: 'no such user'}])
+                        }
                     }
                 }
             }
@@ -817,6 +806,23 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
                 res.send('you dont have permission')
             }
         })
+
+//
+async function renderAdminMember(req, res, errors) {
+    const {rows} = await db.getGroupMembers(res.locals.group.group_id)
+
+    res.render(
+        'group-admin-add-member',
+        {
+            errors: errors,
+            user: req.session.user,
+            name: res.locals.group.name,
+            is_admin: res.locals.isAdmin,
+            is_mod: res.locals.isMod,
+            members: rows
+        }
+    )
+}
 
 //group: admin settings
 router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)

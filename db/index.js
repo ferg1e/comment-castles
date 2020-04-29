@@ -350,3 +350,31 @@ exports.createMember = (userId, groupId) => {
             ($1, $2)`,
         [userId, groupId])
 }
+
+exports.getGroupMembers = (groupId) => {
+    return query(`
+        select
+            m.user_id,
+            u.username
+        from
+            tmember m
+        join
+            tuser u on u.user_id = m.user_id
+        where
+            m.group_id = $1
+        order by
+            u.username`,
+        [groupId]
+    )
+}
+
+exports.deleteMember = (groupId, userId) => {
+    return query(`
+        delete from
+            tmember
+        where
+            group_id = $1 and
+            user_id = $2`,
+        [groupId, userId]
+    )
+}
