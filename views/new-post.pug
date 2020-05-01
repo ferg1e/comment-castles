@@ -4,12 +4,15 @@ block head
     link(rel='stylesheet', href='/stylesheets/new-post.css')
 
 block content2
-    if errors.length
-            ul
-                each error in errors
-                    li #{error.msg}
-    form(method="post")
-        input(placeholder="title" name="title" value=`${title}`)
-        input(placeholder="link" name="link" value=`${link}`)
-        textarea(placeholder="text content" name="text_content" id="text_content") #{textContent}
-        input(type="submit" value="Create Post")
+    if is_can_create_post
+        if errors.length
+                ul
+                    each error in errors
+                        li #{error.msg}
+        form(method="post")
+            input(placeholder="title" name="title" value=`${title}`)
+            input(placeholder="link" name="link" value=`${link}`)
+            textarea(placeholder="text content" name="text_content" id="text_content") #{textContent}
+            input(type="submit" value="Create Post")
+    else
+        |You must be a member of this group in order to post

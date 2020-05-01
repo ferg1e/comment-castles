@@ -235,6 +235,14 @@ async function sharedGroupHandler(req, res, next) {
         res.locals.isMod = isMod || isAdmin
         res.locals.isMember = isMember || isAdmin
 
+        //
+        let myMode = res.locals.group.mode
+
+        res.locals.isCanCreatePost =
+            (myMode == 'public' && req.session.user) ||
+            (myMode == "blog" && res.locals.isMember) ||
+            (myMode == "private" && res.locals.isMember)
+
         //only let admins, mods and members of group into private group
         if(rows[0].mode == 'private' && !(res.locals.isMod || res.locals.isMember)) {
             res.send('you don\'t have permission')
@@ -284,6 +292,7 @@ router.get(
                     errors: [],
                     is_admin: res.locals.isAdmin,
                     is_mod: res.locals.isMod,
+                    is_can_create_post: res.locals.isCanCreatePost,
                     title: "",
                     link: "",
                     textContent: ""
@@ -302,7 +311,7 @@ router.post(
         .matches(/^.{4,50}$/i),
     body('text_content', 'Please write some content').notEmpty(),
     async (req, res) => {
-        if(req.session.user) {
+        if(res.locals.isCanCreatePost) {
             const errors = validationResult(req).array({onlyFirstError:true})
 
             if(errors.length) {
