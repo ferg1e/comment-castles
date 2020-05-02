@@ -1,0 +1,67 @@
+create table tuser (
+    user_id serial primary key,
+    username varchar(32) unique not null,
+    password varchar(255) not null,
+    email varchar(255) unique
+);
+
+create table tgroup (
+    group_id serial primary key,
+    created_by integer not null,
+    owned_by integer not null,
+    name varchar(36) unique not null
+);
+
+CREATE TYPE group_mode AS ENUM ('public', 'blog', 'private');
+alter table tgroup add column mode group_mode not null default 'public';
+
+create table tpost (
+    post_id serial primary key,
+    public_id varchar(32) not null,
+    group_id integer not null,
+    user_id integer not null,
+    title varchar(50) not null,
+    text_content text,
+    created_on timestamp without time zone not null default (now() at time zone 'utc')
+);
+
+alter table tpost add column is_removed boolean not null default FALSE;
+
+create table ttest (
+    comment_id serial primary key,
+    public_id varchar(32) not null,
+    post_id integer not null,
+    user_id integer not null,
+    text_content text not null,
+    created_on timestamp without time zone not null default(now() at time zone 'utc'),
+    path ltree
+);
+create index path_idx on ttest using gist(path);
+alter table ttest add column is_removed boolean not null default FALSE;
+
+create table tcomment {
+    comment_id serial primary key,
+    public_id varchar(32) not null,
+    post_id integer not null,
+    group_id integer not null,
+    user_id integer not null,
+    text_content text not null,
+    created_on timestamp without time zone not null default(now() at time zone 'utc'),
+    path ltree
+};
+
+//
+create table tmoderator (
+    moderator_id serial primary key,
+    group_id integer not null,
+    user_id integer not null
+);
+
+//
+create table tmember (
+    member_id serial primary key,
+    group_id integer not null,
+    user_id integer not null
+);
+
+https://redd.it/eqqoam
