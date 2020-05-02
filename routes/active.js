@@ -236,7 +236,9 @@ async function sharedGroupHandler(req, res, next) {
         res.locals.isMember = isMember || isAdmin
 
         //
-        let myMode = res.locals.group.mode
+        res.locals.isCanCreatePost = true
+        next()
+        /*let myMode = res.locals.group.mode
 
         res.locals.isCanCreatePost =
             (myMode == 'public' && req.session.user) ||
@@ -249,7 +251,7 @@ async function sharedGroupHandler(req, res, next) {
         }
         else {
             next()
-        }
+        }*/
     }
     else {
         res.send('no such group')
@@ -845,7 +847,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
                     name: res.locals.group.name,
                     is_admin: res.locals.isAdmin,
                     is_mod: res.locals.isMod,
-                    group_mode: res.locals.group.mode
+                    group_view_mode: res.locals.group.group_viewing_mode
                 }
             )
         }
@@ -856,7 +858,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
     .post(
         async (req, res) => {
             if(res.locals.isAdmin) {
-                await db.updateGroupSettings(res.locals.group.group_id, req.body.mode)
+                await db.updateGroupSettings(res.locals.group.group_id, req.body.group_view_mode)
                 res.send('updated...')
             }
             else {

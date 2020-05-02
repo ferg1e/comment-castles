@@ -1,26 +1,21 @@
 extends group-admin
 
 block content3
-    - const isPublic = group_mode == 'public'
-    - const isBlog = group_mode == 'blog'
-    - const isPrivate = group_mode == 'private'
+    - const isViewAnyone = group_view_mode == 'anyone'
+    - const isViewMembers = group_view_mode == 'members-only'
 
     if errors.length
         ul
             each error in errors
                 li #{error.msg}
-    div Group Mode
+    div Group Viewing Mode
     form(method="post")
         div
-            input(type="radio" name="mode" id="mode0" value="public" checked=isPublic)
-            label(for="mode0") public
+            input(type="radio" name="group_view_mode" id="group_view_mode0" value="anyone" checked=isViewAnyone)
+            label(for="group_view_mode0") anyone can view
 
         div
-            input(type="radio" name="mode" id="mode1" value="blog" checked=isBlog)
-            label(for="mode1") blog
-        
-        div
-            input(type="radio" name="mode" id="mode2" value="private" checked=isPrivate)
-            label(for="mode2") private
+            input(type="radio" name="group_view_mode" id="group_view_mode1" value="members-only" checked=isViewMembers)
+            label(for="group_view_mode1") only members can view
 
         input(type="submit" value="Update")

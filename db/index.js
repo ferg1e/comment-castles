@@ -55,7 +55,7 @@ exports.getGroupWithName = (name) => {
             g.group_id,
             g.owned_by,
             g.name,
-            g.mode,
+            g.group_viewing_mode,
             (
                 select
                     coalesce(array_agg(user_id), '{}')
@@ -84,15 +84,15 @@ exports.getGroups = () => {
     )
 }
 
-exports.updateGroupSettings = (groupId, mode) => {
+exports.updateGroupSettings = (groupId, viewMode) => {
     return query(`
         update
             tgroup
         set
-            mode = $1
+            group_viewing_mode = $1
         where
             group_id = $2`,
-        [mode, groupId])
+        [viewMode, groupId])
 }
 
 //post

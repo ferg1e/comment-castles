@@ -12,8 +12,8 @@ create table tgroup (
     name varchar(36) unique not null
 );
 
-CREATE TYPE group_mode AS ENUM ('public', 'blog', 'private');
-alter table tgroup add column mode group_mode not null default 'public';
+create type group_viewing_mode as enum('anyone', 'members-only');
+alter table tgroup add column group_viewing_mode group_viewing_mode not null default 'anyone';
 
 create table tpost (
     post_id serial primary key,
