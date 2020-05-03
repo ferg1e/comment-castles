@@ -714,11 +714,15 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
                 //update member
                 if(typeof req.body.save_user_id !== 'undefined') {
                     let isModerator = typeof req.body.is_moderator != 'undefined'
+                    let isPoster = typeof req.body.is_poster != 'undefined'
+                    let isCommenter = typeof req.body.is_commenter != 'undefined'
 
                     await db.updateMember(
                         res.locals.group.group_id,
                         req.body.save_user_id,
-                        isModerator)
+                        isModerator,
+                        isPoster,
+                        isCommenter)
 
                     res.send('member updated...')
                 }

@@ -18,6 +18,12 @@ block content3
                         input(type="checkbox" id=`mod-${m.user_id}` name="is_moderator" value="1" form=`save-${m.user_id}` checked=m.is_moderator)
                         label(for=`mod-${m.user_id}`) moderator
                     td
+                        input(type="checkbox" id=`poster-${m.user_id}` name="is_poster" value="1" form=`save-${m.user_id}` checked=m.is_poster)
+                        label(for=`poster-${m.user_id}`) poster
+                    td
+                        input(type="checkbox" id=`comment-${m.user_id}` name="is_commenter" value="1" form=`save-${m.user_id}` checked=m.is_commenter)
+                        label(for=`comment-${m.user_id}`) commenter
+                    td
                         form(method="post" id=`save-${m.user_id}`)
                             input(type="submit" value="Save")
                             input(type="hidden" name="save_user_id" value=`${m.user_id}`)

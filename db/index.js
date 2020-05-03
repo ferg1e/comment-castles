@@ -341,16 +341,18 @@ exports.getGroupMembers = (groupId) => {
     )
 }
 
-exports.updateMember = (groupId, userId, isModerator) => {
+exports.updateMember = (groupId, userId, isModerator, isPoster, isCommenter) => {
     return query(`
         update
             tmember
         set
-            is_moderator = $1
+            is_moderator = $1,
+            is_poster = $2,
+            is_commenter = $3
         where
-            group_id = $2 and
-            user_id = $3`,
-        [isModerator, groupId, userId]
+            group_id = $4 and
+            user_id = $5`,
+        [isModerator, isPoster, isCommenter, groupId, userId]
     )
 }
 
