@@ -221,16 +221,29 @@ async function sharedGroupHandler(req, res, next) {
     const {rows} = await db.getGroupWithName(groupName)
 
     if(rows.length) {
-        res.locals.group = rows[0]
-        const isAdmin = (typeof req.session.user != 'undefined') &&
-            (req.session.user.user_id == rows[0].owned_by)
 
-        const isMod = true
-        /*const isMod = (typeof req.session.user != 'undefined') &&
-            rows[0].moderators.indexOf(req.session.user.user_id) != -1*/
+        //
+        const isUser = (typeof req.session.user != 'undefined')
+        const group = rows[0]
 
-        const isMember = (typeof req.session.user != 'undefined') &&
-            rows[0].members.indexOf(req.session.user.user_id) != -1
+        let isAdmin = false
+        let isMod = false
+        let isMember = false
+
+        if(isUser) {
+            isAdmin = req.session.user.user_id == group.owned_by
+
+            const {rows:members} = await db.getGroupMember(group.group_id, req.session.user.user_id)
+
+            if(members.length) {
+                const member = members[0]
+                isMod = member.is_moderator
+                isMember = true
+            }
+        }
+
+        //
+        res.locals.group = group
 
         res.locals.isAdmin = isAdmin
         res.locals.isMod = isMod || isAdmin

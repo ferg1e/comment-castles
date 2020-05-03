@@ -306,6 +306,21 @@ exports.createMember = (userId, groupId) => {
         [userId, groupId])
 }
 
+exports.getGroupMember = (groupId, userId) => {
+    return query(`
+        select
+            m.is_moderator,
+            m.is_poster,
+            m.is_commenter
+        from
+            tmember m
+        where
+            m.user_id = $1 and
+            m.group_id = $2`,
+        [userId, groupId]
+    )
+}
+
 exports.getGroupMembers = (groupId) => {
     return query(`
         select
