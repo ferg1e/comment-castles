@@ -60,13 +60,6 @@ exports.getGroupWithName = (name) => {
                 select
                     coalesce(array_agg(user_id), '{}')
                 from
-                    tmoderator
-                where
-                    group_id = g.group_id) moderators,
-            (
-                select
-                    coalesce(array_agg(user_id), '{}')
-                from
                     tmember
                 where
                     group_id = g.group_id) members
@@ -301,44 +294,6 @@ exports.markCommentRemoved = (publicId) => {
         where
             public_id = $1`,
         [publicId])
-}
-
-//moderator
-exports.createModerator = (userId, groupId) => {
-    return query(`
-        insert into tmoderator
-            (user_id, group_id)
-        values
-            ($1, $2)`,
-        [userId, groupId])
-}
-
-exports.getGroupMods = (groupId) => {
-    return query(`
-        select
-            m.user_id,
-            u.username
-        from
-            tmoderator m
-        join
-            tuser u on u.user_id = m.user_id
-        where
-            m.group_id = $1
-        order by
-            u.username`,
-        [groupId]
-    )
-}
-
-exports.deleteModerator = (groupId, userId) => {
-    return query(`
-        delete from
-            tmoderator
-        where
-            group_id = $1 and
-            user_id = $2`,
-        [groupId, userId]
-    )
 }
 
 //member

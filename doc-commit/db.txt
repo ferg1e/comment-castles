@@ -51,13 +51,6 @@ create table tcomment {
 };
 
 //
-create table tmoderator (
-    moderator_id serial primary key,
-    group_id integer not null,
-    user_id integer not null
-);
-
-//
 create table tmember (
     member_id serial primary key,
     group_id integer not null,
