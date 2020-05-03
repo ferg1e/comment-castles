@@ -698,8 +698,20 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
         async (req, res) => {
             if(res.locals.isAdmin) {
                 
+                //update member
+                if(typeof req.body.save_user_id !== 'undefined') {
+                    let isModerator = typeof req.body.is_moderator != 'undefined'
+
+                    await db.updateMember(
+                        res.locals.group.group_id,
+                        req.body.save_user_id,
+                        isModerator)
+
+                    res.send('member updated...')
+                }
+
                 //delete member
-                if(typeof req.body.remove_user_id !== 'undefined') {
+                else if(typeof req.body.remove_user_id !== 'undefined') {
                     await db.deleteMember(res.locals.group.group_id, req.body.remove_user_id)
                     renderAdminMember(req, res, [])
                 }

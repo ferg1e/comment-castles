@@ -15,6 +15,13 @@ block content3
                 tr
                     td #{m.username}
                     td
+                        input(type="checkbox" id=`mod-${m.user_id}` name="is_moderator" value="1" form=`save-${m.user_id}` checked=m.is_moderator)
+                        label(for=`mod-${m.user_id}`) moderator
+                    td
+                        form(method="post" id=`save-${m.user_id}`)
+                            input(type="submit" value="Save")
+                            input(type="hidden" name="save_user_id" value=`${m.user_id}`)
+                    td
                         form(method="post")
                             input(type="submit" value="Remove")
                             input(type="hidden" name="remove_user_id" value=`${m.user_id}`)

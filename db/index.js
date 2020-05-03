@@ -310,7 +310,10 @@ exports.getGroupMembers = (groupId) => {
     return query(`
         select
             m.user_id,
-            u.username
+            u.username,
+            m.is_moderator,
+            m.is_poster,
+            m.is_commenter
         from
             tmember m
         join
@@ -320,6 +323,19 @@ exports.getGroupMembers = (groupId) => {
         order by
             u.username`,
         [groupId]
+    )
+}
+
+exports.updateMember = (groupId, userId, isModerator) => {
+    return query(`
+        update
+            tmember
+        set
+            is_moderator = $1
+        where
+            group_id = $2 and
+            user_id = $3`,
+        [isModerator, groupId, userId]
     )
 }
 
