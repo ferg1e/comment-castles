@@ -33,4 +33,4 @@ app.use(express.static(path.join(
 app.use(express.urlencoded({extended:false}))
 app.use('/', activeRouter)
 
-app.locals.pretty = true
+//app.locals.pretty = true
