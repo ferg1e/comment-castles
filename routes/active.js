@@ -251,21 +251,21 @@ async function sharedGroupHandler(req, res, next) {
 
         //
         res.locals.isCanCreatePost = true
-        next()
+
         /*let myMode = res.locals.group.mode
 
         res.locals.isCanCreatePost =
             (myMode == 'public' && req.session.user) ||
             (myMode == "blog" && res.locals.isMember) ||
-            (myMode == "private" && res.locals.isMember)
+            (myMode == "private" && res.locals.isMember)*/
 
-        //only let admins, mods and members of group into private group
-        if(rows[0].mode == 'private' && !(res.locals.isMod || res.locals.isMember)) {
+        //
+        if(group.group_viewing_mode == 'members-only' && !res.locals.isMember) {
             res.send('you don\'t have permission')
         }
         else {
             next()
-        }*/
+        }
     }
     else {
         res.send('no such group')
