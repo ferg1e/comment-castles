@@ -135,6 +135,21 @@ router.post(
     }
 )
 
+router.route('/my-settings')
+    .get((req, res) => {
+        if(req.session.user) {
+            res.render(
+                'my-settings',
+                {
+                    title: 'My Settings',
+                    user: req.session.user
+                })
+        }
+        else {
+            res.send('log in to see your settings...')
+        }
+    })
+
 router.get(
     '/logout',
     (req, res) => {
