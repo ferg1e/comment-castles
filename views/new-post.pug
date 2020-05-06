@@ -4,7 +4,7 @@ block head
     link(rel='stylesheet', href='/stylesheets/new-post.css')
 
 block content2
-    if is_can_create_post
+    if can_post
         if errors.length
                 ul
                     each error in errors
@@ -15,4 +15,4 @@ block content2
             textarea(placeholder="text content" name="text_content" id="text_content") #{textContent}
             input(type="submit" value="Create Post")
     else
-        |You must be a member of this group in order to post
+        |You don't have permission to post here.

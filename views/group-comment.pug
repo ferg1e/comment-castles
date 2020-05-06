@@ -15,13 +15,17 @@ block content2
         header by #{comment.username} on #[time #{comment.created_on}]
         p #{comment.text_content}
 
-    if errors.length
-        ul
-            each error in errors
-                li #{error.msg}
-    form(method="post")
-        textarea(name="text_content" placeholder="write a comment")
-        input(type="submit" value="Submit Comment")
+    if can_comment
+        if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+        form(method="post")
+            textarea(name="text_content" placeholder="write a comment")
+            input(type="submit" value="Submit Comment")
+    else
+        |You don't have permission to comment here.
+
     .comments
         if comments.length
             - let currIndent = comments[0].path.split('.').length - 2

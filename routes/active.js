@@ -228,36 +228,83 @@ async function sharedGroupHandler(req, res, next) {
 
         let isAdmin = false
         let isMod = false
+        let isPoster = false
+        let isCommenter = false
         let isMember = false
+
+        let canPost = false
+        let canComment = false
 
         if(isUser) {
             isAdmin = req.session.user.user_id == group.owned_by
 
+            //
             const {rows:members} = await db.getGroupMember(group.group_id, req.session.user.user_id)
 
             if(members.length) {
                 const member = members[0]
                 isMod = member.is_moderator
+                isPoster = member.is_poster
+                isCommenter = member.is_commenter
                 isMember = true
+            }
+
+            //
+            isMod = isMod || isAdmin
+            isPoster = isPoster || isAdmin
+            isCommenter = isCommenter || isAdmin
+            isMember = isMember || isAdmin
+
+            //canPost
+            //view = anyone
+            if(group.group_viewing_mode == 'anyone') {
+                if(group.group_posting_mode == 'anyone-that-can-view') {
+                    canPost = true
+                }
+                else {
+                    canPost = isPoster
+                }
+            }
+
+            //view = members only
+            else {
+                if(group.group_posting_mode == 'anyone-that-can-view') {
+                    canPost = isMember
+                }
+                else {
+                    canPost = isPoster
+                }
+            }
+
+            //canComment
+            //view = anyone
+            if(group.group_viewing_mode == 'anyone') {
+                if(group.group_commenting_mode == 'anyone-that-can-view') {
+                    canComment = true
+                }
+                else {
+                    canComment = isCommenter
+                }
+            }
+
+            //view = members only
+            else {
+                if(group.group_commenting_mode == 'anyone-that-can-view') {
+                    canComment = isMember
+                }
+                else {
+                    canComment = isCommenter
+                }
             }
         }
 
         //
         res.locals.group = group
-
         res.locals.isAdmin = isAdmin
-        res.locals.isMod = isMod || isAdmin
-        res.locals.isMember = isMember || isAdmin
-
-        //
-        res.locals.isCanCreatePost = true
-
-        /*let myMode = res.locals.group.mode
-
-        res.locals.isCanCreatePost =
-            (myMode == 'public' && req.session.user) ||
-            (myMode == "blog" && res.locals.isMember) ||
-            (myMode == "private" && res.locals.isMember)*/
+        res.locals.isMod = isMod
+        res.locals.canPost = canPost
+        res.locals.canComment = canComment
+        res.locals.isMember = isMember
 
         //
         if(group.group_viewing_mode == 'members-only' && !res.locals.isMember) {
@@ -308,7 +355,7 @@ router.get(
                     errors: [],
                     is_admin: res.locals.isAdmin,
                     is_mod: res.locals.isMod,
-                    is_can_create_post: res.locals.isCanCreatePost,
+                    can_post: res.locals.canPost,
                     title: "",
                     link: "",
                     textContent: ""
@@ -327,7 +374,7 @@ router.post(
         .matches(/^.{4,50}$/i),
     body('text_content', 'Please write some content').notEmpty(),
     async (req, res) => {
-        if(res.locals.isCanCreatePost) {
+        if(res.locals.canPost) {
             const errors = validationResult(req).array({onlyFirstError:true})
 
             if(errors.length) {
@@ -339,6 +386,7 @@ router.post(
                         errors: errors,
                         is_admin: res.locals.isAdmin,
                         is_mod: res.locals.isMod,
+                        can_post: res.locals.canPost,
                         title: req.body.title,
                         link: req.body.link,
                         textContent: req.body.text_content
@@ -510,7 +558,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                     comments: comments,
                     errors: [],
                     is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
+                    is_mod: res.locals.isMod,
+                    can_comment: res.locals.canComment
                 }
             )
         }
@@ -522,7 +571,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
         body('text_content', 'Please write some content').notEmpty(),
         async (req, res) => {
 
-            if(req.session.user) {
+            if(res.locals.canComment) {
                 const postPublicId = req.params[1]
 
                 const {rows} = await db.getPostWithGroupAndPublic(
@@ -544,7 +593,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                                 comments: comments,
                                 errors: errors,
                                 is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                                is_mod: res.locals.isMod,
+                                can_comment: res.locals.canComment
                             }
                         )
                     }
@@ -565,7 +615,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                                 comments: comments,
                                 errors: [],
                                 is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                                is_mod: res.locals.isMod,
+                                can_comment: res.locals.canComment
                             }
                         )
                     }
@@ -575,7 +626,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                 }
             }
             else {
-                res.send('please log in')
+                res.send('nope...')
             }
         })
 
@@ -603,7 +654,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                     comments: comments,
                     errors: [],
                     is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
+                    is_mod: res.locals.isMod,
+                    can_comment: res.locals.canComment
                 }
             )
         }
@@ -614,7 +666,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
     .post(
         body('text_content', 'Please write some content').notEmpty(),
         async (req, res) => {
-            if(req.session.user) {
+            if(res.locals.canComment) {
                 const postPublicId = req.params[1]
                 const commentPublicId = req.params[2]
 
@@ -639,7 +691,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                                 comments: comments,
                                 errors: errors,
                                 is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                                is_mod: res.locals.isMod,
+                                can_comment: res.locals.canComment
                             }
                         )
                     }
@@ -662,7 +715,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                                 comments: comments,
                                 errors: [],
                                 is_admin: res.locals.isAdmin,
-                                is_mod: res.locals.isMod
+                                is_mod: res.locals.isMod,
+                                can_comment: res.locals.canComment
                             }
                         )
                     }
@@ -672,7 +726,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                 }
             }
             else {
-                res.send('please log in')
+                res.send('nope...')
             }
     })
 
@@ -801,7 +855,9 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
                     name: res.locals.group.name,
                     is_admin: res.locals.isAdmin,
                     is_mod: res.locals.isMod,
-                    group_view_mode: res.locals.group.group_viewing_mode
+                    group_view_mode: res.locals.group.group_viewing_mode,
+                    group_post_mode: res.locals.group.group_posting_mode,
+                    group_comment_mode: res.locals.group.group_commenting_mode
                 }
             )
         }
@@ -812,7 +868,12 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
     .post(
         async (req, res) => {
             if(res.locals.isAdmin) {
-                await db.updateGroupSettings(res.locals.group.group_id, req.body.group_view_mode)
+                await db.updateGroupSettings(
+                    res.locals.group.group_id,
+                    req.body.group_view_mode,
+                    req.body.group_post_mode,
+                    req.body.group_comment_mode)
+
                 res.send('updated...')
             }
             else {

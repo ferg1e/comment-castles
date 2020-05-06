@@ -15,6 +15,12 @@ create table tgroup (
 create type group_viewing_mode as enum('anyone', 'members-only');
 alter table tgroup add column group_viewing_mode group_viewing_mode not null default 'anyone';
 
+create type group_posting_mode as enum('anyone-that-can-view', 'only-flagged-members');
+alter table tgroup add column group_posting_mode group_posting_mode not null default 'anyone-that-can-view';
+
+create type group_commenting_mode as enum('anyone-that-can-view', 'only-flagged-members');
+alter table tgroup add column group_commenting_mode group_commenting_mode not null default 'anyone-that-can-view';
+
 create table tpost (
     post_id serial primary key,
     public_id varchar(32) not null,
