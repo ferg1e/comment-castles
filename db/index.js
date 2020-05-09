@@ -105,7 +105,9 @@ exports.getPostsWithGroupId = (groupId) => {
         select
             p.public_id,
             p.title,
-            p.created_on::timestamp(0),
+            to_char(
+                timezone('utc', p.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username
         from
             tpost p
@@ -126,7 +128,9 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
         select
             p.post_id,
             p.title,
-            p.created_on::timestamp(0),
+            to_char(
+                timezone('utc', p.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             p.text_content,
             u.username,
             p.public_id
@@ -209,7 +213,9 @@ exports.getPostComments = (postId) => {
             c.text_content,
             c.path,
             u.username,
-            c.created_on::timestamp(0),
+            to_char(
+                timezone('utc', c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id,
             c.is_removed
         from
@@ -229,7 +235,9 @@ exports.getCommentComments = (path) => {
             c.text_content,
             c.path,
             u.username,
-            c.created_on::timestamp(0),
+            to_char(
+                timezone('utc', c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id
         from
             ttest c
@@ -247,7 +255,9 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
     return query(`
         select
             c.text_content,
-            c.created_on::timestamp(0),
+            to_char(
+                timezone('utc', c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.path,
             c.post_id,
             u.username
@@ -271,7 +281,9 @@ exports.getCommentsWithGroupId = (groupId) => {
     return query(`
         select
             c.text_content,
-            c.created_on::timestamp(0),
+            to_char(
+                timezone('utc', c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
             c.public_id
         from

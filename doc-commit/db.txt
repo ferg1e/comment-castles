@@ -28,7 +28,7 @@ create table tpost (
     user_id integer not null,
     title varchar(50) not null,
     text_content text,
-    created_on timestamp without time zone not null default (now() at time zone 'utc')
+    created_on timestamp with time zone not null default now()
 );
 
 alter table tpost add column is_removed boolean not null default FALSE;
@@ -39,7 +39,7 @@ create table ttest (
     post_id integer not null,
     user_id integer not null,
     text_content text not null,
-    created_on timestamp without time zone not null default(now() at time zone 'utc'),
+    created_on timestamp with time zone not null default now(),
     path ltree
 );
 create index path_idx on ttest using gist(path);
@@ -52,7 +52,7 @@ create table tcomment {
     group_id integer not null,
     user_id integer not null,
     text_content text not null,
-    created_on timestamp without time zone not null default(now() at time zone 'utc'),
+    created_on timestamp with time zone not null default now(),
     path ltree
 };
 
