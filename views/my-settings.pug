@@ -12,7 +12,11 @@ block content
             label(for="time-zone") Time Zone
             select(id="time-zone" name="time_zone")
                 each tz in time_zones
-                    - let isSelected = (tz == user.time_zone)
-                    option(value=tz selected=isSelected) #{tz}
+                    - let isSelected = (tz.name == user.time_zone)
+                    - let hours = tz.utc_offset.hours
+                    - let hoursText = hours ? (hours > 0 ? '+' + hours : hours) : '+0'
+                    - let minutes = tz.utc_offset.minutes
+                    - let minutesText = minutes ? ':' + Math.abs(minutes) : ''
+                    option(value=tz.name selected=isSelected) #{tz.name} #{hoursText}#{minutesText}
             div
                 input(type="submit" value="Save")

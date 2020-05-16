@@ -417,3 +417,18 @@ exports.getTimeZoneWithName = (timeZoneName) => {
         [timeZoneName]
     )
 }
+
+exports.getTimeZones = () => {
+    return query(`
+        select
+            name,
+            utc_offset
+        from
+            pg_timezone_names
+        where
+            name not like 'Etc/%' and
+            name not like 'GMT%'
+        order by
+            utc_offset, name`
+    )
+}

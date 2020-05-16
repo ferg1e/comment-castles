@@ -137,9 +137,9 @@ router.post(
 )
 
 router.route('/my-settings')
-    .get((req, res) => {
+    .get(async (req, res) => {
         if(req.session.user) {
-            let timeZones = ['UTC', 'Pacific/Kiritimati', 'America/New_York', 'America/Los_Angeles']
+            const {rows} = await db.getTimeZones()
 
             res.render(
                 'my-settings',
@@ -147,7 +147,7 @@ router.route('/my-settings')
                     title: 'My Settings',
                     errors: [],
                     user: req.session.user,
-                    time_zones: timeZones
+                    time_zones: rows
                 })
         }
         else {
