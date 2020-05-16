@@ -35,10 +35,29 @@ exports.createUser = (username, password) => {
 }
 
 exports.getUserWithUsername = (username) => {
-    return query(
-        'select user_id, username, password from tuser where username = $1',
+    return query(`
+        select
+            user_id,
+            username,
+            password,
+            time_zone
+        from
+            tuser
+        where
+            username = $1`,
         [username]
     )
+}
+
+exports.updateUser = (userId, timeZoneName) => {
+    return query(`
+        update
+            tuser
+        set
+            time_zone = $1
+        where
+            user_id = $2`,
+        [timeZoneName, userId])
 }
 
 //group
@@ -100,13 +119,13 @@ exports.createPost = (groupId, userId, title, textContent) => {
     )
 }
 
-exports.getPostsWithGroupId = (groupId) => {
+exports.getPostsWithGroupId = (groupId, timeZone) => {
     return query(`
         select
             p.public_id,
             p.title,
             to_char(
-                timezone('utc', p.created_on),
+                timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username
         from
@@ -114,11 +133,11 @@ exports.getPostsWithGroupId = (groupId) => {
         join
             tuser u on u.user_id = p.user_id
         where
-            p.group_id = $1 and
+            p.group_id = $2 and
             not is_removed
         order by
             p.created_on desc`,
-        [groupId]
+        [timeZone, groupId]
     )
 }
 
@@ -380,5 +399,21 @@ exports.deleteMember = (groupId, userId) => {
             group_id = $1 and
             user_id = $2`,
         [groupId, userId]
+    )
+}
+
+//misc
+exports.getTimeZoneWithName = (timeZoneName) => {
+    return query(`
+        select
+            name,
+            abbrev,
+            utc_offset,
+            is_dst
+        from
+            pg_timezone_names
+        where
+            name = $1`,
+        [timeZoneName]
     )
 }

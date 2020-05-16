@@ -5,6 +5,8 @@ create table tuser (
     email varchar(255) unique
 );
 
+alter table tuser add column time_zone varchar(64) not null default 'UTC';
+
 create table tgroup (
     group_id serial primary key,
     created_by integer not null,

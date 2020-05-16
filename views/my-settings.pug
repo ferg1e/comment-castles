@@ -1,4 +1,18 @@
 extends layout
 
+block head
+    link(rel='stylesheet', href='/stylesheets/my-settings.css')
+
 block content
-    span my settings
+    if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+    form(method="post")
+            label(for="time-zone") Time Zone
+            select(id="time-zone" name="time_zone")
+                each tz in time_zones
+                    - let isSelected = (tz == user.time_zone)
+                    option(value=tz selected=isSelected) #{tz}
+            div
+                input(type="submit" value="Save")

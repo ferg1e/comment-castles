@@ -112,7 +112,8 @@ router.post(
                 if(await argon2.verify(rows[0].password, req.body.password)) {
                     req.session.user = {
                         user_id: rows[0].user_id,
-                        username: rows[0].username
+                        username: rows[0].username,
+                        time_zone: rows[0].time_zone
                     }
 
                     return res.redirect('/')
@@ -138,12 +139,33 @@ router.post(
 router.route('/my-settings')
     .get((req, res) => {
         if(req.session.user) {
+            let timeZones = ['UTC', 'Pacific/Kiritimati', 'America/New_York', 'America/Los_Angeles']
+
             res.render(
                 'my-settings',
                 {
                     title: 'My Settings',
-                    user: req.session.user
+                    errors: [],
+                    user: req.session.user,
+                    time_zones: timeZones
                 })
+        }
+        else {
+            res.send('log in to see your settings...')
+        }
+    })
+    .post(async (req, res) => {
+        if(req.session.user) {
+            const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
+
+            if(rows.length) {
+                await db.updateUser(req.session.user.user_id, req.body.time_zone)
+                req.session.user.time_zone = req.body.time_zone
+                res.send('updated...')
+            }
+            else {
+                res.send('error')
+            }
         }
         else {
             res.send('log in to see your settings...')
@@ -343,7 +365,9 @@ router.get(
     /^\/g\/([a-z0-9-]{3,36})$/i,
     async (req, res) => {
         const group = res.locals.group
-        const {rows} = await db.getPostsWithGroupId(group.group_id)
+        const {rows} = await db.getPostsWithGroupId(
+            group.group_id,
+            req.session.user ? req.session.user.time_zone : 'UTC')
 
         res.render(
             'group-posts',
