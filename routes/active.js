@@ -432,13 +432,15 @@ router.post(
                     })
             }
             else {
-                await db.createPost(
+                let vals = db.createPost(
                     res.locals.group.group_id,
                     req.session.user.user_id,
                     req.body.title,
                     req.body.text_content)
 
-                res.send('good to go2...')
+                await vals[0]
+
+                return res.redirect('/g/' + res.locals.group.name + '/' + vals[1])
             }
         }
         else {

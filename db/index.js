@@ -113,10 +113,14 @@ exports.updateGroupSettings = (groupId, viewMode, postMode, commentMode) => {
 
 //post
 exports.createPost = (groupId, userId, title, textContent) => {
-    return query(
+    let newPostId = shortid.generate()
+
+    let promise = query(
         'insert into tpost(public_id, group_id, user_id, title, text_content) values($1, $2, $3, $4, $5)',
-        [shortid.generate(), groupId, userId, title, textContent]
+        [newPostId, groupId, userId, title, textContent]
     )
+
+    return [promise, newPostId]
 }
 
 exports.getPostsWithGroupId = (groupId, timeZone) => {
