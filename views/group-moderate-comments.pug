@@ -4,11 +4,13 @@ block content3
     table
         tr
             th comment
+            th created on
             th
 
         each c in comments
             tr
                 td #{c.text_content}
+                td #{c.created_on}
                 td
                     form(method="post")
                         input(type="submit" value="Remove")

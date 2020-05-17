@@ -367,7 +367,7 @@ router.get(
         const group = res.locals.group
         const {rows} = await db.getPostsWithGroupId(
             group.group_id,
-            req.session.user ? req.session.user.time_zone : 'UTC')
+            getCurrTimeZone(req))
 
         res.render(
             'group-posts',
@@ -486,7 +486,7 @@ router.get(
 router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/posts$/i)
     .get(async (req, res) => {
         if(res.locals.isMod) {
-            const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id)
+            const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id, getCurrTimeZone(req))
 
             res.render(
                 'group-moderate-posts',
@@ -507,7 +507,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/posts$/i)
         if(res.locals.isMod) {
             if(typeof req.body.remove_post_id !== 'undefined') {
                 await db.markPostRemoved(req.body.remove_post_id)
-                const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id)
+                const {rows:posts} = await db.getPostsWithGroupId(res.locals.group.group_id, getCurrTimeZone(req))
 
                 res.render(
                     'group-moderate-posts',
@@ -533,7 +533,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/posts$/i)
 router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
     .get(async (req, res) => {
         if(res.locals.isMod) {
-            const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id)
+            const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id, getCurrTimeZone(req))
 
             res.render(
                 'group-moderate-comments',
@@ -554,7 +554,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
         if(res.locals.isMod) {
             if(typeof req.body.remove_comment_id !== 'undefined') {
                 await db.markCommentRemoved(req.body.remove_comment_id)
-                const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id)
+                const {rows:comments} = await db.getCommentsWithGroupId(res.locals.group.group_id, getCurrTimeZone(req))
 
                 res.render(
                     'group-moderate-comments',
@@ -583,10 +583,13 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
 
         const {rows} = await db.getPostWithGroupAndPublic(
             res.locals.group.name,
-            postPublicId)
+            postPublicId,
+            getCurrTimeZone(req))
 
         if(rows.length) {
-            const{rows:comments} = await db.getPostComments(rows[0].post_id)
+            const{rows:comments} = await db.getPostComments(
+                rows[0].post_id,
+                getCurrTimeZone(req))
 
             res.render(
                 'group-post',
@@ -615,13 +618,14 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
 
                 const {rows} = await db.getPostWithGroupAndPublic(
                     res.locals.group.name,
-                    postPublicId)
+                    postPublicId,
+                    getCurrTimeZone(req))
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
-                        const{rows:comments} = await db.getPostComments(rows[0].post_id)
+                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
 
                         res.render(
                             'group-post',
@@ -643,7 +647,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                             req.session.user.user_id,
                             req.body.text_content)
 
-                        const{rows:comments} = await db.getPostComments(rows[0].post_id)
+                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
 
                         res.render(
                             'group-post',
@@ -678,10 +682,11 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
         const {rows} = await db.getCommentWithGroupAndPublics(
             res.locals.group.name,
             postPublicId,
-            commentPublicId)
+            commentPublicId,
+            getCurrTimeZone(req))
 
         if(rows.length) {
-            const{rows:comments} = await db.getCommentComments(rows[0].path)
+            const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
 
             res.render(
                 'group-comment',
@@ -712,13 +717,14 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                 const {rows} = await db.getCommentWithGroupAndPublics(
                     res.locals.group.name,
                     postPublicId,
-                    commentPublicId)
+                    commentPublicId,
+                    getCurrTimeZone(req))
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
-                        const{rows:comments} = await db.getCommentComments(rows[0].path)
+                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
 
                         res.render(
                             'group-comment',
@@ -742,7 +748,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                             req.body.text_content,
                             rows[0].path)
 
-                        const{rows:comments} = await db.getCommentComments(rows[0].path)
+                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
 
                         res.render(
                             'group-comment',
@@ -921,3 +927,8 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
         })
 
 module.exports = router
+
+//util
+function getCurrTimeZone(req) {
+    return req.session.user ? req.session.user.time_zone : 'UTC'
+}

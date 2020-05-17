@@ -4,11 +4,13 @@ block content3
     table
         tr
             th title
+            th created on
             th
 
         each p in posts
             tr
                 td #{p.title}
+                td #{p.created_on}
                 td
                     form(method="post")
                         input(type="submit" value="Remove")

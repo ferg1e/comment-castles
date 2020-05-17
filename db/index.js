@@ -141,14 +141,14 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getPostWithGroupAndPublic = (groupName, publicId) => {
+exports.getPostWithGroupAndPublic = (groupName, publicId, timeZone) => {
     return query(
         `
         select
             p.post_id,
             p.title,
             to_char(
-                timezone('utc', p.created_on),
+                timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             p.text_content,
             u.username,
@@ -160,10 +160,10 @@ exports.getPostWithGroupAndPublic = (groupName, publicId) => {
         join
             tgroup g on g.group_id = p.group_id
         where
-            p.public_id = $1 and
-            g.name = $2 and
+            p.public_id = $2 and
+            g.name = $3 and
             not p.is_removed`,
-        [publicId, groupName]
+        [timeZone, publicId, groupName]
     )
 }
 
@@ -226,14 +226,14 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
     )
 }
 
-exports.getPostComments = (postId) => {
+exports.getPostComments = (postId, timeZone) => {
     return query(`
         select
             c.text_content,
             c.path,
             u.username,
             to_char(
-                timezone('utc', c.created_on),
+                timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id,
             c.is_removed
@@ -242,20 +242,20 @@ exports.getPostComments = (postId) => {
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $1
+            c.path <@ $2
         order by
             c.path`,
-        [postId])
+        [timeZone, postId])
 }
 
-exports.getCommentComments = (path) => {
+exports.getCommentComments = (path, timeZone) => {
     return query(`
         select
             c.text_content,
             c.path,
             u.username,
             to_char(
-                timezone('utc', c.created_on),
+                timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id
         from
@@ -263,19 +263,19 @@ exports.getCommentComments = (path) => {
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $1 and
-            not (c.path ~ $2)
+            c.path <@ $2 and
+            not (c.path ~ $3)
         order by
             c.path`,
-        [path, path])
+        [timeZone, path, path])
 }
 
-exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId) => {
+exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId, timeZone) => {
     return query(`
         select
             c.text_content,
             to_char(
-                timezone('utc', c.created_on),
+                timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.path,
             c.post_id,
@@ -289,19 +289,19 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
         join
             tgroup g on g.group_id = p.group_id
         where
-            c.public_id = $1 and
-            p.public_id = $2 and
-            g.name = $3`,
-        [publicCommentId, publicPostId, groupName]
+            c.public_id = $2 and
+            p.public_id = $3 and
+            g.name = $4`,
+        [timeZone, publicCommentId, publicPostId, groupName]
     )
 }
 
-exports.getCommentsWithGroupId = (groupId) => {
+exports.getCommentsWithGroupId = (groupId, timeZone) => {
     return query(`
         select
             c.text_content,
             to_char(
-                timezone('utc', c.created_on),
+                timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
             c.public_id
@@ -312,11 +312,11 @@ exports.getCommentsWithGroupId = (groupId) => {
         join
             tpost p on p.post_id = c.post_id
         where
-            p.group_id = $1 and
+            p.group_id = $2 and
             not c.is_removed
         order by
             c.created_on desc`,
-        [groupId]
+        [timeZone, groupId]
     )
 }
 
