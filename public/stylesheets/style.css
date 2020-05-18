@@ -3,6 +3,16 @@ body {
   color: #4e4e4e;
 }
 
+.main-logo {
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav, .post-nav, .group-admin-nav,
+.group-moderate-nav {
+  margin-bottom: 6px;
+}
+
 .main-nav ul, .post-nav ul, .group-admin-nav ul,
 .group-moderate-nav ul {
   padding: 0;
