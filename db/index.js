@@ -112,12 +112,16 @@ exports.updateGroupSettings = (groupId, viewMode, postMode, commentMode) => {
 }
 
 //post
-exports.createPost = (groupId, userId, title, textContent) => {
+exports.createPost = (groupId, userId, title, textContent, link) => {
     let newPostId = shortid.generate()
+    let finalLink = typeof link !== 'undefined' ? link : null
 
-    let promise = query(
-        'insert into tpost(public_id, group_id, user_id, title, text_content) values($1, $2, $3, $4, $5)',
-        [newPostId, groupId, userId, title, textContent]
+    let promise = query(`
+        insert into tpost
+            (public_id, group_id, user_id, title, text_content, link)
+        values
+            ($1, $2, $3, $4, $5, $6)`,
+        [newPostId, groupId, userId, title, textContent, finalLink]
     )
 
     return [promise, newPostId]
@@ -156,7 +160,8 @@ exports.getPostWithGroupAndPublic = (groupName, publicId, timeZone) => {
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             p.text_content,
             u.username,
-            p.public_id
+            p.public_id,
+            p.link
         from
             tpost p
         join

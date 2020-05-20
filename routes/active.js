@@ -408,10 +408,20 @@ router.get(
 
 router.post(
     /^\/g\/([a-z0-9-]{3,36})\/new$/i,
+    (req, res, next) => {
+
+        //remove if blank so it doesn't trigger the validator
+        if(req.body.link === '') {
+            req.body.link = undefined
+        }
+
+        next()
+    },
     body('title', 'Title must be 4-50 characters')
         .notEmpty().withMessage('Please fill in a title')
         .matches(/^.{4,50}$/i),
     body('text_content', 'Please write some content').notEmpty(),
+    body('link', 'link must be a URL to a website').optional().isURL(),
     async (req, res) => {
         if(res.locals.canPost) {
             const errors = validationResult(req).array({onlyFirstError:true})
@@ -427,7 +437,7 @@ router.post(
                         is_mod: res.locals.isMod,
                         can_post: res.locals.canPost,
                         title: req.body.title,
-                        link: req.body.link,
+                        link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
                         textContent: req.body.text_content
                     })
             }
@@ -436,7 +446,8 @@ router.post(
                     res.locals.group.group_id,
                     req.session.user.user_id,
                     req.body.title,
-                    req.body.text_content)
+                    req.body.text_content,
+                    req.body.link)
 
                 await vals[0]
 

@@ -18,7 +18,13 @@ mixin commentContent(comment)
 
 block content2
     div.the-post
-        h3 #{post.title}
+
+        if post.link === null
+            h3 #{post.title}
+        else
+            h3
+                a(href=post.link)=post.title
+
         div by #{post.username} on #{post.created_on}
         div.the-post-content #{post.text_content}
 
