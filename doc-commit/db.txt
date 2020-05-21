@@ -35,6 +35,7 @@ create table tpost (
 
 alter table tpost add column is_removed boolean not null default FALSE;
 alter table tpost add column link varchar(400) default null;
+alter table tpost add column num_comments integer default 0;
 
 create table ttest (
     comment_id serial primary key,

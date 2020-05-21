@@ -136,7 +136,8 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
-            p.link
+            p.link,
+            P.num_comments
         from
             tpost p
         join
@@ -162,7 +163,8 @@ exports.getPostWithGroupAndPublic = (groupName, publicId, timeZone) => {
             p.text_content,
             u.username,
             p.public_id,
-            p.link
+            p.link,
+            p.num_comments
         from
             tpost p
         join

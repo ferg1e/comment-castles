@@ -15,6 +15,6 @@ block content2
                         | by #{post.username}
                         | on #{post.created_on}
                         | | 
-                        a(href=`/g/${name}/${post.public_id}`) comments(x)
+                        a(href=`/g/${name}/${post.public_id}`) comments(#{post.num_comments})
     else
         span no posts

@@ -25,7 +25,10 @@ block content2
             h3
                 a(href=post.link)=post.title
 
-        div by #{post.username} on #{post.created_on}
+        div
+            |by #{post.username}
+            | on #{post.created_on} | 
+            |comments(#{post.num_comments})
         div.the-post-content #{post.text_content}
 
     if can_comment
