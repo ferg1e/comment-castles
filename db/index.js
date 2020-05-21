@@ -135,7 +135,8 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
             to_char(
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            u.username
+            u.username,
+            p.link
         from
             tpost p
         join

@@ -6,7 +6,15 @@ block content2
 
             each post in posts
                 div
-                    a(href=`/g/${name}/${post.public_id}`) #{post.title}
-                    div by #{post.username} on #{post.created_on}
+                    if post.link === null
+                        a(href=`/g/${name}/${post.public_id}`) #{post.title}
+                    else
+                        a(href=post.link)= post.title
+
+                    div
+                        | by #{post.username}
+                        | on #{post.created_on}
+                        | | 
+                        a(href=`/g/${name}/${post.public_id}`) comments(x)
     else
         span no posts
