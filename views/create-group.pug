@@ -1,10 +1,16 @@
 extends layout
 
+append head
+    link(rel='stylesheet', href='/stylesheets/create-group.css')
+
 block content
     if errors.length
         ul
             each error in errors
                 li #{error.msg}
     form(method="post")
-        input(name="name" placeholder="group name")
-        input(type="submit" value="Create Group")
+        div
+            label(for="name") Group Name
+            input(name="name" id="name")
+        div
+            input(type="submit" value="Create Group")
