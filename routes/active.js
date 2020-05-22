@@ -655,11 +655,18 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
                         )
                     }
                     else {
+
+                        //
                         const {rows:data1} = await db.createPostComment(
                             rows[0].post_id,
                             req.session.user.user_id,
                             req.body.text_content)
 
+                        //
+                        await db.incPostNumComments(rows[0].post_id)
+                        ++rows[0].num_comments;
+
+                        //
                         const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
 
                         res.render(
@@ -755,12 +762,18 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i
                         )
                     }
                     else {
+
+                        //
                         const {rows:data1} = await db.createCommentComment(
                             rows[0].post_id,
                             req.session.user.user_id,
                             req.body.text_content,
                             rows[0].path)
 
+                        //
+                        await db.incPostNumComments(rows[0].post_id)
+
+                        //
                         const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
 
                         res.render(

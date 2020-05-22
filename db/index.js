@@ -190,6 +190,17 @@ exports.markPostRemoved = (publicId) => {
         [publicId])
 }
 
+exports.incPostNumComments = (postId) => {
+    return query(`
+        update
+            tpost
+        set
+            num_comments = num_comments +1
+        where
+            post_id = $1`,
+        [postId])
+}
+
 //comment
 exports.createPostComment = (postId, userId, content) => {
 
