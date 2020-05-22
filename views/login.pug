@@ -1,11 +1,19 @@
 extends layout
 
+append head
+    link(rel='stylesheet', href='/stylesheets/login.css')
+
 block content
     if errors.length
         ul
             each error in errors
                 li #{error}
     form(method="post")
-        input(name="username" placeholder="username")
-        input(name="password" placeholder="password" type="password" )
-        input(type="submit" value="Log In")
+        div
+            label(for="username") Username
+            input(name="username" id="username")
+        div
+            label(for="password") Password
+            input(name="password" id="password" type="password")
+        div
+            input(type="submit" value="Log In")
