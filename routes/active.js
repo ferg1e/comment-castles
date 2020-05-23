@@ -623,7 +623,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
         }
     })
     .post(
-        body('text_content', 'Please write some content').notEmpty(),
+        body('text_content', 'Please write a comment').notEmpty(),
         async (req, res) => {
 
             if(res.locals.canComment) {

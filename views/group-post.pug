@@ -1,5 +1,8 @@
 extends group
 
+append head
+    link(rel='stylesheet', href='/stylesheets/group-post.css')
+
 mixin commentContent(comment)
     - const commentIndent = comment.path.split('.').length - 2
     - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
@@ -37,8 +40,11 @@ block content2
                 each error in errors
                     li #{error.msg}
         form(method="post")
-            textarea(name="text_content" placeholder="write a comment")
-            input(type="submit" value="Submit Comment")
+            div
+                label(for="text_content") Write a Comment
+                textarea(name="text_content" id="text_content")
+            div
+                input(type="submit" value="Submit Comment")
     else
         |You don't have permission to comment here.
 
