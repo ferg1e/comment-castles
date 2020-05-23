@@ -16,8 +16,7 @@ mixin commentContent(comment)
         | #{comment.text_content} 
         em !{'&mdash;'}#{comment.username} 
             | #{comment.created_on} 
-            | #[a(href="#") reply] 
-            | #[a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) permalink]
+            a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) reply
 
 block content2
     div.the-post
