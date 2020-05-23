@@ -23,7 +23,8 @@ block content2
     div.the-post
 
         if post.link === null
-            h3 #{post.title}
+            h3 
+                a(href=`/g/${name}/${post.public_id}`)=post.title
         else
             h3
                 a(href=post.link)=post.title
