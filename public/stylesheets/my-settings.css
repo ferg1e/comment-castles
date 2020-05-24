@@ -1,3 +1,7 @@
-form > label {
+form label {
     display: block;
+}
+
+form > div {
+    margin-bottom: 12px;
 }
