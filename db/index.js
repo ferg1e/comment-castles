@@ -151,6 +151,32 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
+exports.getAllUserVisiblePosts = (timeZone) => {
+    return query(`
+        select
+            p.public_id,
+            p.title,
+            to_char(
+                timezone($1, p.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            u.username,
+            p.link,
+            P.num_comments,
+            g.name as group_name
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        join
+            tgroup g on p.group_id = g.group_id
+        where
+            not is_removed
+        order by
+            p.created_on desc`,
+        [timeZone]
+    )
+}
+
 exports.getPostWithGroupAndPublic = (groupName, publicId, timeZone) => {
     return query(
         `

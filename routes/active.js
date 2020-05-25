@@ -252,6 +252,25 @@ router.post(
     }
 )
 
+//public moderator
+router.route('/moderator')
+    .get(async (req, res) => {
+        const {rows} = await db.getAllUserVisiblePosts(getCurrTimeZone(req))
+
+        if(req.session.user) {
+            res.render(
+                'moderator',
+                {
+                    title: 'Public Moderator',
+                    user: req.session.user,
+                    posts: rows
+                })
+        }
+        else {
+            res.send('log in to use the moderator')
+        }
+    })
+
 //group: shared
 async function sharedGroupHandler(req, res, next) {
     const groupName = req.params[0]

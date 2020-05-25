@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    if posts.length
+        .posts
+
+            each post in posts
+                div
+                    if post.link === null
+                        a(href=`/g/${post.group_name}/${post.public_id}`)= post.title
+                    else
+                        a(href=post.link)= post.title
+
+                    div
+                        | by #{post.username}
+                        | on #{post.created_on}
+                        | to #{post.group_name}
+                        | | 
+                        a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
+    else
+        span no posts
