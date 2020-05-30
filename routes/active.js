@@ -270,6 +270,22 @@ router.route('/moderator')
             res.send('log in to use the moderator')
         }
     })
+    .post(async (req, res) => {
+        if(req.session.user) {
+
+            if(typeof req.body.remove_post_id !== 'undefined') {
+                await db.markPostRemoved(req.body.remove_post_id)
+
+                return res.redirect('/moderator')
+            }
+            else {
+                res.send('dont you do it mr.')
+            }
+        }
+        else {
+            res.send('log in to use the moderator')
+        }
+    })
 
 //group: shared
 async function sharedGroupHandler(req, res, next) {

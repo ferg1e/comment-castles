@@ -2,7 +2,7 @@ extends layout
 
 block content
     if posts.length
-        .posts
+        .mod-posts
 
             each post in posts
                 div
@@ -17,5 +17,9 @@ block content
                         | to #{post.group_name}
                         | | 
                         a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
+                        | 
+                        form(method="post")
+                            input(type="submit" value="Remove")
+                            input(type="hidden" name="remove_post_id" value=post.public_id)
     else
         span no posts

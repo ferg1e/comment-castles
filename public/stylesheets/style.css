@@ -40,6 +40,14 @@ body {
   margin-bottom: 14px;
 }
 
+.mod-posts > div {
+  margin-bottom: 14px;
+}
+
+.mod-posts form {
+  display: inline;
+}
+
 .the-post h3 {
   margin-bottom: 0;
   padding-bottom: 0;
