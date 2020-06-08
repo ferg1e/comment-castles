@@ -6,6 +6,22 @@ const db = require('../db')
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
 
+// every request
+function sharedAllHandler(req, res, next) {
+    if(req.session.user) {
+        let superUserIds = [24]
+        let isSuperAdmin = superUserIds.indexOf(req.session.user.user_id) !== -1
+        req.session.user.is_super_admin = isSuperAdmin
+    }
+
+    next()
+}
+
+router.route('*')
+    .get(sharedAllHandler)
+    .post(sharedAllHandler)
+
+//
 router.get(
     '/',
     function(req, res) {
@@ -272,10 +288,19 @@ router.route('/moderator')
     })
     .post(async (req, res) => {
         if(req.session.user) {
+            let canRemove = req.session.user.is_super_admin
+            let canMarkSpam = true
 
-            if(typeof req.body.remove_post_id !== 'undefined') {
+            if(canRemove && typeof req.body.remove_post_id !== 'undefined') {
                 await db.markPostRemoved(req.body.remove_post_id)
 
+                return res.redirect('/moderator')
+            }
+            else if(canMarkSpam && typeof req.body.spam_post_id !== 'undefined') {
+                let postPublicId = req.body.spam_post_id
+                let userId = req.session.user.user_id
+
+                await db.markPostSpam(userId, postPublicId)
                 return res.redirect('/moderator')
             }
             else {

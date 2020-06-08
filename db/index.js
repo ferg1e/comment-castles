@@ -451,6 +451,18 @@ exports.deleteMember = (groupId, userId) => {
     )
 }
 
+//spampost
+exports.markPostSpam = (userId, postId) => {
+    return query(`
+        insert into tspampost
+            (post_id, user_id)
+        values
+            (
+                (select post_id from tpost where public_id = $1),
+                $2)`,
+        [postId, userId])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

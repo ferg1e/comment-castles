@@ -36,6 +36,7 @@ create table tpost (
 alter table tpost add column is_removed boolean not null default FALSE;
 alter table tpost add column link varchar(400) default null;
 alter table tpost add column num_comments integer default 0;
+alter table tpost add column num_spam_votes integer default 0;
 
 create table ttest (
     comment_id serial primary key,
@@ -70,5 +71,25 @@ create table tmember (
 alter table tmember add column is_moderator boolean not null default FALSE;
 alter table tmember add column is_poster boolean not null default FALSE;
 alter table tmember add column is_commenter boolean not null default FALSE;
+
+create table tspampost (
+    spampost_id serial primary key,
+    post_id integer not null,
+    user_id integer not null,
+    created_on timestamp with time zone not null default now()
+);
+
+create trigger post_spam_vote
+    after insert
+    on tspampost
+    for each row
+    execute procedure f_post_spam_vote();
+
+CREATE OR REPLACE FUNCTION f_post_spam_vote()
+RETURNS TRIGGER AS $$
+BEGIN
+  update tpost set num_spam_votes = num_spam_votes + 1 where post_id = new.post_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
 
 https://redd.it/eqqoam

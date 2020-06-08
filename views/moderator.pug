@@ -18,8 +18,13 @@ block content
                         | | 
                         a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
                         | 
-                        form(method="post")
-                            input(type="submit" value="Remove")
-                            input(type="hidden" name="remove_post_id" value=post.public_id)
+                        if user.is_super_admin
+                            form(method="post")
+                                input(type="submit" value="Remove")
+                                input(type="hidden" name="remove_post_id" value=post.public_id)
+                        else
+                            form(method="post")
+                                input(type="submit" value="Spam")
+                                input(type="hidden" name="spam_post_id" value=post.public_id)
     else
         span no posts
