@@ -8,7 +8,7 @@ block content
         .mod-posts
 
             each post in posts
-                div
+                div(class=post.is_user_post_spam ? 'spam-row' : '')
                     if post.link === null
                         a(href=`/g/${post.group_name}/${post.public_id}`)= post.title
                     else
