@@ -271,9 +271,11 @@ router.post(
 //public moderator
 router.route('/moderator')
     .get(async (req, res) => {
-        const {rows} = await db.getAllUserVisiblePosts(getCurrTimeZone(req))
-
         if(req.session.user) {
+            const {rows} = await db.getAllUserVisiblePosts(
+                getCurrTimeZone(req),
+                req.session.user.user_id)
+
             res.render(
                 'moderator',
                 {

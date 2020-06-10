@@ -151,7 +151,7 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisiblePosts = (timeZone) => {
+exports.getAllUserVisiblePosts = (timeZone, userId) => {
     return query(`
         select
             p.public_id,
@@ -162,7 +162,14 @@ exports.getAllUserVisiblePosts = (timeZone) => {
             u.username,
             p.link,
             P.num_comments,
-            g.name as group_name
+            g.name as group_name,
+            exists(select
+                    1
+                from
+                    tspampost
+                where
+                    post_id = p.post_id and
+                    user_id = $2) is_user_post_spam
         from
             tpost p
         join
@@ -173,7 +180,7 @@ exports.getAllUserVisiblePosts = (timeZone) => {
             not is_removed
         order by
             p.created_on desc`,
-        [timeZone]
+        [timeZone, userId]
     )
 }
 
