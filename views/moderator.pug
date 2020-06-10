@@ -1,5 +1,8 @@
 extends layout
 
+append head
+    link(rel='stylesheet', href='/stylesheets/moderator.css')
+
 block content
     if posts.length
         .mod-posts
@@ -19,12 +22,13 @@ block content
                         a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
                         | 
                         if user.is_super_admin
+                            span(class="spam-count") +#{post.num_spam_votes}
+                            | 
                             form(method="post")
                                 input(type="submit" value="Remove")
                                 input(type="hidden" name="remove_post_id" value=post.public_id)
 
                         if !post.is_user_post_spam
-                            | 
                             form(method="post")
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)

@@ -163,6 +163,7 @@ exports.getAllUserVisiblePosts = (timeZone, userId) => {
             p.link,
             P.num_comments,
             g.name as group_name,
+            p.num_spam_votes,
             exists(select
                     1
                 from
