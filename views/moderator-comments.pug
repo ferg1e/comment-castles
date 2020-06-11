@@ -1,0 +1,25 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href='/stylesheets/moderator-comments.css')
+
+block content
+    div
+        a(href="/moderator") posts
+        | 
+        a(href="/moderator?what=comments") comments
+
+    if comments.length
+        .mod-comments
+            each c in comments
+                div
+                    | by #{c.username}
+                    | on #{c.created_on}
+                    | to xxx
+                    | 
+                    if user.is_super_admin
+                        form(method="post")
+                            input(type="submit" value="Remove")
+                            input(type="hidden" name="remove_post_id" value="44gg")
+    else
+        span no comments

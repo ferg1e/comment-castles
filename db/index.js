@@ -378,6 +378,27 @@ exports.getCommentsWithGroupId = (groupId, timeZone) => {
     )
 }
 
+exports.getAllUserVisibleComments = (timeZone) => {
+    return query(`
+        select
+            c.text_content,
+            to_char(
+                timezone($1, c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            u.username,
+            c.public_id
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        where
+            not c.is_removed
+        order by
+            c.created_on desc`,
+        [timeZone]
+    )
+}
+
 exports.markCommentRemoved = (publicId) => {
     return query(`
         update

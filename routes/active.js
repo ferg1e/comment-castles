@@ -272,17 +272,36 @@ router.post(
 router.route('/moderator')
     .get(async (req, res) => {
         if(req.session.user) {
-            const {rows} = await db.getAllUserVisiblePosts(
-                getCurrTimeZone(req),
-                req.session.user.user_id)
 
-            res.render(
-                'moderator',
-                {
-                    title: 'Public Moderator',
-                    user: req.session.user,
-                    posts: rows
-                })
+            //
+            let isComments = (req.query.what === 'comments')
+
+            //
+            if(isComments) {
+                const {rows} = await db.getAllUserVisibleComments(
+                    getCurrTimeZone(req))
+
+                res.render(
+                    'moderator-comments',
+                    {
+                        title: 'Comments Moderator',
+                        user: req.session.user,
+                        comments: rows
+                    })
+            }
+            else {
+                const {rows} = await db.getAllUserVisiblePosts(
+                    getCurrTimeZone(req),
+                    req.session.user.user_id)
+
+                res.render(
+                    'moderator',
+                    {
+                        title: 'Public Moderator',
+                        user: req.session.user,
+                        posts: rows
+                    })
+            }
         }
         else {
             res.send('log in to use the moderator')
