@@ -32,5 +32,7 @@ block content
                             form(method="post")
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)
+
+                    div #{post.text_content}
     else
         span no posts
