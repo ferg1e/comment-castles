@@ -279,7 +279,8 @@ router.route('/moderator')
             //
             if(isComments) {
                 const {rows} = await db.getAllUserVisibleComments(
-                    getCurrTimeZone(req))
+                    getCurrTimeZone(req),
+                    req.session.user.user_id)
 
                 res.render(
                     'moderator-comments',
@@ -328,6 +329,13 @@ router.route('/moderator')
 
                 await db.markPostSpam(userId, postPublicId)
                 return res.redirect('/moderator')
+            }
+            else if(canMarkSpam && typeof req.body.spam_comment_id !== 'undefined') {
+                let commentPublicId = req.body.spam_comment_id
+                let userId = req.session.user.user_id
+
+                await db.markCommentSpam(userId, commentPublicId)
+                return res.redirect('/moderator?what=comments')
             }
             else {
                 res.send('dont you do it mr.')

@@ -49,6 +49,7 @@ create table ttest (
 );
 create index path_idx on ttest using gist(path);
 alter table ttest add column is_removed boolean not null default FALSE;
+alter table ttest add column num_spam_votes integer default 0;
 
 create table tcomment {
     comment_id serial primary key,
@@ -72,6 +73,7 @@ alter table tmember add column is_moderator boolean not null default FALSE;
 alter table tmember add column is_poster boolean not null default FALSE;
 alter table tmember add column is_commenter boolean not null default FALSE;
 
+--
 create table tspampost (
     spampost_id serial primary key,
     post_id integer not null,
@@ -92,4 +94,26 @@ BEGIN
   return null;
 END; $$ LANGUAGE 'plpgsql';
 
-https://redd.it/eqqoam
+--
+create table tspamcomment (
+    spamcomment_id serial primary key,
+    comment_id integer not null,
+    user_id integer not null,
+    created_on timestamp with time zone not null default now()
+);
+
+create trigger comment_spam_vote
+    after insert
+    on tspamcomment
+    for each row
+    execute procedure f_comment_spam_vote();
+
+CREATE OR REPLACE FUNCTION f_comment_spam_vote()
+RETURNS TRIGGER AS $$
+BEGIN
+  update ttest set num_spam_votes = num_spam_votes + 1 where comment_id = new.comment_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+--
+-- https://redd.it/eqqoam

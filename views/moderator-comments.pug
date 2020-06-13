@@ -22,6 +22,12 @@ block content
                             form(method="post")
                                 input(type="submit" value="Remove")
                                 input(type="hidden" name="remove_comment_id" value=`${c.public_id}`)
+
+                        if !c.is_user_comment_spam
+                            form(method="post")
+                                input(type="submit" value="Spam")
+                                input(type="hidden" name="spam_comment_id" value=c.public_id)
+
                     div.m9-comment #{c.text_content}
     else
         span no comments

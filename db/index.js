@@ -378,7 +378,7 @@ exports.getCommentsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisibleComments = (timeZone) => {
+exports.getAllUserVisibleComments = (timeZone, userId) => {
     return query(`
         select
             c.text_content,
@@ -386,7 +386,14 @@ exports.getAllUserVisibleComments = (timeZone) => {
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
-            c.public_id
+            c.public_id,
+            exists(select
+                    1
+                from
+                    tspamcomment
+                where
+                    comment_id = c.comment_id and
+                    user_id = $2) is_user_comment_spam
         from
             ttest c
         join
@@ -395,7 +402,7 @@ exports.getAllUserVisibleComments = (timeZone) => {
             not c.is_removed
         order by
             c.created_on desc`,
-        [timeZone]
+        [timeZone, userId]
     )
 }
 
@@ -491,6 +498,18 @@ exports.markPostSpam = (userId, postId) => {
                 (select post_id from tpost where public_id = $1),
                 $2)`,
         [postId, userId])
+}
+
+//spamcomment
+exports.markCommentSpam = (userId, commentId) => {
+    return query(`
+        insert into tspamcomment
+            (comment_id, user_id)
+        values
+            (
+                (select comment_id from ttest where public_id = $1),
+                $2)`,
+        [commentId, userId])
 }
 
 //misc
