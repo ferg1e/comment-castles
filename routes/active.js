@@ -317,6 +317,11 @@ router.route('/moderator')
 
                 return res.redirect('/moderator')
             }
+            else if(canRemove && typeof req.body.remove_comment_id !== 'undefined') {
+                await db.markCommentRemoved(req.body.remove_comment_id)
+
+                return res.redirect('/moderator?what=comments')
+            }
             else if(canMarkSpam && typeof req.body.spam_post_id !== 'undefined') {
                 let postPublicId = req.body.spam_post_id
                 let userId = req.session.user.user_id

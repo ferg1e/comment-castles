@@ -21,7 +21,7 @@ block content
                         if user.is_super_admin
                             form(method="post")
                                 input(type="submit" value="Remove")
-                                input(type="hidden" name="remove_post_id" value="44gg")
+                                input(type="hidden" name="remove_comment_id" value=`${c.public_id}`)
                     div.m9-comment #{c.text_content}
     else
         span no comments
