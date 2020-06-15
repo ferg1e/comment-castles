@@ -19,6 +19,8 @@ block content
                         | to xxx
                         | 
                         if user.is_super_admin
+                            span(class="spam-count") +#{c.num_spam_votes}
+                            | 
                             form(method="post")
                                 input(type="submit" value="Remove")
                                 input(type="hidden" name="remove_comment_id" value=`${c.public_id}`)

@@ -6,6 +6,13 @@
     display: inline;
 }
 
+.spam-count {
+  color: white;
+  background: #bb0000;
+  font-weight: bold;
+  padding: 2px;
+}
+
 .spam-row {
   background: #fce8e8;
   padding: 2px;

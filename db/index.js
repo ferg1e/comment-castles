@@ -387,6 +387,7 @@ exports.getAllUserVisibleComments = (timeZone, userId) => {
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
             c.public_id,
+            c.num_spam_votes,
             exists(select
                     1
                 from
