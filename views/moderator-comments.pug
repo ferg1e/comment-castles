@@ -12,7 +12,7 @@ block content
     if comments.length
         .mod-comments
             each c in comments
-                div
+                div(class=c.is_user_comment_spam ? 'spam-row' : '')
                     div
                         | by #{c.username}
                         | on #{c.created_on}

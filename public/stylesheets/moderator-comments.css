@@ -5,3 +5,12 @@
 .mod-comments form {
     display: inline;
 }
+
+.spam-row {
+  background: #fce8e8;
+  padding: 2px;
+}
+
+.spam-row .m9-comment {
+  background: #fce8e8;
+}
