@@ -32,7 +32,9 @@ block content2
             |by #{post.username}
             | on #{post.created_on} | 
             a(href=`/g/${name}/${post.public_id}`) comments(#{post.num_comments})
-        div.the-post-content #{post.text_content}
+
+        if post.text_content !== null
+            div.the-post-content #{post.text_content}
 
     if can_comment
         if errors.length

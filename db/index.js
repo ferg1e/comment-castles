@@ -115,13 +115,14 @@ exports.updateGroupSettings = (groupId, viewMode, postMode, commentMode) => {
 exports.createPost = (groupId, userId, title, textContent, link) => {
     let newPostId = shortid.generate()
     let finalLink = typeof link !== 'undefined' ? link : null
+    let finalTextContent = textContent.trim() === '' ? null : textContent
 
     let promise = query(`
         insert into tpost
             (public_id, group_id, user_id, title, text_content, link)
         values
             ($1, $2, $3, $4, $5, $6)`,
-        [newPostId, groupId, userId, title, textContent, finalLink]
+        [newPostId, groupId, userId, title, finalTextContent, finalLink]
     )
 
     return [promise, newPostId]

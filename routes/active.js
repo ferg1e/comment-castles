@@ -514,7 +514,7 @@ router.post(
     body('title', 'Title must be 4-50 characters')
         .notEmpty().withMessage('Please fill in a title')
         .matches(/^.{4,50}$/i),
-    body('text_content', 'Please write some content').notEmpty(),
+    body('text_content', 'Please write some content').optional(),
     body('link', 'link must be a URL to a website').optional().isURL(),
     async (req, res) => {
         if(res.locals.canPost) {
