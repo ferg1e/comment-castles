@@ -10,9 +10,19 @@ block content2
                     each error in errors
                         li #{error.msg}
         form(method="post")
-            input(placeholder="title" name="title" value=`${title}`)
-            input(placeholder="link" name="link" value=`${link}`)
-            textarea(placeholder="text content" name="text_content" id="text_content") #{textContent}
-            input(type="submit" value="Create Post")
+            div
+                label(for="title") Title
+                input(name="title" id="title" value=`${title}`)
+
+            div
+                label(for="link") Link(optional)
+                input(name="link" id="link" value=`${link}`)
+
+            div
+                label(for="text_content") Content(optional)
+                textarea(name="text_content" id="text_content") #{textContent}
+
+            div
+                input(type="submit" value="Create Post")
     else
         |You don't have permission to post here.

@@ -1,6 +1,9 @@
-form input, form textarea {
+form > div {
+    margin-bottom: 12px;
+}
+
+form label {
     display: block;
-    margin-bottom: 11px;
 }
 
 form #text_content {
