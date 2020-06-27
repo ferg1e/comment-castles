@@ -152,7 +152,7 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisiblePosts = (timeZone, userId) => {
+exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin) => {
     return query(`
         select
             p.public_id,
@@ -180,10 +180,19 @@ exports.getAllUserVisiblePosts = (timeZone, userId) => {
         join
             tgroup g on p.group_id = g.group_id
         where
-            not is_removed
+            not p.is_removed and
+            ($3 or
+                g.group_viewing_mode = 'anyone' or
+                exists(select
+                        1
+                    from
+                        tmember
+                    where
+                        user_id = $4 and
+                        group_id = g.group_id))
         order by
             p.created_on desc`,
-        [timeZone, userId]
+        [timeZone, userId, isSuperAdmin, userId]
     )
 }
 

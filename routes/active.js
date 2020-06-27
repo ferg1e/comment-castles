@@ -293,7 +293,8 @@ router.route('/moderator')
             else {
                 const {rows} = await db.getAllUserVisiblePosts(
                     getCurrTimeZone(req),
-                    req.session.user.user_id)
+                    req.session.user.user_id,
+                    req.session.user.is_super_admin)
 
                 res.render(
                     'moderator',
