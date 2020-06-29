@@ -332,24 +332,43 @@ router.route('/moderator')
             let canRemove = req.session.user.is_super_admin
             let canMarkSpam = true
 
-            if(canRemove && typeof req.body.remove_post_id !== 'undefined') {
+            //
+            const isRemovePost = typeof req.body.remove_post_id !== 'undefined'
+            const isSpamPost = typeof req.body.spam_post_id !== 'undefined'
+            const isRemoveComment = typeof req.body.remove_comment_id !== 'undefined'
+            const isSpamComment = typeof req.body.spam_comment_id !== 'undefined'
+
+            //
+            let page = 1
+            let pagePart = ''
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+            }
+
+            if(page > 1) {
+                pagePart = '?p=' + page
+            }
+
+            //
+            if(canRemove && isRemovePost) {
                 await db.markPostRemoved(req.body.remove_post_id)
 
-                return res.redirect('/moderator')
+                return res.redirect('/moderator' + pagePart)
             }
-            else if(canRemove && typeof req.body.remove_comment_id !== 'undefined') {
+            else if(canRemove && isRemoveComment) {
                 await db.markCommentRemoved(req.body.remove_comment_id)
 
                 return res.redirect('/moderator?what=comments')
             }
-            else if(canMarkSpam && typeof req.body.spam_post_id !== 'undefined') {
+            else if(canMarkSpam && isSpamPost) {
                 let postPublicId = req.body.spam_post_id
                 let userId = req.session.user.user_id
 
                 await db.markPostSpam(userId, postPublicId)
-                return res.redirect('/moderator')
+                return res.redirect('/moderator' + pagePart)
             }
-            else if(canMarkSpam && typeof req.body.spam_comment_id !== 'undefined') {
+            else if(canMarkSpam && isSpamComment) {
                 let commentPublicId = req.body.spam_comment_id
                 let userId = req.session.user.user_id
 
