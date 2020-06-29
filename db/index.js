@@ -152,7 +152,7 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin) => {
+exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page) => {
     return query(`
         select
             p.public_id,
@@ -191,8 +191,12 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin) => {
                         user_id = $4 and
                         group_id = g.group_id))
         order by
-            p.created_on desc`,
-        [timeZone, userId, isSuperAdmin, userId]
+            p.created_on desc
+        limit
+            5
+        offset
+            $5`,
+        [timeZone, userId, isSuperAdmin, userId, (page - 1)*5]
     )
 }
 

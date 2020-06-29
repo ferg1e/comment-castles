@@ -40,5 +40,8 @@ block content
 
                     if post.text_content !== null
                         div.m9-post #{post.text_content}
+
+        div
+            a(href=`/moderator?p=${next_page}`) more
     else
         span no posts

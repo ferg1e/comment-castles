@@ -277,6 +277,13 @@ router.route('/moderator')
             let isComments = (req.query.what === 'comments')
 
             //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+            }
+
+            //
             if(isComments) {
                 const {rows} = await db.getAllUserVisibleComments(
                     getCurrTimeZone(req),
@@ -294,14 +301,16 @@ router.route('/moderator')
                 const {rows} = await db.getAllUserVisiblePosts(
                     getCurrTimeZone(req),
                     req.session.user.user_id,
-                    req.session.user.is_super_admin)
+                    req.session.user.is_super_admin,
+                    page)
 
                 res.render(
                     'moderator',
                     {
                         title: 'Public Moderator',
                         user: req.session.user,
-                        posts: rows
+                        posts: rows,
+                        next_page: page + 1
                     })
             }
         }
