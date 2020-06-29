@@ -4,10 +4,10 @@ append head
     link(rel='stylesheet', href='/stylesheets/moderator.css')
 
 block content
-    div
-        a(href="/moderator") posts
+    nav.mod-nav
+        a#mod-posts(href="/moderator") posts
         | 
-        a(href="/moderator?what=comments") comments
+        a#mod-comments(href="/moderator?what=comments") comments
 
     if posts.length
         .mod-posts
