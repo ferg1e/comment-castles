@@ -281,6 +281,15 @@ router.route('/moderator')
 
             if(typeof req.query.p !== 'undefined') {
                 page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    if(isComments) {
+                        return res.redirect('/moderator?what=comments')
+                    }
+                    else {
+                        return res.redirect('/moderator')
+                    }
+                }
             }
 
             //
