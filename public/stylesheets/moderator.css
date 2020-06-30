@@ -5,13 +5,14 @@
     padding: 2px;
 }
 
-.spam-row {
-    background: #fce8e8;
+.not-spam-row {
+    background: #f1f1f1;
     padding: 2px;
 }
 
-.spam-row .m9-post {
+.spam-row {
     background: #fce8e8;
+    padding: 2px;
 }
 
 #mon-posts-but, #mod-comments-but {
@@ -24,4 +25,8 @@
 
 .mod-nav {
     margin-bottom: 6px;
+}
+
+.mod-post-header {
+    color: #777777;
 }
