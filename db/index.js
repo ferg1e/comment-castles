@@ -152,7 +152,7 @@ exports.getPostsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page) => {
+exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) => {
     return query(`
         select
             p.public_id,
@@ -181,22 +181,23 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page) => {
             tgroup g on p.group_id = g.group_id
         where
             not p.is_removed and
-            ($3 or
+            extract(epoch from created_on) < $3 and
+            ($4 or
                 g.group_viewing_mode = 'anyone' or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $4 and
+                        user_id = $5 and
                         group_id = g.group_id))
         order by
             p.created_on desc
         limit
             5
         offset
-            $5`,
-        [timeZone, userId, isSuperAdmin, userId, (page - 1)*5]
+            $6`,
+        [timeZone, userId, before, isSuperAdmin, userId, (page - 1)*5]
     )
 }
 

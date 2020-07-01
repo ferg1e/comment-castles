@@ -34,7 +34,7 @@ block content
                                 input(type="hidden" name="remove_post_id" value=post.public_id)
 
                         if !post.is_user_post_spam
-                            form(method="post")
+                            form(method="post" action=`/moderator?p=${page}&before=${before}`)
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)
 
@@ -42,6 +42,6 @@ block content
                         div.m9-post #{post.text_content}
 
         div
-            a(href=`/moderator?p=${next_page}`) more
+            a(href=`/moderator?p=${page + 1}&before=${before}`) more
     else
         span no posts

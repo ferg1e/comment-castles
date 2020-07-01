@@ -293,6 +293,11 @@ router.route('/moderator')
             }
 
             //
+            const before = typeof req.query.before !== 'undefined'
+                ? req.query.before
+                : Date.now()/1000
+
+            //
             if(isComments) {
                 const {rows} = await db.getAllUserVisibleComments(
                     getCurrTimeZone(req),
@@ -311,7 +316,8 @@ router.route('/moderator')
                     getCurrTimeZone(req),
                     req.session.user.user_id,
                     req.session.user.is_super_admin,
-                    page)
+                    page,
+                    before)
 
                 res.render(
                     'moderator',
@@ -319,7 +325,8 @@ router.route('/moderator')
                         title: 'Public Moderator',
                         user: req.session.user,
                         posts: rows,
-                        next_page: page + 1
+                        page: page,
+                        before: before
                     })
             }
         }
@@ -366,7 +373,7 @@ router.route('/moderator')
                 let userId = req.session.user.user_id
 
                 await db.markPostSpam(userId, postPublicId)
-                return res.redirect('/moderator' + pagePart)
+                return res.redirect(req.url)
             }
             else if(canMarkSpam && isSpamComment) {
                 let commentPublicId = req.body.spam_comment_id
