@@ -166,6 +166,7 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) 
             g.name as group_name,
             p.num_spam_votes,
             p.text_content,
+            p.is_removed,
             exists(select
                     1
                 from
@@ -180,24 +181,24 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) 
         join
             tgroup g on p.group_id = g.group_id
         where
-            not p.is_removed and
-            extract(epoch from created_on) < $3 and
-            ($4 or
+            (not p.is_removed or extract(epoch from removed_on) > $3) and
+            extract(epoch from created_on) < $4 and
+            ($5 or
                 g.group_viewing_mode = 'anyone' or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $5 and
+                        user_id = $6 and
                         group_id = g.group_id))
         order by
             p.created_on desc
         limit
             5
         offset
-            $6`,
-        [timeZone, userId, before, isSuperAdmin, userId, (page - 1)*5]
+            $7`,
+        [timeZone, userId, before, before, isSuperAdmin, userId, (page - 1)*5]
     )
 }
 
@@ -234,7 +235,8 @@ exports.markPostRemoved = (publicId) => {
         update
             tpost
         set
-            is_removed = true
+            is_removed = true,
+            removed_on = now()
         where
             public_id = $1`,
         [publicId])

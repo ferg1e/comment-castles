@@ -30,3 +30,7 @@
 .mod-post-header {
     color: #777777;
 }
+
+.removed-row {
+    opacity: 33%;
+}

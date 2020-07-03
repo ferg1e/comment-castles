@@ -361,7 +361,7 @@ router.route('/moderator')
             if(canRemove && isRemovePost) {
                 await db.markPostRemoved(req.body.remove_post_id)
 
-                return res.redirect('/moderator' + pagePart)
+                return res.redirect(req.url)
             }
             else if(canRemove && isRemoveComment) {
                 await db.markCommentRemoved(req.body.remove_comment_id)

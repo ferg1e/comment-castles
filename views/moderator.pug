@@ -13,8 +13,20 @@ block content
         .mod-posts
 
             each post in posts
-                div(class=post.is_user_post_spam ? 'spam-row' : 'not-spam-row')
-                    if post.link === null
+                -
+                    let conClasses = []
+
+                    if(post.is_removed) {
+                        conClasses.push('removed-row')
+                    }
+
+                    conClasses.push(post.is_user_post_spam
+                        ? 'spam-row' : 'not-spam-row')
+
+                div(class=conClasses)
+                    if post.is_removed
+                        span= post.title
+                    else if post.link === null
                         a(href=`/g/${post.group_name}/${post.public_id}`)= post.title
                     else
                         a(href=post.link)= post.title
@@ -24,16 +36,23 @@ block content
                         | on #{post.created_on}
                         | to #{post.group_name}
                         | | 
-                        a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
+
+                        if post.is_removed
+                            span comments(#{post.num_comments})
+                        else
+                            a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
+
                         | 
                         if user.is_super_admin
                             span(class="spam-count") +#{post.num_spam_votes}
-                            | 
-                            form(method="post")
-                                input(type="submit" value="Remove")
-                                input(type="hidden" name="remove_post_id" value=post.public_id)
 
-                        if !post.is_user_post_spam
+                            if !post.is_removed
+                                | 
+                                form(method="post" action=`/moderator?p=${page}&before=${before}`)
+                                    input(type="submit" value="Remove")
+                                    input(type="hidden" name="remove_post_id" value=post.public_id)
+
+                        if !post.is_user_post_spam && !post.is_removed
                             form(method="post" action=`/moderator?p=${page}&before=${before}`)
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)
