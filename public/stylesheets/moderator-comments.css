@@ -1,5 +1,5 @@
 .mod-comments > div {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   
 .mod-comments form {
@@ -18,8 +18,9 @@
   padding: 2px;
 }
 
-.spam-row .m9-comment {
-  background: #fce8e8;
+.not-spam-row {
+  background: #f1f1f1;
+  padding: 2px;
 }
 
 #mon-posts-but, #mod-comments-but {
@@ -32,4 +33,8 @@
 
 .mod-nav {
   margin-bottom: 6px;
+}
+
+.mod-comment-header {
+  color: #777777;
 }

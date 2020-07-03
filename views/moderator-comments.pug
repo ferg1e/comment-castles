@@ -12,8 +12,8 @@ block content
     if comments.length
         .mod-comments
             each c in comments
-                div(class=c.is_user_comment_spam ? 'spam-row' : '')
-                    div
+                div(class=c.is_user_comment_spam ? 'spam-row' : 'not-spam-row')
+                    div.mod-comment-header
                         | by #{c.username}
                         | on #{c.created_on}
                         | to xxx
