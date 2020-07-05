@@ -31,5 +31,7 @@ block content
                                 input(type="hidden" name="spam_comment_id" value=c.public_id)
 
                     div.m9-comment #{c.text_content}
+        div
+            a(href=`/moderator?what=comments&p=${page + 1}`) more
     else
         span no comments

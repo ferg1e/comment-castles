@@ -302,14 +302,16 @@ router.route('/moderator')
                 const {rows} = await db.getAllUserVisibleComments(
                     getCurrTimeZone(req),
                     req.session.user.user_id,
-                    req.session.user.is_super_admin)
+                    req.session.user.is_super_admin,
+                    page)
 
                 res.render(
                     'moderator-comments',
                     {
                         title: 'Comments Moderator',
                         user: req.session.user,
-                        comments: rows
+                        comments: rows,
+                        page: page
                     })
             }
             else {
@@ -347,18 +349,6 @@ router.route('/moderator')
             const isSpamComment = typeof req.body.spam_comment_id !== 'undefined'
 
             //
-            let page = 1
-            let pagePart = ''
-
-            if(typeof req.query.p !== 'undefined') {
-                page = parseInt(req.query.p)
-            }
-
-            if(page > 1) {
-                pagePart = '?p=' + page
-            }
-
-            //
             if(canRemove && isRemovePost) {
                 await db.markPostRemoved(req.body.remove_post_id)
 
@@ -367,7 +357,7 @@ router.route('/moderator')
             else if(canRemove && isRemoveComment) {
                 await db.markCommentRemoved(req.body.remove_comment_id)
 
-                return res.redirect('/moderator?what=comments')
+                return res.redirect(req.url)
             }
             else if(canMarkSpam && isSpamPost) {
                 let postPublicId = req.body.spam_post_id
@@ -381,7 +371,7 @@ router.route('/moderator')
                 let userId = req.session.user.user_id
 
                 await db.markCommentSpam(userId, commentPublicId)
-                return res.redirect('/moderator?what=comments')
+                return res.redirect(req.url)
             }
             else {
                 res.send('dont you do it mr.')

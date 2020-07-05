@@ -396,7 +396,7 @@ exports.getCommentsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin) => {
+exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page) => {
     return query(`
         select
             c.text_content,
@@ -434,8 +434,12 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin) => {
                         user_id = $5 and
                         group_id = g.group_id))
         order by
-            c.created_on desc`,
-        [timeZone, userId, isSuperAdmin, userId, userId]
+            c.created_on desc
+        limit
+            5
+        offset
+            $6`,
+        [timeZone, userId, isSuperAdmin, userId, userId, (page - 1)*5]
     )
 }
 
