@@ -185,20 +185,21 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) 
             extract(epoch from created_on) < $4 and
             ($5 or
                 g.group_viewing_mode = 'anyone' or
+                g.owned_by = $6 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $6 and
+                        user_id = $7 and
                         group_id = g.group_id))
         order by
             p.created_on desc
         limit
             5
         offset
-            $7`,
-        [timeZone, userId, before, before, isSuperAdmin, userId, (page - 1)*5]
+            $8`,
+        [timeZone, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
     )
 }
 
@@ -424,16 +425,17 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin) => {
             not c.is_removed and
             ($3 or
                 g.group_viewing_mode = 'anyone' or
+                g.owned_by = $4 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $4 and
+                        user_id = $5 and
                         group_id = g.group_id))
         order by
             c.created_on desc`,
-        [timeZone, userId, isSuperAdmin, userId]
+        [timeZone, userId, isSuperAdmin, userId, userId]
     )
 }
 
