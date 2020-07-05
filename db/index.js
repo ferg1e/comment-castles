@@ -395,7 +395,7 @@ exports.getCommentsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisibleComments = (timeZone, userId) => {
+exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin) => {
     return query(`
         select
             c.text_content,
@@ -416,11 +416,24 @@ exports.getAllUserVisibleComments = (timeZone, userId) => {
             ttest c
         join
             tuser u on u.user_id = c.user_id
+        join
+            tpost p on p.post_id = c.post_id
+        join
+            tgroup g on g.group_id = p.group_id
         where
-            not c.is_removed
+            not c.is_removed and
+            ($3 or
+                g.group_viewing_mode = 'anyone' or
+                exists(select
+                        1
+                    from
+                        tmember
+                    where
+                        user_id = $4 and
+                        group_id = g.group_id))
         order by
             c.created_on desc`,
-        [timeZone, userId]
+        [timeZone, userId, isSuperAdmin, userId]
     )
 }
 
