@@ -301,7 +301,8 @@ router.route('/moderator')
             if(isComments) {
                 const {rows} = await db.getAllUserVisibleComments(
                     getCurrTimeZone(req),
-                    req.session.user.user_id)
+                    req.session.user.user_id,
+                    req.session.user.is_super_admin)
 
                 res.render(
                     'moderator-comments',
