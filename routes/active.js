@@ -303,7 +303,8 @@ router.route('/moderator')
                     getCurrTimeZone(req),
                     req.session.user.user_id,
                     req.session.user.is_super_admin,
-                    page)
+                    page,
+                    before)
 
                 res.render(
                     'moderator-comments',
@@ -311,7 +312,8 @@ router.route('/moderator')
                         title: 'Comments Moderator',
                         user: req.session.user,
                         comments: rows,
-                        page: page
+                        page: page,
+                        before: before
                     })
             }
             else {

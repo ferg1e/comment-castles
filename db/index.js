@@ -396,7 +396,7 @@ exports.getCommentsWithGroupId = (groupId, timeZone) => {
     )
 }
 
-exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page) => {
+exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, before) => {
     return query(`
         select
             c.text_content,
@@ -423,23 +423,24 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page) => {
             tgroup g on g.group_id = p.group_id
         where
             not c.is_removed and
-            ($3 or
+            extract(epoch from c.created_on) < $3 and
+            ($4 or
                 g.group_viewing_mode = 'anyone' or
-                g.owned_by = $4 or
+                g.owned_by = $5 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $5 and
+                        user_id = $6 and
                         group_id = g.group_id))
         order by
             c.created_on desc
         limit
             5
         offset
-            $6`,
-        [timeZone, userId, isSuperAdmin, userId, userId, (page - 1)*5]
+            $7`,
+        [timeZone, userId, before, isSuperAdmin, userId, userId, (page - 1)*5]
     )
 }
 
