@@ -406,6 +406,7 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, befor
             u.username,
             c.public_id,
             c.num_spam_votes,
+            c.is_removed,
             exists(select
                     1
                 from
@@ -422,25 +423,25 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, befor
         join
             tgroup g on g.group_id = p.group_id
         where
-            not c.is_removed and
-            extract(epoch from c.created_on) < $3 and
-            ($4 or
+            (not c.is_removed or extract(epoch from c.removed_on) > $3) and
+            extract(epoch from c.created_on) < $4 and
+            ($5 or
                 g.group_viewing_mode = 'anyone' or
-                g.owned_by = $5 or
+                g.owned_by = $6 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $6 and
+                        user_id = $7 and
                         group_id = g.group_id))
         order by
             c.created_on desc
         limit
             5
         offset
-            $7`,
-        [timeZone, userId, before, isSuperAdmin, userId, userId, (page - 1)*5]
+            $8`,
+        [timeZone, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
     )
 }
 
@@ -449,7 +450,8 @@ exports.markCommentRemoved = (publicId) => {
         update
             ttest
         set
-            is_removed = true
+            is_removed = true,
+            removed_on = now()
         where
             public_id = $1`,
         [publicId])

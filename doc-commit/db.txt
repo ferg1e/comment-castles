@@ -51,6 +51,7 @@ create table ttest (
 create index path_idx on ttest using gist(path);
 alter table ttest add column is_removed boolean not null default FALSE;
 alter table ttest add column num_spam_votes integer default 0;
+alter table ttest add column removed_on timestamp with time zone default null;
 
 create table tcomment {
     comment_id serial primary key,
