@@ -16,7 +16,7 @@ block content
                 -
                     let conClasses = []
 
-                    if(post.is_removed) {
+                    if(user.is_super_admin && post.is_removed) {
                         conClasses.push('removed-row')
                     }
 
@@ -24,9 +24,7 @@ block content
                         ? 'spam-row' : 'not-spam-row')
 
                 div(class=conClasses)
-                    if post.is_removed
-                        span= post.title
-                    else if post.link === null
+                    if post.link === null
                         a(href=`/g/${post.group_name}/${post.public_id}`)= post.title
                     else
                         a(href=post.link)= post.title
@@ -37,10 +35,7 @@ block content
                         | to #{post.group_name}
                         | | 
 
-                        if post.is_removed
-                            span comments(#{post.num_comments})
-                        else
-                            a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
+                        a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
 
                         | 
                         if user.is_super_admin
@@ -52,7 +47,7 @@ block content
                                     input(type="submit" value="Remove")
                                     input(type="hidden" name="remove_post_id" value=post.public_id)
 
-                        if !post.is_user_post_spam && !post.is_removed
+                        if !post.is_user_post_spam
                             form(method="post" action=`/moderator?p=${page}&before=${before}`)
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)

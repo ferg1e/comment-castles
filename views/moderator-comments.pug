@@ -15,7 +15,7 @@ block content
                 -
                     let conClasses = []
 
-                    if(c.is_removed) {
+                    if(user.is_super_admin && c.is_removed) {
                         conClasses.push('removed-row')
                     }
 
@@ -37,7 +37,7 @@ block content
                                     input(type="submit" value="Remove")
                                     input(type="hidden" name="remove_comment_id" value=`${c.public_id}`)
 
-                        if !c.is_user_comment_spam && !c.is_removed
+                        if !c.is_user_comment_spam
                             form(method="post" action=`/moderator?what=comments&p=${page}&before=${before}`)
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_comment_id" value=c.public_id)
