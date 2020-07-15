@@ -368,6 +368,21 @@ router.route('/moderator')
                     return res.send('error: post not found or access denied')
                 }
             }
+            else if(isRemoveComment) {
+                const {rows} = await db.getCommentWithPublic(req.body.remove_comment_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkCommentRemoved(
+                        req.session.user.user_id,
+                        rows[0].comment_id,
+                        rows[0].group_id)
+                    
+                    canRemove = req.session.user.is_super_admin || rows2[0]['can_remove']
+                }
+                else {
+                    return res.send('error: comment not found or access denied')
+                }
+            }
 
             //
             if(canRemove && isRemovePost) {

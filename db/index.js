@@ -459,7 +459,15 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, befor
                     tspamcomment
                 where
                     comment_id = c.comment_id and
-                    user_id = $2) is_user_comment_spam
+                    user_id = $2) is_user_comment_spam,
+            g.owned_by = $3 or exists(select
+                    1
+                from
+                    tmember
+                where
+                    user_id = $4 and
+                    group_id = g.group_id and
+                    is_moderator) is_group_moderator
         from
             ttest c
         join
@@ -469,25 +477,66 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, befor
         join
             tgroup g on g.group_id = p.group_id
         where
-            (not c.is_removed or extract(epoch from c.removed_on) > $3) and
-            extract(epoch from c.created_on) < $4 and
-            ($5 or
+            (not c.is_removed or extract(epoch from c.removed_on) > $5) and
+            extract(epoch from c.created_on) < $6 and
+            ($7 or
                 g.group_viewing_mode = 'anyone' or
-                g.owned_by = $6 or
+                g.owned_by = $8 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $7 and
+                        user_id = $9 and
                         group_id = g.group_id))
         order by
             c.created_on desc
         limit
             5
         offset
-            $8`,
-        [timeZone, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
+            $10`,
+        [timeZone, userId, userId, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
+    )
+}
+
+//same as canMarkPostRemoved, but I think they will differ in the future
+exports.canMarkCommentRemoved = (userId, commentId, groupId) => {
+    return query(`
+        select
+            exists(
+                select
+                    1
+                from
+                    tgroup g
+                where
+                    g.owned_by = $1 and
+                    g.group_id = $2
+            ) or
+            exists(
+                select
+                    1
+                from
+                    tmember m
+                where
+                    m.is_moderator and
+                    m.user_id = $3 and
+                    m.group_id = $4
+            ) can_remove`,
+        [userId, groupId, userId, groupId])
+}
+
+exports.getCommentWithPublic = (publicId) => {
+    return query(`
+        select
+            c.comment_id,
+            p.group_id
+        from
+            ttest c
+        join
+            tpost p on p.post_id = c.post_id
+        where
+            c.public_id = $1`,
+        [publicId]
     )
 }
 

@@ -14,8 +14,9 @@ block content
             each c in comments
                 -
                     let conClasses = []
+                    const canDelete = user.is_super_admin || c.is_group_moderator
 
-                    if(user.is_super_admin && c.is_removed) {
+                    if(canDelete && c.is_removed) {
                         conClasses.push('removed-row')
                     }
 
@@ -28,7 +29,7 @@ block content
                         | on #{c.created_on}
                         | to xxx
                         | 
-                        if user.is_super_admin
+                        if canDelete
                             span(class="spam-count") +#{c.num_spam_votes}
 
                             if !c.is_removed
