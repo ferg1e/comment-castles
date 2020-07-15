@@ -15,8 +15,9 @@ block content
             each post in posts
                 -
                     let conClasses = []
+                    const canDelete = user.is_super_admin || post.is_group_moderator
 
-                    if(user.is_super_admin && post.is_removed) {
+                    if(canDelete && post.is_removed) {
                         conClasses.push('removed-row')
                     }
 
@@ -38,7 +39,7 @@ block content
                         a(href=`/g/${post.group_name}/${post.public_id}`) comments(#{post.num_comments})
 
                         | 
-                        if user.is_super_admin
+                        if canDelete
                             span(class="spam-count") +#{post.num_spam_votes}
 
                             if !post.is_removed

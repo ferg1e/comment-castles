@@ -341,7 +341,9 @@ router.route('/moderator')
     })
     .post(async (req, res) => {
         if(req.session.user) {
-            let canRemove = req.session.user.is_super_admin
+
+            //
+            let canRemove = false
             let canMarkSpam = true
 
             //
@@ -349,6 +351,23 @@ router.route('/moderator')
             const isSpamPost = typeof req.body.spam_post_id !== 'undefined'
             const isRemoveComment = typeof req.body.remove_comment_id !== 'undefined'
             const isSpamComment = typeof req.body.spam_comment_id !== 'undefined'
+
+            //
+            if(isRemovePost) {
+                const {rows} = await db.getPostWithPublic(req.body.remove_post_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkPostRemoved(
+                        req.session.user.user_id,
+                        rows[0].post_id,
+                        rows[0].group_id)
+                    
+                    canRemove = req.session.user.is_super_admin || rows2[0]['can_remove']
+                }
+                else {
+                    return res.send('error: post not found or access denied')
+                }
+            }
 
             //
             if(canRemove && isRemovePost) {

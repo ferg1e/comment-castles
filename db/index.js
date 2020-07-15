@@ -173,7 +173,15 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) 
                     tspampost
                 where
                     post_id = p.post_id and
-                    user_id = $2) is_user_post_spam
+                    user_id = $2) is_user_post_spam,
+            g.owned_by = $3 or exists(select
+                    1
+                from
+                    tmember
+                where
+                    user_id = $4 and
+                    group_id = g.group_id and
+                    is_moderator) is_group_moderator
         from
             tpost p
         join
@@ -181,25 +189,63 @@ exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) 
         join
             tgroup g on p.group_id = g.group_id
         where
-            (not p.is_removed or extract(epoch from removed_on) > $3) and
-            extract(epoch from created_on) < $4 and
-            ($5 or
+            (not p.is_removed or extract(epoch from removed_on) > $5) and
+            extract(epoch from created_on) < $6 and
+            ($7 or
                 g.group_viewing_mode = 'anyone' or
-                g.owned_by = $6 or
+                g.owned_by = $8 or
                 exists(select
                         1
                     from
                         tmember
                     where
-                        user_id = $7 and
+                        user_id = $9 and
                         group_id = g.group_id))
         order by
             p.created_on desc
         limit
             5
         offset
-            $8`,
-        [timeZone, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
+            $10`,
+        [timeZone, userId, userId, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
+    )
+}
+
+exports.canMarkPostRemoved = (userId, postId, groupId) => {
+    return query(`
+        select
+            exists(
+                select
+                    1
+                from
+                    tgroup g
+                where
+                    g.owned_by = $1 and
+                    g.group_id = $2
+            ) or
+            exists(
+                select
+                    1
+                from
+                    tmember m
+                where
+                    m.is_moderator and
+                    m.user_id = $3 and
+                    m.group_id = $4
+            ) can_remove`,
+        [userId, groupId, userId, groupId])
+}
+
+exports.getPostWithPublic = (publicId) => {
+    return query(`
+        select
+            p.post_id,
+            p.group_id
+        from
+            tpost p
+        where
+            p.public_id = $1`,
+        [publicId]
     )
 }
 
