@@ -344,7 +344,7 @@ router.route('/moderator')
 
             //
             let canRemove = false
-            let canMarkSpam = true
+            let canMarkSpam = false
 
             //
             const isRemovePost = typeof req.body.remove_post_id !== 'undefined'
@@ -381,6 +381,21 @@ router.route('/moderator')
                 }
                 else {
                     return res.send('error: comment not found or access denied')
+                }
+            }
+            else if(isSpamPost) {
+                const {rows} = await db.getPostWithPublic(req.body.spam_post_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkPostSpam(
+                        req.session.user.user_id,
+                        rows[0].post_id,
+                        rows[0].group_id)
+                    
+                    canMarkSpam = req.session.user.is_super_admin || rows2[0]['can_mark_spam']
+                }
+                else {
+                    return res.send('error: post not found or access denied')
                 }
             }
 
