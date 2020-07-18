@@ -558,6 +558,40 @@ exports.canMarkCommentRemoved = (userId, commentId, groupId) => {
         [userId, groupId, userId, groupId])
 }
 
+// same body as canMarkPostSpam, but will probably change and use commentId
+exports.canMarkCommentSpam = (userId, commentId, groupId) => {
+    return query(`
+        select
+            exists(
+                select
+                    1
+                from
+                    tgroup g2
+                where
+                    g2.group_id = $1 and
+                    g2.group_viewing_mode = 'anyone'
+            ) or
+            exists(
+                select
+                    1
+                from
+                    tgroup g
+                where
+                    g.owned_by = $2 and
+                    g.group_id = $3
+            ) or
+            exists(
+                select
+                    1
+                from
+                    tmember m
+                where
+                    m.user_id = $4 and
+                    m.group_id = $5
+            ) can_mark_spam`,
+        [groupId, userId, groupId, userId, groupId])
+}
+
 exports.getCommentWithPublic = (publicId) => {
     return query(`
         select
