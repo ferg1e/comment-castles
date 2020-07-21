@@ -84,14 +84,20 @@ router.post(
                     : 'unknown error, please try again'
                 
                 //
-                res.render(
+                return res.render(
                     'sign-up',
                     {title:"Sign Up Form", errors:[
                         {msg:errorMessage}
                     ]})
             }
 
-            res.send('create successful')
+            res.render(
+                'message',
+                {
+                    title: 'Sign Up Form',
+                    message: "Sign up was successful, you can now log in.",
+                    user: req.session.user
+                })
         }
     }
 )
