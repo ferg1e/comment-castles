@@ -183,7 +183,17 @@ router.route('/my-settings')
             if(rows.length) {
                 await db.updateUser(req.session.user.user_id, req.body.time_zone)
                 req.session.user.time_zone = req.body.time_zone
-                res.send('updated...')
+
+                const {rows:rows2} = await db.getTimeZones()
+
+                res.render(
+                    'my-settings',
+                    {
+                        title: 'My Settings',
+                        errors: [{msg: 'Settings successfully saved.'}],
+                        user: req.session.user,
+                        time_zones: rows2
+                    })
             }
             else {
                 res.send('error')
