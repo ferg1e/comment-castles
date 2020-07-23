@@ -687,7 +687,7 @@ router.get(
 )
 
 //group: moderate home
-router.get(
+/*router.get(
     /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
     async (req, res) => {
         if(res.locals.isMod) {
@@ -799,7 +799,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
         else {
             res.send('permission denied')
         }
-    })
+    })*/
 
 //group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)
