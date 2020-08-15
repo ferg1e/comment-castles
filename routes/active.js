@@ -1061,7 +1061,13 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
                         isPoster,
                         isCommenter)
 
-                    res.send('member updated...')
+                    //
+                    const {rows} = await db.getUserWithUserId(req.body.save_user_id)
+
+                    renderAdminMember(
+                        req,
+                        res,
+                        [{msg: `member ${rows[0].username} successfully saved`}])
                 }
 
                 //delete member

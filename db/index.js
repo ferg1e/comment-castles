@@ -49,6 +49,18 @@ exports.getUserWithUsername = (username) => {
     )
 }
 
+exports.getUserWithUserId = (userId) => {
+    return query(`
+        select
+            username
+        from
+            tuser
+        where
+            user_id = $1`,
+        [userId]
+    )
+}
+
 exports.updateUser = (userId, timeZoneName) => {
     return query(`
         update
