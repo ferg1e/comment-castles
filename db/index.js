@@ -73,10 +73,14 @@ exports.updateUser = (userId, timeZoneName) => {
 }
 
 //group
-exports.createGroup = (userId, name) => {
+exports.createGroup = (userId, formData) => {
     return query(
-        'insert into tgroup(created_by, owned_by, name) values($1, $2, $3)',
-        [userId, userId, name]
+        `insert into tgroup
+            (created_by, owned_by, name, group_viewing_mode, group_posting_mode, group_commenting_mode)
+        values
+            ($1, $2, $3, $4, $5, $6)`,
+        [userId, userId, formData.name,
+        formData.group_view_mode, formData.group_post_mode, formData.group_comment_mode]
     )
 }
 

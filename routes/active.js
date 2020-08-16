@@ -223,7 +223,8 @@ router.get(
                 {
                     title: title,
                     errors: [],
-                    user: req.session.user
+                    user: req.session.user,
+                    form_data: {}
                 })
         }
         else {
@@ -243,15 +244,30 @@ router.post(
         .notEmpty().withMessage('Please fill in a name')
         .matches(/^[a-z0-9-]{3,36}$/i),
     async (req, res) => {
-        const errors = validationResult(req).array({onlyFirstError:true})
+        let errors = validationResult(req).array({onlyFirstError:true})
 
+        //
+        if(typeof req.body.group_view_mode === 'undefined') {
+            errors.push({msg:'Please select who can view'})
+        }
+
+        if(typeof req.body.group_post_mode === 'undefined') {
+            errors.push({msg:'Please select who can post'})
+        }
+
+        if(typeof req.body.group_comment_mode === 'undefined') {
+            errors.push({msg:'Please select who can comment'})
+        }
+
+        //
         if(errors.length) {
             res.render(
                 'create-group',
                 {
                     title: "Create Group",
                     errors: errors,
-                    user: req.session.user
+                    user: req.session.user,
+                    form_data: req.body
                 })
         }
         else {
@@ -264,13 +280,14 @@ router.post(
                     {
                         title: "Create Group",
                         errors: [{msg:`"${name}" has already been created`}],
-                        user: req.session.user
+                        user: req.session.user,
+                        form_data: req.body
                     })
             }
             else {
                 await db.createGroup(
                     req.session.user.user_id,
-                    name)
+                    req.body)
                 
                 res.render(
                     'message',
