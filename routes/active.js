@@ -1052,7 +1052,7 @@ router.get(
 )
 
 //group: admin add member
-router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/add-member$/i)
+router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/members$/i)
     .get((req, res) => {
         if(res.locals.isAdmin) {
             renderAdminMember(req, res, [])
