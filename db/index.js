@@ -502,6 +502,7 @@ exports.getAllUserVisibleComments = (timeZone, userId, isSuperAdmin, page, befor
             c.public_id,
             c.num_spam_votes,
             c.is_removed,
+            g.name as group_name,
             exists(select
                     1
                 from

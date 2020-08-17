@@ -27,7 +27,9 @@ block content
                     div.mod-comment-header
                         | by #{c.username}
                         | on #{c.created_on}
-                        | to xxx
+                        | to
+                        | 
+                        a(href=`/g/${c.group_name}`) #{c.group_name}
                         | 
                         if canDelete
                             span(class="spam-count") +#{c.num_spam_votes}
