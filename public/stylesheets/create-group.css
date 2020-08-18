@@ -5,3 +5,7 @@ form > div {
 #l_name {
     display: block;
 }
+
+.warning1 {
+    color: gray;
+}

@@ -21,7 +21,9 @@ block content
         div
             label(for="name" id="l_name") Group Name
             input(name="name" id="name" value=form_data.name)
-        div Who can view?
+        div
+            | Who can view? 
+            span.warning1 (this is permanent)
             div
                 input(type="radio" name="group_view_mode" id="group_view_mode0" value="anyone" checked=isViewAnyone)
                 label(for="group_view_mode0") anyone
