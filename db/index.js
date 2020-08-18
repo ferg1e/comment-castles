@@ -114,17 +114,16 @@ exports.getGroups = () => {
     )
 }
 
-exports.updateGroupSettings = (groupId, viewMode, postMode, commentMode) => {
+exports.updateGroupSettings = (groupId, postMode, commentMode) => {
     return query(`
         update
             tgroup
         set
-            group_viewing_mode = $1,
-            group_posting_mode = $2,
-            group_commenting_mode = $3
+            group_posting_mode = $1,
+            group_commenting_mode = $2
         where
-            group_id = $4`,
-        [viewMode, postMode, commentMode, groupId])
+            group_id = $3`,
+        [postMode, commentMode, groupId])
 }
 
 //post

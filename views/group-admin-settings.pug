@@ -4,9 +4,6 @@ append head
     link(rel='stylesheet', href='/stylesheets/admin-settings.css')
 
 block content3
-    - const isViewAnyone = group_view_mode == 'anyone'
-    - const isViewMembers = group_view_mode == 'members-only'
-
     - const isPostAnyone = group_post_mode == 'anyone-that-can-view'
     - const isPostMembers = group_post_mode == 'only-flagged-members'
 
@@ -18,16 +15,6 @@ block content3
             each error in errors
                 li #{error.msg}
     form(method="post")
-        .admin-settings-con
-            div Who can view?
-            div
-                input(type="radio" name="group_view_mode" id="group_view_mode0" value="anyone" checked=isViewAnyone)
-                label(for="group_view_mode0") anyone
-
-            div
-                input(type="radio" name="group_view_mode" id="group_view_mode1" value="members-only" checked=isViewMembers)
-                label(for="group_view_mode1") only members
-
         .admin-settings-con
             div Who can post?
             div

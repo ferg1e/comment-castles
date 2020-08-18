@@ -1161,7 +1161,6 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
                     name: res.locals.group.name,
                     is_admin: res.locals.isAdmin,
                     is_mod: res.locals.isMod,
-                    group_view_mode: res.locals.group.group_viewing_mode,
                     group_post_mode: res.locals.group.group_posting_mode,
                     group_comment_mode: res.locals.group.group_commenting_mode
                 }
@@ -1176,7 +1175,6 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
             if(res.locals.isAdmin) {
                 await db.updateGroupSettings(
                     res.locals.group.group_id,
-                    req.body.group_view_mode,
                     req.body.group_post_mode,
                     req.body.group_comment_mode)
 
