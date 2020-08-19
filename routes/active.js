@@ -1178,7 +1178,18 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
                     req.body.group_post_mode,
                     req.body.group_comment_mode)
 
-                res.send('updated...')
+                res.render(
+                    'group-admin-settings',
+                    {
+                        errors: [{msg: 'Settings successfully saved.'}],
+                        user: req.session.user,
+                        name: res.locals.group.name,
+                        is_admin: res.locals.isAdmin,
+                        is_mod: res.locals.isMod,
+                        group_post_mode: req.body.group_post_mode,
+                        group_comment_mode: req.body.group_comment_mode
+                    }
+                )
             }
             else {
                 res.send('you dont have permission')
