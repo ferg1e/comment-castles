@@ -459,6 +459,7 @@ exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentI
         join
             tgroup g on g.group_id = p.group_id
         where
+            not p.is_removed and
             c.public_id = $2 and
             p.public_id = $3 and
             g.name = $4`,
