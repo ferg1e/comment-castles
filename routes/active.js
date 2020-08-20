@@ -79,7 +79,7 @@ router.post(
                 await db.createUser(username, password)
             }
             catch(err) {
-                let errorMessage = (err.constraint == 'tuser_username_key')
+                let errorMessage = (err.constraint == 'username_unique_idx')
                     ? `"${username}" already taken`
                     : 'unknown error, please try again'
                 

@@ -1,9 +1,14 @@
+-- this file may not be completely accurate
+-- use the structure dump instead
+
 create table tuser (
     user_id serial primary key,
-    username varchar(32) unique not null,
+    username varchar(32) not null,
     password varchar(255) not null,
     email varchar(255) unique
 );
+
+CREATE UNIQUE INDEX username_unique_idx on tuser (LOWER(username));
 
 alter table tuser add column time_zone varchar(64) not null default 'UTC';
 
