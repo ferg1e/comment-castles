@@ -44,7 +44,7 @@ exports.getUserWithUsername = (username) => {
         from
             tuser
         where
-            username = $1`,
+            lower(username) = lower($1)`,
         [username]
     )
 }
