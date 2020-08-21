@@ -3,6 +3,8 @@ extends group
 append head
     link(rel='stylesheet', href='/stylesheets/group-post.css')
 
+include bbCodes.pug
+
 mixin commentContent(comment)
     - const commentIndent = comment.path.split('.').length - 2
     - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
@@ -13,7 +15,8 @@ mixin commentContent(comment)
     if comment.is_removed
         | [removed]
     else
-        | #{comment.text_content} 
+        +bbCodes(comment.text_content)
+        | 
         em !{'&mdash;'}#{comment.username} 
             | #{comment.created_on} 
             a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) reply
@@ -34,7 +37,8 @@ block content2
             a(href=`/g/${name}/${post.public_id}`) comments(#{post.num_comments})
 
         if post.text_content !== null
-            div.the-post-content #{post.text_content}
+            div.the-post-content
+                +bbCodes(post.text_content)
 
     if can_comment
         if errors.length

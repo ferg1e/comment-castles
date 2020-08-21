@@ -3,6 +3,8 @@ extends layout
 append head
     link(rel='stylesheet', href='/stylesheets/moderator.css')
 
+include bbCodes.pug
+
 block content
     nav.mod-nav
         a#mon-posts-but(href="/moderator") posts
@@ -56,7 +58,8 @@ block content
                                 input(type="hidden" name="spam_post_id" value=post.public_id)
 
                     if post.text_content !== null
-                        div.m9-post #{post.text_content}
+                        div.m9-post
+                            +bbCodes(post.text_content)
 
         div
             a(href=`/moderator?p=${page + 1}&before=${before}`) more

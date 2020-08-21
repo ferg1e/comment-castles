@@ -3,6 +3,8 @@ extends layout
 append head
     link(rel='stylesheet', href='/stylesheets/moderator-comments.css')
 
+include bbCodes.pug
+
 block content
     nav.mod-nav
         a#mon-posts-but(href="/moderator") posts
@@ -45,7 +47,8 @@ block content
                                 input(type="submit" value="Spam")
                                 input(type="hidden" name="spam_comment_id" value=c.public_id)
 
-                    div.m9-comment #{c.text_content}
+                    div.m9-comment
+                        +bbCodes(c.text_content)
         div
             a(href=`/moderator?what=comments&p=${page + 1}&before=${before}`) more
     else

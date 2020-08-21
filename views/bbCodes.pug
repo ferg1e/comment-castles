@@ -1,0 +1,2 @@
+mixin bbCodes(text)
+    |!{text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/(\r\n|\n|\r)/g, '<br/>')}

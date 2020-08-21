@@ -3,8 +3,11 @@ extends group
 append head
     link(rel='stylesheet', href='/stylesheets/group-comment.css')
 
+include bbCodes.pug
+
 mixin commentContent(comment)
-    | #{comment.text_content} 
+    +bbCodes(comment.text_content)
+    | 
     em !{'&ndash;'}#{comment.username} 
         | #{comment.created_on} 
         a(href=`/g/${name}/${post_public_id}/${comment.public_id}`) reply
@@ -15,7 +18,8 @@ block content2
 
     article.the-comment
         header by #{comment.username} on #[time #{comment.created_on}]
-        p #{comment.text_content}
+        p
+            +bbCodes(comment.text_content)
 
     if can_comment
         if errors.length
