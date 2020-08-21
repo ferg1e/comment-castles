@@ -54,7 +54,7 @@ block content
 
                         if !post.is_user_post_spam
                             form(method="post" action=`/moderator?p=${page}&before=${before}`)
-                                input(type="submit" value="Spam")
+                                input(type="submit" value="Flag")
                                 input(type="hidden" name="spam_post_id" value=post.public_id)
 
                     if post.text_content !== null

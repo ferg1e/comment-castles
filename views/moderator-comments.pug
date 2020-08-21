@@ -44,7 +44,7 @@ block content
 
                         if !c.is_user_comment_spam
                             form(method="post" action=`/moderator?what=comments&p=${page}&before=${before}`)
-                                input(type="submit" value="Spam")
+                                input(type="submit" value="Flag")
                                 input(type="hidden" name="spam_comment_id" value=c.public_id)
 
                     div.m9-comment
