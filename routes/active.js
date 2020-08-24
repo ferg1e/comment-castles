@@ -600,20 +600,6 @@ router.post(
     }
 )
 
-router.get(
-    '/groups',
-    async (req, res) => {
-        const {rows} = await db.getGroups()
-
-        res.render(
-            'groups',
-            {
-                groups: rows,
-                user: req.session.user
-            })
-    }
-)
-
 //group: moderate home
 /*router.get(
     /^\/g\/([a-z0-9-]{3,36})\/moderate$/i,
