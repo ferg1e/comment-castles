@@ -19,14 +19,14 @@ mixin commentContent(comment)
         | 
         em !{'&mdash;'}#{comment.username} 
             | #{comment.created_on} 
-            a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) reply
+            a(href=`/${post.public_id}/${comment.public_id}`) reply
 
 block content
     div.the-post
 
         if post.link === null
             h3 
-                a(href=`/g/${name}/${post.public_id}`)=post.title
+                a(href=`/${post.public_id}`)=post.title
         else
             h3
                 a(href=post.link)=post.title
@@ -34,7 +34,7 @@ block content
         div
             |by #{post.username}
             | on #{post.created_on} | 
-            a(href=`/g/${name}/${post.public_id}`) comments(#{post.num_comments})
+            a(href=`/${post.public_id}`) comments(#{post.num_comments})
 
         if post.text_content !== null
             div.the-post-content
