@@ -521,84 +521,72 @@ router.get(
     }
 )
 
-//group: new post
-router.get(
-    /^\/g\/([a-z0-9-]{3,36})\/new$/i,
-    async (req, res) => {
+//new post
+router.route('/new')
+    .get(async (req, res) => {
         if(req.session.user) {
             res.render(
-                'new-post',
+                'new-post2',
                 {
                     user: req.session.user,
-                    name: res.locals.group.name,
                     errors: [],
-                    is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod,
-                    can_post: res.locals.canPost,
                     title: "",
                     link: "",
                     textContent: ""
                 })
         }
         else {
-            res.send('please log in if you want to create a new post')
+            res.send('log in to post')
         }
-    }
-)
+    })
+    .post(
+        (req, res, next) => {
 
-router.post(
-    /^\/g\/([a-z0-9-]{3,36})\/new$/i,
-    (req, res, next) => {
-
-        //remove if blank so it doesn't trigger the validator
-        if(req.body.link === '') {
-            req.body.link = undefined
-        }
-
-        next()
-    },
-    body('title', 'Title must be 4-50 characters')
-        .notEmpty().withMessage('Please fill in a title')
-        .matches(/^.{4,50}$/i),
-    body('text_content', 'Please write some content').optional(),
-    body('link', 'link must be a URL to a website').optional().isURL(),
-    async (req, res) => {
-        if(res.locals.canPost) {
-            const errors = validationResult(req).array({onlyFirstError:true})
-
-            if(errors.length) {
-                res.render(
-                    'new-post',
-                    {
-                        user: req.session.user,
-                        name: req.params[0],
-                        errors: errors,
-                        is_admin: res.locals.isAdmin,
-                        is_mod: res.locals.isMod,
-                        can_post: res.locals.canPost,
-                        title: req.body.title,
-                        link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
-                        textContent: req.body.text_content
-                    })
+            //remove if blank so it doesn't trigger the validator
+            if(req.body.link === '') {
+                req.body.link = undefined
+            }
+    
+            next()
+        },
+        body('title', 'Title must be 4-50 characters')
+            .notEmpty().withMessage('Please fill in a title')
+            .matches(/^.{4,50}$/i),
+        body('text_content', 'Please write some content').optional(),
+        body('link', 'link must be a URL to a website').optional().isURL(),
+        async (req, res) => {
+            if(req.session.user) {
+                const errors = validationResult(req).array({onlyFirstError:true})
+    
+                if(errors.length) {
+                    res.render(
+                        'new-post2',
+                        {
+                            user: req.session.user,
+                            errors: errors,
+                            title: req.body.title,
+                            link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
+                            textContent: req.body.text_content
+                        })
+                }
+                else {
+                    let vals = db.createPost(
+                        req.session.user.user_id,
+                        req.body.title,
+                        req.body.text_content,
+                        req.body.link)
+    
+                    await vals[0]
+    
+                    //return res.redirect('/g/' + res.locals.group.name + '/' + vals[1])
+                    return res.send('id: ' + vals[1]);
+                }
             }
             else {
-                let vals = db.createPost(
-                    res.locals.group.group_id,
-                    req.session.user.user_id,
-                    req.body.title,
-                    req.body.text_content,
-                    req.body.link)
-
-                await vals[0]
-
-                return res.redirect('/g/' + res.locals.group.name + '/' + vals[1])
+                res.send('nope...')
             }
         }
-        else {
-            res.send('nope...')
-        }
-    }
-)
+    )
 
 //group: moderate home
 /*router.get(
@@ -714,6 +702,96 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
             res.send('permission denied')
         }
     })*/
+
+//single post
+router.route(/^\/([a-z0-9_-]{7,14})$/i)
+    .get(async (req, res) => {
+        const postPublicId = req.params[0]
+
+        const {rows} = await db.getPostWithPublic2(
+            postPublicId,
+            getCurrTimeZone(req))
+
+        if(rows.length) {
+            const{rows:comments} = await db.getPostComments(
+                rows[0].post_id,
+                getCurrTimeZone(req))
+
+            res.render(
+                'single-post',
+                {
+                    user: req.session.user,
+                    post: rows[0],
+                    comments: comments,
+                    errors: []
+                }
+            )
+        }
+        else {
+            res.send('not found')
+        }
+    })
+    .post(
+        body('text_content', 'Please write a comment').notEmpty(),
+        async (req, res) => {
+
+            if(req.session.user) {
+                const postPublicId = req.params[0]
+
+                const {rows} = await db.getPostWithPublic2(
+                    postPublicId,
+                    getCurrTimeZone(req))
+
+                if(rows.length) {
+                    const errors = validationResult(req).array({onlyFirstError:true})
+
+                    if(errors.length) {
+                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
+
+                        res.render(
+                            'single-post',
+                            {
+                                user: req.session.user,
+                                post: rows[0],
+                                comments: comments,
+                                errors: errors
+                            }
+                        )
+                    }
+                    else {
+
+                        //
+                        const {rows:data1} = await db.createPostComment(
+                            rows[0].post_id,
+                            req.session.user.user_id,
+                            req.body.text_content)
+
+                        //
+                        await db.incPostNumComments(rows[0].post_id)
+                        ++rows[0].num_comments;
+
+                        //
+                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
+
+                        res.render(
+                            'single-post',
+                            {
+                                user: req.session.user,
+                                post: rows[0],
+                                comments: comments,
+                                errors: []
+                            }
+                        )
+                    }
+                }
+                else {
+                    res.send('not found')
+                }
+            }
+            else {
+                res.send('nope...')
+            }
+        })
 
 //group: single post
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})$/i)

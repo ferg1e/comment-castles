@@ -1,0 +1,104 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href='/stylesheets/single-post.css')
+
+include bbCodes.pug
+
+mixin commentContent(comment)
+    - const commentIndent = comment.path.split('.').length - 2
+    - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
+    - let colorIndex = commentIndent
+
+    - const color = colors[colorIndex]
+
+    if comment.is_removed
+        | [removed]
+    else
+        +bbCodes(comment.text_content)
+        | 
+        em !{'&mdash;'}#{comment.username} 
+            | #{comment.created_on} 
+            a(href=`/g/${name}/${post.public_id}/${comment.public_id}`) reply
+
+block content
+    div.the-post
+
+        if post.link === null
+            h3 
+                a(href=`/g/${name}/${post.public_id}`)=post.title
+        else
+            h3
+                a(href=post.link)=post.title
+
+        div
+            |by #{post.username}
+            | on #{post.created_on} | 
+            a(href=`/g/${name}/${post.public_id}`) comments(#{post.num_comments})
+
+        if post.text_content !== null
+            div.the-post-content
+                +bbCodes(post.text_content)
+
+
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    form(method="post")
+        div
+            label(for="text_content") Write a Comment
+            textarea(name="text_content" id="text_content")
+        div
+            input(type="submit" value="Submit Comment")
+
+    .comments
+        if comments.length
+            - let currIndent = 0
+            - let isFirst = true
+
+            <ul>
+
+            for comment in comments
+                if isFirst
+                    <li>
+                    +commentContent(comment)
+                    - isFirst = false
+                else 
+                    - let commentIndent = comment.path.split('.').length - 2
+                    
+                    if commentIndent > currIndent
+                        <ul><li>
+                        +commentContent(comment)
+                    else if commentIndent < currIndent
+                        - let diffIndent = currIndent - commentIndent
+                        - let n = 0
+
+                        </li>
+
+                        while n < diffIndent
+                            </ul></li>
+                            - ++n
+                        
+                        <li>
+                        +commentContent(comment)
+                    else
+                        </li><li>
+                        +commentContent(comment)
+                    
+                    - currIndent = commentIndent
+
+            if currIndent > 0 
+                - let n = 0
+
+                </li>
+
+                while n < currIndent
+                    </ul></li>
+                    - ++n
+                
+                </ul>
+            else
+                </li></ul>
+        else
+            | no comments yet

@@ -127,17 +127,17 @@ exports.updateGroupSettings = (groupId, postMode, commentMode) => {
 }
 
 //post
-exports.createPost = (groupId, userId, title, textContent, link) => {
+exports.createPost = (userId, title, textContent, link) => {
     let newPostId = shortid.generate()
     let finalLink = typeof link !== 'undefined' ? link : null
     let finalTextContent = textContent.trim() === '' ? null : textContent
 
     let promise = query(`
         insert into tpost
-            (public_id, group_id, user_id, title, text_content, link)
+            (public_id, user_id, title, text_content, link)
         values
-            ($1, $2, $3, $4, $5, $6)`,
-        [newPostId, groupId, userId, title, finalTextContent, finalLink]
+            ($1, $2, $3, $4, $5)`,
+        [newPostId, userId, title, finalTextContent, finalLink]
     )
 
     return [promise, newPostId]
@@ -294,6 +294,30 @@ exports.getPostWithPublic = (publicId) => {
         where
             p.public_id = $1`,
         [publicId]
+    )
+}
+
+exports.getPostWithPublic2 = (publicId, timeZone) => {
+    return query(`
+        select
+            p.post_id,
+            p.title,
+            to_char(
+                timezone($1, p.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            p.text_content,
+            u.username,
+            p.public_id,
+            p.link,
+            p.num_comments
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        where
+            p.public_id = $2 and
+            not p.is_removed`,
+        [timeZone, publicId]
     )
 }
 
