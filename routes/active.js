@@ -704,7 +704,7 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
     })*/
 
 //single post
-router.route(/^\/([a-z0-9_-]{7,14})$/i)
+router.route(/^\/([a-z0-9]{19})$/i)
     .get(async (req, res) => {
         const postPublicId = req.params[0]
 

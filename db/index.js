@@ -2,6 +2,9 @@ require('dotenv').config()
 const argon2 = require('argon2')
 const {Pool, types} = require('pg')
 const shortid = require('shortid')
+const nanoid = require('nanoid/generate');
+const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const nanoidLen = 19;
 
 //returns raw timestamp instead of converting to a js Date obj
 types.setTypeParser(1114, str => str)
@@ -128,7 +131,7 @@ exports.updateGroupSettings = (groupId, postMode, commentMode) => {
 
 //post
 exports.createPost = (userId, title, textContent, link) => {
-    let newPostId = shortid.generate()
+    let newPostId = nanoid(nanoidAlphabet, nanoidLen)
     let finalLink = typeof link !== 'undefined' ? link : null
     let finalTextContent = textContent.trim() === '' ? null : textContent
 
