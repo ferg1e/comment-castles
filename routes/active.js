@@ -213,7 +213,7 @@ router.get(
 )
 
 //public moderator
-router.route('/moderator')
+/*router.route('/moderator')
     .get(async (req, res) => {
         if(req.session.user) {
 
@@ -390,7 +390,7 @@ router.route('/moderator')
         else {
             res.send('log in to use the moderator')
         }
-    })
+    })*/
 
 //group: shared
 async function sharedGroupHandler(req, res, next) {
