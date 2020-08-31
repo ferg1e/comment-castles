@@ -24,12 +24,15 @@ router.route('*')
 //
 router.get(
     '/',
-    function(req, res) {
+    async (req, res) => {
+        const {rows} = await db.getPosts(getCurrTimeZone(req))
+
         res.render(
-            'index',
+            'home',
             {
-                title:'Express',
-                user: req.session.user})
+                user: req.session.user,
+                posts: rows
+            })
     })
 
 router.get(
