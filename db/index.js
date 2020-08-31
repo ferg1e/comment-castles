@@ -4,7 +4,7 @@ const {Pool, types} = require('pg')
 const shortid = require('shortid')
 const nanoid = require('nanoid/generate');
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const nanoidLen = 19;
+const nanoidLen = 22;
 
 //returns raw timestamp instead of converting to a js Date obj
 types.setTypeParser(1114, str => str)
