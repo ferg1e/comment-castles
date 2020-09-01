@@ -407,6 +407,7 @@ exports.createPostComment = (postId, userId, content) => {
     operator doesn't accept*/
     let lQuery = parseInt(postId) + '.*{1}'
 
+    /*TODO: this might need an SQL transaction*/
     return query(`
         select
             count(1) as count
@@ -421,7 +422,7 @@ exports.createPostComment = (postId, userId, content) => {
             ($1, $2, $3, $4, $5)`,
         [postId, userId, content,
             postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
-            shortid.generate()])
+            nanoid(nanoidAlphabet, nanoidLen)])
     )
 }
 
@@ -442,7 +443,7 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
             ($1, $2, $3, $4, $5)`,
         [postId, userId, content,
             parentPath + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
-            shortid.generate()])
+            nanoid(nanoidAlphabet, nanoidLen)])
     )
 }
 
@@ -671,6 +672,30 @@ exports.getCommentWithPublic = (publicId) => {
         where
             c.public_id = $1`,
         [publicId]
+    )
+}
+
+exports.getCommentWithPublic2 = (publicId, timeZone) => {
+    return query(`
+        select
+            c.text_content,
+            to_char(
+                timezone($1, c.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            c.path,
+            c.post_id,
+            u.username,
+            p.public_id post_public_id
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        join
+            tpost p on p.post_id = c.post_id
+        where
+            not p.is_removed and
+            c.public_id = $2`,
+        [timeZone, publicId]
     )
 }
 

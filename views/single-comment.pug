@@ -1,60 +1,41 @@
 extends layout
 
 append head
-    link(rel='stylesheet', href='/stylesheets/single-post.css')
+    link(rel='stylesheet', href='/stylesheets/group-comment.css')
 
 include bbCodes.pug
 
 mixin commentContent(comment)
-    - const commentIndent = comment.path.split('.').length - 2
-    - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
-    - let colorIndex = commentIndent
-
-    - const color = colors[colorIndex]
-
-    if comment.is_removed
-        | [removed]
-    else
-        +bbCodes(comment.text_content)
-        | 
-        em !{'&mdash;'}#{comment.username} 
-            | #{comment.created_on} 
-            a(href=`/c/${comment.public_id}`) reply
+    +bbCodes(comment.text_content)
+    | 
+    em !{'&ndash;'}#{comment.username} 
+        | #{comment.created_on} 
+        a(href=`/c/${comment.public_id}`) reply
 
 block content
-    div.the-post
+    nav.backpost-nav
+        a(href=`/p/${post_public_id}`) !{'&lt;'} Back to Post
 
-        if post.link === null
-            h3 
-                a(href=`/${post.public_id}`)=post.title
-        else
-            h3
-                a(href=post.link)=post.title
+    article.the-comment
+        header by #{comment.username} on #[time #{comment.created_on}]
+        p
+            +bbCodes(comment.text_content)
 
-        div
-            |by #{post.username}
-            | on #{post.created_on} | 
-            a(href=`/${post.public_id}`) comments(#{post.num_comments})
-
-        if post.text_content !== null
-            div.the-post-content
-                +bbCodes(post.text_content)
-
-
-    if errors.length
-        ul
-            each error in errors
-                li #{error.msg}
-    form(method="post")
-        div
-            label(for="text_content") Write a Comment
-            textarea(name="text_content" id="text_content")
-        div
-            input(type="submit" value="Submit Comment")
+    if user
+        if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+        form(method="post")
+            div
+                label(for="text_content") Write a Comment
+                textarea(name="text_content" id="text_content")
+            div
+                input(type="submit" value="Submit Comment")
 
     .comments
         if comments.length
-            - let currIndent = 0
+            - let currIndent = comments[0].path.split('.').length - 2
             - let isFirst = true
 
             <ul>

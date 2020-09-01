@@ -796,6 +796,96 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             }
         })
 
+//single comment
+router.route(/^\/c\/([a-z0-9]{22})$/i)
+    .get(async (req, res) => {
+        const commentPublicId = req.params[0]
+
+        const {rows} = await db.getCommentWithPublic2(
+            commentPublicId,
+            getCurrTimeZone(req))
+
+        if(rows.length) {
+            const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
+
+            res.render(
+                'single-comment',
+                {
+                    user: req.session.user,
+                    post_public_id: rows[0].post_public_id,
+                    comment: rows[0],
+                    comments: comments,
+                    errors: []
+                }
+            )
+        }
+        else {
+            res.send('not found..')
+        }
+    })
+    .post(
+        body('text_content', 'Please write some content').notEmpty(),
+        async (req, res) => {
+            if(req.session.user) {
+                const commentPublicId = req.params[0]
+
+                const {rows} = await db.getCommentWithPublic2(
+                    commentPublicId,
+                    getCurrTimeZone(req))
+
+                if(rows.length) {
+                    const errors = validationResult(req).array({onlyFirstError:true})
+
+                    if(errors.length) {
+                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
+
+                        res.render(
+                            'single-comment',
+                            {
+                                user: req.session.user,
+                                post_public_id: rows[0].post_public_id,
+                                comment: rows[0],
+                                comments: comments,
+                                errors: errors
+                            }
+                        )
+                    }
+                    else {
+
+                        //
+                        const {rows:data1} = await db.createCommentComment(
+                            rows[0].post_id,
+                            req.session.user.user_id,
+                            req.body.text_content,
+                            rows[0].path)
+
+                        //
+                        await db.incPostNumComments(rows[0].post_id)
+
+                        //
+                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
+
+                        res.render(
+                            'single-comment',
+                            {
+                                user: req.session.user,
+                                post_public_id: rows[0].post_public_id,
+                                comment: rows[0],
+                                comments: comments,
+                                errors: []
+                            }
+                        )
+                    }
+                }
+                else {
+                    res.send('not found')
+                }
+            }
+            else {
+                res.send('nope...')
+            }
+    })
+
 //group: single comment
 router.route(/^\/g\/([a-z0-9-]{3,36})\/([a-z0-9_-]{7,14})\/([a-z0-9_-]{7,14})$/i)
     .get(async (req, res) => {
