@@ -17,7 +17,7 @@ mixin commentContent(comment)
     else
         +bbCodes(comment.text_content)
         | 
-        em !{'&mdash;'}#{comment.username} 
+        em !{'&ndash;'}#{comment.username} 
             | #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
 
