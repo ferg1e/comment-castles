@@ -161,7 +161,7 @@ router.post(
     }
 )
 
-router.route('/my-settings')
+router.route('/settings')
     .get(async (req, res) => {
         if(req.session.user) {
             const {rows} = await db.getTimeZones()
