@@ -40,17 +40,17 @@ block content
             div.the-post-content
                 +bbCodes(post.text_content)
 
-
-    if errors.length
-        ul
-            each error in errors
-                li #{error.msg}
-    form(method="post")
-        div
-            label(for="text_content") Write a Comment
-            textarea(name="text_content" id="text_content")
-        div
-            input(type="submit" value="Submit Comment")
+    if user
+        if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+        form(method="post")
+            div
+                label(for="text_content") Write a Comment
+                textarea(name="text_content" id="text_content")
+            div
+                input(type="submit" value="Submit Comment")
 
     .comments
         if comments.length
