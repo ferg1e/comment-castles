@@ -216,6 +216,188 @@ router.get(
 )
 
 //public moderator
+//this is unfinished
+//see "left off here"
+/*router.route('/sp4m-ch8ck')
+    .get(async (req, res) => {
+        if(req.session.user.is_super_admin) {
+
+            //
+            let isComments = (req.query.what === 'comments')
+
+            //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    if(isComments) {
+                        return res.redirect('/moderator?what=comments')
+                    }
+                    else {
+                        return res.redirect('/moderator')
+                    }
+                }
+            }
+
+            //
+            const before = typeof req.query.before !== 'undefined'
+                ? req.query.before
+                : Date.now()/1000
+
+            //
+            if(isComments) {
+                const {rows} = await db.getAllComments2(
+                    getCurrTimeZone(req),
+                    req.session.user.user_id,
+                    page,
+                    before)
+
+                res.render(
+                    //'moderator-comments',
+                    'spam-check-comments',
+                    {
+                        user: req.session.user,
+                        comments: rows,
+                        page: page,
+                        before: before
+                    })
+            }
+            else {
+                const {rows} = await db.getAllPosts2(
+                    getCurrTimeZone(req),
+                    req.session.user.user_id,
+                    page,
+                    before)
+
+                res.render(
+                    'spam-check-posts',
+                    {
+                        title: 'Public Moderator',
+                        user: req.session.user,
+                        posts: rows,
+                        page: page,
+                        before: before
+                    })
+            }
+        }
+        else {
+            res.send('')
+        }
+    })
+    .post(async (req, res) => {
+
+        //left off here
+        if(req.session.user) {
+
+            //
+            let canRemove = false
+            let canMarkSpam = false
+
+            //
+            const isRemovePost = typeof req.body.remove_post_id !== 'undefined'
+            const isSpamPost = typeof req.body.spam_post_id !== 'undefined'
+            const isRemoveComment = typeof req.body.remove_comment_id !== 'undefined'
+            const isSpamComment = typeof req.body.spam_comment_id !== 'undefined'
+
+            //
+            if(isRemovePost) {
+                const {rows} = await db.getPostWithPublic(req.body.remove_post_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkPostRemoved(
+                        req.session.user.user_id,
+                        rows[0].post_id,
+                        rows[0].group_id)
+                    
+                    canRemove = req.session.user.is_super_admin
+                }
+                else {
+                    return res.send('error: post not found or access denied')
+                }
+            }
+            else if(isRemoveComment) {
+                const {rows} = await db.getCommentWithPublic(req.body.remove_comment_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkCommentRemoved(
+                        req.session.user.user_id,
+                        rows[0].comment_id,
+                        rows[0].group_id)
+                    
+                    canRemove = req.session.user.is_super_admin || rows2[0]['can_remove']
+                }
+                else {
+                    return res.send('error: comment not found or access denied')
+                }
+            }
+            else if(isSpamPost) {
+                const {rows} = await db.getPostWithPublic(req.body.spam_post_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkPostSpam(
+                        req.session.user.user_id,
+                        rows[0].post_id,
+                        rows[0].group_id)
+                    
+                    canMarkSpam = req.session.user.is_super_admin || rows2[0]['can_mark_spam']
+                }
+                else {
+                    return res.send('error: post not found or access denied')
+                }
+            }
+            else if(isSpamComment) {
+                const {rows} = await db.getCommentWithPublic(req.body.spam_comment_id)
+
+                if(rows.length) {
+                    const {rows:rows2} = await db.canMarkCommentSpam(
+                        req.session.user.user_id,
+                        rows[0].comment_id,
+                        rows[0].group_id)
+                    
+                    canMarkSpam = req.session.user.is_super_admin || rows2[0]['can_mark_spam']
+                }
+                else {
+                    return res.send('error: post not found or access denied')
+                }
+            }
+
+            //
+            if(canRemove && isRemovePost) {
+                await db.markPostRemoved(req.body.remove_post_id)
+
+                return res.redirect(req.url)
+            }
+            else if(canRemove && isRemoveComment) {
+                await db.markCommentRemoved(req.body.remove_comment_id)
+
+                return res.redirect(req.url)
+            }
+            else if(canMarkSpam && isSpamPost) {
+                let postPublicId = req.body.spam_post_id
+                let userId = req.session.user.user_id
+
+                await db.markPostSpam(userId, postPublicId)
+                return res.redirect(req.url)
+            }
+            else if(canMarkSpam && isSpamComment) {
+                let commentPublicId = req.body.spam_comment_id
+                let userId = req.session.user.user_id
+
+                await db.markCommentSpam(userId, commentPublicId)
+                return res.redirect(req.url)
+            }
+            else {
+                res.send('dont you do it mr.')
+            }
+        }
+        else {
+            res.send('log in to use the moderator')
+        }
+    })*/
+
+//public moderator
 /*router.route('/moderator')
     .get(async (req, res) => {
         if(req.session.user) {
