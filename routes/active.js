@@ -816,8 +816,7 @@ router.route('/new')
     
                     await vals[0]
     
-                    //return res.redirect('/g/' + res.locals.group.name + '/' + vals[1])
-                    return res.send('id: ' + vals[1]);
+                    return res.redirect('/p/' + vals[1])
                 }
             }
             else {
