@@ -77,3 +77,13 @@ body {
   text-decoration: none;
   color: #555522;
 }
+
+.follow {
+  font-size: 10px;
+  font-size: .625rem;
+  padding: 0;
+}
+
+.con-follow {
+  display: inline;
+}

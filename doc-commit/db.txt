@@ -123,4 +123,11 @@ BEGIN
 END; $$ LANGUAGE 'plpgsql';
 
 --
+create table tfollower (
+    follower_id serial primary key,
+    user_id integer not null,
+    followee_user_id integer not null
+);
+
+--
 -- https://redd.it/eqqoam

@@ -1,19 +1,41 @@
 extends layout
 
+mixin followLink(username)
+    form(method="post" action=`/` class="con-follow")
+        input(type="submit" class="follow" value="follow")
+        input(type="hidden" name="followee" value=username)
+
+mixin unfollowLink(username)
+    form(method="post" action=`/` class="con-follow")
+        input(type="submit" class="follow" value="unfollow")
+        input(type="hidden" name="unfollowee" value=username)
+
 block content
     if posts.length
         .posts
 
             each post in posts
                 div
-                    if post.link === null
-                        a(href=`/p/${post.public_id}`) #{post.title}
+                    if post.is_visible
+                        if post.link === null
+                            a(href=`/p/${post.public_id}`) #{post.title}
+                        else
+                            a(href=post.link)= post.title
                     else
-                        a(href=post.link)= post.title
+                        if post.link === null
+                            a(href=`/p/${post.public_id}`) ???
+                        else
+                            |???
 
                     div
                         | by #{post.username}
-                        | on #{post.created_on}
+                        | 
+                        if !post.is_visible
+                            +followLink(post.username)
+                        else if post.user_id != user.user_id
+                            +unfollowLink(post.username)
+                        | 
+                        |on #{post.created_on}
                         | | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
     else

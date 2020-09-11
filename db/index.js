@@ -146,7 +146,7 @@ exports.createPost = (userId, title, textContent, link) => {
     return [promise, newPostId]
 }
 
-exports.getPosts = (timeZone) => {
+exports.getPosts = (userId, timeZone) => {
     return query(`
         select
             p.public_id,
@@ -155,8 +155,17 @@ exports.getPosts = (timeZone) => {
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
+            u.user_id,
             p.link,
-            p.num_comments
+            p.num_comments,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible
         from
             tpost p
         join
@@ -165,7 +174,7 @@ exports.getPosts = (timeZone) => {
             not is_removed
         order by
             p.created_on desc`,
-        [timeZone]
+        [timeZone, userId, userId]
     )
 }
 
@@ -881,6 +890,26 @@ exports.markCommentSpam = (userId, commentId) => {
                 (select comment_id from ttest where public_id = $1),
                 $2)`,
         [commentId, userId])
+}
+
+//follower
+exports.addFollower = (userId, followeeUserId) => {
+    return query(`
+        insert into tfollower
+            (user_id, followee_user_id)
+        values
+            ($1, $2)`,
+        [userId, followeeUserId])
+}
+
+exports.removeFollower = (userId, followeeUserId) => {
+    return query(`
+        delete from
+            tfollower
+        where
+            user_id = $1 and
+            followee_user_id = $2`,
+        [userId, followeeUserId])
 }
 
 //misc
