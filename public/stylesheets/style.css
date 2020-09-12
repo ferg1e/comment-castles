@@ -79,9 +79,15 @@ body {
 }
 
 .follow {
-  font-size: 10px;
-  font-size: .625rem;
-  padding: 0;
+  font-size: 12px;
+  font-size: .75rem;
+  padding: 0 1px;
+}
+
+.unfollow {
+  font-size: 12px;
+  font-size: .75rem;
+  padding: 0 3px;
 }
 
 .con-follow {
