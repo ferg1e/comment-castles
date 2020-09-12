@@ -371,7 +371,7 @@ exports.getPostWithPublic = (publicId) => {
     )
 }
 
-exports.getPostWithPublic2 = (publicId, timeZone) => {
+exports.getPostWithPublic2 = (publicId, timeZone, userId) => {
     return query(`
         select
             p.post_id,
@@ -381,17 +381,26 @@ exports.getPostWithPublic2 = (publicId, timeZone) => {
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             p.text_content,
             u.username,
+            u.user_id,
             p.public_id,
             p.link,
-            p.num_comments
+            p.num_comments,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible
         from
             tpost p
         join
             tuser u on u.user_id = p.user_id
         where
-            p.public_id = $2 and
+            p.public_id = $4 and
             not p.is_removed`,
-        [timeZone, publicId]
+        [timeZone, userId, userId, publicId]
     )
 }
 

@@ -944,10 +944,12 @@ router.route(/^\/g\/([a-z0-9-]{3,36})\/moderate\/comments$/i)
 router.route(/^\/p\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const postPublicId = req.params[0]
+        const finalUserId = req.session.user ? req.session.user.user_id : -1
 
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
-            getCurrTimeZone(req))
+            getCurrTimeZone(req),
+            finalUserId)
 
         if(rows.length) {
             const{rows:comments} = await db.getPostComments(
@@ -969,6 +971,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         }
     })
     .post(
+        follower,
         body('text_content', 'Please write a comment').notEmpty(),
         async (req, res) => {
 
