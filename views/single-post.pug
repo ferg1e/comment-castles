@@ -7,12 +7,12 @@ include bbCodes.pug
 
 mixin followLink(username, postId)
     form(method="post" action=`/p/${postId}` class="con-follow")
-        input(type="submit" class="follow" value="follow")
+        input(type="submit" class="follow" value="+" title=`add ${username} to filter`)
         input(type="hidden" name="followee" value=username)
 
 mixin unfollowLink(username, postId)
     form(method="post" action=`/p/${postId}` class="con-follow")
-        input(type="submit" class="follow" value="unfollow")
+        input(type="submit" class="unfollow" value="-" title=`remove ${username} from filter`)
         input(type="hidden" name="unfollowee" value=username)
 
 mixin commentContent(comment)
@@ -51,7 +51,6 @@ block content
 
         div
             |by #{post.username}
-            | 
             if !post.is_visible
                 +followLink(post.username, post.public_id)
             else if post.user_id != user.user_id
