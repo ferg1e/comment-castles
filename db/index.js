@@ -504,26 +504,35 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
     )
 }
 
-exports.getPostComments = (postId, timeZone) => {
+exports.getPostComments = (postId, timeZone, userId) => {
     return query(`
         select
             c.text_content,
             c.path,
             u.username,
+            u.user_id,
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id,
-            c.is_removed
+            c.is_removed,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible
         from
             ttest c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $2
+            c.path <@ $4
         order by
             c.path`,
-        [timeZone, postId])
+        [timeZone, userId, userId, postId])
 }
 
 exports.getCommentComments = (path, timeZone) => {

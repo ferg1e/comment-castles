@@ -15,7 +15,7 @@ mixin unfollowLink(username, postId)
         input(type="submit" class="unfollow" value="-" title=`remove ${username} from filter`)
         input(type="hidden" name="unfollowee" value=username)
 
-mixin commentContent(comment)
+mixin commentContent(comment, postId)
     - const commentIndent = comment.path.split('.').length - 2
     - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
     - let colorIndex = commentIndent
@@ -25,9 +25,14 @@ mixin commentContent(comment)
     if comment.is_removed
         | [removed]
     else
-        +bbCodes(comment.text_content)
+        +bbCodes(comment.is_visible ? comment.text_content : '???')
         | 
-        em !{'&ndash;'}#{comment.username} 
+        em !{'&ndash;'}#{comment.username}
+            if !comment.is_visible
+                +followLink(comment.username, postId)
+            else if comment.user_id != user.user_id
+                +unfollowLink(comment.username, postId)
+            | 
             | #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
 
@@ -85,14 +90,14 @@ block content
             for comment in comments
                 if isFirst
                     <li>
-                    +commentContent(comment)
+                    +commentContent(comment, post.public_id)
                     - isFirst = false
                 else 
                     - let commentIndent = comment.path.split('.').length - 2
                     
                     if commentIndent > currIndent
                         <ul><li>
-                        +commentContent(comment)
+                        +commentContent(comment, post.public_id)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
                         - let n = 0
@@ -104,10 +109,10 @@ block content
                             - ++n
                         
                         <li>
-                        +commentContent(comment)
+                        +commentContent(comment, post.public_id)
                     else
                         </li><li>
-                        +commentContent(comment)
+                        +commentContent(comment, post.public_id)
                     
                     - currIndent = commentIndent
 

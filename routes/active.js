@@ -954,7 +954,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         if(rows.length) {
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
-                getCurrTimeZone(req))
+                getCurrTimeZone(req),
+                finalUserId)
 
             res.render(
                 'single-post',
