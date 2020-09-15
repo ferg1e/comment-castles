@@ -6,58 +6,6 @@ const db = require('../db')
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
 
-//
-async function follower(req, res, next) {
-    const isFollow = typeof req.body.followee !== 'undefined'
-    const isUnfollow = typeof req.body.unfollowee !== 'undefined'
-
-    if(req.session.user) {
-        if(isFollow) {
-            const {rows} = await db.getUserWithUsername(req.body.followee)
-
-            if(rows.length) {
-                await db.addFollower(
-                    req.session.user.user_id,
-                    rows[0].user_id
-                )
-
-                return res.redirect(req.url)
-            }
-            else {
-                //no such user
-                next()
-            }
-        }
-        else if(isUnfollow) {
-            const {rows} = await db.getUserWithUsername(req.body.unfollowee)
-
-            if(rows.length) {
-                await db.removeFollower(
-                    req.session.user.user_id,
-                    rows[0].user_id
-                )
-
-                return res.redirect(req.url)
-            }
-            else {
-                //no such user
-                next()
-            }
-        }
-        else {
-            //nothing to do
-            next()
-        }
-    }
-    else if(isFollow) {
-        return res.redirect('/login')
-    }
-    else {
-        //nothing to do / blocked
-        next()
-    }
-}
-
 // every request
 function sharedAllHandler(req, res, next) {
     if(req.session.user) {
@@ -86,7 +34,6 @@ router.route('/')
                 posts: rows
             })
     })
-    .post(follower)
 
 router.get(
     '/sign-up',
@@ -972,7 +919,6 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         }
     })
     .post(
-        follower,
         body('text_content', 'Please write a comment').notEmpty(),
         async (req, res) => {
 
