@@ -1255,10 +1255,65 @@ router.get(
 
 router.route('/following')
     .get(async (req, res) => {
+
+        //
+        const isFollow = typeof req.query.follow !== 'undefined'
+        const isFollowed = typeof req.query.followed !== 'undefined'
+
         if(req.session.user) {
 
-            //
-            renderFollowing(req, res, [], '')
+            if(isFollow) {
+                let username = req.query.follow
+                const {rows} = await db.getUserWithUsername(username)
+
+                if(rows.length) {
+                    if(req.session.user.user_id == rows[0].user_id) {
+                        renderFollowing(req, res,
+                            [{msg: 'You don\'t need to follow yourself'}],
+                            username)
+                    }
+                    else {
+                        //
+                        const {rows:rows2} = await db.getUserFollowee(
+                            req.session.user.user_id,
+                            rows[0].user_id
+                        )
+
+                        //
+                        if(rows2.length) {
+                            renderFollowing(req, res,
+                                [{msg: 'You are already following that user'}],
+                                username)
+                        }
+                        else {
+                            await db.addFollower(
+                                req.session.user.user_id,
+                                rows[0].user_id
+                            )
+
+                            return res.redirect(`/following?followed=${username}`)
+                        }
+                    }
+                }
+                else {
+                    renderFollowing(req, res,
+                        [{msg: 'No such user'}],
+                        username)
+                }
+            }
+            else if(isFollowed) {
+
+                //TODO: should probably check if
+                //username exists and is followed by
+                //logged in user
+
+                renderFollowing(req, res,
+                    [{msg: `You followed ${req.query.followed}`}],
+                    '')
+            }
+            else {
+                renderFollowing(req, res, [], '')
+            }
         }
         else {
             res.send('permission denied...')

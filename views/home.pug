@@ -1,9 +1,12 @@
 extends layout
 
-mixin followLink(username)
+mixin followLink2(username)
     form(method="post" action=`/` class="con-follow")
         input(type="submit" class="follow" value="+" title=`add ${username} to filter`)
         input(type="hidden" name="followee" value=username)
+
+mixin followLink(username)
+    a(href=`/following?follow=${username}` title=`follow ${username}`) +
 
 mixin unfollowLink(username)
     form(method="post" action=`/` class="con-follow")

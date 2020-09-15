@@ -8,7 +8,7 @@ block content
         ul
             each error in errors
                 li #{error.msg}
-    form(method="post")
+    form(method="post" action="/following")
         div
             label(for="username") Username
             input(name="username" id="username" value=formUsername)
