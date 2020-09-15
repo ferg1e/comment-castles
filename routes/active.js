@@ -924,16 +924,21 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
             if(req.session.user) {
                 const postPublicId = req.params[0]
+                const finalUserId = req.session.user ? req.session.user.user_id : -1
 
                 const {rows} = await db.getPostWithPublic2(
                     postPublicId,
-                    getCurrTimeZone(req))
+                    getCurrTimeZone(req),
+                    finalUserId)
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
-                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
+                        const{rows:comments} = await db.getPostComments(
+                            rows[0].post_id,
+                            getCurrTimeZone(req),
+                            finalUserId)
 
                         res.render(
                             'single-post',
@@ -955,20 +960,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
-                        ++rows[0].num_comments;
-
-                        //
-                        const{rows:comments} = await db.getPostComments(rows[0].post_id, getCurrTimeZone(req))
-
-                        res.render(
-                            'single-post',
-                            {
-                                user: req.session.user,
-                                post: rows[0],
-                                comments: comments,
-                                errors: []
-                            }
-                        )
+                        return res.redirect(`/p/${postPublicId}`)
                     }
                 }
                 else {
