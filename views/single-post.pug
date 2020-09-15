@@ -6,14 +6,10 @@ append head
 include bbCodes.pug
 
 mixin followLink(username, postId)
-    form(method="post" action=`/p/${postId}` class="con-follow")
-        input(type="submit" class="follow" value="+" title=`add ${username} to filter`)
-        input(type="hidden" name="followee" value=username)
+    a(href=`/following?follow=${username}&goto=/p/${postId}` class="follow" title=`follow ${username}`) +
 
 mixin unfollowLink(username, postId)
-    form(method="post" action=`/p/${postId}` class="con-follow")
-        input(type="submit" class="unfollow" value="-" title=`remove ${username} from filter`)
-        input(type="hidden" name="unfollowee" value=username)
+    a(href=`/following?unfollow=${username}&goto=/p/${postId}` class="unfollow" title=`unfollow ${username}`) -
 
 mixin commentContent(comment, postId)
     - const commentIndent = comment.path.split('.').length - 2
