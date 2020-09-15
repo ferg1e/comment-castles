@@ -1259,10 +1259,45 @@ router.route('/following')
         //
         const isFollow = typeof req.query.follow !== 'undefined'
         const isFollowed = typeof req.query.followed !== 'undefined'
+        const isUnfollow = typeof req.query.unfollow !== 'undefined'
+        const isUnfollowed = typeof req.query.unfollowed !== 'undefined'
 
         if(req.session.user) {
 
-            if(isFollow) {
+            if(isUnfollow) {
+                let username = req.query.unfollow
+                const {rows} = await db.getUserWithUsername(username)
+
+                if(rows.length) {
+
+                    //
+                    const {rows:rows2} = await db.getUserFollowee(
+                        req.session.user.user_id,
+                        rows[0].user_id
+                    )
+
+                    //
+                    if(rows2.length) {
+                        await db.removeFollower(
+                            req.session.user.user_id,
+                            rows[0].user_id
+                        )
+        
+                        return res.redirect(`/following?unfollowed=${username}`)
+                    }
+                    else {
+                        renderFollowing(req, res,
+                            [{msg: 'You are not following that user'}],
+                            '')
+                    }
+                }
+                else {
+                    renderFollowing(req, res,
+                        [{msg: 'No such user'}],
+                        '')
+                }
+            }
+            else if(isFollow) {
                 let username = req.query.follow
                 const {rows} = await db.getUserWithUsername(username)
 
@@ -1309,6 +1344,16 @@ router.route('/following')
 
                 renderFollowing(req, res,
                     [{msg: `You followed ${req.query.followed}`}],
+                    '')
+            }
+            else if(isUnfollowed) {
+
+                //TODO: should probably check if
+                //username exists and is not followed by
+                //logged in user
+
+                renderFollowing(req, res,
+                    [{msg: `You unfollowed ${req.query.unfollowed}`}],
                     '')
             }
             else {

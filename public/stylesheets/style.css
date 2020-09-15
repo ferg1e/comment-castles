@@ -79,17 +79,25 @@ body {
 }
 
 .follow {
-  font-size: 12px;
-  font-size: .75rem;
-  padding: 0 1px;
+  background: #a4eeb0;
+  text-decoration: none;
+  color: black;
+  padding: 0 4px;
+  border: 1px solid #666666;
+}
+
+.follow:hover {
+  background: #90e49e;
 }
 
 .unfollow {
-  font-size: 12px;
-  font-size: .75rem;
-  padding: 0 3px;
+  background: #eea4a4;
+  text-decoration: none;
+  color: black;
+  padding: 0 6px;
+  border: 1px solid #666666;
 }
 
-.con-follow {
-  display: inline;
+.unfollow:hover {
+  background: #e49090;
 }

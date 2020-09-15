@@ -1,17 +1,10 @@
 extends layout
 
-mixin followLink2(username)
-    form(method="post" action=`/` class="con-follow")
-        input(type="submit" class="follow" value="+" title=`add ${username} to filter`)
-        input(type="hidden" name="followee" value=username)
-
 mixin followLink(username)
-    a(href=`/following?follow=${username}` title=`follow ${username}`) +
+    a(href=`/following?follow=${username}` class="follow" title=`follow ${username}`) +
 
 mixin unfollowLink(username)
-    form(method="post" action=`/` class="con-follow")
-        input(type="submit" class="unfollow" value="-" title=`remove ${username} from filter`)
-        input(type="hidden" name="unfollowee" value=username)
+    a(href=`/following?unfollow=${username}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
     if posts.length
