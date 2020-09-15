@@ -1,10 +1,10 @@
 extends layout
 
 mixin followLink(username)
-    a(href=`/following?follow=${username}` class="follow" title=`follow ${username}`) +
+    a(href=`/following?follow=${username}&goto=/` class="follow" title=`follow ${username}`) +
 
 mixin unfollowLink(username)
-    a(href=`/following?unfollow=${username}` class="unfollow" title=`unfollow ${username}`) -
+    a(href=`/following?unfollow=${username}&goto=/` class="unfollow" title=`unfollow ${username}`) -
 
 block content
     if posts.length

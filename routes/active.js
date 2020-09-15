@@ -1282,8 +1282,12 @@ router.route('/following')
                             req.session.user.user_id,
                             rows[0].user_id
                         )
-        
-                        return res.redirect(`/following?unfollowed=${username}`)
+
+                        const redirectUrl = (typeof req.query.goto === 'undefined')
+                                ? `/following?unfollowed=${username}`
+                                : req.query.goto;
+
+                        return res.redirect(redirectUrl)
                     }
                     else {
                         renderFollowing(req, res,
@@ -1326,7 +1330,11 @@ router.route('/following')
                                 rows[0].user_id
                             )
 
-                            return res.redirect(`/following?followed=${username}`)
+                            const redirectUrl = (typeof req.query.goto === 'undefined')
+                                ? `/following?followed=${username}`
+                                : req.query.goto;
+
+                            return res.redirect(redirectUrl)
                         }
                     }
                 }
