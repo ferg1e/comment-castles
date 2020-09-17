@@ -1307,7 +1307,7 @@ router.route('/following')
             }
         }
         else {
-            res.send('permission denied...')
+            res.redirect('/sign-up')
         }
     })
     .post(async (req, res) => {
