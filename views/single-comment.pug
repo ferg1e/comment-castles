@@ -5,10 +5,21 @@ append head
 
 include bbCodes.pug
 
+mixin followLink(username)
+    a(href=`/following?follow=${username}&goto=/c/${comment.comment_public_id}` class="follow" title=`follow ${username}`) +
+
+mixin unfollowLink(username)
+    a(href=`/following?unfollow=${username}&goto=/c/${comment.comment_public_id}` class="unfollow" title=`unfollow ${username}`) -
+
 mixin commentContent(comment)
-    +bbCodes(comment.text_content)
+    +bbCodes(comment.is_visible ? comment.text_content : '???')
     | 
-    em !{'&ndash;'}#{comment.username} 
+    em !{'&ndash;'}#{comment.username}
+        if !comment.is_visible
+            +followLink(comment.username)
+        else if comment.user_id != user.user_id
+            +unfollowLink(comment.username)
+        | 
         | #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
@@ -17,9 +28,15 @@ block content
         a(href=`/p/${post_public_id}`) !{'&lt;'} Back to Post
 
     article.the-comment
-        header by #{comment.username} on #[time #{comment.created_on}]
+        header by #{comment.username}
+            if !comment.is_visible
+                +followLink(comment.username)
+            else if comment.user_id != user.user_id
+                +unfollowLink(comment.username)
+            | 
+            |on #[time #{comment.created_on}]
         p
-            +bbCodes(comment.text_content)
+            +bbCodes(comment.is_visible ? comment.text_content : '???')
 
     if user
         if errors.length

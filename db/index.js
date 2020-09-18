@@ -535,26 +535,35 @@ exports.getPostComments = (postId, timeZone, userId) => {
         [timeZone, userId, userId, postId])
 }
 
-exports.getCommentComments = (path, timeZone) => {
+exports.getCommentComments = (path, timeZone, userId) => {
     return query(`
         select
             c.text_content,
             c.path,
             u.username,
+            u.user_id,
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            c.public_id
+            c.public_id,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible
         from
             ttest c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $2 and
-            not (c.path ~ $3)
+            c.path <@ $4 and
+            not (c.path ~ $5)
         order by
             c.path`,
-        [timeZone, path, path])
+        [timeZone, userId, userId, path, path])
 }
 
 exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId, timeZone) => {
@@ -779,7 +788,7 @@ exports.getCommentWithPublic = (publicId) => {
     )
 }
 
-exports.getCommentWithPublic2 = (publicId, timeZone) => {
+exports.getCommentWithPublic2 = (publicId, timeZone, userId) => {
     return query(`
         select
             c.text_content,
@@ -788,8 +797,18 @@ exports.getCommentWithPublic2 = (publicId, timeZone) => {
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.path,
             c.post_id,
+            c.public_id comment_public_id,
             u.username,
-            p.public_id post_public_id
+            u.user_id,
+            p.public_id post_public_id,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible
         from
             ttest c
         join
@@ -798,8 +817,8 @@ exports.getCommentWithPublic2 = (publicId, timeZone) => {
             tpost p on p.post_id = c.post_id
         where
             not p.is_removed and
-            c.public_id = $2`,
-        [timeZone, publicId]
+            c.public_id = $4`,
+        [timeZone, userId, userId, publicId]
     )
 }
 

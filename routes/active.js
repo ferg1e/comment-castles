@@ -976,13 +976,18 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 router.route(/^\/c\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
+        const finalUserId = req.session.user ? req.session.user.user_id : -1
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
-            getCurrTimeZone(req))
+            getCurrTimeZone(req),
+            finalUserId)
 
         if(rows.length) {
-            const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
+            const{rows:comments} = await db.getCommentComments(
+                rows[0].path,
+                getCurrTimeZone(req),
+                finalUserId)
 
             res.render(
                 'single-comment',
@@ -1004,16 +1009,21 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
         async (req, res) => {
             if(req.session.user) {
                 const commentPublicId = req.params[0]
+                const finalUserId = req.session.user ? req.session.user.user_id : -1
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
-                    getCurrTimeZone(req))
+                    getCurrTimeZone(req),
+                    finalUserId)
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
-                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
+                        const{rows:comments} = await db.getCommentComments(
+                            rows[0].path,
+                            getCurrTimeZone(req),
+                            finalUserId)
 
                         res.render(
                             'single-comment',
@@ -1037,20 +1047,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
-
-                        //
-                        const{rows:comments} = await db.getCommentComments(rows[0].path, getCurrTimeZone(req))
-
-                        res.render(
-                            'single-comment',
-                            {
-                                user: req.session.user,
-                                post_public_id: rows[0].post_public_id,
-                                comment: rows[0],
-                                comments: comments,
-                                errors: []
-                            }
-                        )
+                        return res.redirect(`/c/${commentPublicId}`)
                     }
                 }
                 else {
