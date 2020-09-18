@@ -3,6 +3,9 @@ extends layout
 append head
     link(rel='stylesheet', href='/stylesheets/following.css')
 
+mixin unfollowLink(username)
+    a(href=`/following?unfollow=${username}` class="unfollow" title=`unfollow ${username}`) -
+
 block content
     if errors.length
         ul
@@ -17,5 +20,7 @@ block content
 
     div
         each f in followees
-            |#{f.username},
             | 
+            |#{f.username}
+            +unfollowLink(f.username)
+            |,
