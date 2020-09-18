@@ -146,7 +146,9 @@ exports.createPost = (userId, title, textContent, link) => {
     return [promise, newPostId]
 }
 
-exports.getPosts = (userId, timeZone) => {
+exports.getPosts = (userId, timeZone, page) => {
+    let pageSize = 10
+
     return query(`
         select
             p.public_id,
@@ -173,8 +175,12 @@ exports.getPosts = (userId, timeZone) => {
         where
             not is_removed
         order by
-            p.created_on desc`,
-        [timeZone, userId, userId]
+            p.created_on desc
+        limit
+            $4
+        offset
+            $5`,
+        [timeZone, userId, userId, pageSize, (page - 1)*pageSize]
     )
 }
 

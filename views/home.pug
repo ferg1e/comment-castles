@@ -33,5 +33,7 @@ block content
                         |on #{post.created_on}
                         | | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+        div
+            a(href=`/?p=${page + 1}`) more
     else
         span no posts

@@ -25,13 +25,27 @@ router.route('*')
 router.route('/')
     .get(async (req, res) => {
         let finalUserId = req.session.user ? req.session.user.user_id : -1
-        const {rows} = await db.getPosts(finalUserId, getCurrTimeZone(req))
+
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                return res.redirect('/')
+            }
+        }
+
+        //
+        const {rows} = await db.getPosts(finalUserId, getCurrTimeZone(req), page)
 
         res.render(
             'home',
             {
                 user: req.session.user,
-                posts: rows
+                posts: rows,
+                page: page
             })
     })
 
