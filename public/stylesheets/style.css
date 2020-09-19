@@ -1,3 +1,7 @@
+header, nav, main, section {
+  display: block;
+}
+
 body {
   background: #fefefe;
   color: #4e4e4e;
