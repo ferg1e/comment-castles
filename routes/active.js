@@ -5,6 +5,13 @@ const db = require('../db')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
+const htmlTitleHome = 'Reddit Clone'
+const htmlTitleSignUp = 'Sign Up'
+const htmlTitleLogin = 'Log In'
+const htmlTitleSettings = 'Settings'
+const htmlTitleNewPost = 'New Post'
+const htmlTitlePost = 'Post #'
+const htmlTitleComment = 'Comment #'
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -43,6 +50,7 @@ router.route('/')
         res.render(
             'home',
             {
+                html_title: htmlTitleHome,
                 user: req.session.user,
                 posts: rows,
                 page: page
@@ -56,7 +64,7 @@ router.get(
             res.render(
                 'message',
                 {
-                    title: 'Sign Up Form',
+                    html_title: htmlTitleSignUp,
                     message: "You already signed up." +
                         " If you want to create another account then please log out.",
                     user: req.session.user
@@ -66,7 +74,7 @@ router.get(
             res.render(
                 'sign-up',
                 {
-                    title:"Sign Up Form",
+                    html_title: htmlTitleSignUp,
                     errors:[]
                 })
         }
@@ -87,7 +95,10 @@ router.post(
         if(errors.length) {
             res.render(
                 'sign-up',
-                {title:"Sign Up Form", errors:errors})
+                {
+                    html_title: htmlTitleSignUp,
+                    errors:errors
+                })
         }
         else {
             const {username, password} = req.body
@@ -103,15 +114,16 @@ router.post(
                 //
                 return res.render(
                     'sign-up',
-                    {title:"Sign Up Form", errors:[
-                        {msg:errorMessage}
-                    ]})
+                    {
+                        html_title: htmlTitleSignUp,
+                        errors:[{msg:errorMessage}]
+                    })
             }
 
             res.render(
                 'message',
                 {
-                    title: 'Sign Up Form',
+                    html_title: htmlTitleSignUp,
                     message: "Sign up was successful, you can now log in.",
                     user: req.session.user
                 })
@@ -126,7 +138,7 @@ router.get(
             res.render(
                 'message',
                 {
-                    title: 'Login Form',
+                    html_title: htmlTitleLogin,
                     message: "You're already logged in." +
                         " If you want to log in with a different account then please log out.",
                     user: req.session.user
@@ -135,7 +147,9 @@ router.get(
         else {
             res.render(
                 'login',
-                {title:"Login Form", errors:[]})
+                {
+                    html_title: htmlTitleLogin,
+                    errors:[]})
         }
     }
 )
@@ -171,7 +185,9 @@ router.post(
 
         res.render(
             'login',
-            {title:"Login Form", errors:errors})
+            {
+                html_title: htmlTitleLogin,
+                errors:errors})
     }
 )
 
@@ -183,7 +199,7 @@ router.route('/settings')
             res.render(
                 'my-settings',
                 {
-                    title: 'My Settings',
+                    html_title: htmlTitleSettings,
                     errors: [],
                     user: req.session.user,
                     time_zones: rows
@@ -206,7 +222,7 @@ router.route('/settings')
                 res.render(
                     'my-settings',
                     {
-                        title: 'My Settings',
+                        html_title: htmlTitleSettings,
                         errors: [{msg: 'Settings successfully saved.'}],
                         user: req.session.user,
                         time_zones: rows2
@@ -727,6 +743,7 @@ router.route('/new')
             res.render(
                 'new-post2',
                 {
+                    html_title: htmlTitleNewPost,
                     user: req.session.user,
                     errors: [],
                     title: "",
@@ -761,6 +778,7 @@ router.route('/new')
                     res.render(
                         'new-post2',
                         {
+                            html_title: htmlTitleNewPost,
                             user: req.session.user,
                             errors: errors,
                             title: req.body.title,
@@ -921,6 +939,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             res.render(
                 'single-post',
                 {
+                    html_title: htmlTitlePost + postPublicId,
                     user: req.session.user,
                     post: rows[0],
                     comments: comments,
@@ -957,6 +976,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                         res.render(
                             'single-post',
                             {
+                                html_title: htmlTitlePost + postPublicId,
                                 user: req.session.user,
                                 post: rows[0],
                                 comments: comments,
@@ -1006,6 +1026,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             res.render(
                 'single-comment',
                 {
+                    html_title: htmlTitleComment + commentPublicId,
                     user: req.session.user,
                     post_public_id: rows[0].post_public_id,
                     comment: rows[0],
@@ -1042,6 +1063,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                         res.render(
                             'single-comment',
                             {
+                                html_title: htmlTitleComment + commentPublicId,
                                 user: req.session.user,
                                 post_public_id: rows[0].post_public_id,
                                 comment: rows[0],
@@ -1386,6 +1408,7 @@ async function renderFollowing(req, res, errors, formUsername) {
     res.render(
         'following',
         {
+            html_title: 'Following',
             errors: errors,
             user: req.session.user,
             followees: rows,
