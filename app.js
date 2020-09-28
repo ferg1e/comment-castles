@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const activeRouter = require('./routes/active')
@@ -8,7 +9,7 @@ const redis = require('redis')
 
 const redisClient = redis.createClient()
 const app = express()
-const server = app.listen(7007)
+const server = app.listen(process.env.HTTP_PORT)
 
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
@@ -22,7 +23,7 @@ app.use(session({
     secret: 'secret38lwi9wlxDeiwo',
     resave: false,
     saveUninitialized: false,
-    store: new redisStore({ host: "localhost", port: 6379, client: redisClient })
+    store: new redisStore({ host: "localhost", port: process.env.REDIS_PORT, client: redisClient })
     })
 )
 

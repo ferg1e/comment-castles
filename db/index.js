@@ -1,4 +1,3 @@
-require('dotenv').config()
 const argon2 = require('argon2')
 const {Pool, types} = require('pg')
 const shortid = require('shortid')
