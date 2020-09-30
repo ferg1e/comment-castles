@@ -5,7 +5,7 @@ const db = require('../db')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
-const htmlTitleHome = 'Reddit Clone'
+const htmlTitleHome = "Peaches 'n' Stink"
 const htmlTitleSignUp = 'Sign Up'
 const htmlTitleLogin = 'Log In'
 const htmlTitleSettings = 'Settings'
