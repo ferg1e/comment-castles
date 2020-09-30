@@ -7,7 +7,7 @@ const session = require('express-session')
 const redisStore = require('connect-redis')(session)
 const redis = require('redis')
 
-const redisClient = redis.createClient()
+const redisClient = redis.createClient(process.env.REDIS_PORT)
 const app = express()
 const server = app.listen(process.env.HTTP_PORT)
 
