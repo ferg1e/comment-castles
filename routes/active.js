@@ -15,6 +15,17 @@ const htmlTitleComment = 'Comment #'
 
 // every request
 function sharedAllHandler(req, res, next) {
+
+    //
+    if(parseInt(process.env.IS_PROD) === 1) {
+        let host = req.headers.host;
+
+        if(!host.match(/^www\..*/i)) {
+            return res.redirect(301, req.protocol + '://www.' + host + req.originalUrl)
+        }
+    }
+
+    //
     if(req.session.user) {
         let superUserIds = [1]
         let isSuperAdmin = superUserIds.indexOf(req.session.user.user_id) !== -1
