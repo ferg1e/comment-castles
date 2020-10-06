@@ -138,7 +138,9 @@ exports.createPost = (userId, title, textContent, link) => {
         insert into tpost
             (public_id, user_id, title, text_content, link)
         values
-            ($1, $2, $3, $4, $5)`,
+            ($1, $2, $3, $4, $5)
+        returning
+            post_id`,
         [newPostId, userId, title, finalTextContent, finalLink]
     )
 
@@ -982,6 +984,39 @@ exports.removeFollower = (userId, followeeUserId) => {
             user_id = $1 and
             followee_user_id = $2`,
         [userId, followeeUserId])
+}
+
+//tags
+exports.createTag = (tagName) => {
+    return query(`
+        insert into ttag
+            (tag)
+        values
+            (lower($1))
+        returning
+            tag_id`,
+        [tagName])
+}
+
+exports.createPostTag = (tagId, postId) => {
+    return query(`
+        insert into tposttag
+            (tag_id, post_id)
+        values
+            ($1, $2)`,
+        [tagId, postId])
+}
+
+exports.getTag = (tagName) => {
+    return query(`
+        select
+            tag_id
+        from
+            ttag
+        where
+            tag = lower($1)`,
+        [tagName]
+    )
 }
 
 //misc

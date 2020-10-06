@@ -22,4 +22,8 @@ block content
             textarea(name="text_content" id="text_content") #{textContent}
 
         div
+            label(for="tags") Tags(optional, separate with commas)
+            input(name="tags" id="tags" value=`${tags}`)
+
+        div
             input(type="submit" value="Create Post")

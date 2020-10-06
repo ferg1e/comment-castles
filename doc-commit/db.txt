@@ -130,4 +130,31 @@ create table tfollower (
 );
 
 --
+create table ttag (
+    tag_id serial primary key,
+    tag varchar(32) not null,
+    num_posts integer not null default 0,
+    is_removed boolean not null default FALSE
+);
+
+create table tposttag (
+    posttag_id serial primary key,
+    tag_id integer not null,
+    post_id integer not null
+);
+
+create trigger post_tag
+    after insert
+    on tposttag
+    for each row
+    execute procedure f_post_tag();
+
+CREATE OR REPLACE FUNCTION f_post_tag()
+RETURNS TRIGGER AS $$
+BEGIN
+  update ttag set num_posts = num_posts + 1 where tag_id = new.tag_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+--
 -- https://redd.it/eqqoam

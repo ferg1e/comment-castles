@@ -759,7 +759,8 @@ router.route('/new')
                     errors: [],
                     title: "",
                     link: "",
-                    textContent: ""
+                    textContent: "",
+                    tags: ""
                 })
         }
         else {
@@ -783,8 +784,30 @@ router.route('/new')
         body('link', 'link must be a URL to a website').optional().isURL(),
         async (req, res) => {
             if(req.session.user) {
-                const errors = validationResult(req).array({onlyFirstError:true})
-    
+                let errors = validationResult(req).array({onlyFirstError:true})
+
+                //
+                let tags = req.body.tags.split(',')
+                let trimTags = []
+
+                for(let i = 0; i < tags.length; ++i) {
+                    let trimTag = tags[i].trim()
+
+                    if(trimTag !== "") {
+                        trimTags.push(trimTag)
+                    }
+                }
+
+                for(let i = 0; i < trimTags.length; ++i) {
+                    let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
+
+                    if(isMatch === null) {
+                        errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
+                        break
+                    }
+                }
+
+                //
                 if(errors.length) {
                     res.render(
                         'new-post2',
@@ -794,7 +817,8 @@ router.route('/new')
                             errors: errors,
                             title: req.body.title,
                             link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
-                            textContent: req.body.text_content
+                            textContent: req.body.text_content,
+                            tags: req.body.tags
                         })
                 }
                 else {
@@ -804,8 +828,29 @@ router.route('/new')
                         req.body.text_content,
                         req.body.link)
     
-                    await vals[0]
-    
+                    const {rows} = await vals[0]
+
+                    //
+                    let tagIds = []
+
+                    for(let i = 0; i < trimTags.length; ++i) {
+                        const {rows:tagd} = await db.getTag(trimTags[i])
+
+                        if(tagd.length) {
+                            tagIds.push(tagd[0].tag_id)
+                        }
+                        else {
+                            const {rows:tagInsert} = await db.createTag(trimTags[i])
+                            tagIds.push(tagInsert[0].tag_id)
+                        }
+                    }
+
+                    //
+                    for(let i = 0; i < tagIds.length; ++i) {
+                        await db.createPostTag(tagIds[i], rows[0].post_id)
+                    }
+                    
+                    //
                     return res.redirect('/p/' + vals[1])
                 }
             }
