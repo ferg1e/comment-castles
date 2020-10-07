@@ -168,7 +168,17 @@ exports.getPosts = (userId, timeZone, page) => {
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible
+                    user_id = $3) is_visible,
+            array(
+                select
+                    t.tag
+                from
+                    ttag t
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as tags
         from
             tpost p
         join

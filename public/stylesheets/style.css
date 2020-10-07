@@ -113,3 +113,9 @@ body {
 .unfollow:hover {
   background: #e49090;
 }
+
+.tag1 {
+  color: #030303;
+  background: #f0bcf0;
+  text-decoration: none;
+}
