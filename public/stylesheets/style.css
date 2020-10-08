@@ -119,3 +119,16 @@ body {
   background: #f0bcf0;
   text-decoration: none;
 }
+
+.tag2 {
+  color: #030303;
+  background: #f5efdd;
+  text-decoration: none;
+  padding: 3px;
+  margin: 7px;
+  display: inline-block;
+}
+
+.tag2 span {
+  background: #f0bcf0;
+}

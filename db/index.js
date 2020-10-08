@@ -1039,6 +1039,18 @@ exports.getTag = (tagName) => {
     )
 }
 
+exports.getTags = () => {
+    return query(`
+        select
+            tag,
+            num_posts
+        from
+            ttag
+        order by
+            tag`
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

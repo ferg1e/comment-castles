@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    each tag in tags
+        a(href=`/r/${tag.tag}` class="tag2")
+            span #{tag.tag}
+            | 
+            |x#{tag.num_posts}
+        | 

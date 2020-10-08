@@ -12,6 +12,7 @@ const htmlTitleSettings = 'Settings'
 const htmlTitleNewPost = 'New Post'
 const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
+const htmlTitleTags = 'Tags'
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -65,6 +66,22 @@ router.route('/')
                 user: req.session.user,
                 posts: rows,
                 page: page
+            })
+    })
+
+//
+router.route('/tags')
+    .get(async (req, res) => {
+        
+        //
+        const {rows} = await db.getTags()
+
+        res.render(
+            'tags',
+            {
+                html_title: htmlTitleTags,
+                user: req.session.user,
+                tags: rows
             })
     })
 
