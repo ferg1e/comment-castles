@@ -65,7 +65,8 @@ router.route('/')
                 html_title: htmlTitleHome,
                 user: req.session.user,
                 posts: rows,
-                page: page
+                page: page,
+                base_url: '/'
             })
     })
 
@@ -791,7 +792,8 @@ router.get(
                 html_title: tag,
                 user: req.session.user,
                 posts: rows,
-                page: page
+                page: page,
+                base_url: `/r/${tag}`
             })
     }
 )
