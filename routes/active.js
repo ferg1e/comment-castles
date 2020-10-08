@@ -815,12 +815,24 @@ router.route('/new')
                     }
                 }
 
+                //
+                let isCharError = false
+                let isLenError = false
+
                 for(let i = 0; i < trimTags.length; ++i) {
                     let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
 
-                    if(isMatch === null) {
+                    if(!isCharError && isMatch === null) {
                         errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
-                        break
+                        isCharError = true
+                    }
+
+                    let tagLen = trimTags[i].length
+                    let isLenOkay = tagLen >= 3 && tagLen <= 20
+
+                    if(!isLenError && !isLenOkay) {
+                        errors.push({'msg': 'each tag must be 3-20 characters'})
+                        isLenError = true
                     }
                 }
 
