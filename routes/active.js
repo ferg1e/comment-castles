@@ -808,9 +808,9 @@ router.route('/new')
                 let trimTags = []
 
                 for(let i = 0; i < tags.length; ++i) {
-                    let trimTag = tags[i].trim()
+                    let trimTag = tags[i].trim().toLowerCase()
 
-                    if(trimTag !== "") {
+                    if(trimTag !== "" && trimTags.indexOf(trimTag) == -1) {
                         trimTags.push(trimTag)
                     }
                 }
