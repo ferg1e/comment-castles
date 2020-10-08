@@ -837,6 +837,11 @@ router.route('/new')
                 }
 
                 //
+                if(trimTags.length > 4) {
+                    errors.push({'msg': 'the max tags per post is 4'})
+                }
+
+                //
                 if(errors.length) {
                     res.render(
                         'new-post2',
