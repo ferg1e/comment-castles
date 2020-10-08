@@ -764,6 +764,38 @@ router.get(
     }
 )
 
+//single tag: posts
+router.get(
+    /^\/r\/([a-z0-9-]{3,20})$/,
+    async (req, res) => {
+        const tag = req.params[0]
+        let finalUserId = req.session.user ? req.session.user.user_id : -1
+
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                return res.redirect(`/${tag}`)
+            }
+        }
+
+        //
+        const {rows} = await db.getTagPosts(finalUserId, getCurrTimeZone(req), page, tag)
+
+        res.render(
+            'home',
+            {
+                html_title: tag,
+                user: req.session.user,
+                posts: rows,
+                page: page
+            })
+    }
+)
+
 //new post
 router.route('/new')
     .get(async (req, res) => {

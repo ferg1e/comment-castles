@@ -195,6 +195,66 @@ exports.getPosts = (userId, timeZone, page) => {
     )
 }
 
+//TODO: very similar to getPosts(), may want to combine
+exports.getTagPosts = (userId, timeZone, page, tag) => {
+    let pageSize = 10
+
+    return query(`
+        select
+            p.public_id,
+            p.title,
+            to_char(
+                timezone($1, p.created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            u.username,
+            u.user_id,
+            p.link,
+            p.num_comments,
+            u.user_id = $2 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = u.user_id and
+                    user_id = $3) is_visible,
+            array(
+                select
+                    t.tag
+                from
+                    ttag t
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as tags
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        where
+            not is_removed and
+            exists(
+                select
+                    1
+                from
+                    ttag t
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    t.tag = $4 and
+                    pt.post_id = p.post_id
+            )
+        order by
+            p.created_on desc
+        limit
+            $5
+        offset
+            $6`,
+        [timeZone, userId, userId, tag, pageSize, (page - 1)*pageSize]
+    )
+}
+
 exports.getPostsWithGroupId = (groupId, timeZone) => {
     return query(`
         select
