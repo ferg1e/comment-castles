@@ -60,7 +60,7 @@ router.route('/')
         const {rows} = await db.getPosts(finalUserId, getCurrTimeZone(req), page)
 
         res.render(
-            'home',
+            'posts2',
             {
                 html_title: htmlTitleHome,
                 user: req.session.user,
@@ -787,7 +787,7 @@ router.get(
         const {rows} = await db.getTagPosts(finalUserId, getCurrTimeZone(req), page, tag)
 
         res.render(
-            'home',
+            'posts2',
             {
                 html_title: tag,
                 user: req.session.user,

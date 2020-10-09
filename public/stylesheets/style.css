@@ -4,7 +4,7 @@ header, nav, main, section {
 
 body {
   background: #fefefe;
-  color: #4e4e4e;
+  color: #232323;
 }
 
 .main-logo {
@@ -131,4 +131,12 @@ body {
 
 .tag2 span {
   background: #f0bcf0;
+}
+
+.puser {
+  font-weight: bold;
+}
+
+.pdate {
+  color: #8c8c8f;
 }
