@@ -148,7 +148,7 @@ exports.createPost = (userId, title, textContent, link) => {
 }
 
 exports.getPosts = (userId, timeZone, page) => {
-    let pageSize = 10
+    let pageSize = 15
 
     return query(`
         select
@@ -197,7 +197,7 @@ exports.getPosts = (userId, timeZone, page) => {
 
 //TODO: very similar to getPosts(), may want to combine
 exports.getTagPosts = (userId, timeZone, page, tag) => {
-    let pageSize = 10
+    let pageSize = 15
 
     return query(`
         select
