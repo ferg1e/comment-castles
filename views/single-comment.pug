@@ -34,15 +34,21 @@ block content
         a(href=`/p/${post_public_id}`) !{'&lt;'} Back to Post
 
     article.the-comment
-        header by #{comment.username}
-            if !comment.is_visible
-                +followLink(comment.username)
-            else if comment.user_id != user.user_id
-                +unfollowLink(comment.username)
+        if comment.is_visible
+            header
+                span(class="cuser") by #{comment.username}
+
+                if comment.user_id != user.user_id
+                    +unfollowLink(comment.username)
+
+                | 
+                span(class="cdate") on #{comment.created_on}
+            p
+                +bbCodes(comment.text_content)
+        else
+            +followLink(comment.username)
             | 
-            |on #[time #{comment.created_on}]
-        p
-            +bbCodes(comment.is_visible ? comment.text_content : '???')
+            span(class="cdate") on #{comment.created_on}
 
     if user
         if errors.length
