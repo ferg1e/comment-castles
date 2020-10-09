@@ -133,10 +133,10 @@ body {
   background: #f0bcf0;
 }
 
-.puser {
+.puser, .cuser {
   font-weight: bold;
 }
 
-.pdate {
+.pdate, .cdate {
   color: #8c8c8f;
 }
