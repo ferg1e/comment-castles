@@ -135,6 +135,7 @@ body {
 
 .puser, .cuser {
   font-weight: bold;
+  color: #414141;
 }
 
 .pdate, .cdate {

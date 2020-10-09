@@ -71,7 +71,7 @@ router.route('/')
     })
 
 //
-router.route('/tags')
+/*router.route('/tags')
     .get(async (req, res) => {
         
         //
@@ -84,7 +84,7 @@ router.route('/tags')
                 user: req.session.user,
                 tags: rows
             })
-    })
+    })*/
 
 router.get(
     '/sign-up',
