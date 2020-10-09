@@ -12,15 +12,21 @@ mixin unfollowLink(username)
     a(href=`/following?unfollow=${username}&goto=/c/${comment.comment_public_id}` class="unfollow" title=`unfollow ${username}`) -
 
 mixin commentContent(comment)
-    +bbCodes(comment.is_visible ? comment.text_content : '???')
-    | 
-    em !{'&ndash;'}#{comment.username}
-        if !comment.is_visible
-            +followLink(comment.username)
-        else if comment.user_id != user.user_id
-            +unfollowLink(comment.username)
+    if comment.is_visible
+        +bbCodes(comment.text_content)
         | 
-        | #{comment.created_on} 
+        span(class="cuser") !{'&ndash;'}#{comment.username}
+
+        if comment.user_id != user.user_id
+            +unfollowLink(comment.username)
+
+        | 
+        span(class="cdate") #{comment.created_on} 
+        a(href=`/c/${comment.public_id}`) reply
+    else
+        +followLink(comment.username)
+        | 
+        span(class="cdate") #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
 block content
