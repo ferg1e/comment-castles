@@ -21,12 +21,12 @@ mixin commentContent(comment)
             +unfollowLink(comment.username)
 
         | 
-        span(class="cdate") #{comment.created_on} 
+        span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
     else
         +followLink(comment.username)
         | 
-        span(class="cdate") #{comment.created_on} 
+        span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
 block content
