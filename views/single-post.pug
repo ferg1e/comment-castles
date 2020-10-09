@@ -42,38 +42,34 @@ block content
             else
                 h3
                     a(href=post.link)=post.title
-        else
-            if post.link === null
-                h3
-                    a(href=`/p/${post.public_id}`) ???
-            else
-                h3
-                    |???
 
-        div
-            |by #{post.username}
-            if !post.is_visible
-                +followLink(post.username, post.public_id)
-            else if post.user_id != user.user_id
-                +unfollowLink(post.username, post.public_id)
-            | 
-            |on #{post.created_on}
-
-            if post.tags.length
+            div
+                span(class="puser") by #{post.username}
+                if post.user_id != user.user_id
+                    +unfollowLink(post.username, post.public_id)
                 | 
-                |to
+                span(class="pdate") on #{post.created_on}
 
-                each tag in post.tags
+                if post.tags.length
                     | 
-                    a(href=`/r/${tag}` class="tag1")=tag
+                    |to
 
+                    each tag in post.tags
+                        | 
+                        a(href=`/r/${tag}` class="tag1")=tag
+
+                | 
+                a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+
+            if post.text_content !== null
+                div.the-post-content
+                    +bbCodes(post.text_content)
+        else
+            +followLink(post.username, post.public_id)
             | 
-            || 
+            span(class="pdate") on #{post.created_on}
+            | 
             a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
-
-        if post.text_content !== null
-            div.the-post-content
-                +bbCodes(post.is_visible ? post.text_content : '???')
 
     if user
         if errors.length

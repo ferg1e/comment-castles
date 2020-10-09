@@ -53,8 +53,8 @@ body {
 }
 
 .the-post h3 {
-  margin-bottom: 0;
-  padding-bottom: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .the-post .the-post-content,
