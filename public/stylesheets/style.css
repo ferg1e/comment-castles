@@ -116,8 +116,10 @@ body {
 
 .tag1 {
   color: #030303;
-  background: #f0bcf0;
+  background: #e6e7dc;
   text-decoration: none;
+  padding: 1px 2px;
+  border-radius: 2px;
 }
 
 .tag2 {
