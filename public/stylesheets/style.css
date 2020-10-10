@@ -14,7 +14,7 @@ body {
 
 .main-nav, .post-nav, .group-admin-nav,
 .group-moderate-nav {
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 }
 
 .main-nav ul, .post-nav ul, .group-admin-nav ul,
@@ -28,12 +28,12 @@ body {
 .group-moderate-nav ul li {
   display: inline;
   padding: 0;
-  margin: 0 6px 0 0;
+  margin: 0 10px 0 0;
 }
 
 .main-nav a, .post-nav a, .group-admin-nav a,
 .group-moderate-nav a {
-  color: #ff4444;
+  color: #ee4a4a;
 }
 
 .comments li em {
