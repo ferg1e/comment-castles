@@ -11,7 +11,7 @@ block content
     form(method="post")
         div
             label(for="title") Title
-            input(name="title" id="title" value=`${title}`)
+            textarea(name="title" id="title")=title
 
         div
             label(for="link") Link(optional)

@@ -10,3 +10,7 @@ form #text_content {
     width: 370px;
     height: 200px;
 }
+
+form #title {
+    width: 370px;
+}
