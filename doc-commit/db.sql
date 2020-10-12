@@ -43,6 +43,7 @@ alter table tpost add column link varchar(400) default null;
 alter table tpost add column num_comments integer default 0;
 alter table tpost add column num_spam_votes integer default 0;
 alter table tpost add column removed_on timestamp with time zone default null;
+ALTER TABLE tpost ALTER COLUMN title TYPE varchar(512);
 
 create table ttest (
     comment_id serial primary key,

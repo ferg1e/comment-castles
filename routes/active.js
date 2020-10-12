@@ -466,14 +466,27 @@ router.route('/new')
     
             next()
         },
-        body('title', 'Title must be 4-50 characters')
-            .notEmpty().withMessage('Please fill in a title')
-            .matches(/^.{4,50}$/i),
         body('text_content', 'Please write some content').optional(),
         body('link', 'link must be a URL to a website').optional().isURL(),
         async (req, res) => {
             if(req.session.user) {
                 let errors = validationResult(req).array({onlyFirstError:true})
+
+                //
+                let rTitle = req.body.title
+                let titleNoWhitespace = rTitle.replace(/\s/g, '')
+                let numNonWsChars = titleNoWhitespace.length
+                let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+
+                if(rTitle.length === 0) {
+                    errors.push({'msg': 'Please fill in a title'})
+                }
+                else if(numNonWsChars < 4) {
+                    errors.push({'msg': 'Title must be at least 4 characters'})
+                }
+                else if(wsCompressedTitle.length > 512) {
+                    errors.push({'msg': 'Title can\'t be more than 512 characters'})
+                }
 
                 //
                 let tags = req.body.tags.split(',')
@@ -530,7 +543,7 @@ router.route('/new')
                 else {
                     let vals = db.createPost(
                         req.session.user.user_id,
-                        req.body.title,
+                        wsCompressedTitle,
                         req.body.text_content,
                         req.body.link)
     
