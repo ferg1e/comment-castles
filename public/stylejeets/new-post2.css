@@ -14,3 +14,15 @@ form #text_content {
 form #title {
     width: 370px;
 }
+
+form #link, form #tags {
+    width: 370px;
+}
+
+
+/**/
+@media(max-width: 480px) {
+    form #link, form #tags, form #title, form #text_content {
+        width: 90%;
+    }
+}
