@@ -43,7 +43,8 @@ exports.getUserWithUsername = (username) => {
             username,
             password,
             time_zone,
-            post_mode
+            post_mode,
+            comment_mode
         from
             tuser
         where
@@ -64,16 +65,17 @@ exports.getUserWithUserId = (userId) => {
     )
 }
 
-exports.updateUser = (userId, timeZoneName, postMode) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentMode) => {
     return query(`
         update
             tuser
         set
             time_zone = $1,
-            post_mode = $2
+            post_mode = $2,
+            comment_mode = $3
         where
-            user_id = $3`,
-        [timeZoneName, postMode, userId])
+            user_id = $4`,
+        [timeZoneName, postMode, commentMode, userId])
 }
 
 //group

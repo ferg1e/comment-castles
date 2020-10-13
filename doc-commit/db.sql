@@ -15,6 +15,9 @@ alter table tuser add column time_zone varchar(64) not null default 'UTC';
 create type post_mode as enum('discover', 'following-only');
 alter table tuser add column post_mode post_mode not null default 'discover';
 
+create type comment_mode as enum('discover', 'following-only');
+alter table tuser add column comment_mode comment_mode not null default 'discover';
+
 create table tgroup (
     group_id serial primary key,
     created_by integer not null,

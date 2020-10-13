@@ -207,7 +207,8 @@ router.post(
                         user_id: rows[0].user_id,
                         username: rows[0].username,
                         time_zone: rows[0].time_zone,
-                        post_mode: rows[0].post_mode
+                        post_mode: rows[0].post_mode,
+                        comment_mode: rows[0].comment_mode
                     }
 
                     return res.redirect('/')
@@ -255,9 +256,15 @@ router.route('/settings')
             const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
             if(rows.length) {
-                await db.updateUser(req.session.user.user_id, req.body.time_zone, req.body.post_mode)
+                await db.updateUser(
+                    req.session.user.user_id,
+                    req.body.time_zone,
+                    req.body.post_mode,
+                    req.body.comment_mode)
+
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
+                req.session.user.comment_mode = req.body.comment_mode
 
                 const {rows:rows2} = await db.getTimeZones()
 
