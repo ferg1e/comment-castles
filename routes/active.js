@@ -57,7 +57,18 @@ router.route('/')
         }
 
         //
-        const {rows} = await db.getPosts(finalUserId, getCurrTimeZone(req), page)
+        let isDiscoverMode = 1
+
+        if(req.session.user && req.session.user.post_mode != 'discover') {
+            isDiscoverMode = 0
+        }
+
+        //
+        const {rows} = await db.getPosts(
+            finalUserId,
+            getCurrTimeZone(req),
+            page,
+            isDiscoverMode)
 
         res.render(
             'posts2',
