@@ -435,7 +435,19 @@ router.get(
         }
 
         //
-        const {rows} = await db.getTagPosts(finalUserId, getCurrTimeZone(req), page, tag)
+        let isDiscoverMode = 1
+
+        if(req.session.user && req.session.user.post_mode != 'discover') {
+            isDiscoverMode = 0
+        }
+
+        //
+        const {rows} = await db.getTagPosts(
+            finalUserId,
+            getCurrTimeZone(req),
+            page,
+            tag,
+            isDiscoverMode)
 
         res.render(
             'posts2',
