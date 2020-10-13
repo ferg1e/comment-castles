@@ -12,6 +12,9 @@ CREATE UNIQUE INDEX username_unique_idx on tuser (LOWER(username));
 
 alter table tuser add column time_zone varchar(64) not null default 'UTC';
 
+create type post_mode as enum('discover', 'following-only');
+alter table tuser add column post_mode post_mode not null default 'discover';
+
 create table tgroup (
     group_id serial primary key,
     created_by integer not null,
