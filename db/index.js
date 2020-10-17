@@ -611,7 +611,7 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
     )
 }
 
-exports.getPostComments = (postId, timeZone, userId) => {
+exports.getPostComments = (postId, timeZone, userId, isDiscoverMode) => {
     return query(`
         select
             c.text_content,
@@ -636,10 +636,19 @@ exports.getPostComments = (postId, timeZone, userId) => {
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $4
+            c.path <@ $4 and
+            ($5 or not exists(
+                select
+                    1
+                from
+                    ttest c2
+                where
+                    c2.path @> c.path and
+                    not exists(select 1 from tfollower where user_id = $6 and followee_user_id = c2.user_id) and
+                    c2.user_id != $7))
         order by
             c.path`,
-        [timeZone, userId, userId, postId])
+        [timeZone, userId, userId, postId, isDiscoverMode, userId, userId])
 }
 
 exports.getCommentComments = (path, timeZone, userId) => {

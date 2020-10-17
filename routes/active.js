@@ -623,10 +623,19 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             finalUserId)
 
         if(rows.length) {
+
+            //
+            let isDiscoverMode = 1
+
+            if(req.session.user && req.session.user.comment_mode != 'discover') {
+                isDiscoverMode = 0
+            }
+
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
                 getCurrTimeZone(req),
-                finalUserId)
+                finalUserId,
+                isDiscoverMode)
 
             res.render(
                 'single-post',
@@ -660,10 +669,19 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
+
+                        //
+                        let isDiscoverMode = 1
+
+                        if(req.session.user && req.session.user.comment_mode != 'discover') {
+                            isDiscoverMode = 0
+                        }
+
                         const{rows:comments} = await db.getPostComments(
                             rows[0].post_id,
                             getCurrTimeZone(req),
-                            finalUserId)
+                            finalUserId,
+                            isDiscoverMode)
 
                         res.render(
                             'single-post',
