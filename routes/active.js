@@ -235,27 +235,23 @@ router.post(
 
 router.route('/settings')
     .get(async (req, res) => {
-        if(req.session.user) {
-            const {rows} = await db.getTimeZones()
+        const {rows} = await db.getTimeZones()
 
-            res.render(
-                'my-settings',
-                {
-                    html_title: htmlTitleSettings,
-                    errors: [],
-                    user: req.session.user,
-                    time_zones: rows
-                })
-        }
-        else {
-            res.send('log in to see your settings...')
-        }
+        res.render(
+            'my-settings',
+            {
+                html_title: htmlTitleSettings,
+                errors: [],
+                user: req.session.user,
+                time_zones: rows,
+                time_zone: getCurrTimeZone(req)
+            })
     })
     .post(async (req, res) => {
-        if(req.session.user) {
-            const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
+        const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
-            if(rows.length) {
+        if(rows.length) {
+            if(req.session.user) {
                 await db.updateUser(
                     req.session.user.user_id,
                     req.body.time_zone,
@@ -265,24 +261,28 @@ router.route('/settings')
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.comment_mode = req.body.comment_mode
-
-                const {rows:rows2} = await db.getTimeZones()
-
-                res.render(
-                    'my-settings',
-                    {
-                        html_title: htmlTitleSettings,
-                        errors: [{msg: 'Settings successfully saved.'}],
-                        user: req.session.user,
-                        time_zones: rows2
-                    })
             }
             else {
-                res.send('error')
+                res.cookie(
+                    'time_zone',
+                    req.body.time_zone,
+                    {maxAge: 1000*60*60*24*365*10})
             }
+
+            const {rows:rows2} = await db.getTimeZones()
+
+            res.render(
+                'my-settings',
+                {
+                    html_title: htmlTitleSettings,
+                    errors: [{msg: 'Settings successfully saved.'}],
+                    user: req.session.user,
+                    time_zones: rows2,
+                    time_zone: req.body.time_zone
+                })
         }
         else {
-            res.send('log in to see your settings...')
+            res.send('error')
         }
     })
 
@@ -1186,5 +1186,20 @@ module.exports = router
 
 //util
 function getCurrTimeZone(req) {
-    return req.session.user ? req.session.user.time_zone : 'UTC'
+    let timeZone = undefined
+
+    if(req.session.user) {
+        timeZone = req.session.user.time_zone
+    }
+    else {
+        timeZone = req.cookies.time_zone
+    }
+
+    //
+    if(typeof timeZone === 'undefined') {
+        timeZone = 'UTC'
+    }
+
+    //
+    return timeZone
 }

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
+var cookieParser = require('cookie-parser');
 const activeRouter = require('./routes/active')
 const uuid = require('uuid/v4')
 const session = require('express-session')
@@ -32,6 +33,7 @@ app.use(express.static(path.join(
     'public')))
 
 app.use(express.urlencoded({extended:false}))
+app.use(cookieParser())
 app.use('/', activeRouter)
 
 //app.locals.pretty = true
