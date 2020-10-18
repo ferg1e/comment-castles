@@ -651,7 +651,7 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode) => {
         [timeZone, userId, userId, postId, isDiscoverMode, userId, userId])
 }
 
-exports.getCommentComments = (path, timeZone, userId) => {
+exports.getCommentComments = (path, timeZone, userId, isDiscoverMode) => {
     return query(`
         select
             c.text_content,
@@ -676,10 +676,20 @@ exports.getCommentComments = (path, timeZone, userId) => {
             tuser u on u.user_id = c.user_id
         where
             c.path <@ $4 and
-            not (c.path ~ $5)
+            not (c.path ~ $5) and
+            ($6 or not exists(
+                select
+                    1
+                from
+                    ttest c2
+                where
+                    c2.path @> c.path and
+                    not exists(select 1 from tfollower where user_id = $7 and followee_user_id = c2.user_id) and
+                    c2.user_id != $8 and
+                    not (c2.path @> $9)))
         order by
             c.path`,
-        [timeZone, userId, userId, path, path])
+        [timeZone, userId, userId, path, path, isDiscoverMode, userId, userId, path])
 }
 
 exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId, timeZone) => {

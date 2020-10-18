@@ -728,10 +728,19 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             finalUserId)
 
         if(rows.length) {
+
+            //
+            let isDiscoverMode = 1
+
+            if(req.session.user && req.session.user.comment_mode != 'discover') {
+                isDiscoverMode = 0
+            }
+
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
                 getCurrTimeZone(req),
-                finalUserId)
+                finalUserId,
+                isDiscoverMode)
 
             res.render(
                 'single-comment',
@@ -765,10 +774,19 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     const errors = validationResult(req).array({onlyFirstError:true})
 
                     if(errors.length) {
+
+                        //
+                        let isDiscoverMode = 1
+
+                        if(req.session.user && req.session.user.comment_mode != 'discover') {
+                            isDiscoverMode = 0
+                        }
+
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
                             getCurrTimeZone(req),
-                            finalUserId)
+                            finalUserId,
+                            isDiscoverMode)
 
                         res.render(
                             'single-comment',
