@@ -250,7 +250,9 @@ router.route('/settings')
                 time_zones: rows,
                 time_zone: getCurrTimeZone(req),
                 avaEyes: avaEyes,
-                currEyes: currEyes
+                currEyes: currEyes,
+                postMode: getCurrPostMode(req),
+                commentMode: getCurrCommentMode(req)
             })
     })
     .post(async (req, res) => {
@@ -297,6 +299,16 @@ router.route('/settings')
                     'eyes',
                     req.body.eyes,
                     {maxAge: cookieMaxAge})
+
+                res.cookie(
+                    'post_mode',
+                    req.body.post_mode,
+                    {maxAge: cookieMaxAge})
+
+                res.cookie(
+                    'comment_mode',
+                    req.body.comment_mode,
+                    {maxAge: cookieMaxAge})
             }
 
             const {rows:rows2} = await db.getTimeZones()
@@ -312,7 +324,9 @@ router.route('/settings')
                     time_zones: rows2,
                     time_zone: req.body.time_zone,
                     avaEyes: avaEyes,
-                    currEyes: currEyes
+                    currEyes: currEyes,
+                    postMode: req.body.post_mode,
+                    commentMode: req.body.comment_mode
                 })
         }
         else {
@@ -1236,6 +1250,34 @@ function getCurrTimeZone(req) {
 
     //
     return timeZone
+}
+
+//
+function getCurrPostMode(req) {
+    if(req.session.user) {
+        return (typeof req.session.user.post_mode === 'undefined')
+            ? 'discover'
+            : req.session.user.post_mode
+    }
+    else {
+        return (typeof req.cookies.post_mode === 'undefined')
+            ? 'following-only'
+            : req.cookies.post_mode
+    }
+}
+
+//
+function getCurrCommentMode(req) {
+    if(req.session.user) {
+        return (typeof req.session.user.comment_mode === 'undefined')
+            ? 'discover'
+            : req.session.user.comment_mode
+    }
+    else {
+        return (typeof req.cookies.comment_mode === 'undefined')
+            ? 'following-only'
+            : req.cookies.comment_mode
+    }
 }
 
 //
