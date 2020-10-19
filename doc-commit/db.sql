@@ -18,6 +18,9 @@ alter table tuser add column post_mode post_mode not null default 'discover';
 create type comment_mode as enum('discover', 'following-only');
 alter table tuser add column comment_mode comment_mode not null default 'discover';
 
+alter table tuser add column is_eyes boolean not null default FALSE;
+alter table tuser add column eyes integer default null;
+
 create table tgroup (
     group_id serial primary key,
     created_by integer not null,

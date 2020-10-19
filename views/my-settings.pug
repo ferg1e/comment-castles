@@ -19,6 +19,13 @@ block content
                         - let minutes = tz.utc_offset.minutes
                         - let minutesText = minutes ? ':' + Math.abs(minutes) : ''
                         option(value=tz.name selected=isSelected) #{tz.name} #{hoursText}#{minutesText}
+            div
+                label(for="eyes" id="l_eyes") Eyes
+                select(id="eyes" name="eyes")
+                    option(value="") My Own Eyes
+                    each eyes in avaEyes
+                        - let isSelected2 = (currEyes == eyes.username)
+                        option(value=eyes.username selected=isSelected2) #{eyes.username}
             if user
                 - const isPostDiscover = user.post_mode == 'discover'
                 - const isPostFollow = user.post_mode == 'following-only'

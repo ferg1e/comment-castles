@@ -44,12 +44,28 @@ exports.getUserWithUsername = (username) => {
             password,
             time_zone,
             post_mode,
-            comment_mode
+            comment_mode,
+            is_eyes,
+            eyes
         from
             tuser
         where
             lower(username) = lower($1)`,
         [username]
+    )
+}
+
+exports.getAvailableEyes = () => {
+    return query(`
+        select
+            username
+        from
+            tuser
+        where
+            is_eyes
+        order by
+            username`,
+        []
     )
 }
 
@@ -65,17 +81,18 @@ exports.getUserWithUserId = (userId) => {
     )
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentMode) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentMode, eyes) => {
     return query(`
         update
             tuser
         set
             time_zone = $1,
             post_mode = $2,
-            comment_mode = $3
+            comment_mode = $3,
+            eyes = $4
         where
-            user_id = $4`,
-        [timeZoneName, postMode, commentMode, userId])
+            user_id = $5`,
+        [timeZoneName, postMode, commentMode, eyes, userId])
 }
 
 //group

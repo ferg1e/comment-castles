@@ -13,6 +13,7 @@ const htmlTitleNewPost = 'New Post'
 const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
 const htmlTitleTags = 'Tags'
+const cookieMaxAge = 1000*60*60*24*365*10;
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -208,7 +209,8 @@ router.post(
                         username: rows[0].username,
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
-                        comment_mode: rows[0].comment_mode
+                        comment_mode: rows[0].comment_mode,
+                        eyes: rows[0].eyes
                     }
 
                     return res.redirect('/')
@@ -236,6 +238,8 @@ router.post(
 router.route('/settings')
     .get(async (req, res) => {
         const {rows} = await db.getTimeZones()
+        const {rows:avaEyes} = await db.getAvailableEyes()
+        const currEyes = await getCurrEyes(req)
 
         res.render(
             'my-settings',
@@ -244,32 +248,60 @@ router.route('/settings')
                 errors: [],
                 user: req.session.user,
                 time_zones: rows,
-                time_zone: getCurrTimeZone(req)
+                time_zone: getCurrTimeZone(req),
+                avaEyes: avaEyes,
+                currEyes: currEyes
             })
     })
     .post(async (req, res) => {
         const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
-        if(rows.length) {
+        //
+        let eyesOkay = true
+        let eyesValue = null
+
+        //
+        if(req.body.eyes !== "") {
+            const {rows:eyesLookup} = await db.getUserWithUsername(req.body.eyes)
+
+            if(eyesLookup.length && eyesLookup[0].is_eyes) {
+                eyesValue = eyesLookup[0].user_id
+            }
+            else {
+                eyesOkay = false
+            }
+        }
+
+        //
+        if(rows.length && eyesOkay) {
             if(req.session.user) {
                 await db.updateUser(
                     req.session.user.user_id,
                     req.body.time_zone,
                     req.body.post_mode,
-                    req.body.comment_mode)
+                    req.body.comment_mode,
+                    eyesValue)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.comment_mode = req.body.comment_mode
+                req.session.user.eyes = eyesValue
             }
             else {
                 res.cookie(
                     'time_zone',
                     req.body.time_zone,
-                    {maxAge: 1000*60*60*24*365*10})
+                    {maxAge: cookieMaxAge})
+
+                res.cookie(
+                    'eyes',
+                    req.body.eyes,
+                    {maxAge: cookieMaxAge})
             }
 
             const {rows:rows2} = await db.getTimeZones()
+            const {rows:avaEyes} = await db.getAvailableEyes()
+            const currEyes = req.body.eyes
 
             res.render(
                 'my-settings',
@@ -278,7 +310,9 @@ router.route('/settings')
                     errors: [{msg: 'Settings successfully saved.'}],
                     user: req.session.user,
                     time_zones: rows2,
-                    time_zone: req.body.time_zone
+                    time_zone: req.body.time_zone,
+                    avaEyes: avaEyes,
+                    currEyes: currEyes
                 })
         }
         else {
@@ -1202,4 +1236,21 @@ function getCurrTimeZone(req) {
 
     //
     return timeZone
+}
+
+//
+async function getCurrEyes(req) {
+    let eyes = ''
+
+    if(req.session.user && req.session.user.eyes) {
+        const {rows} = await db.getUserWithUserId(req.session.user.eyes)
+        eyes = rows[0].username
+    }
+    else if(!req.session.user) {
+        eyes = typeof req.cookies.eyes !== 'undefined'
+            ? req.cookies.eyes
+            : 'basic'
+    }
+
+    return eyes
 }
