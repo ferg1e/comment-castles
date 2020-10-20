@@ -14,6 +14,7 @@ const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
 const htmlTitleTags = 'Tags'
 const cookieMaxAge = 1000*60*60*24*365*10;
+const eyesDefaultUsername = 'stink'
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -60,16 +61,20 @@ router.route('/')
         //
         let isDiscoverMode = 1
 
-        if(req.session.user && req.session.user.post_mode != 'discover') {
+        if(getCurrPostMode(req) != 'discover') {
             isDiscoverMode = 0
         }
+
+        //
+        const filterUserId = await getCurrEyesId(req)
 
         //
         const {rows} = await db.getPosts(
             finalUserId,
             getCurrTimeZone(req),
             page,
-            isDiscoverMode)
+            isDiscoverMode,
+            filterUserId)
 
         res.render(
             'posts2',
@@ -1291,8 +1296,39 @@ async function getCurrEyes(req) {
     else if(!req.session.user) {
         eyes = typeof req.cookies.eyes !== 'undefined'
             ? req.cookies.eyes
-            : 'basic'
+            : eyesDefaultUsername
     }
 
     return eyes
+}
+
+//
+async function getCurrEyesId(req) {
+    if(req.session.user) {
+        return req.session.user.eyes
+            ? req.session.user.eyes
+            : req.session.user.user_id
+    }
+    else {
+        let username = eyesDefaultUsername
+
+        if(typeof req.cookies.eyes !== 'undefined') {
+            if(req.cookies.eyes === '') {
+                return -1
+            }
+            else {
+                username = req.cookies.eyes
+            }
+        }
+
+        //
+        const {rows} = await db.getUserWithUsername(username)
+
+        if(rows.length && rows[0].is_eyes) {
+            return rows[0].user_id
+        }
+        else {
+            return -1
+        }
+    }
 }

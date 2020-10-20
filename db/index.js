@@ -168,7 +168,7 @@ exports.createPost = (userId, title, textContent, link) => {
     return [promise, newPostId]
 }
 
-exports.getPosts = (userId, timeZone, page, isDiscoverMode) => {
+exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
     let pageSize = 15
 
     return query(`
@@ -190,6 +190,13 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode) => {
                 where
                     followee_user_id = u.user_id and
                     user_id = $3) is_visible,
+            exists(select
+                1
+            from
+                tfollower
+            where
+                followee_user_id = u.user_id and
+                user_id = $4) is_follow,
             array(
                 select
                     t.tag
@@ -206,21 +213,22 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode) => {
             tuser u on u.user_id = p.user_id
         where
             not is_removed and
-            ($4 or u.user_id = $5 or
+            ($5 or u.user_id = $6 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $6))
+                    user_id = $7))
         order by
             p.created_on desc
         limit
-            $7
+            $8
         offset
-            $8`,
-        [timeZone, userId, userId, isDiscoverMode, userId, userId, pageSize, (page - 1)*pageSize]
+            $9`,
+        [timeZone, userId, filterUserId, userId, isDiscoverMode,
+            userId, filterUserId, pageSize, (page - 1)*pageSize]
     )
 }
 
