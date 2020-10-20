@@ -233,7 +233,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode) => {
+exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId) => {
     let pageSize = 15
 
     return query(`
@@ -255,6 +255,13 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode) => {
                 where
                     followee_user_id = u.user_id and
                     user_id = $3) is_visible,
+            exists(select
+                1
+            from
+                tfollower
+            where
+                followee_user_id = u.user_id and
+                user_id = $4) is_follow,
             array(
                 select
                     t.tag
@@ -279,24 +286,25 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode) => {
                 join
                     tposttag pt on pt.tag_id = t.tag_id
                 where
-                    t.tag = $4 and
+                    t.tag = $5 and
                     pt.post_id = p.post_id
             ) and
-            ($5 or u.user_id = $6 or
+            ($6 or u.user_id = $7 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $7))
+                    user_id = $8))
         order by
             p.created_on desc
         limit
-            $8
+            $9
         offset
-            $9`,
-        [timeZone, userId, userId, tag, isDiscoverMode, userId, userId, pageSize, (page - 1)*pageSize]
+            $10`,
+        [timeZone, userId, filterUserId, userId, tag,
+            isDiscoverMode, userId, filterUserId, pageSize, (page - 1)*pageSize]
     )
 }
 

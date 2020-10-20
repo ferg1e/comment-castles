@@ -497,9 +497,12 @@ router.get(
         //
         let isDiscoverMode = 1
 
-        if(req.session.user && req.session.user.post_mode != 'discover') {
+        if(getCurrPostMode(req) != 'discover') {
             isDiscoverMode = 0
         }
+
+        //
+        const filterUserId = await getCurrEyesId(req)
 
         //
         const {rows} = await db.getTagPosts(
@@ -507,7 +510,8 @@ router.get(
             getCurrTimeZone(req),
             page,
             tag,
-            isDiscoverMode)
+            isDiscoverMode,
+            filterUserId)
 
         res.render(
             'posts2',
