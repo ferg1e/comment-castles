@@ -673,18 +673,20 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const postPublicId = req.params[0]
         const finalUserId = req.session.user ? req.session.user.user_id : -1
+        const filterUserId = await getCurrEyesId(req)
 
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
             getCurrTimeZone(req),
-            finalUserId)
+            finalUserId,
+            filterUserId)
 
         if(rows.length) {
 
             //
             let isDiscoverMode = 1
 
-            if(req.session.user && req.session.user.comment_mode != 'discover') {
+            if(getCurrCommentMode(req) != 'discover') {
                 isDiscoverMode = 0
             }
 
@@ -692,7 +694,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                 rows[0].post_id,
                 getCurrTimeZone(req),
                 finalUserId,
-                isDiscoverMode)
+                isDiscoverMode,
+                filterUserId)
 
             res.render(
                 'single-post',
@@ -716,11 +719,13 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             if(req.session.user) {
                 const postPublicId = req.params[0]
                 const finalUserId = req.session.user ? req.session.user.user_id : -1
+                const filterUserId = await getCurrEyesId(req)
 
                 const {rows} = await db.getPostWithPublic2(
                     postPublicId,
                     getCurrTimeZone(req),
-                    finalUserId)
+                    finalUserId,
+                    filterUserId)
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
@@ -730,7 +735,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                         //
                         let isDiscoverMode = 1
 
-                        if(req.session.user && req.session.user.comment_mode != 'discover') {
+                        if(getCurrCommentMode(req) != 'discover') {
                             isDiscoverMode = 0
                         }
 
@@ -738,7 +743,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                             rows[0].post_id,
                             getCurrTimeZone(req),
                             finalUserId,
-                            isDiscoverMode)
+                            isDiscoverMode,
+                            filterUserId)
 
                         res.render(
                             'single-post',
