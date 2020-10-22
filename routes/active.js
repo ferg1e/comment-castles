@@ -59,13 +59,7 @@ router.route('/')
         }
 
         //
-        let isDiscoverMode = 1
-
-        if(getCurrPostMode(req) != 'discover') {
-            isDiscoverMode = 0
-        }
-
-        //
+        const isDiscoverMode = isDiscover(req)
         const filterUserId = await getCurrEyesId(req)
 
         //
@@ -1298,6 +1292,25 @@ function getCurrPostMode(req) {
             ? 'following-only'
             : req.cookies.post_mode
     }
+}
+
+//
+function isDiscover(req) {
+
+    //
+    const isLoggedInMyList = req.session.user && !req.session.user.eyes
+    const isLoggedOutMyList = !req.session.user && req.cookies.eyes === ''
+    const isMyList = isLoggedInMyList || isLoggedOutMyList
+
+    //guarantee that discover mode is only used with own allow list
+    if(!isMyList) {
+        return 0
+    }
+
+    //
+    return getCurrPostMode(req) !== 'discover'
+        ? 0
+        : 1
 }
 
 //
