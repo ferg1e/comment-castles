@@ -136,9 +136,10 @@ body {
 }
 
 .puser, .cuser {
-  color: #726b60;
+  color: #242322;
+  font-weight: bold;
 }
 
 .pdate, .cdate {
-  color: #8c8c8f;
+  color: #6d6d67;
 }
