@@ -513,21 +513,21 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             p.public_id,
             p.link,
             p.num_comments,
-            u.user_id = $2 or
+            u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_follow,
+                    user_id = $5) is_follow,
             array(
                 select
                     t.tag
@@ -543,9 +543,9 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
         join
             tuser u on u.user_id = p.user_id
         where
-            p.public_id = $5 and
+            p.public_id = $6 and
             not p.is_removed`,
-        [timeZone, userId, filterUserId, userId, publicId]
+        [timeZone, userId, filterUserId, filterUserId, userId, publicId]
     )
 }
 
@@ -661,39 +661,40 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id,
             c.is_removed,
-            u.user_id = $2 or
+            u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_follow
+                    user_id = $5) is_follow
         from
             ttest c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $5 and
-            ($6 or not exists(
+            c.path <@ $6 and
+            ($7 or not exists(
                 select
                     1
                 from
                     ttest c2
                 where
                     c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $7 and followee_user_id = c2.user_id) and
-                    c2.user_id != $8))
+                    not exists(select 1 from tfollower where user_id = $8 and followee_user_id = c2.user_id) and
+                    c2.user_id != $9 and
+                    c2.user_id != $10))
         order by
             c.path`,
-        [timeZone, userId, filterUserId, userId, postId, isDiscoverMode, filterUserId, userId])
+        [timeZone, userId, filterUserId, filterUserId, userId, postId, isDiscoverMode, filterUserId, userId, filterUserId])
 }
 
 exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUserId) => {
