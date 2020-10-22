@@ -245,21 +245,21 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
             u.user_id,
             p.link,
             p.num_comments,
-            u.user_id = $2 or
+            u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             exists(select
                 1
             from
                 tfollower
             where
                 followee_user_id = u.user_id and
-                user_id = $4) is_follow,
+                user_id = $5) is_follow,
             array(
                 select
                     t.tag
@@ -284,25 +284,25 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
                 join
                     tposttag pt on pt.tag_id = t.tag_id
                 where
-                    t.tag = $5 and
+                    t.tag = $6 and
                     pt.post_id = p.post_id
             ) and
-            ($6 or u.user_id = $7 or
+            ($7 or u.user_id = $8 or u.user_id = $9 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $8))
+                    user_id = $10))
         order by
             p.created_on desc
         limit
-            $9
+            $11
         offset
-            $10`,
-        [timeZone, userId, filterUserId, userId, tag,
-            isDiscoverMode, userId, filterUserId, pageSize, (page - 1)*pageSize]
+            $12`,
+        [timeZone, userId, filterUserId, filterUserId, userId, tag,
+            isDiscoverMode, userId, filterUserId, filterUserId, pageSize, (page - 1)*pageSize]
     )
 }
 
