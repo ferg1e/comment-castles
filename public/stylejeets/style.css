@@ -91,7 +91,7 @@ body {
 }
 
 .follow {
-  background: #a4eeb0;
+  background: #cbeed1;
   text-decoration: none;
   color: black;
   padding: 0 4px;
@@ -99,11 +99,11 @@ body {
 }
 
 .follow:hover {
-  background: #90e49e;
+  background: #b7e6bf;
 }
 
 .unfollow {
-  background: #eea4a4;
+  background: #f3cece;
   text-decoration: none;
   color: black;
   padding: 0 6px;
@@ -111,7 +111,7 @@ body {
 }
 
 .unfollow:hover {
-  background: #e49090;
+  background: #e6b6b6;
 }
 
 .tag1 {
