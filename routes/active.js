@@ -255,7 +255,7 @@ router.route('/settings')
     .post(async (req, res) => {
         
         // can only use view mode = discover with own allow list
-        let isBadDiscover = req.body.post_mode === 'discover' &&
+        /*let isBadDiscover = req.body.post_mode === 'discover' &&
             req.body.eyes !== ''
 
         if(isBadDiscover) {
@@ -274,7 +274,7 @@ router.route('/settings')
                     currEyes: req.body.eyes,
                     postMode: req.body.post_mode,
                 })
-        }
+        }*/
 
         //
         const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
@@ -1282,14 +1282,14 @@ function getCurrPostMode(req) {
 function isDiscover(req) {
 
     //
-    const isLoggedInMyList = req.session.user && !req.session.user.eyes
+    /*const isLoggedInMyList = req.session.user && !req.session.user.eyes
     const isLoggedOutMyList = !req.session.user && req.cookies.eyes === ''
     const isMyList = isLoggedInMyList || isLoggedOutMyList
 
     //guarantee that discover mode is only used with own allow list
     if(!isMyList) {
         return 0
-    }
+    }*/
 
     //
     return getCurrPostMode(req) !== 'discover'
