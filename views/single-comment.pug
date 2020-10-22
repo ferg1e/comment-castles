@@ -12,20 +12,22 @@ mixin unfollowLink(username)
     a(href=`/following?unfollow=${username}&goto=/c/${comment.comment_public_id}` class="unfollow" title=`unfollow ${username}`) -
 
 mixin commentContent(comment)
+
+    if !user || (comment.user_id != user.user_id)
+        if comment.is_follow
+            +unfollowLink(comment.username)
+        else
+            +followLink(comment.username)
+        | 
+
     if comment.is_visible
         +bbCodes(comment.text_content)
         | 
         span(class="cuser") !{'&ndash;'}#{comment.username}
-
-        if comment.user_id != user.user_id
-            +unfollowLink(comment.username)
-
         | 
         span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
     else
-        +followLink(comment.username)
-        | 
         span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
@@ -34,20 +36,21 @@ block content
         a(href=`/p/${post_public_id}`) !{'&lt;'} Back to Post
 
     article.the-comment
+
+        if !user || (comment.user_id != user.user_id)
+            if comment.is_follow
+                +unfollowLink(comment.username)
+            else
+                +followLink(comment.username)
+            | 
+
         if comment.is_visible
-            header
-                span(class="cuser") by #{comment.username}
-
-                if comment.user_id != user.user_id
-                    +unfollowLink(comment.username)
-
-                | 
-                span(class="cdate") on #{comment.created_on}
+            span(class="cuser") by #{comment.username}
+            | 
+            span(class="cdate") on #{comment.created_on}
             p
                 +bbCodes(comment.text_content)
         else
-            +followLink(comment.username)
-            | 
             span(class="cdate") on #{comment.created_on}
 
     if user

@@ -783,11 +783,13 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
         const finalUserId = req.session.user ? req.session.user.user_id : -1
+        const filterUserId = await getCurrEyesId(req)
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             getCurrTimeZone(req),
-            finalUserId)
+            finalUserId,
+            filterUserId)
 
         if(rows.length) {
 
@@ -798,7 +800,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                 rows[0].path,
                 getCurrTimeZone(req),
                 finalUserId,
-                isDiscoverMode)
+                isDiscoverMode,
+                filterUserId)
 
             res.render(
                 'single-comment',
@@ -822,11 +825,13 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             if(req.session.user) {
                 const commentPublicId = req.params[0]
                 const finalUserId = req.session.user ? req.session.user.user_id : -1
+                const filterUserId = await getCurrEyesId(req)
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
                     getCurrTimeZone(req),
-                    finalUserId)
+                    finalUserId,
+                    filterUserId)
 
                 if(rows.length) {
                     const errors = validationResult(req).array({onlyFirstError:true})
@@ -840,7 +845,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                             rows[0].path,
                             getCurrTimeZone(req),
                             finalUserId,
-                            isDiscoverMode)
+                            isDiscoverMode,
+                            filterUserId)
 
                         res.render(
                             'single-comment',
