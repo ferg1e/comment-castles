@@ -20,34 +20,24 @@ block content
                         - let minutesText = minutes ? ':' + Math.abs(minutes) : ''
                         option(value=tz.name selected=isSelected) #{tz.name} #{hoursText}#{minutesText}
             div
-                label(for="eyes" id="l_eyes") Eyes
+                label(for="eyes" id="l_eyes") Allow List
                 select(id="eyes" name="eyes")
-                    option(value="") My Own Eyes
+                    option(value="") mine
                     each eyes in avaEyes
                         - let isSelected2 = (currEyes == eyes.username)
-                        option(value=eyes.username selected=isSelected2) #{eyes.username}
+                        option(value=eyes.username selected=isSelected2) #{eyes.username}'s
 
             - const isPostDiscover = postMode == 'discover'
             - const isPostFollow = postMode == 'following-only'
 
-            - const isCommentDiscover = commentMode == 'discover'
-            - const isCommentFollow = commentMode == 'following-only'
-
-            div Post Mode
+            div View Mode
                 div
                     input(type="radio" name="post_mode" id="post_mode0" value="discover" checked=isPostDiscover)
-                    label(for="post_mode0") show all posts (discover mode)
+                    label(for="post_mode0") discover: show all posts and comments, only the time will be visible for those made by users not on your selected allow list
 
                 div
                     input(type="radio" name="post_mode" id="post_mode1" value="following-only" checked=isPostFollow)
-                    label(for="post_mode1") only show posts from users that I follow (follow mode)
-            div Comment Mode
-                div
-                    input(type="radio" name="comment_mode" id="comment_mode0" value="discover" checked=isCommentDiscover)
-                    label(for="comment_mode0") show all comments (discover mode)
+                    label(for="post_mode1") locked: only show posts and comments made by users on my selected allow list
 
-                div
-                    input(type="radio" name="comment_mode" id="comment_mode1" value="following-only" checked=isCommentFollow)
-                    label(for="comment_mode1") only show comments from users that I follow (follow mode)
             div
                 input(type="submit" value="Save")

@@ -214,7 +214,6 @@ router.post(
                         username: rows[0].username,
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
-                        comment_mode: rows[0].comment_mode,
                         eyes: rows[0].eyes
                     }
 
@@ -256,11 +255,34 @@ router.route('/settings')
                 time_zone: getCurrTimeZone(req),
                 avaEyes: avaEyes,
                 currEyes: currEyes,
-                postMode: getCurrPostMode(req),
-                commentMode: getCurrCommentMode(req)
+                postMode: getCurrPostMode(req)
             })
     })
     .post(async (req, res) => {
+        
+        // can only use view mode = discover with own allow list
+        let isBadDiscover = req.body.post_mode === 'discover' &&
+            req.body.eyes !== ''
+
+        if(isBadDiscover) {
+            const {rows:rows2} = await db.getTimeZones()
+            const {rows:avaEyes} = await db.getAvailableEyes()
+
+            return res.render(
+                'my-settings',
+                {
+                    html_title: htmlTitleSettings,
+                    errors: [{msg: 'You can only use discover view mode with your own allow list.'}],
+                    user: req.session.user,
+                    time_zones: rows2,
+                    time_zone: req.body.time_zone,
+                    avaEyes: avaEyes,
+                    currEyes: req.body.eyes,
+                    postMode: req.body.post_mode,
+                })
+        }
+
+        //
         const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
         //
@@ -286,12 +308,10 @@ router.route('/settings')
                     req.session.user.user_id,
                     req.body.time_zone,
                     req.body.post_mode,
-                    req.body.comment_mode,
                     eyesValue)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
-                req.session.user.comment_mode = req.body.comment_mode
                 req.session.user.eyes = eyesValue
             }
             else {
@@ -331,7 +351,6 @@ router.route('/settings')
                     avaEyes: avaEyes,
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
-                    commentMode: req.body.comment_mode
                 })
         }
         else {
