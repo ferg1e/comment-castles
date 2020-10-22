@@ -508,13 +508,7 @@ router.get(
         }
 
         //
-        let isDiscoverMode = 1
-
-        if(getCurrPostMode(req) != 'discover') {
-            isDiscoverMode = 0
-        }
-
-        //
+        const isDiscoverMode = isDiscover(req)
         const filterUserId = await getCurrEyesId(req)
 
         //
@@ -697,11 +691,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         if(rows.length) {
 
             //
-            let isDiscoverMode = 1
-
-            if(getCurrCommentMode(req) != 'discover') {
-                isDiscoverMode = 0
-            }
+            const isDiscoverMode = isDiscover(req)
 
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
@@ -746,11 +736,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     if(errors.length) {
 
                         //
-                        let isDiscoverMode = 1
-
-                        if(getCurrCommentMode(req) != 'discover') {
-                            isDiscoverMode = 0
-                        }
+                        const isDiscoverMode = isDiscover(req)
 
                         const{rows:comments} = await db.getPostComments(
                             rows[0].post_id,
@@ -806,11 +792,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
         if(rows.length) {
 
             //
-            let isDiscoverMode = 1
-
-            if(req.session.user && req.session.user.comment_mode != 'discover') {
-                isDiscoverMode = 0
-            }
+            const isDiscoverMode = isDiscover(req)
 
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
@@ -852,11 +834,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     if(errors.length) {
 
                         //
-                        let isDiscoverMode = 1
-
-                        if(req.session.user && req.session.user.comment_mode != 'discover') {
-                            isDiscoverMode = 0
-                        }
+                        const isDiscoverMode = isDiscover(req)
 
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
