@@ -126,9 +126,9 @@ router.post(
     body('username', 'Username must be 4-16 characters(letters, numbers and dashes only)')
         .notEmpty().withMessage('Please fill in a username')
         .matches(regexUsername),
-    body('password', 'Password must be 13-100 characters')
+    body('password', 'Password must be 9-100 characters')
         .notEmpty().withMessage('Please fill in a password')
-        .matches(/^.{13,100}$/),
+        .matches(/^.{9,100}$/),
     async (req, res) => {
         let errors = validationResult(req).array({onlyFirstError:true})
 
