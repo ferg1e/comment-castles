@@ -37,7 +37,7 @@ block content
                         b discover
                         |:
                         | 
-                        |show all posts and comments
+                        |show all posts and comments, only the time will show for those from not allowed users
 
                 div
                     input(type="radio" name="post_mode" id="post_mode1" value="following-only" checked=isPostFollow)
@@ -45,7 +45,7 @@ block content
                         b locked
                         |:
                         | 
-                        |only show posts and comments from users on my selected allow list
+                        |only show posts and comments from allowed users, those from not allowed users will be completely hidden
 
             div
                 input(type="submit" value="Save")
