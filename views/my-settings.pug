@@ -33,11 +33,19 @@ block content
             div View Mode
                 div
                     input(type="radio" name="post_mode" id="post_mode0" value="discover" checked=isPostDiscover)
-                    label(for="post_mode0") discover: show all posts and comments, only the time will be visible for those made by users not on your selected allow list
+                    label(for="post_mode0")
+                        b discover
+                        |:
+                        | 
+                        |show all posts and comments
 
                 div
                     input(type="radio" name="post_mode" id="post_mode1" value="following-only" checked=isPostFollow)
-                    label(for="post_mode1") locked: only show posts and comments made by users on my selected allow list
+                    label(for="post_mode1")
+                        b locked
+                        |:
+                        | 
+                        |only show posts and comments from users on my selected allow list
 
             div
                 input(type="submit" value="Save")
