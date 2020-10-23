@@ -580,8 +580,8 @@ router.route('/new')
                 else if(numNonWsChars < 4) {
                     errors.push({'msg': 'Title must be at least 4 characters'})
                 }
-                else if(wsCompressedTitle.length > 512) {
-                    errors.push({'msg': 'Title can\'t be more than 512 characters'})
+                else if(wsCompressedTitle.length > 160) {
+                    errors.push({'msg': 'Title can\'t be more than 160 characters'})
                 }
 
                 //
