@@ -947,53 +947,6 @@ async function renderFollowing(req, res, errors, formUsername) {
     )
 }
 
-//group: admin settings
-router.route(/^\/g\/([a-z0-9-]{3,36})\/admin\/settings$/i)
-    .get((req, res) => {
-        if(res.locals.isAdmin) {
-            res.render(
-                'group-admin-settings',
-                {
-                    errors: [],
-                    user: req.session.user,
-                    name: res.locals.group.name,
-                    is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod,
-                    group_post_mode: res.locals.group.group_posting_mode,
-                    group_comment_mode: res.locals.group.group_commenting_mode
-                }
-            )
-        }
-        else {
-            res.send('you dont have permission')
-        }
-    })
-    .post(
-        async (req, res) => {
-            if(res.locals.isAdmin) {
-                await db.updateGroupSettings(
-                    res.locals.group.group_id,
-                    req.body.group_post_mode,
-                    req.body.group_comment_mode)
-
-                res.render(
-                    'group-admin-settings',
-                    {
-                        errors: [{msg: 'Settings successfully saved.'}],
-                        user: req.session.user,
-                        name: res.locals.group.name,
-                        is_admin: res.locals.isAdmin,
-                        is_mod: res.locals.isMod,
-                        group_post_mode: req.body.group_post_mode,
-                        group_comment_mode: req.body.group_comment_mode
-                    }
-                )
-            }
-            else {
-                res.send('you dont have permission')
-            }
-        })
-
 module.exports = router
 
 //util
