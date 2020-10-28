@@ -754,27 +754,6 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             }
     })
 
-//group: admin
-router.get(
-    /^\/g\/([a-z0-9-]{3,36})\/admin$/i,
-    async (req, res) => {
-        if(res.locals.isAdmin) {
-            res.render(
-                'group-admin-home',
-                {
-                    user: req.session.user,
-                    name: res.locals.group.name,
-                    is_admin: res.locals.isAdmin,
-                    is_mod: res.locals.isMod
-                }
-            )
-        }
-        else {
-            res.send('you dont have permission')
-        }
-    }
-)
-
 router.route('/following')
     .get(async (req, res) => {
 
