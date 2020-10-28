@@ -360,27 +360,6 @@ router.get(
     }
 )
 
-//group: posts
-router.get(
-    /^\/g\/([a-z0-9-]{3,36})$/i,
-    async (req, res) => {
-        const group = res.locals.group
-        const {rows} = await db.getPostsWithGroupId(
-            group.group_id,
-            getCurrTimeZone(req))
-
-        res.render(
-            'group-posts',
-            {
-                user: req.session.user,
-                name: group.name,
-                posts: rows,
-                is_admin: res.locals.isAdmin,
-                is_mod: res.locals.isMod
-            })
-    }
-)
-
 //single tag: posts
 router.get(
     /^\/r\/([a-z0-9-]{3,20})$/,
