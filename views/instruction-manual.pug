@@ -1,0 +1,75 @@
+extends layout
+
+block content
+    ul
+        li
+            a(href="#what") What is Peaches 'n' Stink?
+        li
+            a(href="#posts") Posts
+        li
+            a(href="#comments") Comments
+        li
+            a(href="#tags") Tags
+        li
+            a(href="#following") Following
+        li
+            a(href="#settings") Settings
+
+    h2#what What is Peaches 'n' Stink?
+    p
+        |Peaches 'n' Stink is an allow list(or whitelist) based internet forum with no moderation. 
+        |You can only see posts and comments that are posted by users that you follow. 
+        |However, if you're logged out or don't want to build a list then you can use someone else's list.
+
+    h2#posts Posts
+    p
+        |Posts are the main way to submit content. 
+        |All topics are allowed(unless illegal). 
+        |You must be logged in to create a post. 
+        |Use  
+        a(href="/new") new post
+        | 
+        |in the site navigation to go to the create post form. 
+        |Posts have a title, link, content and tags. 
+        |Only title is required.
+
+    h2#comments Comments
+    p
+        |You can write comments on posts and other comments. 
+        |You must be logged in to create a comment. 
+        |If you're logged in, then there's a comment form at the top of each post and comment page.
+
+    h2#tags Tags
+    p
+        |When you create a post you can assign tags to it. 
+        |All the tags assigned to a post are displayed near the post title; 
+        |you can click these tags to go to that tag's page. 
+        |All posts with the same tag are grouped together. 
+        |For example, all posts tagged "meta" are available at 
+        a(href="/r/meta") r/meta
+        |.
+
+    h2#following Following
+    p
+        |On the left side of each post and comment is a plus or minus button. 
+        |You can follow the respective user with the plus button. 
+        |The minus button unfollows. 
+        |You can only see posts and comments that have been posted by users that you're following. 
+        |You can manage who you're following by using 
+        a(href="/following") following
+        | 
+        |in the site navigation(if you're logged in).
+
+    h2#settings Settings
+    p
+        |You can access the 
+        a(href="/settings") settings
+        | 
+        |in the site navigation. 
+        |You can use the settings even if you're logged out. 
+        |The available settings are: time zone, allow list and view mode.
+        |Time zone will adjust the time that is displayed for each post and comment. 
+        |Allow list determines which list of users you use to reveal posts and comments; 
+        |you can only see posts and comments made by users on your selected allow list.
+        |View mode affects how posts and comments display that aren't from users on your selected allow list; 
+        |"locked" completely hides these posts and comments, while "discover" will show these posts and comments but only with the time.

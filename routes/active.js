@@ -13,6 +13,7 @@ const htmlTitleNewPost = 'New Post'
 const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
 const htmlTitleTags = 'Tags'
+const htmlTitleManual = 'Manual'
 const cookieMaxAge = 1000*60*60*24*365*10;
 const eyesDefaultUsername = 'stink'
 
@@ -78,6 +79,16 @@ router.route('/')
                 posts: rows,
                 page: page,
                 base_url: '/'
+            })
+    })
+
+router.route('/manual')
+    .get((req, res) => {
+        res.render(
+            'instruction-manual',
+            {
+                html_title: htmlTitleManual,
+                user: req.session.user
             })
     })
 
