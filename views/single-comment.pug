@@ -13,21 +13,30 @@ mixin unfollowLink(username)
 
 mixin commentContent(comment)
 
-    if !user || (comment.user_id != user.user_id)
-        if comment.is_follow
-            +unfollowLink(comment.username)
-        else
-            +followLink(comment.username)
-        | 
-
     if comment.is_visible
         +bbCodes(comment.text_content)
         | 
         span(class="cuser") !{'&ndash;'}#{comment.username}
+
+        if !user || (comment.user_id != user.user_id)
+            if comment.is_follow
+                +unfollowLink(comment.username)
+            else
+                +followLink(comment.username)
+
         | 
         span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
     else
+        span(class="cuser") !{'&ndash;'}#{comment.username}
+
+        if !user || (comment.user_id != user.user_id)
+            if comment.is_follow
+                +unfollowLink(comment.username)
+            else
+                +followLink(comment.username)
+
+        | 
         span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
@@ -37,20 +46,29 @@ block content
 
     article.the-comment
 
-        if !user || (comment.user_id != user.user_id)
-            if comment.is_follow
-                +unfollowLink(comment.username)
-            else
-                +followLink(comment.username)
-            | 
-
         if comment.is_visible
             span(class="cuser") by #{comment.username}
+
+            if !user || (comment.user_id != user.user_id)
+                if comment.is_follow
+                    +unfollowLink(comment.username)
+                else
+                    +followLink(comment.username)
+
             | 
             span(class="cdate") on #{comment.created_on}
             p
                 +bbCodes(comment.text_content)
         else
+            span(class="cuser") by #{comment.username}
+
+            if !user || (comment.user_id != user.user_id)
+                if comment.is_follow
+                    +unfollowLink(comment.username)
+                else
+                    +followLink(comment.username)
+
+            | 
             span(class="cdate") on #{comment.created_on}
 
     if user

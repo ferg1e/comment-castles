@@ -16,13 +16,6 @@ block content
 
             each post in posts
                 div
-                    if !user || (post.user_id != user.user_id)
-                        if post.is_follow
-                            +unfollowLink(post.username)
-                        else
-                            +followLink(post.username)
-                        | 
-
                     if post.is_visible
                         if post.link === null
                             a(href=`/p/${post.public_id}`) #{post.title}
@@ -31,6 +24,13 @@ block content
 
                         | 
                         span(class="puser") by #{post.username}
+
+                        if !user || (post.user_id != user.user_id)
+                            if post.is_follow
+                                +unfollowLink(post.username)
+                            else
+                                +followLink(post.username)
+
                         | 
                         span(class="pdate") on #{post.created_on}
 
@@ -44,6 +44,15 @@ block content
                         | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
                     else
+                        span(class="puser") by #{post.username}
+
+                        if !user || (post.user_id != user.user_id)
+                            if post.is_follow
+                                +unfollowLink(post.username)
+                            else
+                                +followLink(post.username)
+
+                        | 
                         span(class="pdate") on #{post.created_on}
                         | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})

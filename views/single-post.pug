@@ -21,21 +21,30 @@ mixin commentContent(comment, postId)
     if comment.is_removed
         | [removed]
     else
-        if !user || (comment.user_id != user.user_id)
-            if comment.is_follow
-                +unfollowLink(comment.username, postId)
-            else
-                +followLink(comment.username, postId)
-            | 
-
         if comment.is_visible
             +bbCodes(comment.text_content)
             | 
             span(class="cuser") !{'&ndash;'}#{comment.username}
+
+            if !user || (comment.user_id != user.user_id)
+                if comment.is_follow
+                    +unfollowLink(comment.username, postId)
+                else
+                    +followLink(comment.username, postId)
+
             | 
             span(class="cdate") on #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
         else
+            span(class="cuser") !{'&ndash;'}#{comment.username}
+
+            if !user || (comment.user_id != user.user_id)
+                if comment.is_follow
+                    +unfollowLink(comment.username, postId)
+                else
+                    +followLink(comment.username, postId)
+
+            | 
             span(class="cdate") on #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
 
@@ -51,14 +60,14 @@ block content
                     a(href=post.link)=post.title
 
             div
+                span(class="puser") by #{post.username}
+
                 if !user || (post.user_id != user.user_id)
                     if post.is_follow
                         +unfollowLink(post.username, post.public_id)
                     else
                         +followLink(post.username, post.public_id)
-                    | 
 
-                span(class="puser") by #{post.username}
                 | 
                 span(class="pdate") on #{post.created_on}
 
@@ -77,12 +86,15 @@ block content
                 div.the-post-content
                     +bbCodes(post.text_content)
         else
+            span(class="puser") by #{post.username}
+
             if !user || (post.user_id != user.user_id)
                 if post.is_follow
                     +unfollowLink(post.username, post.public_id)
                 else
                     +followLink(post.username, post.public_id)
-                | 
+
+            | 
             span(class="pdate") on #{post.created_on}
             | 
             a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
