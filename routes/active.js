@@ -585,7 +585,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             res.render(
                 'single-post',
                 {
-                    html_title: htmlTitlePost + postPublicId,
+                    html_title: rows[0].title,
                     user: req.session.user,
                     post: rows[0],
                     comments: comments,
@@ -630,7 +630,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                         res.render(
                             'single-post',
                             {
-                                html_title: htmlTitlePost + postPublicId,
+                                html_title: rows[0].title,
                                 user: req.session.user,
                                 post: rows[0],
                                 comments: comments,
