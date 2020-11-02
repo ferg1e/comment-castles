@@ -143,3 +143,8 @@ body {
 .pdate, .cdate {
   color: #6d6d67;
 }
+
+pre {
+  margin: 0;
+  padding: 0;
+}
