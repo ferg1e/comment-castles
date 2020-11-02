@@ -9,6 +9,8 @@ block content
         li
             a(href="#comments") Comments
         li
+            a(href="#formatting") Formatting
+        li
             a(href="#tags") Tags
         li
             a(href="#following") Following
@@ -38,6 +40,29 @@ block content
         |You can write comments on posts and other comments. 
         |You must be logged in to create a comment. 
         |If you're logged in, then there's a comment form at the top of each post and comment page.
+
+    h2#formatting Formatting
+    p
+        |There are two formatting rules for posts and comments:
+        ol
+            li
+                |All newlines are automatically preserved.
+            li
+                |You can use 
+                i ```pre
+                | 
+                |and 
+                i ```
+                | 
+                |to preserve spaces/whitespace for a group of lines. 
+                i ```pre
+                | 
+                |must come first on its own line and 
+                i ```
+                | 
+                |must come last on its own line. 
+                |All whitespace in between will be preserved. 
+                |This is intended for writing computer programming source code.
 
     h2#tags Tags
     p
