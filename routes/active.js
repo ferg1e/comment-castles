@@ -10,6 +10,7 @@ const htmlTitleSignUp = 'Sign Up'
 const htmlTitleLogin = 'Log In'
 const htmlTitleSettings = 'Settings'
 const htmlTitleNewPost = 'New Post'
+const htmlTitleEditPost = 'Edit Post'
 const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
 const htmlTitleTags = 'Tags'
@@ -427,7 +428,8 @@ router.route('/new')
                     title: "",
                     link: "",
                     textContent: "",
-                    tags: ""
+                    tags: "",
+                    submitLabel: 'Create Post'
                 })
         }
         else {
@@ -515,7 +517,8 @@ router.route('/new')
                             title: req.body.title,
                             link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
                             textContent: req.body.text_content,
-                            tags: req.body.tags
+                            tags: req.body.tags,
+                            submitLabel: 'Create Post'
                         })
                 }
                 else {
@@ -549,6 +552,193 @@ router.route('/new')
                     
                     //
                     return res.redirect('/p/' + vals[1])
+                }
+            }
+            else {
+                res.send('nope...')
+            }
+        }
+    )
+
+//edit post
+router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
+    .get(async (req, res) => {
+        if(req.session.user) {
+
+            //
+            const postPublicId = req.params[0]
+            const {rows} = await db.getPostWithPublic(postPublicId)
+
+            //
+            if(!rows.length) {
+                return res.send('unknown post...')
+            }
+
+            //
+            if(rows[0].user_id != req.session.user.user_id) {
+                return res.send('wrong user...')
+            }
+
+            //
+            if(rows[0].seconds_since >= 1200) {
+                return res.send('too late to edit...')
+            }
+
+            //
+            res.render(
+                'new-post2',
+                {
+                    html_title: htmlTitleEditPost,
+                    user: req.session.user,
+                    errors: [],
+                    title: rows[0].title,
+                    link: rows[0].link === null ? '' : rows[0].link,
+                    textContent: rows[0].text_content,
+                    tags: rows[0].tags.join(', '),
+                    submitLabel: 'Edit Post'
+                })
+        }
+        else {
+            res.send('sorry...')
+        }
+    })
+    .post(
+        (req, res, next) => {
+
+            //remove if blank so it doesn't trigger the validator
+            if(req.body.link === '') {
+                req.body.link = undefined
+            }
+    
+            next()
+        },
+        body('text_content', 'Please write some content').optional(),
+        body('link', 'link must be a URL to a website').optional().isURL(),
+        async (req, res) => {
+            if(req.session.user) {
+
+                //
+                const postPublicId = req.params[0]
+                const {rows} = await db.getPostWithPublic(postPublicId)
+
+                //
+                if(!rows.length) {
+                    return res.send('unknown post...')
+                }
+
+                //
+                if(rows[0].user_id != req.session.user.user_id) {
+                    return res.send('wrong user...')
+                }
+
+                //
+                if(rows[0].seconds_since >= 1200) {
+                    return res.send('too late to edit...')
+                }
+
+                let errors = validationResult(req).array({onlyFirstError:true})
+
+                //
+                let rTitle = req.body.title
+                let titleNoWhitespace = rTitle.replace(/\s/g, '')
+                let numNonWsChars = titleNoWhitespace.length
+                let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+
+                if(rTitle.length === 0) {
+                    errors.push({'msg': 'Please fill in a title'})
+                }
+                else if(numNonWsChars < 4) {
+                    errors.push({'msg': 'Title must be at least 4 characters'})
+                }
+                else if(wsCompressedTitle.length > 160) {
+                    errors.push({'msg': 'Title can\'t be more than 160 characters'})
+                }
+
+                //
+                let tags = req.body.tags.split(',')
+                let trimTags = []
+
+                for(let i = 0; i < tags.length; ++i) {
+                    let trimTag = tags[i].trim().toLowerCase()
+
+                    if(trimTag !== "" && trimTags.indexOf(trimTag) == -1) {
+                        trimTags.push(trimTag)
+                    }
+                }
+
+                //
+                let isCharError = false
+                let isLenError = false
+
+                for(let i = 0; i < trimTags.length; ++i) {
+                    let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
+
+                    if(!isCharError && isMatch === null) {
+                        errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
+                        isCharError = true
+                    }
+
+                    let tagLen = trimTags[i].length
+                    let isLenOkay = tagLen >= 3 && tagLen <= 20
+
+                    if(!isLenError && !isLenOkay) {
+                        errors.push({'msg': 'each tag must be 3-20 characters'})
+                        isLenError = true
+                    }
+                }
+
+                //
+                if(trimTags.length > 4) {
+                    errors.push({'msg': 'the max tags per post is 4'})
+                }
+
+                //
+                if(errors.length) {
+                    res.render(
+                        'new-post2',
+                        {
+                            html_title: htmlTitleEditPost,
+                            user: req.session.user,
+                            errors: errors,
+                            title: req.body.title,
+                            link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
+                            textContent: req.body.text_content,
+                            tags: req.body.tags,
+                            submitLabel: 'Edit Post'
+                        })
+                }
+                else {
+                    await db.updatePost(
+                        rows[0].post_id,
+                        wsCompressedTitle,
+                        req.body.text_content,
+                        req.body.link)
+
+                    // delete tags for this post
+                    await db.deletePostTags(rows[0].post_id)
+
+                    //
+                    let tagIds = []
+
+                    for(let i = 0; i < trimTags.length; ++i) {
+                        const {rows:tagd} = await db.getTag(trimTags[i])
+
+                        if(tagd.length) {
+                            tagIds.push(tagd[0].tag_id)
+                        }
+                        else {
+                            const {rows:tagInsert} = await db.createTag(trimTags[i])
+                            tagIds.push(tagInsert[0].tag_id)
+                        }
+                    }
+
+                    //
+                    for(let i = 0; i < tagIds.length; ++i) {
+                        await db.createPostTag(tagIds[i], rows[0].post_id)
+                    }
+                    
+                    //
+                    return res.redirect('/p/' + postPublicId)
                 }
             }
             else {

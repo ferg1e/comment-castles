@@ -168,4 +168,18 @@ BEGIN
 END; $$ LANGUAGE 'plpgsql';
 
 --
+create trigger post_tag_del
+    after delete
+    on tposttag
+    for each row
+    execute procedure f_post_tag_del();
+
+CREATE OR REPLACE FUNCTION f_post_tag_del()
+RETURNS TRIGGER AS $$
+BEGIN
+  update ttag set num_posts = num_posts - 1 where tag_id = old.tag_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+--
 -- https://redd.it/eqqoam

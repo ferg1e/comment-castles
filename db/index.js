@@ -490,7 +490,21 @@ exports.getPostWithPublic = (publicId) => {
     return query(`
         select
             p.post_id,
-            p.group_id
+            p.user_id,
+            p.title,
+            p.text_content,
+            p.link,
+            extract(epoch from (now() - p.created_on)) seconds_since,
+            array(
+                select
+                    t.tag
+                from
+                    ttag t
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as tags
         from
             tpost p
         where
@@ -507,6 +521,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             to_char(
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            extract(epoch from (now() - p.created_on)) seconds_since,
             p.text_content,
             u.username,
             u.user_id,
@@ -575,6 +590,22 @@ exports.getPostWithGroupAndPublic = (groupName, publicId, timeZone) => {
             not p.is_removed`,
         [timeZone, publicId, groupName]
     )
+}
+
+exports.updatePost = (postId, title, textContent, link) => {
+    let finalLink = typeof link !== 'undefined' ? link : null
+    let finalTextContent = textContent.trim() === '' ? null : textContent
+
+    return query(`
+        update
+            tpost
+        set
+            title = $1,
+            link = $2,
+            text_content = $3
+        where
+            post_id = $4`,
+        [title, finalLink, finalTextContent, postId])
 }
 
 exports.markPostRemoved = (publicId) => {
@@ -1208,6 +1239,15 @@ exports.getTags = () => {
         order by
             tag`
     )
+}
+
+exports.deletePostTags = (postId) => {
+    return query(`
+        delete from
+            tposttag
+        where
+            post_id = $1`,
+        [postId])
 }
 
 //misc
