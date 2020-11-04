@@ -453,19 +453,10 @@ router.route('/new')
                 let errors = validationResult(req).array({onlyFirstError:true})
 
                 //
-                let rTitle = req.body.title
-                let titleNoWhitespace = rTitle.replace(/\s/g, '')
-                let numNonWsChars = titleNoWhitespace.length
-                let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+                let [wsCompressedTitle, error] = processPostTitle(req.body.title)
 
-                if(rTitle.length === 0) {
-                    errors.push({'msg': 'Please fill in a title'})
-                }
-                else if(numNonWsChars < 4) {
-                    errors.push({'msg': 'Title must be at least 4 characters'})
-                }
-                else if(wsCompressedTitle.length > 160) {
-                    errors.push({'msg': 'Title can\'t be more than 160 characters'})
+                if(error !== null) {
+                    errors.push(error)
                 }
 
                 //
@@ -639,19 +630,10 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                 let errors = validationResult(req).array({onlyFirstError:true})
 
                 //
-                let rTitle = req.body.title
-                let titleNoWhitespace = rTitle.replace(/\s/g, '')
-                let numNonWsChars = titleNoWhitespace.length
-                let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+                let [wsCompressedTitle, error] = processPostTitle(req.body.title)
 
-                if(rTitle.length === 0) {
-                    errors.push({'msg': 'Please fill in a title'})
-                }
-                else if(numNonWsChars < 4) {
-                    errors.push({'msg': 'Title must be at least 4 characters'})
-                }
-                else if(wsCompressedTitle.length > 160) {
-                    errors.push({'msg': 'Title can\'t be more than 160 characters'})
+                if(error !== null) {
+                    errors.push(error)
                 }
 
                 //
@@ -746,6 +728,27 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
             }
         }
     )
+
+//
+function processPostTitle(rTitle) {
+    let titleNoWhitespace = rTitle.replace(/\s/g, '')
+    let numNonWsChars = titleNoWhitespace.length
+    let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+    let error = null
+
+    if(rTitle.length === 0) {
+        error = {'msg': 'Please fill in a title'}
+    }
+    else if(numNonWsChars < 4) {
+        error = {'msg': 'Title must be at least 4 characters'}
+    }
+    else if(wsCompressedTitle.length > 160) {
+        error = {'msg': 'Title can\'t be more than 160 characters'}
+    }
+
+    //
+    return [wsCompressedTitle, error]
+}
 
 //single post
 router.route(/^\/p\/([a-z0-9]{22})$/i)
