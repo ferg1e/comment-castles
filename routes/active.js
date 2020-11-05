@@ -460,42 +460,8 @@ router.route('/new')
                 }
 
                 //
-                let tags = req.body.tags.split(',')
-                let trimTags = []
-
-                for(let i = 0; i < tags.length; ++i) {
-                    let trimTag = tags[i].trim().toLowerCase()
-
-                    if(trimTag !== "" && trimTags.indexOf(trimTag) == -1) {
-                        trimTags.push(trimTag)
-                    }
-                }
-
-                //
-                let isCharError = false
-                let isLenError = false
-
-                for(let i = 0; i < trimTags.length; ++i) {
-                    let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
-
-                    if(!isCharError && isMatch === null) {
-                        errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
-                        isCharError = true
-                    }
-
-                    let tagLen = trimTags[i].length
-                    let isLenOkay = tagLen >= 3 && tagLen <= 20
-
-                    if(!isLenError && !isLenOkay) {
-                        errors.push({'msg': 'each tag must be 3-20 characters'})
-                        isLenError = true
-                    }
-                }
-
-                //
-                if(trimTags.length > 4) {
-                    errors.push({'msg': 'the max tags per post is 4'})
-                }
+                let [trimTags, tagErrors] = processPostTags(req.body.tags)
+                errors = errors.concat(tagErrors)
 
                 //
                 if(errors.length) {
@@ -620,42 +586,8 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                 }
 
                 //
-                let tags = req.body.tags.split(',')
-                let trimTags = []
-
-                for(let i = 0; i < tags.length; ++i) {
-                    let trimTag = tags[i].trim().toLowerCase()
-
-                    if(trimTag !== "" && trimTags.indexOf(trimTag) == -1) {
-                        trimTags.push(trimTag)
-                    }
-                }
-
-                //
-                let isCharError = false
-                let isLenError = false
-
-                for(let i = 0; i < trimTags.length; ++i) {
-                    let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
-
-                    if(!isCharError && isMatch === null) {
-                        errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
-                        isCharError = true
-                    }
-
-                    let tagLen = trimTags[i].length
-                    let isLenOkay = tagLen >= 3 && tagLen <= 20
-
-                    if(!isLenError && !isLenOkay) {
-                        errors.push({'msg': 'each tag must be 3-20 characters'})
-                        isLenError = true
-                    }
-                }
-
-                //
-                if(trimTags.length > 4) {
-                    errors.push({'msg': 'the max tags per post is 4'})
-                }
+                let [trimTags, tagErrors] = processPostTags(req.body.tags)
+                errors = errors.concat(tagErrors)
 
                 //
                 if(errors.length) {
@@ -714,6 +646,50 @@ function processPostTitle(rTitle) {
 
     //
     return [wsCompressedTitle, error]
+}
+
+//
+function processPostTags(rTags) {
+    let tags = rTags.split(',')
+    let trimTags = []
+    let errors = []
+
+    for(let i = 0; i < tags.length; ++i) {
+        let trimTag = tags[i].trim().toLowerCase()
+
+        if(trimTag !== "" && trimTags.indexOf(trimTag) == -1) {
+            trimTags.push(trimTag)
+        }
+    }
+
+    //
+    let isCharError = false
+    let isLenError = false
+
+    for(let i = 0; i < trimTags.length; ++i) {
+        let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
+
+        if(!isCharError && isMatch === null) {
+            errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
+            isCharError = true
+        }
+
+        let tagLen = trimTags[i].length
+        let isLenOkay = tagLen >= 3 && tagLen <= 20
+
+        if(!isLenError && !isLenOkay) {
+            errors.push({'msg': 'each tag must be 3-20 characters'})
+            isLenError = true
+        }
+    }
+
+    //
+    if(trimTags.length > 4) {
+        errors.push({'msg': 'the max tags per post is 4'})
+    }
+
+    //
+    return [trimTags, errors]
 }
 
 //
