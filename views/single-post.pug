@@ -82,7 +82,7 @@ block content
                 | 
                 a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
 
-                if user && post.user_id == user.user_id && post.seconds_since < 1200
+                if user && post.user_id == user.user_id && post.seconds_since < 3600
                     | 
                     a(href=`/p/${post.public_id}/edit` class="edit-link") edit
 

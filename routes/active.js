@@ -520,7 +520,7 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
             }
 
             //
-            if(rows[0].seconds_since >= 1200) {
+            if(rows[0].seconds_since >= 3600) {
                 return res.send('too late to edit...')
             }
 
@@ -572,7 +572,7 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                 }
 
                 //
-                if(rows[0].seconds_since >= 1200) {
+                if(rows[0].seconds_since >= 3600) {
                     return res.send('too late to edit...')
                 }
 
