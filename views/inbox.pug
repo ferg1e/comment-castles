@@ -1,0 +1,49 @@
+extends layout
+
+include bbCodes.pug
+
+mixin followLink(username)
+    a(href=`/following?follow=${username}&goto=/inbox` class="follow" title=`follow ${username}`) +
+
+mixin unfollowLink(username)
+    a(href=`/following?unfollow=${username}&goto=/inbox` class="unfollow" title=`unfollow ${username}`) -
+
+mixin commentContent(comment)
+
+    if comment.is_visible
+        +bbCodes(comment.text_content)
+        | 
+        span(class="cuser") !{'&ndash;'}#{comment.username}
+
+        if !user || (comment.user_id != user.user_id)
+            if comment.is_follow
+                +unfollowLink(comment.username)
+            else
+                +followLink(comment.username)
+
+        | 
+        span(class="cdate") on #{comment.created_on} 
+        a(href=`/c/${comment.public_id}`) reply
+    else
+        span(class="cuser") !{'&ndash;'}#{comment.username}
+
+        if !user || (comment.user_id != user.user_id)
+            if comment.is_follow
+                +unfollowLink(comment.username)
+            else
+                +followLink(comment.username)
+
+        | 
+        span(class="cdate") on #{comment.created_on} 
+        a(href=`/c/${comment.public_id}`) reply
+
+block content
+    .comments
+        if comments.length
+            ul
+                for c in comments
+                    li
+                        +commentContent(c)
+        
+        else
+            | no comments yet

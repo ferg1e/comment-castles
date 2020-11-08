@@ -922,6 +922,37 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             }
     })
 
+//
+router.route('/inbox')
+    .get(async (req, res) => {
+        if(req.session.user) {
+
+            //
+            const filterUserId = await getCurrEyesId(req)
+            const isDiscoverMode = isDiscover(req)
+
+            const{rows:comments} = await db.getInboxComments(
+                getCurrTimeZone(req),
+                req.session.user.user_id,
+                isDiscoverMode,
+                filterUserId)
+
+            //
+            res.render(
+                'inbox',
+                {
+                    html_title: 'Inbox',
+                    user: req.session.user,
+                    comments: comments
+                }
+            )
+        }
+        else {
+            res.send('plz log in...')
+        }
+    })
+
+//
 router.route('/following')
     .get(async (req, res) => {
 
