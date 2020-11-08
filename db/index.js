@@ -716,16 +716,26 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page
         join
             tpost p on p.post_id = c.post_id
         where
-            (nlevel(c.path) = 2 and p.user_id = $6) or
-            (nlevel(c.path) > 2 and (select user_id from ttest where path = subpath(c.path, 0, -1)) = $7)
+            (
+                (nlevel(c.path) = 2 and p.user_id = $6) or
+                (nlevel(c.path) > 2 and (select user_id from ttest where path = subpath(c.path, 0, -1)) = $7)
+            ) and
+            ($8 or c.user_id = $9 or c.user_id = $10 or
+                exists(select
+                    1
+                from
+                    tfollower
+                where
+                    followee_user_id = c.user_id and
+                    user_id = $11))
         order by
             c.created_on desc
         limit
-            $8
+            $12
         offset
-            $9`,
+            $13`,
         [timeZone, userId, filterUserId, filterUserId, userId, userId, userId,
-            pageSize, (page - 1)*pageSize])
+            isDiscoverMode, userId, filterUserId, filterUserId, pageSize, (page - 1)*pageSize])
 }
 
 exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserId) => {
