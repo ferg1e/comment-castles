@@ -5,8 +5,3 @@ form > div {
 form label {
     display: block;
 }
-
-.comments li {
-    margin-top: 2px;
-    margin-top: .125rem;
-}

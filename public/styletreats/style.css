@@ -36,8 +36,9 @@ body {
   color: #ee4a4a;
 }
 
-.comments li em {
-  color: #9f9fa7;
+.comments li {
+  margin-top: 2px;
+  margin-top: .125rem;
 }
 
 .posts > div {
