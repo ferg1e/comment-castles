@@ -57,7 +57,7 @@ block content
 
             | 
             span(class="cdate") on #{comment.created_on}
-            p
+            div.the-comment-content
                 +bbCodes(comment.text_content)
         else
             span(class="cuser") by #{comment.username}
