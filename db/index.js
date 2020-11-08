@@ -680,7 +680,9 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
     )
 }
 
-exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId) => {
+exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page) => {
+    const pageSize = 15
+
     return query(`
         select
             c.text_content,
@@ -717,8 +719,13 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId) => {
             (nlevel(c.path) = 2 and p.user_id = $6) or
             (nlevel(c.path) > 2 and (select user_id from ttest where path = subpath(c.path, 0, -1)) = $7)
         order by
-            c.created_on desc`,
-        [timeZone, userId, filterUserId, filterUserId, userId, userId, userId])
+            c.created_on desc
+        limit
+            $8
+        offset
+            $9`,
+        [timeZone, userId, filterUserId, filterUserId, userId, userId, userId,
+            pageSize, (page - 1)*pageSize])
 }
 
 exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserId) => {

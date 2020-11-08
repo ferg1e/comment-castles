@@ -931,11 +931,24 @@ router.route('/inbox')
             const filterUserId = await getCurrEyesId(req)
             const isDiscoverMode = isDiscover(req)
 
+            //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    return res.redirect('/inbox')
+                }
+            }
+
+            //
             const{rows:comments} = await db.getInboxComments(
                 getCurrTimeZone(req),
                 req.session.user.user_id,
                 isDiscoverMode,
-                filterUserId)
+                filterUserId,
+                page)
 
             //
             res.render(
@@ -943,7 +956,8 @@ router.route('/inbox')
                 {
                     html_title: 'Inbox',
                     user: req.session.user,
-                    comments: comments
+                    comments: comments,
+                    page
                 }
             )
         }
