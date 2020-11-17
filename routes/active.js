@@ -755,7 +755,6 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         }
     })
     .post(
-        body('text_content', 'Please write a comment').notEmpty(),
         async (req, res) => {
 
             if(req.session.user) {
@@ -770,8 +769,9 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     filterUserId)
 
                 if(rows.length) {
-                    const errors = validationResult(req).array({onlyFirstError:true})
+                    let [compressedComment, errors] = processComment(req.body.text_content)
 
+                    //
                     if(errors.length) {
 
                         //
@@ -801,7 +801,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                         const {rows:data1} = await db.createPostComment(
                             rows[0].post_id,
                             req.session.user.user_id,
-                            req.body.text_content)
+                            compressedComment)
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
@@ -859,7 +859,6 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
         }
     })
     .post(
-        body('text_content', 'Please write some content').notEmpty(),
         async (req, res) => {
             if(req.session.user) {
                 const commentPublicId = req.params[0]
@@ -873,7 +872,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     filterUserId)
 
                 if(rows.length) {
-                    const errors = validationResult(req).array({onlyFirstError:true})
+                    let [compressedComment, errors] = processComment(req.body.text_content)
 
                     if(errors.length) {
 
@@ -905,7 +904,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                         const {rows:data1} = await db.createCommentComment(
                             rows[0].post_id,
                             req.session.user.user_id,
-                            req.body.text_content,
+                            compressedComment,
                             rows[0].path)
 
                         //
@@ -921,6 +920,24 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                 res.send('nope...')
             }
     })
+
+//
+function processComment(rawText) {
+    let noWhitespace = rawText.replace(/\s/g, '')
+    let numNonWsChars = noWhitespace.length
+    let compressedText = rawText.trim()
+    let errors = []
+
+    if(rawText.length === 0) {
+        errors.push({'msg': 'Please fill in a comment'})
+    }
+    else if(numNonWsChars < 1) {
+        errors.push({'msg': 'Comment must be at least 1 character'})
+    }
+
+    //
+    return [compressedText, errors]
+}
 
 //
 router.route('/inbox')
