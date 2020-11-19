@@ -93,6 +93,18 @@ exports.updateUser = (userId, timeZoneName, postMode, eyes) => {
         [timeZoneName, postMode, eyes, userId])
 }
 
+//
+exports.updateUserViewMode = (userId, postMode) => {
+    return query(`
+        update
+            tuser
+        set
+            post_mode = $1
+        where
+            user_id = $2`,
+        [postMode, userId])
+}
+
 //group
 exports.createGroup = (userId, formData) => {
     return query(

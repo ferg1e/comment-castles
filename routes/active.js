@@ -79,7 +79,8 @@ router.route('/')
                 user: req.session.user,
                 posts: rows,
                 page: page,
-                base_url: '/'
+                base_url: '/',
+                is_discover_mode: isDiscoverMode
             })
     })
 
@@ -247,6 +248,39 @@ router.post(
 
 router.route('/settings')
     .get(async (req, res) => {
+
+        //
+        const isViewMode = typeof req.query.viewmode !== 'undefined'
+
+        if(isViewMode) {
+            let viewMode = req.query.viewmode == 'discover'
+                ? req.query.viewmode
+                : 'following-only'
+
+            //
+            if(req.session.user) {
+                await db.updateUserViewMode(
+                    req.session.user.user_id,
+                    viewMode)
+
+                req.session.user.post_mode = viewMode
+            }
+            else {
+                res.cookie(
+                    'post_mode',
+                    viewMode,
+                    {maxAge: cookieMaxAge})
+            }
+
+            //
+            const redirectUrl = (typeof req.query.goto === 'undefined')
+                ? '/settings'
+                : req.query.goto;
+
+            return res.redirect(redirectUrl)
+        }
+
+        //
         const {rows} = await db.getTimeZones()
         const {rows:avaEyes} = await db.getAvailableEyes()
         const currEyes = await getCurrEyes(req)
@@ -410,7 +444,8 @@ router.get(
                 user: req.session.user,
                 posts: rows,
                 page: page,
-                base_url: `/r/${tag}`
+                base_url: `/r/${tag}`,
+                is_discover_mode: isDiscoverMode
             })
     }
 )
@@ -746,7 +781,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     user: req.session.user,
                     post: rows[0],
                     comments: comments,
-                    errors: []
+                    errors: [],
+                    is_discover_mode: isDiscoverMode
                 }
             )
         }
@@ -791,7 +827,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                                 user: req.session.user,
                                 post: rows[0],
                                 comments: comments,
-                                errors: errors
+                                errors: errors,
+                                is_discover_mode: isDiscoverMode
                             }
                         )
                     }
@@ -850,7 +887,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     post_public_id: rows[0].post_public_id,
                     comment: rows[0],
                     comments: comments,
-                    errors: []
+                    errors: [],
+                    is_discover_mode: isDiscoverMode
                 }
             )
         }
@@ -894,7 +932,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                                 post_public_id: rows[0].post_public_id,
                                 comment: rows[0],
                                 comments: comments,
-                                errors: errors
+                                errors: errors,
+                                is_discover_mode: isDiscoverMode
                             }
                         )
                     }

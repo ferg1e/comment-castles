@@ -115,6 +115,19 @@ block content
             div
                 input(type="submit" value="Submit Comment")
 
+    if is_discover_mode
+        div(class="alert1o")
+            span(class="alert1")
+                |Showing all comments. 
+                a(href=`/settings?viewmode=locked&goto=/p/${post.public_id}`) Switch to locked
+                |.
+    else
+        div(class="alert1o")
+            span(class="alert1")
+                |Some comments may be hidden. 
+                a(href=`/settings?viewmode=discover&goto=/p/${post.public_id}`) Show all
+                |.
+
     .comments
         if comments.length
             - let currIndent = 0

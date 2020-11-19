@@ -83,6 +83,19 @@ block content
             div
                 input(type="submit" value="Submit Comment")
 
+    if is_discover_mode
+        div(class="alert1o")
+            span(class="alert1")
+                |Showing all comments. 
+                a(href=`/settings?viewmode=locked&goto=/c/${comment.comment_public_id}`) Switch to locked
+                |.
+    else
+        div(class="alert1o")
+            span(class="alert1")
+                |Some comments may be hidden. 
+                a(href=`/settings?viewmode=discover&goto=/c/${comment.comment_public_id}`) Show all
+                |.
+
     .comments
         if comments.length
             - let currIndent = comments[0].path.split('.').length - 2

@@ -11,6 +11,19 @@ mixin unfollowLink(username)
     a(href=`/following?unfollow=${username}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
+    if is_discover_mode
+        div(class="alert2o")
+            span(class="alert2")
+                |Showing all posts. 
+                a(href=`/settings?viewmode=locked&goto=${base_url}`) Switch to locked
+                |.
+    else
+        div(class="alert2o")
+            span(class="alert2")
+                |Some posts may be hidden. 
+                a(href=`/settings?viewmode=discover&goto=${base_url}`) Show all
+                |.
+
     if posts.length
         .posts
 

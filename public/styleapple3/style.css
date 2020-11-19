@@ -159,3 +159,21 @@ pre {
 .edit-link {
   color: #865d04;
 }
+
+.alert1 {
+  background: #f8edbd;
+}
+
+.alert1o {
+  margin-top: 8px;
+  margin-top: .5rem;
+}
+
+.alert2 {
+  background: #f8edbd;
+}
+
+.alert2o {
+  margin-bottom: 12px;
+  margin-bottom: .75rem;
+}
