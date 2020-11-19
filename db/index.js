@@ -809,41 +809,42 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             c.public_id,
-            u.user_id = $2 or
+            u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_follow
+                    user_id = $5) is_follow
         from
             ttest c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $5 and
-            not (c.path ~ $6) and
-            ($7 or not exists(
+            c.path <@ $6 and
+            not (c.path ~ $7) and
+            ($8 or not exists(
                 select
                     1
                 from
                     ttest c2
                 where
                     c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $8 and followee_user_id = c2.user_id) and
-                    c2.user_id != $9 and
-                    not (c2.path @> $10)))
+                    not exists(select 1 from tfollower where user_id = $9 and followee_user_id = c2.user_id) and
+                    c2.user_id != $10 and
+                    c2.user_id != $11 and
+                    not (c2.path @> $12)))
         order by
             c.path`,
-        [timeZone, userId, filterUserId, userId, path, path, isDiscoverMode, filterUserId, userId, path])
+        [timeZone, userId, filterUserId, filterUserId, userId, path, path, isDiscoverMode, filterUserId, userId, filterUserId, path])
 }
 
 exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId, timeZone) => {
@@ -1081,21 +1082,21 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             u.username,
             u.user_id,
             p.public_id post_public_id,
-            u.user_id = $2 or
+            u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_follow
+                    user_id = $5) is_follow
         from
             ttest c
         join
@@ -1104,8 +1105,8 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             tpost p on p.post_id = c.post_id
         where
             not p.is_removed and
-            c.public_id = $5`,
-        [timeZone, userId, filterUserId, userId, publicId]
+            c.public_id = $6`,
+        [timeZone, userId, filterUserId, filterUserId, userId, publicId]
     )
 }
 
