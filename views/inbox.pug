@@ -42,6 +42,20 @@ mixin commentContent(comment)
         a(href=`/c/${comment.public_id}`) reply
 
 block content
+
+    if is_discover_mode
+        div
+            span(class="alert1")
+                |Showing all comments. 
+                a(href=`/settings?viewmode=locked&goto=/inbox`) Switch to locked
+                |.
+    else
+        div
+            span(class="alert1")
+                |Some comments may be hidden. 
+                a(href=`/settings?viewmode=discover&goto=/inbox`) Show all
+                |.
+
     if comments.length
         .comments
             ul
