@@ -36,7 +36,7 @@ mixin commentContent(comment, postId)
             span(class="cdate") on #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
         else
-            span(class="cuser") !{'&ndash;'}#{comment.username}
+            span(class="cuser2") !{'&ndash;'}#{comment.username}
 
             if !user || (comment.user_id != user.user_id)
                 if comment.is_follow
@@ -45,7 +45,7 @@ mixin commentContent(comment, postId)
                     +followLink(comment.username, postId)
 
             | 
-            span(class="cdate") on #{comment.created_on} 
+            span(class="cdate2") on #{comment.created_on} 
             a(href=`/c/${comment.public_id}`) reply
 
 block content
@@ -90,7 +90,7 @@ block content
                 div.the-post-content
                     +bbCodes(post.text_content)
         else
-            span(class="puser") by #{post.username}
+            span(class="puser2") by #{post.username}
 
             if !user || (post.user_id != user.user_id)
                 if post.is_follow
@@ -99,7 +99,7 @@ block content
                     +followLink(post.username, post.public_id)
 
             | 
-            span(class="pdate") on #{post.created_on}
+            span(class="pdate2") on #{post.created_on}
             | 
             a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
 

@@ -29,7 +29,7 @@ mixin commentContent(comment)
         span(class="cdate") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
     else
-        span(class="cuser") !{'&ndash;'}#{comment.username}
+        span(class="cuser2") !{'&ndash;'}#{comment.username}
 
         if !user || (comment.user_id != user.user_id)
             if comment.is_follow
@@ -38,7 +38,7 @@ mixin commentContent(comment)
                 +followLink(comment.username)
 
         | 
-        span(class="cdate") on #{comment.created_on} 
+        span(class="cdate2") on #{comment.created_on} 
         a(href=`/c/${comment.public_id}`) reply
 
 block content

@@ -57,7 +57,7 @@ block content
                         | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
                     else
-                        span(class="puser") by #{post.username}
+                        span(class="puser2") by #{post.username}
 
                         if !user || (post.user_id != user.user_id)
                             if post.is_follow
@@ -66,7 +66,7 @@ block content
                                 +followLink(post.username)
 
                         | 
-                        span(class="pdate") on #{post.created_on}
+                        span(class="pdate2") on #{post.created_on}
                         | 
                         a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
         div
