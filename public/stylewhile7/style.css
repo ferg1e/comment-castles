@@ -12,27 +12,19 @@ body {
   padding: 0;
 }
 
-.main-nav, .post-nav, .group-admin-nav,
-.group-moderate-nav {
-  margin-bottom: 12px;
-}
-
-.main-nav ul, .post-nav ul, .group-admin-nav ul,
-.group-moderate-nav ul {
+.main-nav ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
-.main-nav ul li, .post-nav ul li, .group-admin-nav ul li,
-.group-moderate-nav ul li {
-  display: inline;
+.main-nav ul li {
+  display: inline-block;
   padding: 0;
-  margin: 0 10px 0 0;
+  margin: 0 10px 12px 0;
 }
 
-.main-nav a, .post-nav a, .group-admin-nav a,
-.group-moderate-nav a {
+.main-nav a {
   color: #ee4a4a;
 }
 
