@@ -2,6 +2,6 @@ form > div {
     margin-bottom: 12px;
 }
 
-form label {
+form #username, form #password {
     display: block;
 }

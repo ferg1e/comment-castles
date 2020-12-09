@@ -31,8 +31,13 @@ function numToOrderedAlpha(num) {
 //user
 exports.createUser = (username, password) => {
     return argon2.hash(password)
-        .then(hash => query(
-            'insert into tuser(username, password) values($1, $2)',
+        .then(hash => query(`
+            insert into tuser
+                (username, password)
+            values
+                ($1, $2)
+            returning
+                user_id, username, time_zone, post_mode, eyes`,
             [username, hash]))
 }
 

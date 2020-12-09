@@ -4,6 +4,8 @@ append head
     link(rel='stylesheet', href='/stylesheep3/sign-up.css')
 
 block content
+    - const isLogin = is_login === 'yes'
+
     if errors.length
         ul
             each error in errors
@@ -11,9 +13,12 @@ block content
     form(method="post")
         div
             label(for="username") Username
-            input(name="username" id="username")
+            input(name="username" id="username" value=username)
         div
             label(for="password") Password
             input(name="password" id="password" type="password" )
+        div
+            input(type="checkbox" id="is_login" name="is_login" value="yes" checked=isLogin)
+            label(for="is_login") Log me in right after signing up
         div
             input(type="submit" value="Sign Up")

@@ -138,7 +138,9 @@ router.get(
                 'sign-up',
                 {
                     html_title: htmlTitleSignUp,
-                    errors:[]
+                    errors:[],
+                    username: "",
+                    is_login: "yes"
                 })
         }
     }
@@ -160,14 +162,16 @@ router.post(
                 'sign-up',
                 {
                     html_title: htmlTitleSignUp,
-                    errors:errors
+                    errors:errors,
+                    username: req.body.username,
+                    is_login: req.body.is_login
                 })
         }
         else {
             const {username, password} = req.body
 
             try {
-                await db.createUser(username, password)
+                var {rows} = await db.createUser(username, password)
             }
             catch(err) {
                 let errorMessage = (err.constraint == 'username_unique_idx')
@@ -179,17 +183,32 @@ router.post(
                     'sign-up',
                     {
                         html_title: htmlTitleSignUp,
-                        errors:[{msg:errorMessage}]
+                        errors:[{msg:errorMessage}],
+                        username: req.body.username,
+                        is_login: req.body.is_login
                     })
             }
 
-            res.render(
-                'message',
-                {
-                    html_title: htmlTitleSignUp,
-                    message: "Sign up was successful, you can now log in.",
-                    user: req.session.user
-                })
+            if(req.body.is_login === 'yes') {
+                req.session.user = {
+                    user_id: rows[0].user_id,
+                    username: rows[0].username,
+                    time_zone: rows[0].time_zone,
+                    post_mode: rows[0].post_mode,
+                    eyes: rows[0].eyes
+                }
+
+                return res.redirect('/')
+            }
+            else {
+                res.render(
+                    'message',
+                    {
+                        html_title: htmlTitleSignUp,
+                        message: "Sign up was successful, you can now log in.",
+                        user: req.session.user
+                    })
+            }
         }
     }
 )
