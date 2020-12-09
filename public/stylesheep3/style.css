@@ -1,10 +1,12 @@
-header, nav, main, section {
+header, nav, main, footer, section {
   display: block;
 }
 
 body {
   background: #fefefe;
   color: #232323;
+  margin-bottom: 48px;
+  margin-bottom: 3rem;
 }
 
 .main-logo {
@@ -26,6 +28,11 @@ body {
 
 .main-nav a {
   color: #ee4a4a;
+}
+
+.main-footer {
+  margin-top: 32px;
+  margin-top: 2rem;
 }
 
 .comments li {

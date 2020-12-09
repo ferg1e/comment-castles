@@ -94,6 +94,16 @@ router.route('/manual')
             })
     })
 
+router.route('/privacy-policy')
+    .get((req, res) => {
+        res.render(
+            'privacy-policy',
+            {
+                html_title: 'Privacy Policy',
+                user: req.session.user
+            })
+    })
+
 //
 /*router.route('/tags')
     .get(async (req, res) => {
