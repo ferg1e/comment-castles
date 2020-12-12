@@ -110,60 +110,6 @@ exports.updateUserViewMode = (userId, postMode) => {
         [postMode, userId])
 }
 
-//group
-exports.createGroup = (userId, formData) => {
-    return query(
-        `insert into tgroup
-            (created_by, owned_by, name, group_viewing_mode, group_posting_mode, group_commenting_mode)
-        values
-            ($1, $2, $3, $4, $5, $6)`,
-        [userId, userId, formData.name,
-        formData.group_view_mode, formData.group_post_mode, formData.group_comment_mode]
-    )
-}
-
-exports.getGroupWithName = (name) => {
-    return query(`
-        select
-            g.group_id,
-            g.owned_by,
-            g.name,
-            g.group_viewing_mode,
-            g.group_posting_mode,
-            g.group_commenting_mode,
-            (
-                select
-                    coalesce(array_agg(user_id), '{}')
-                from
-                    tmember
-                where
-                    group_id = g.group_id) members
-        from
-            tgroup g
-        where
-            lower(g.name) = lower($1)`,
-        [name]
-    )
-}
-
-exports.getGroups = () => {
-    return query(
-        'select name from tgroup order by name'
-    )
-}
-
-exports.updateGroupSettings = (groupId, postMode, commentMode) => {
-    return query(`
-        update
-            tgroup
-        set
-            group_posting_mode = $1,
-            group_commenting_mode = $2
-        where
-            group_id = $3`,
-        [postMode, commentMode, groupId])
-}
-
 //post
 exports.createPost = (userId, title, textContent, link) => {
     let newPostId = nanoid(nanoidAlphabet, nanoidLen)
