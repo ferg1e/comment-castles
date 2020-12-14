@@ -8,10 +8,27 @@ router.get(
     '/posts',
     async (req, res) => {
 
-        // exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId)
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                page = 1
+            }
+        }
+
+        //
+        let isDiscoverMode = false
+
+        if(typeof req.query.viewmode !== 'undefined' &&
+            req.query.viewmode.toLowerCase() == 'discover')
+        {
+            isDiscoverMode = true
+        }
+
         const userId = -1
-        const page = 1
-        const isDiscoverMode = false
         const filterUserId = 1
 
         const {rows} = await db.getPosts(
