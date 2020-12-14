@@ -139,6 +139,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
             to_char(
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            p.created_on created_on_raw,
             u.username,
             u.user_id,
             p.link,

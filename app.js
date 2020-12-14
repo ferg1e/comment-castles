@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 var cookieParser = require('cookie-parser');
 const activeRouter = require('./routes/active')
+const apiRouter = require('./routes/api')
 const uuid = require('uuid/v4')
 const session = require('express-session')
 const redisStore = require('connect-redis')(session)
@@ -35,5 +36,6 @@ app.use(express.static(path.join(
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
 app.use('/', activeRouter)
+app.use('/api/', apiRouter)
 
 //app.locals.pretty = true
