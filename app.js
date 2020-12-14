@@ -36,6 +36,6 @@ app.use(express.static(path.join(
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
 app.use('/', activeRouter)
-app.use('/api/', apiRouter)
+app.use('/api/v1/', apiRouter)
 
 //app.locals.pretty = true
