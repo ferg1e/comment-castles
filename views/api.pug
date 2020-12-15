@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    h2 API
+    p
+        | Peaches 'n' Stink has one API endpoint available here:
+
+    p
+        a(href="/api/v1/posts") https://www.peachesnstink.com/api/v1/posts
+
+    p
+        |This call will return all posts in JSON format. 
+        |You can use p and viewmode variables in the URL. 
+        |p is for page and it starts at 1. The page size is 15. 
+        |If viewmode is "discover" then the discover view mode is used. 
+        |If any other value is used for viewmode then the locked view mode is used. 
+        |In discover view mode, the post title and link will be false if the post author is not on the selected allow list.
+        |Examples of this endpoint:
+
+    p
+        a(href="/api/v1/posts?p=2") https://www.peachesnstink.com/api/v1/posts?p=2
+
+    p
+        a(href="/api/v1/posts?viewmode=discover") https://www.peachesnstink.com/api/v1/posts?viewmode=discover
+
+    p
+        a(href="/api/v1/posts?viewmode=discover&p=2") https://www.peachesnstink.com/api/v1/posts?viewmode=discover&p=2

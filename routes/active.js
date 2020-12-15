@@ -104,6 +104,16 @@ router.route('/privacy-policy')
             })
     })
 
+router.route('/api')
+    .get((req, res) => {
+        res.render(
+            'api',
+            {
+                html_title: 'API',
+                user: req.session.user
+            })
+    })
+
 //
 /*router.route('/tags')
     .get(async (req, res) => {
