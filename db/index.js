@@ -485,6 +485,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             to_char(
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            p.created_on created_on_raw,
             extract(epoch from (now() - p.created_on)) seconds_since,
             p.text_content,
             u.username,
@@ -712,6 +713,7 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
+            c.created_on created_on_raw,
             c.public_id,
             c.is_removed,
             u.user_id = $2 or u.user_id = $3 or
