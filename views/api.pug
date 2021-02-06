@@ -5,9 +5,7 @@ block content
     p
         | Peaches 'n' Stink has two API endpoints available:
 
-    p
-        |1. GET 
-        a(href="/api/v1/posts") /api/v1/posts
+    h3 GET /api/v1/posts
 
     p
         |This call will return all posts in JSON format. 
@@ -19,6 +17,9 @@ block content
         |Examples of this endpoint:
 
     p
+        a(href="/api/v1/posts") /api/v1/posts
+
+    p
         a(href="/api/v1/posts?p=2") /api/v1/posts?p=2
 
     p
@@ -27,9 +28,7 @@ block content
     p
         a(href="/api/v1/posts?viewmode=discover&p=2") /api/v1/posts?viewmode=discover&p=2
 
-    p
-        |2. GET 
-        a(href="/api/v1/post") /api/v1/post
+    h3 GET /api/v1/post
 
     p
         |This call will return a single post and its comments. 
