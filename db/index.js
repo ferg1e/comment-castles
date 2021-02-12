@@ -638,7 +638,9 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
         insert into ttest
             (post_id, user_id, text_content, path, public_id)
         values
-            ($1, $2, $3, $4, $5)`,
+            ($1, $2, $3, $4, $5)
+        returning
+            public_id, text_content, created_on`,
         [postId, userId, content,
             parentPath + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
             nanoid(nanoidAlphabet, nanoidLen)])
@@ -1012,11 +1014,10 @@ exports.getCommentWithPublic = (publicId) => {
     return query(`
         select
             c.comment_id,
-            p.group_id
+            c.post_id,
+            c.path
         from
             ttest c
-        join
-            tpost p on p.post_id = c.post_id
         where
             c.public_id = $1`,
         [publicId]

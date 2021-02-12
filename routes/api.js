@@ -134,4 +134,65 @@ router.get(
 )
 
 //
+router.post(
+    '/comment',
+    async (req, res) => {
+        if(req.session.user) {
+
+            //
+            const {rows} = await db.getCommentWithPublic(req.body.commentid)
+
+            //
+            if(rows.length) {
+                let [compressedComment, errors] = processComment(req.body.text_content)
+
+                if(errors.length) {
+                    res.json(0)
+                }
+                else {
+
+                    //
+                    const {rows:data1} = await db.createCommentComment(
+                        rows[0].post_id,
+                        req.session.user.user_id,
+                        compressedComment,
+                        rows[0].path)
+
+                    //
+                    await db.incPostNumComments(rows[0].post_id)
+
+                    //
+                    data1[0].by = req.session.user.username
+                    res.json(data1[0])
+                }
+            }
+            else {
+                res.json(0)
+            }
+        }
+        else {
+            res.json(0)
+        }
+    }
+)
+
+//todo: dry this up
+function processComment(rawText) {
+    let noWhitespace = rawText.replace(/\s/g, '')
+    let numNonWsChars = noWhitespace.length
+    let compressedText = rawText.trim()
+    let errors = []
+
+    if(rawText.length === 0) {
+        errors.push({'msg': 'Please fill in a comment'})
+    }
+    else if(numNonWsChars < 1) {
+        errors.push({'msg': 'Comment must be at least 1 character'})
+    }
+
+    //
+    return [compressedText, errors]
+}
+
+//
 module.exports = router

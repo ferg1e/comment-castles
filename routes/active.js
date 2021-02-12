@@ -999,7 +999,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             }
     })
 
-//
+//todo: dry this up
 function processComment(rawText) {
     let noWhitespace = rawText.replace(/\s/g, '')
     let numNonWsChars = noWhitespace.length
