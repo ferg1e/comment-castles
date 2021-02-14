@@ -2,6 +2,7 @@ const express = require('express')
 const argon2 = require('argon2')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
+const myMisc = require('../misc.js')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
@@ -67,7 +68,7 @@ router.route('/')
         //
         const {rows} = await db.getPosts(
             finalUserId,
-            getCurrTimeZone(req),
+            myMisc.getCurrTimeZone(req),
             page,
             isDiscoverMode,
             filterUserId)
@@ -331,7 +332,7 @@ router.route('/settings')
                 errors: [],
                 user: req.session.user,
                 time_zones: rows,
-                time_zone: getCurrTimeZone(req),
+                time_zone: myMisc.getCurrTimeZone(req),
                 avaEyes: avaEyes,
                 currEyes: currEyes,
                 postMode: getCurrPostMode(req)
@@ -470,7 +471,7 @@ router.get(
         //
         const {rows} = await db.getTagPosts(
             finalUserId,
-            getCurrTimeZone(req),
+            myMisc.getCurrTimeZone(req),
             page,
             tag,
             isDiscoverMode,
@@ -797,7 +798,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
-            getCurrTimeZone(req),
+            myMisc.getCurrTimeZone(req),
             finalUserId,
             filterUserId)
 
@@ -808,7 +809,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
-                getCurrTimeZone(req),
+                myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
                 filterUserId)
@@ -839,7 +840,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
                 const {rows} = await db.getPostWithPublic2(
                     postPublicId,
-                    getCurrTimeZone(req),
+                    myMisc.getCurrTimeZone(req),
                     finalUserId,
                     filterUserId)
 
@@ -854,7 +855,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
 
                         const{rows:comments} = await db.getPostComments(
                             rows[0].post_id,
-                            getCurrTimeZone(req),
+                            myMisc.getCurrTimeZone(req),
                             finalUserId,
                             isDiscoverMode,
                             filterUserId)
@@ -902,7 +903,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
-            getCurrTimeZone(req),
+            myMisc.getCurrTimeZone(req),
             finalUserId,
             filterUserId)
 
@@ -913,7 +914,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
-                getCurrTimeZone(req),
+                myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
                 filterUserId)
@@ -944,7 +945,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
-                    getCurrTimeZone(req),
+                    myMisc.getCurrTimeZone(req),
                     finalUserId,
                     filterUserId)
 
@@ -958,7 +959,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
-                            getCurrTimeZone(req),
+                            myMisc.getCurrTimeZone(req),
                             finalUserId,
                             isDiscoverMode,
                             filterUserId)
@@ -983,7 +984,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                             rows[0].post_id,
                             req.session.user.user_id,
                             compressedComment,
-                            rows[0].path)
+                            rows[0].path,
+                            'UTC')
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
@@ -1039,7 +1041,7 @@ router.route('/inbox')
 
             //
             const{rows:comments} = await db.getInboxComments(
-                getCurrTimeZone(req),
+                myMisc.getCurrTimeZone(req),
                 req.session.user.user_id,
                 isDiscoverMode,
                 filterUserId,
@@ -1257,26 +1259,6 @@ async function renderFollowing(req, res, errors, formUsername) {
 }
 
 module.exports = router
-
-//util
-function getCurrTimeZone(req) {
-    let timeZone = undefined
-
-    if(req.session.user) {
-        timeZone = req.session.user.time_zone
-    }
-    else {
-        timeZone = req.cookies.time_zone
-    }
-
-    //
-    if(typeof timeZone === 'undefined') {
-        timeZone = 'UTC'
-    }
-
-    //
-    return timeZone
-}
 
 //
 function getCurrPostMode(req) {

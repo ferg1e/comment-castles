@@ -1,5 +1,6 @@
 const express = require('express')
 const db = require('../db')
+const myMisc = require('../misc.js')
 
 //
 const router = express.Router()
@@ -156,7 +157,8 @@ router.post(
                         rows[0].post_id,
                         req.session.user.user_id,
                         compressedComment,
-                        rows[0].path)
+                        rows[0].path,
+                        myMisc.getCurrTimeZone(req))
 
                     //
                     await db.incPostNumComments(rows[0].post_id)

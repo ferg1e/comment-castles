@@ -624,7 +624,7 @@ exports.createPostComment = (postId, userId, content) => {
     )
 }
 
-exports.createCommentComment = (postId, userId, content, parentPath) => {
+exports.createCommentComment = (postId, userId, content, parentPath, timeZone) => {
     let lQuery = parentPath + '.*{1}'
 
     return query(`
@@ -640,10 +640,15 @@ exports.createCommentComment = (postId, userId, content, parentPath) => {
         values
             ($1, $2, $3, $4, $5)
         returning
-            public_id, text_content, created_on`,
+            public_id,
+            text_content,
+            to_char(
+                timezone($6, created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on`,
         [postId, userId, content,
             parentPath + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
-            nanoid(nanoidAlphabet, nanoidLen)])
+            nanoid(nanoidAlphabet, nanoidLen),
+            timeZone])
     )
 }
 

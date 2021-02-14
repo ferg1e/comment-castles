@@ -41,7 +41,7 @@ function reply(cpid) {
 
                     const dateSpan = document.createElement('span')
                     dateSpan.className = 'cdate'
-                    dateSpan.innerText = data.created_on
+                    dateSpan.innerText = 'on ' + data.created_on
 
                     const replyLink = document.createElement('a')
                     const replyLinkText = document.createTextNode('reply')
