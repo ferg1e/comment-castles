@@ -37,7 +37,7 @@ function reply(cpid) {
 
                     const bySpan = document.createElement('span')
                     bySpan.className = 'cuser'
-                    bySpan.innerText = '-' + data.by
+                    bySpan.innerHTML = '&ndash;' + data.by
 
                     const dateSpan = document.createElement('span')
                     dateSpan.className = 'cdate'
