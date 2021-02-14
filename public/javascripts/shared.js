@@ -29,6 +29,7 @@ function reply(cpid) {
 
                     //
                     const li = document.createElement('li')
+                    li.id = data.public_id
                     li.innerHTML = data.text_content
 
                     const space1 = document.createTextNode(' ')
@@ -49,7 +50,7 @@ function reply(cpid) {
                     replyLink.appendChild(replyLinkText)
                     replyLink.href = "#"
                     replyLink.onclick = function() {
-                        console.log('reply:' + data.public_id)
+                        reply(data.public_id)
                         return false
                     }
 
