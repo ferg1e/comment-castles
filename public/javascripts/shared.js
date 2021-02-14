@@ -34,6 +34,7 @@ function reply(cpid) {
                     const space1 = document.createTextNode(' ')
                     const space2 = document.createTextNode(' ')
                     const space3 = document.createTextNode(' ')
+                    const space4 = document.createTextNode(' ')
 
                     const bySpan = document.createElement('span')
                     bySpan.className = 'cuser'
@@ -52,6 +53,11 @@ function reply(cpid) {
                         return false
                     }
 
+                    const permalink = document.createElement('a')
+                    const permalinkText = document.createTextNode('link')
+                    permalink.appendChild(permalinkText)
+                    permalink.href = "/c/" + data.public_id
+
                     //
                     li.appendChild(space1)
                     li.appendChild(bySpan)
@@ -59,6 +65,8 @@ function reply(cpid) {
                     li.appendChild(dateSpan)
                     li.appendChild(space3)
                     li.appendChild(replyLink)
+                    li.appendChild(space4)
+                    li.appendChild(permalink)
 
                     //
                     if(isUl) {
