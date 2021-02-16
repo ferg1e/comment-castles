@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const pug = require('pug')
 
 //
 const router = express.Router()
@@ -165,6 +166,12 @@ router.post(
 
                     //
                     data1[0].by = req.session.user.username
+
+                    //
+                    const bbCodesOnly = pug.compileFile('views/bbCodesOnly.pug')
+                    data1[0].text_content = bbCodesOnly({text: data1[0].text_content})
+
+                    //
                     res.json(data1[0])
                 }
             }
