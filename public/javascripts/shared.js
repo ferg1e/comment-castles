@@ -1,4 +1,25 @@
+
+//
+var currCpid = null
+var currForm = null
+
+//
 function reply(cpid) {
+
+    // if open and same then remove and nothing else
+    if(cpid == currCpid) {
+        document.getElementById(currCpid).removeChild(currForm)
+        currCpid = null
+        currForm = null
+        return
+    }
+
+    // if open and different then remove and then do the rest
+    if(currCpid) {
+        document.getElementById(currCpid).removeChild(currForm)
+        currCpid = null
+        currForm = null
+    }
 
     //
     let commentLi = document.getElementById(cpid)
@@ -9,6 +30,7 @@ function reply(cpid) {
 
     //
     let cForm = document.createElement('div')
+    currForm = cForm
     let cTextarea = document.createElement('textarea')
     let cButton = document.createElement('input')
     cButton.type = 'button'
@@ -81,6 +103,8 @@ function reply(cpid) {
 
                     //
                     commentLi.removeChild(cForm)
+                    currCpid = null
+                    currForm = null
                 }
                 else {
                     alert('error, please try later')
@@ -103,4 +127,7 @@ function reply(cpid) {
         //console.log('ul doesnt exist, create ul...')
         commentLi.appendChild(cForm)
     }
+
+    //
+    currCpid = cpid
 }
