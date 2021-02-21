@@ -93,7 +93,8 @@ function reply(cpid) {
 
                     //
                     if(isUl) {
-                        lastChild.appendChild(li)
+                        //insert li as first elem of ul
+                        lastChild.insertBefore(li, lastChild.children[0])
                     }
                     else {
                         const newUl = document.createElement('ul')
