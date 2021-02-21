@@ -42,7 +42,7 @@ mixin commentContent(comment, postId)
                 if comment_reply_mode == 'quick'
                     a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
                 else
-                    a(href=`/c/${comment.public_id}`) reply
+                    a(href=`/c/${comment.public_id}#write-comment`) reply
 
             | 
             a(href=`/c/${comment.public_id}`) link
@@ -62,7 +62,7 @@ mixin commentContent(comment, postId)
                 if comment_reply_mode == 'quick'
                     a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
                 else
-                    a(href=`/c/${comment.public_id}`) reply
+                    a(href=`/c/${comment.public_id}#write-comment`) reply
 
             | 
             a(href=`/c/${comment.public_id}`) link

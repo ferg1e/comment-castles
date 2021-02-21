@@ -76,7 +76,7 @@ block content
             ul
                 each error in errors
                     li #{error.msg}
-        form(method="post")
+        form(method="post" id="write-comment")
             div
                 label(for="text_content") Write a Comment
                 textarea(name="text_content" id="text_content")
