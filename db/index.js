@@ -37,7 +37,7 @@ exports.createUser = (username, password) => {
             values
                 ($1, $2)
             returning
-                user_id, username, time_zone, post_mode, eyes`,
+                user_id, username, time_zone, post_mode, eyes, comment_reply_mode`,
             [username, hash]))
 }
 
@@ -50,7 +50,8 @@ exports.getUserWithUsername = (username) => {
             time_zone,
             post_mode,
             is_eyes,
-            eyes
+            eyes,
+            comment_reply_mode
         from
             tuser
         where
@@ -85,17 +86,18 @@ exports.getUserWithUserId = (userId) => {
     )
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, eyes) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, eyes) => {
     return query(`
         update
             tuser
         set
             time_zone = $1,
             post_mode = $2,
-            eyes = $3
+            comment_reply_mode = $3,
+            eyes = $4
         where
-            user_id = $4`,
-        [timeZoneName, postMode, eyes, userId])
+            user_id = $5`,
+        [timeZoneName, postMode, commentReplyMode, eyes, userId])
 }
 
 //

@@ -2,7 +2,9 @@ extends layout
 
 append head
     link(rel='stylesheet', href='/styleboots2/single-post.css')
-    script(src="/javascripts/shared.js")
+
+    if comment_reply_mode == 'quick'
+        script(src="/javascripts/shared.js")
 
 include bbCodes.pug
 
@@ -37,7 +39,10 @@ mixin commentContent(comment, postId)
             span(class="cdate") on #{comment.created_on} 
 
             if user
-                a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+                if comment_reply_mode == 'quick'
+                    a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+                else
+                    a(href=`/c/${comment.public_id}`) reply
 
             | 
             a(href=`/c/${comment.public_id}`) link
@@ -54,7 +59,10 @@ mixin commentContent(comment, postId)
             span(class="cdate2") on #{comment.created_on} 
             
             if user
-                a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+                if comment_reply_mode == 'quick'
+                    a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+                else
+                    a(href=`/c/${comment.public_id}`) reply
 
             | 
             a(href=`/c/${comment.public_id}`) link

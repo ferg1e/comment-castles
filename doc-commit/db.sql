@@ -183,3 +183,7 @@ END; $$ LANGUAGE 'plpgsql';
 
 --
 -- https://redd.it/eqqoam
+
+--
+create type comment_reply_mode as enum('basic', 'quick');
+alter table tuser add column comment_reply_mode comment_reply_mode not null default 'quick';

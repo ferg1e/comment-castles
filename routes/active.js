@@ -206,6 +206,7 @@ router.post(
                     username: rows[0].username,
                     time_zone: rows[0].time_zone,
                     post_mode: rows[0].post_mode,
+                    comment_reply_mode: rows[0].comment_reply_mode,
                     eyes: rows[0].eyes
                 }
 
@@ -261,6 +262,7 @@ router.post(
                         username: rows[0].username,
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
+                        comment_reply_mode: rows[0].comment_reply_mode,
                         eyes: rows[0].eyes
                     }
 
@@ -335,7 +337,8 @@ router.route('/settings')
                 time_zone: myMisc.getCurrTimeZone(req),
                 avaEyes: avaEyes,
                 currEyes: currEyes,
-                postMode: getCurrPostMode(req)
+                postMode: getCurrPostMode(req),
+                commentReplyMode: getCurrCommentReplyMode(req)
             })
     })
     .post(async (req, res) => {
@@ -388,10 +391,12 @@ router.route('/settings')
                     req.session.user.user_id,
                     req.body.time_zone,
                     req.body.post_mode,
+                    req.body.comment_reply_mode,
                     eyesValue)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
+                req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.eyes = eyesValue
             }
             else {
@@ -431,6 +436,7 @@ router.route('/settings')
                     avaEyes: avaEyes,
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
+                    commentReplyMode: req.body.comment_reply_mode
                 })
         }
         else {
@@ -822,7 +828,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     post: rows[0],
                     comments: comments,
                     errors: [],
-                    is_discover_mode: isDiscoverMode
+                    is_discover_mode: isDiscoverMode,
+                    comment_reply_mode: getCurrCommentReplyMode(req)
                 }
             )
         }
@@ -868,7 +875,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                                 post: rows[0],
                                 comments: comments,
                                 errors: errors,
-                                is_discover_mode: isDiscoverMode
+                                is_discover_mode: isDiscoverMode,
+                                comment_reply_mode: getCurrCommentReplyMode(req)
                             }
                         )
                     }
@@ -1271,6 +1279,20 @@ function getCurrPostMode(req) {
         return (typeof req.cookies.post_mode === 'undefined')
             ? 'following-only'
             : req.cookies.post_mode
+    }
+}
+
+//
+function getCurrCommentReplyMode(req) {
+    const defaultValue = 'quick'
+
+    if(req.session.user) {
+        return (typeof req.session.user.comment_reply_mode === 'undefined')
+            ? defaultValue
+            : req.session.user.comment_reply_mode
+    }
+    else {
+        return defaultValue
     }
 }
 

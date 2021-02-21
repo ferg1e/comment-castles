@@ -30,6 +30,9 @@ block content
             - const isPostDiscover = postMode == 'discover'
             - const isPostFollow = postMode == 'following-only'
 
+            - const isCommentBasic = commentReplyMode == 'basic'
+            - const isCommentQuick = commentReplyMode == 'quick'
+
             div View Mode
                 div
                     input(type="radio" name="post_mode" id="post_mode0" value="discover" checked=isPostDiscover)
@@ -46,6 +49,24 @@ block content
                         |:
                         | 
                         |only show posts and comments from allowed users, those from not allowed users will be completely hidden
+
+            if user
+                div Replying to Comments
+                    div
+                        input(type="radio" name="comment_reply_mode" id="comment_reply_mode0" value="basic" checked=isCommentBasic)
+                        label(for="comment_reply_mode0")
+                            b basic
+                            |:
+                            | 
+                            |when you click comment reply links you will go to the comment form on the comment's permalink page
+
+                    div
+                        input(type="radio" name="comment_reply_mode" id="comment_reply_mode1" value="quick" checked=isCommentQuick)
+                        label(for="comment_reply_mode1")
+                            b quick
+                            |:
+                            | 
+                            |when you click comment reply links a comment form will instantly open below the comment
 
             div
                 input(type="submit" value="Save")
