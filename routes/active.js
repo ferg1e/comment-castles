@@ -936,7 +936,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     comment: rows[0],
                     comments: comments,
                     errors: [],
-                    is_discover_mode: isDiscoverMode
+                    is_discover_mode: isDiscoverMode,
+                    comment_reply_mode: getCurrCommentReplyMode(req)
                 }
             )
         }
@@ -981,7 +982,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                                 comment: rows[0],
                                 comments: comments,
                                 errors: errors,
-                                is_discover_mode: isDiscoverMode
+                                is_discover_mode: isDiscoverMode,
+                                comment_reply_mode: getCurrCommentReplyMode(req)
                             }
                         )
                     }

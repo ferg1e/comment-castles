@@ -3,6 +3,9 @@ extends layout
 append head
     link(rel='stylesheet', href='/styleboots2/group-comment.css')
 
+    if comment_reply_mode == 'quick'
+        script(src="/javascripts/shared.js")
+
 include bbCodes.pug
 
 mixin followLink(username)
@@ -26,7 +29,15 @@ mixin commentContent(comment)
 
         | 
         span(class="cdate") on #{comment.created_on} 
-        a(href=`/c/${comment.public_id}`) reply
+
+        if user
+            if comment_reply_mode == 'quick'
+                a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+            else
+                a(href=`/c/${comment.public_id}#write-comment`) reply
+
+        | 
+        a(href=`/c/${comment.public_id}`) link
     else
         span(class="cuser2") !{'&ndash;'}#{comment.username}
 
@@ -38,7 +49,15 @@ mixin commentContent(comment)
 
         | 
         span(class="cdate2") on #{comment.created_on} 
-        a(href=`/c/${comment.public_id}`) reply
+
+        if user
+            if comment_reply_mode == 'quick'
+                a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+            else
+                a(href=`/c/${comment.public_id}#write-comment`) reply
+
+        | 
+        a(href=`/c/${comment.public_id}`) link
 
 block content
     nav.backpost-nav
