@@ -14,6 +14,11 @@ body {
   padding: 0;
 }
 
+.main-nav {
+  margin-bottom: 8px;
+  margin-bottom: .5rem;
+}
+
 .main-nav ul, .main-footer-nav ul {
   padding: 0;
   margin: 0;
@@ -27,7 +32,7 @@ body {
 }
 
 .main-nav a {
-  color: #ee4a4a;
+  color: #6d5103;
 }
 
 .main-footer {
