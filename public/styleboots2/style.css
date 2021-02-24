@@ -45,8 +45,8 @@ body {
 }
 
 .comments li {
-  margin-top: 2px;
-  margin-top: .125rem;
+  margin-top: 12px;
+  margin-top: .75rem;
 }
 
 .posts > div {
@@ -150,8 +150,7 @@ body {
 }
 
 .puser, .cuser {
-  color: #292828;
-  font-weight: bold;
+  color: #777777;
 }
 
 .puser2, .cuser2 {
@@ -165,6 +164,10 @@ body {
 
 .pdate2, .cdate2 {
   color: #a3a1a1;
+}
+
+.clinks a {
+  color: #aaaaaa;
 }
 
 pre {

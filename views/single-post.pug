@@ -25,29 +25,31 @@ mixin commentContent(comment, postId)
         | [removed]
     else
         if comment.is_visible
+            div
+                span(class="cuser") #{comment.username} 
+
+                if !user || (comment.user_id != user.user_id)
+                    if comment.is_follow
+                        +unfollowLink(comment.username, postId)
+                    else
+                        +followLink(comment.username, postId)
+
+                | 
+                span(class="cdate") on #{comment.created_on}
+
             +bbCodes(comment.text_content)
-            | 
-            span(class="cuser") !{'&ndash;'}#{comment.username}
 
-            if !user || (comment.user_id != user.user_id)
-                if comment.is_follow
-                    +unfollowLink(comment.username, postId)
-                else
-                    +followLink(comment.username, postId)
+            div.clinks
+                if user
+                    if comment_reply_mode == 'quick'
+                        a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
+                    else
+                        a(href=`/c/${comment.public_id}#write-comment`) reply
 
-            | 
-            span(class="cdate") on #{comment.created_on} 
-
-            if user
-                if comment_reply_mode == 'quick'
-                    a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
-                else
-                    a(href=`/c/${comment.public_id}#write-comment`) reply
-
-            | 
-            a(href=`/c/${comment.public_id}`) link
+                | 
+                a(href=`/c/${comment.public_id}`) link
         else
-            span(class="cuser2") !{'&ndash;'}#{comment.username}
+            span(class="cuser2") #{comment.username} 
 
             if !user || (comment.user_id != user.user_id)
                 if comment.is_follow

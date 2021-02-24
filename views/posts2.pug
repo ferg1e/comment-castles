@@ -35,27 +35,27 @@ block content
                         else
                             a(href=post.link)= post.title
 
-                        | 
-                        span(class="puser") by #{post.username}
+                        div
+                            span(class="puser") by #{post.username}
 
-                        if !user || (post.user_id != user.user_id)
-                            if post.is_follow
-                                +unfollowLink(post.username)
-                            else
-                                +followLink(post.username)
+                            if !user || (post.user_id != user.user_id)
+                                if post.is_follow
+                                    +unfollowLink(post.username)
+                                else
+                                    +followLink(post.username)
 
-                        | 
-                        span(class="pdate") on #{post.created_on}
-
-                        if post.tags.length
                             | 
-                            |to
-                            each tag in post.tags
-                                | 
-                                a(href=`/r/${tag}` class="tag1")=tag
+                            span(class="pdate") on #{post.created_on}
 
-                        | 
-                        a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+                            if post.tags.length
+                                | 
+                                |to
+                                each tag in post.tags
+                                    | 
+                                    a(href=`/r/${tag}` class="tag1")=tag
+
+                            | 
+                            a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
                     else
                         span(class="puser2") by #{post.username}
 
