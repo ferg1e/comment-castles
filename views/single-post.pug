@@ -7,69 +7,11 @@ append head
         script(src="/javascripts/shared.js")
 
 include bbCodes.pug
-
-mixin followLink(username, postId)
-    a(href=`/following?follow=${username}&goto=/p/${postId}` class="follow" title=`follow ${username}`) +
-
-mixin unfollowLink(username, postId)
-    a(href=`/following?unfollow=${username}&goto=/p/${postId}` class="unfollow" title=`unfollow ${username}`) -
-
-mixin commentContent(comment, postId)
-    - const commentIndent = comment.path.split('.').length - 2
-    - const colors = ['', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#333333', '#111111', '#DC143C']
-    - let colorIndex = commentIndent
-
-    - const color = colors[colorIndex]
-
-    if comment.is_removed
-        | [removed]
-    else
-        if comment.is_visible
-            div
-                span(class="cuser") #{comment.username} 
-
-                if !user || (comment.user_id != user.user_id)
-                    if comment.is_follow
-                        +unfollowLink(comment.username, postId)
-                    else
-                        +followLink(comment.username, postId)
-
-                | 
-                span(class="cdate") on #{comment.created_on}
-
-            +bbCodes(comment.text_content)
-
-            div.clinks
-                if user
-                    if comment_reply_mode == 'quick'
-                        a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
-                    else
-                        a(href=`/c/${comment.public_id}#write-comment`) reply
-
-                | 
-                a(href=`/c/${comment.public_id}`) link
-        else
-            span(class="cuser2") #{comment.username} 
-
-            if !user || (comment.user_id != user.user_id)
-                if comment.is_follow
-                    +unfollowLink(comment.username, postId)
-                else
-                    +followLink(comment.username, postId)
-
-            | 
-            span(class="cdate2") on #{comment.created_on} 
-            
-            if user
-                if comment_reply_mode == 'quick'
-                    a(onclick=`reply('${comment.public_id}');return false;` href="#") reply
-                else
-                    a(href=`/c/${comment.public_id}#write-comment`) reply
-
-            | 
-            a(href=`/c/${comment.public_id}`) link
+include userContent.pug
 
 block content
+    - const followGoto = '/p/' + post.public_id
+
     div.the-post
 
         if post.is_visible
@@ -85,9 +27,9 @@ block content
 
                 if !user || (post.user_id != user.user_id)
                     if post.is_follow
-                        +unfollowLink(post.username, post.public_id)
+                        +ucUnfollowLink(post.username, followGoto)
                     else
-                        +followLink(post.username, post.public_id)
+                        +unFollowLink(post.username, followGoto)
 
                 | 
                 span(class="pdate") on #{post.created_on}
@@ -115,9 +57,9 @@ block content
 
             if !user || (post.user_id != user.user_id)
                 if post.is_follow
-                    +unfollowLink(post.username, post.public_id)
+                    +ucUnfollowLink(post.username, followGoto)
                 else
-                    +followLink(post.username, post.public_id)
+                    +ucFollowLink(post.username, followGoto)
 
             | 
             span(class="pdate2") on #{post.created_on}
@@ -159,14 +101,14 @@ block content
             for comment in comments
                 if isFirst
                     <li id="#{comment.public_id}">
-                    +commentContent(comment, post.public_id)
+                    +ucListComment(comment, user, followGoto, comment_reply_mode)
                     - isFirst = false
                 else 
                     - let commentIndent = comment.path.split('.').length - 2
                     
                     if commentIndent > currIndent
                         <ul><li id="#{comment.public_id}">
-                        +commentContent(comment, post.public_id)
+                        +ucListComment(comment, user, followGoto, comment_reply_mode)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
                         - let n = 0
@@ -178,10 +120,10 @@ block content
                             - ++n
                         
                         <li id="#{comment.public_id}">
-                        +commentContent(comment, post.public_id)
+                        +ucListComment(comment, user, followGoto, comment_reply_mode)
                     else
                         </li><li id="#{comment.public_id}">
-                        +commentContent(comment, post.public_id)
+                        +ucListComment(comment, user, followGoto, comment_reply_mode)
                     
                     - currIndent = commentIndent
 
