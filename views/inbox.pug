@@ -1,47 +1,15 @@
 extends layout
 
+append head
+    if comment_reply_mode == 'quick'
+        script(src="/javascripts/shared.js")
+
 include bbCodes.pug
-
-mixin followLink(username)
-    - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const goto = encodeURIComponent(`/inbox${pagePart}`)
-    a(href=`/following?follow=${username}&goto=${goto}` class="follow" title=`follow ${username}`) +
-
-mixin unfollowLink(username)
-    - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const goto = encodeURIComponent(`/inbox${pagePart}`)
-    a(href=`/following?unfollow=${username}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
-
-mixin commentContent(comment)
-
-    if comment.is_visible
-        +bbCodes(comment.text_content)
-        | 
-        span(class="cuser") !{'&ndash;'}#{comment.username}
-
-        if !user || (comment.user_id != user.user_id)
-            if comment.is_follow
-                +unfollowLink(comment.username)
-            else
-                +followLink(comment.username)
-
-        | 
-        span(class="cdate") on #{comment.created_on} 
-        a(href=`/c/${comment.public_id}`) link
-    else
-        span(class="cuser2") !{'&ndash;'}#{comment.username}
-
-        if !user || (comment.user_id != user.user_id)
-            if comment.is_follow
-                +unfollowLink(comment.username)
-            else
-                +followLink(comment.username)
-
-        | 
-        span(class="cdate2") on #{comment.created_on} 
-        a(href=`/c/${comment.public_id}`) link
+include userContent.pug
 
 block content
+    - const pagePart = page < 2 ? '' : `?p=${page}`
+    - const followGoto = encodeURIComponent(`/inbox${pagePart}`)
 
     if is_discover_mode
         div
@@ -60,8 +28,8 @@ block content
         .comments
             ul
                 for c in comments
-                    li
-                        +commentContent(c)
+                    li(id=c.public_id)
+                        +ucListComment(c, user, followGoto, comment_reply_mode)
         div
             a(href=`/inbox?p=${page + 1}`) more
     else

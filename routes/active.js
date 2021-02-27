@@ -1064,8 +1064,9 @@ router.route('/inbox')
                     html_title: 'Inbox',
                     user: req.session.user,
                     comments: comments,
-                    page,
-                    is_discover_mode: isDiscoverMode
+                    page: page,
+                    is_discover_mode: isDiscoverMode,
+                    comment_reply_mode: getCurrCommentReplyMode(req)
                 }
             )
         }
