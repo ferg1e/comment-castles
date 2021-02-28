@@ -84,7 +84,7 @@ body {
   margin: 10px 0;
 }
 
-.backpost-nav a {
+.backpost-nav a, .more {
   padding: 4px 6px;
   background: #ffcc80;
   color: #000000;
