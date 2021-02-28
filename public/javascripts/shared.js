@@ -52,20 +52,22 @@ function reply(cpid) {
                     //
                     const li = document.createElement('li')
                     li.id = data.public_id
-                    li.innerHTML = data.text_content
 
                     const space1 = document.createTextNode(' ')
                     const space2 = document.createTextNode(' ')
-                    const space3 = document.createTextNode(' ')
-                    const space4 = document.createTextNode(' ')
 
                     const bySpan = document.createElement('span')
                     bySpan.className = 'cuser'
-                    bySpan.innerHTML = '&ndash;' + data.by
+                    bySpan.innerHTML = data.by
 
                     const dateSpan = document.createElement('span')
                     dateSpan.className = 'cdate'
                     dateSpan.innerText = 'on ' + data.created_on
+
+                    const headerElem = document.createElement('div')
+                    headerElem.appendChild(bySpan)
+                    headerElem.appendChild(space1)
+                    headerElem.appendChild(dateSpan)
 
                     const replyLink = document.createElement('a')
                     const replyLinkText = document.createTextNode('reply')
@@ -81,15 +83,19 @@ function reply(cpid) {
                     permalink.appendChild(permalinkText)
                     permalink.href = "/c/" + data.public_id
 
+                    const footerElem = document.createElement('div')
+                    footerElem.className = 'clinks'
+                    footerElem.appendChild(replyLink)
+                    footerElem.appendChild(space2)
+                    footerElem.appendChild(permalink)
+
+                    const contentSpan = document.createElement('span')
+                    contentSpan.innerHTML = data.text_content
+
                     //
-                    li.appendChild(space1)
-                    li.appendChild(bySpan)
-                    li.appendChild(space2)
-                    li.appendChild(dateSpan)
-                    li.appendChild(space3)
-                    li.appendChild(replyLink)
-                    li.appendChild(space4)
-                    li.appendChild(permalink)
+                    li.appendChild(headerElem)
+                    li.appendChild(contentSpan)
+                    li.appendChild(footerElem)
 
                     //
                     if(isUl) {

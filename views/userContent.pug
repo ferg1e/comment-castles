@@ -19,7 +19,8 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
             | 
             span(class="cdate") on #{pComment.created_on}
 
-        +bbCodes(pComment.text_content)
+        span
+            +bbCodes(pComment.text_content)
 
         div.clinks
             if pUser
