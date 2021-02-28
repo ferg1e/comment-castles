@@ -24,6 +24,7 @@ block content
 
             div
                 span(class="puser") by #{post.username}
+                | 
 
                 if !user || (post.user_id != user.user_id)
                     if post.is_follow
@@ -54,6 +55,7 @@ block content
                     +bbCodes(post.text_content)
         else
             span(class="puser2") by #{post.username}
+            | 
 
             if !user || (post.user_id != user.user_id)
                 if post.is_follow
