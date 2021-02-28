@@ -30,7 +30,7 @@ block content
                     if post.is_follow
                         +ucUnfollowLink(post.username, followGoto)
                     else
-                        +unFollowLink(post.username, followGoto)
+                        +ucFollowLink(post.username, followGoto)
 
                 | 
                 span(class="pdate") on #{post.created_on}
