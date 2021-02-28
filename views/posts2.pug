@@ -31,9 +31,9 @@ block content
                 div
                     if post.is_visible
                         if post.link === null
-                            a(href=`/p/${post.public_id}`) #{post.title}
+                            a(class="ptitle" href=`/p/${post.public_id}`) #{post.title}
                         else
-                            a(href=post.link)= post.title
+                            a(class="ptitle" href=post.link)= post.title
 
                         div
                             span(class="puser") by #{post.username}
@@ -56,7 +56,7 @@ block content
                                     a(href=`/r/${tag}` class="tag1")=tag
 
                             | 
-                            a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+                            a(class="pcount" href=`/p/${post.public_id}`) comments(#{post.num_comments})
                     else
                         span(class="puser2") by #{post.username}
                         | 
@@ -70,7 +70,7 @@ block content
                         | 
                         span(class="pdate2") on #{post.created_on}
                         | 
-                        a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+                        a(class="pcount2" href=`/p/${post.public_id}`) comments(#{post.num_comments})
         div
             a(href=`${base_url}?p=${page + 1}`) more
     else

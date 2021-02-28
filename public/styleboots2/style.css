@@ -50,7 +50,8 @@ body {
 }
 
 .posts > div {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .mod-posts > div {
@@ -167,6 +168,15 @@ body {
 
 .clinks a {
   color: #aaaaaa;
+}
+
+.pcount, .pcount2 {
+  color: #0000cc;
+}
+
+.ptitle {
+  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 pre {
