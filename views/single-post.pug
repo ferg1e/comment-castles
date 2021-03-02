@@ -69,11 +69,12 @@ block content
             a(class="pcount2" href=`/p/${post.public_id}`) comments(#{post.num_comments})
 
     if user
-        if errors.length
-            ul
-                each error in errors
-                    li #{error.msg}
-        form(method="post")
+        form(method="post" id="write-comment")
+            if errors.length
+                ul
+                    each error in errors
+                        li #{error.msg}
+
             div
                 label(for="text_content") Write a Comment
                 textarea(name="text_content" id="text_content")
