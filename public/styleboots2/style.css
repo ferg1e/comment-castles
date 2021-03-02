@@ -150,28 +150,16 @@ body {
   background: #f0bcf0;
 }
 
-.puser, .cuser {
-  color: #777777;
+.puser2, .pdate2, .pcount2, .cuser2, .cdate2, .clinks2 a {
+  color: #b2b2b2;
 }
 
-.puser2, .cuser2 {
-  color: #a3a1a1;
+.pcount {
+  color: #0000bf;
 }
 
-.pdate, .cdate {
-  color: #5a5a53;
-}
-
-.pdate2, .cdate2 {
-  color: #a3a1a1;
-}
-
-.clinks a {
-  color: #aaaaaa;
-}
-
-.pcount, .pcount2 {
-  color: #0000cc;
+.clinks a, .cuser, .cdate {
+  color: #656565;
 }
 
 .ptitle {

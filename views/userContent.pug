@@ -43,13 +43,14 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
 
         | 
         span(class="cdate2") on #{pComment.created_on}
-        
-        if pUser
-            | 
-            if pCommentReplyMode == 'quick'
-                a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
-            else
-                a(href=`/c/${pComment.public_id}#write-comment`) reply
 
         | 
-        a(href=`/c/${pComment.public_id}`) link
+        span.clinks2        
+            if pUser
+                if pCommentReplyMode == 'quick'
+                    a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
+                else
+                    a(href=`/c/${pComment.public_id}#write-comment`) reply
+                | 
+
+            a(href=`/c/${pComment.public_id}`) link

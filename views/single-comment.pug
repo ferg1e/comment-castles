@@ -21,6 +21,7 @@ block content
             span(class="cuser") by #{comment.username}
 
             if !user || (comment.user_id != user.user_id)
+                | 
                 if comment.is_follow
                     +ucUnfollowLink(comment.username, followGoto)
                 else
@@ -34,6 +35,7 @@ block content
             span(class="cuser2") by #{comment.username}
 
             if !user || (comment.user_id != user.user_id)
+                | 
                 if comment.is_follow
                     +ucUnfollowLink(comment.username, followGoto)
                 else

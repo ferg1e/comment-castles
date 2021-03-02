@@ -44,7 +44,7 @@ block content
                         a(href=`/r/${tag}` class="tag1")=tag
 
                 | 
-                a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+                a(class="pcount" href=`/p/${post.public_id}`) comments(#{post.num_comments})
 
                 if user && post.user_id == user.user_id && post.seconds_since < 3600
                     | 
@@ -66,7 +66,7 @@ block content
             | 
             span(class="pdate2") on #{post.created_on}
             | 
-            a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+            a(class="pcount2" href=`/p/${post.public_id}`) comments(#{post.num_comments})
 
     if user
         if errors.length
