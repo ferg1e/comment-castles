@@ -5,3 +5,9 @@ form > div {
 form label {
     display: block;
 }
+
+.comments :target {
+    background: #fdf2dd;
+    padding: 3px;
+    border: 2px solid #ebbc58;
+}

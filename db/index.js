@@ -619,7 +619,9 @@ exports.createPostComment = (postId, userId, content) => {
         insert into ttest
             (post_id, user_id, text_content, path, public_id)
         values
-            ($1, $2, $3, $4, $5)`,
+            ($1, $2, $3, $4, $5)
+        returning
+            public_id`,
         [postId, userId, content,
             postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
             nanoid(nanoidAlphabet, nanoidLen)])
