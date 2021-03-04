@@ -49,6 +49,12 @@ body {
   margin-top: .75rem;
 }
 
+.comments :target {
+  background: #fdf2dd;
+  padding: 3px;
+  border: 2px solid #ebbc58;
+}
+
 .posts > div {
   margin-bottom: 16px;
   margin-bottom: 1rem;

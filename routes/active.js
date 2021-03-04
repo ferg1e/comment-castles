@@ -999,7 +999,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
-                        return res.redirect(`/c/${commentPublicId}`)
+                        return res.redirect(`/c/${commentPublicId}#${data1[0].public_id}`)
                     }
                 }
                 else {
