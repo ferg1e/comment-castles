@@ -29,6 +29,11 @@ block content
 
             | 
             span(class="cdate") on #{comment.created_on}
+
+            | 
+            span.clinks
+                a(href=`/c/${comment.comment_public_id}`) link
+
             div.the-comment-content
                 +bbCodes(comment.text_content)
         else
@@ -43,6 +48,10 @@ block content
 
             | 
             span(class="cdate2") on #{comment.created_on}
+
+            | 
+            span.clinks2
+                a(href=`/c/${comment.comment_public_id}`) link
 
     if user
         form(method="post" id="write-comment")
