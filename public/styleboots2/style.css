@@ -50,7 +50,7 @@ body {
 }
 
 .comments :target {
-  background: #fdf2dd;
+  background: #faf7f1;
   padding: 3px;
   border: 2px solid #ebbc58;
 }
