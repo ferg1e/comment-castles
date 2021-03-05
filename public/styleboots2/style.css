@@ -164,8 +164,13 @@ body {
   color: #0000bf;
 }
 
-.clinks a, .cuser, .cdate {
-  color: #656565;
+.cuser, .cdate {
+  color: #867a7a;
+}
+
+.clinks a {
+  color: #4e61c9;
+  margin-right: .125rem;
 }
 
 .ptitle {
@@ -176,7 +181,7 @@ body {
 pre {
   margin: 0;
   padding: 0;
-  background: #fef5f5;
+  background: #f1f1f1;
 }
 
 .edit-link {
