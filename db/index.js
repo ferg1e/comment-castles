@@ -460,7 +460,6 @@ exports.getPostWithPublic = (publicId) => {
             p.title,
             p.text_content,
             p.link,
-            extract(epoch from (now() - p.created_on)) seconds_since,
             array(
                 select
                     t.tag
@@ -488,7 +487,6 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
                 timezone($1, p.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             p.created_on created_on_raw,
-            extract(epoch from (now() - p.created_on)) seconds_since,
             p.text_content,
             u.username,
             u.user_id,

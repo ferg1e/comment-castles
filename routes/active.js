@@ -601,11 +601,6 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
             }
 
             //
-            if(rows[0].seconds_since >= 3600) {
-                return res.send('too late to edit...')
-            }
-
-            //
             res.render(
                 'new-post2',
                 {
@@ -650,11 +645,6 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                 //
                 if(rows[0].user_id != req.session.user.user_id) {
                     return res.send('wrong user...')
-                }
-
-                //
-                if(rows[0].seconds_since >= 3600) {
-                    return res.send('too late to edit...')
                 }
 
                 let errors = validationResult(req).array({onlyFirstError:true})
