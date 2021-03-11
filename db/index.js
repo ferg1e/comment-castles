@@ -1022,7 +1022,9 @@ exports.getCommentWithPublic = (publicId) => {
         select
             c.comment_id,
             c.post_id,
-            c.path
+            c.path,
+            c.user_id,
+            c.text_content
         from
             ttest c
         where
@@ -1082,6 +1084,17 @@ exports.markCommentRemoved = (publicId) => {
         where
             public_id = $1`,
         [publicId])
+}
+
+exports.updateComment = (commentId, textContent) => {
+    return query(`
+        update
+            ttest
+        set
+            text_content = $1
+        where
+            comment_id = $2`,
+        [textContent, commentId])
 }
 
 //member

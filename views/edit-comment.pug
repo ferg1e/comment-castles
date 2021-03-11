@@ -1,0 +1,17 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href='/miletoots11/edit-comment.css')
+
+block content
+    form(method="post")
+        if errors.length
+            ul
+                each error in errors
+                    li #{error.msg}
+
+        div
+            label(for="text_content") Comment
+            textarea(name="text_content" id="text_content")= textContent
+        div
+            input(type="submit" value="Save")

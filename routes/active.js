@@ -12,6 +12,7 @@ const htmlTitleLogin = 'Log In'
 const htmlTitleSettings = 'Settings'
 const htmlTitleNewPost = 'New Post'
 const htmlTitleEditPost = 'Edit Post'
+const htmlTitleEditComment = 'Edit Comment'
 const htmlTitlePost = 'Post #'
 const htmlTitleComment = 'Comment #'
 const htmlTitleTags = 'Tags'
@@ -690,6 +691,85 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                     
                     //
                     return res.redirect('/p/' + postPublicId)
+                }
+            }
+            else {
+                res.send('nope...')
+            }
+        }
+    )
+
+//edit comment
+router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
+    .get(async (req, res) => {
+        if(req.session.user) {
+
+            //
+            const commentPublicId = req.params[0]
+            const {rows} = await db.getCommentWithPublic(commentPublicId)
+
+            //
+            if(!rows.length) {
+                return res.send('unknown comment...')
+            }
+
+            //
+            if(rows[0].user_id != req.session.user.user_id) {
+                return res.send('wrong user...')
+            }
+
+            //
+            res.render(
+                'edit-comment',
+                {
+                    html_title: htmlTitleEditComment,
+                    user: req.session.user,
+                    errors: [],
+                    textContent: rows[0].text_content
+                })
+        }
+        else {
+            res.send('sorry...')
+        }
+    })
+    .post(async (req, res) => {
+            if(req.session.user) {
+
+                //
+                const commentPublicId = req.params[0]
+                const {rows} = await db.getCommentWithPublic(commentPublicId)
+
+                //
+                if(!rows.length) {
+                    return res.send('unknown comment...')
+                }
+
+                //
+                if(rows[0].user_id != req.session.user.user_id) {
+                    return res.send('wrong user...')
+                }
+
+                //
+                let [compressedComment, errors] = processComment(req.body.text_content)
+
+                //
+                if(errors.length) {
+                    res.render(
+                        'edit-comment',
+                        {
+                            html_title: htmlTitleEditComment,
+                            user: req.session.user,
+                            errors: errors,
+                            textContent: ""
+                        })
+                }
+                else {
+                    await db.updateComment(
+                        rows[0].comment_id,
+                        compressedComment)
+                    
+                    //
+                    return res.redirect('/c/' + commentPublicId)
                 }
             }
             else {
