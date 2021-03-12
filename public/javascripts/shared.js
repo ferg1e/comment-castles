@@ -55,6 +55,7 @@ function reply(cpid) {
 
                     const space1 = document.createTextNode(' ')
                     const space2 = document.createTextNode(' ')
+                    const space3 = document.createTextNode(' ')
 
                     const bySpan = document.createElement('span')
                     bySpan.className = 'cuser'
@@ -83,11 +84,19 @@ function reply(cpid) {
                     permalink.appendChild(permalinkText)
                     permalink.href = "/c/" + data.public_id
 
+                    const editLink = document.createElement('a')
+                    const editLinkText = document.createTextNode('edit')
+                    editLink.appendChild(editLinkText)
+                    editLink.className = 'edit-link'
+                    editLink.href = "/c/" + data.public_id + '/edit'
+
                     const footerElem = document.createElement('div')
                     footerElem.className = 'clinks'
                     footerElem.appendChild(permalink)
                     footerElem.appendChild(space2)
                     footerElem.appendChild(replyLink)
+                    footerElem.appendChild(space3)
+                    footerElem.appendChild(editLink)
 
                     const contentSpan = document.createElement('span')
                     contentSpan.innerHTML = data.text_content
