@@ -185,7 +185,7 @@ pre {
   background: #f1f1f1;
 }
 
-.edit-link {
+.edit-link, .clinks .edit-link {
   color: #865d04;
 }
 

@@ -31,6 +31,10 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
                     a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
                 else
                     a(href=`/c/${pComment.public_id}#write-comment`) reply
+
+            if pUser && pUser.user_id == pComment.user_id
+                | 
+                a(href=`/c/${pComment.public_id}/edit` class="edit-link") edit
     else
         span(class="cuser2") #{pComment.username}
 
