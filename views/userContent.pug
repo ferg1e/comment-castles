@@ -23,14 +23,14 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
             +bbCodes(pComment.text_content)
 
         div.clinks
+            a(href=`/c/${pComment.public_id}`) link
+
             if pUser
+                | 
                 if pCommentReplyMode == 'quick'
                     a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
                 else
                     a(href=`/c/${pComment.public_id}#write-comment`) reply
-
-            | 
-            a(href=`/c/${pComment.public_id}`) link
     else
         span(class="cuser2") #{pComment.username}
 
@@ -45,12 +45,12 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
         span(class="cdate2") on #{pComment.created_on}
 
         | 
-        span.clinks2        
+        span.clinks2
+            a(href=`/c/${pComment.public_id}`) link
+
             if pUser
+                | 
                 if pCommentReplyMode == 'quick'
                     a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
                 else
                     a(href=`/c/${pComment.public_id}#write-comment`) reply
-                | 
-
-            a(href=`/c/${pComment.public_id}`) link

@@ -85,9 +85,9 @@ function reply(cpid) {
 
                     const footerElem = document.createElement('div')
                     footerElem.className = 'clinks'
-                    footerElem.appendChild(replyLink)
-                    footerElem.appendChild(space2)
                     footerElem.appendChild(permalink)
+                    footerElem.appendChild(space2)
+                    footerElem.appendChild(replyLink)
 
                     const contentSpan = document.createElement('span')
                     contentSpan.innerHTML = data.text_content
