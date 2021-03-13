@@ -56,7 +56,12 @@ block content
                                     a(href=`/r/${tag}` class="tag1")=tag
 
                             | 
-                            a(class="pcount" href=`/p/${post.public_id}`) comments(#{post.num_comments})
+                            span.plinks
+                                a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
+
+                                if user && user.user_id == post.user_id
+                                    | 
+                                    a(href=`/p/${post.public_id}/edit`) edit
                     else
                         span(class="puser2") by #{post.username}
                         | 
