@@ -87,7 +87,6 @@ function reply(cpid) {
                     const editLink = document.createElement('a')
                     const editLinkText = document.createTextNode('edit')
                     editLink.appendChild(editLinkText)
-                    editLink.className = 'edit-link'
                     editLink.href = "/c/" + data.public_id + '/edit'
 
                     const footerElem = document.createElement('div')

@@ -34,7 +34,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
 
             if pUser && pUser.user_id == pComment.user_id
                 | 
-                a(href=`/c/${pComment.public_id}/edit` class="edit-link") edit
+                a(href=`/c/${pComment.public_id}/edit`) edit
     else
         span(class="cuser2") #{pComment.username}
 

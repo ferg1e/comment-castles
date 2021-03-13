@@ -34,9 +34,9 @@ block content
             span.clinks
                 a(href=`/c/${comment.comment_public_id}`) link
 
-            if user && comment.user_id == user.user_id
-                | 
-                a(href=`/c/${comment.comment_public_id}/edit` class="edit-link") edit
+                if user && comment.user_id == user.user_id
+                    | 
+                    a(href=`/c/${comment.comment_public_id}/edit`) edit
 
             div.the-comment-content
                 +bbCodes(comment.text_content)
