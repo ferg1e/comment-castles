@@ -29,7 +29,7 @@ block content
             ul
                 for c in comments
                     li
-                        +ucListComment(c, user, followGoto, comment_reply_mode)
+                        +ucListComment(c, user, followGoto, comment_reply_mode, false)
         div
             a(href=`/inbox?p=${page + 1}`) more
     else

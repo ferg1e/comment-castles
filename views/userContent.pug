@@ -4,7 +4,7 @@ mixin ucFollowLink(pUsername, pGoto)
 mixin ucUnfollowLink(pUsername, pGoto)
     a(href=`/following?unfollow=${pUsername}&goto=${pGoto}` class="unfollow" title=`unfollow ${pUsername}`) -
 
-mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
+mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLink)
     div(id=pComment.public_id)
         if pComment.is_visible
             div
@@ -25,6 +25,10 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
 
             div.clinks
                 a(href=`/c/${pComment.public_id}`) link
+
+                if isTargetLink
+                    | 
+                    a(href=`#${pComment.public_id}`) link#
 
                 if pUser
                     | 
@@ -52,6 +56,10 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
             | 
             span.clinks2
                 a(href=`/c/${pComment.public_id}`) link
+
+                if isTargetLink
+                    | 
+                    a(href=`#${pComment.public_id}`) link#
 
                 if pUser
                     | 
