@@ -8,7 +8,7 @@ function reply(cpid) {
 
     // if open and same then remove and nothing else
     if(cpid == currCpid) {
-        document.getElementById(currCpid).removeChild(currForm)
+        document.getElementById(currCpid).parentElement.removeChild(currForm)
         currCpid = null
         currForm = null
         return
@@ -16,13 +16,13 @@ function reply(cpid) {
 
     // if open and different then remove and then do the rest
     if(currCpid) {
-        document.getElementById(currCpid).removeChild(currForm)
+        document.getElementById(currCpid).parentElement.removeChild(currForm)
         currCpid = null
         currForm = null
     }
 
     //
-    let commentLi = document.getElementById(cpid)
+    let commentLi = document.getElementById(cpid).parentElement
     let liChildren = commentLi.children
     let numLiChildren = liChildren.length
     let lastChild = liChildren[numLiChildren - 1]
@@ -51,7 +51,6 @@ function reply(cpid) {
 
                     //
                     const li = document.createElement('li')
-                    li.id = data.public_id
 
                     const space1 = document.createTextNode(' ')
                     const space2 = document.createTextNode(' ')
@@ -100,10 +99,15 @@ function reply(cpid) {
                     const contentSpan = document.createElement('span')
                     contentSpan.innerHTML = data.text_content
 
+                    const topContainer = document.createElement('div')
+                    topContainer.id = data.public_id
+
                     //
-                    li.appendChild(headerElem)
-                    li.appendChild(contentSpan)
-                    li.appendChild(footerElem)
+                    topContainer.appendChild(headerElem)
+                    topContainer.appendChild(contentSpan)
+                    topContainer.appendChild(footerElem)
+
+                    li.appendChild(topContainer)
 
                     //
                     if(isUl) {

@@ -5,9 +5,39 @@ mixin ucUnfollowLink(pUsername, pGoto)
     a(href=`/following?unfollow=${pUsername}&goto=${pGoto}` class="unfollow" title=`unfollow ${pUsername}`) -
 
 mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
-    if pComment.is_visible
-        div
-            span(class="cuser") #{pComment.username}
+    div(id=pComment.public_id)
+        if pComment.is_visible
+            div
+                span(class="cuser") #{pComment.username}
+
+                if !pUser || (pComment.user_id != pUser.user_id)
+                    | 
+                    if pComment.is_follow
+                        +ucUnfollowLink(pComment.username, pFollowGoto)
+                    else
+                        +ucFollowLink(pComment.username, pFollowGoto)
+
+                | 
+                span(class="cdate") on #{pComment.created_on}
+
+            span
+                +bbCodes(pComment.text_content)
+
+            div.clinks
+                a(href=`/c/${pComment.public_id}`) link
+
+                if pUser
+                    | 
+                    if pCommentReplyMode == 'quick'
+                        a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
+                    else
+                        a(href=`/c/${pComment.public_id}#write-comment`) reply
+
+                if pUser && pUser.user_id == pComment.user_id
+                    | 
+                    a(href=`/c/${pComment.public_id}/edit`) edit
+        else
+            span(class="cuser2") #{pComment.username}
 
             if !pUser || (pComment.user_id != pUser.user_id)
                 | 
@@ -17,44 +47,15 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode)
                     +ucFollowLink(pComment.username, pFollowGoto)
 
             | 
-            span(class="cdate") on #{pComment.created_on}
+            span(class="cdate2") on #{pComment.created_on}
 
-        span
-            +bbCodes(pComment.text_content)
-
-        div.clinks
-            a(href=`/c/${pComment.public_id}`) link
-
-            if pUser
-                | 
-                if pCommentReplyMode == 'quick'
-                    a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
-                else
-                    a(href=`/c/${pComment.public_id}#write-comment`) reply
-
-            if pUser && pUser.user_id == pComment.user_id
-                | 
-                a(href=`/c/${pComment.public_id}/edit`) edit
-    else
-        span(class="cuser2") #{pComment.username}
-
-        if !pUser || (pComment.user_id != pUser.user_id)
             | 
-            if pComment.is_follow
-                +ucUnfollowLink(pComment.username, pFollowGoto)
-            else
-                +ucFollowLink(pComment.username, pFollowGoto)
+            span.clinks2
+                a(href=`/c/${pComment.public_id}`) link
 
-        | 
-        span(class="cdate2") on #{pComment.created_on}
-
-        | 
-        span.clinks2
-            a(href=`/c/${pComment.public_id}`) link
-
-            if pUser
-                | 
-                if pCommentReplyMode == 'quick'
-                    a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
-                else
-                    a(href=`/c/${pComment.public_id}#write-comment`) reply
+                if pUser
+                    | 
+                    if pCommentReplyMode == 'quick'
+                        a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
+                    else
+                        a(href=`/c/${pComment.public_id}#write-comment`) reply

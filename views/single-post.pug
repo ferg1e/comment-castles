@@ -104,14 +104,14 @@ block content
 
             for comment in comments
                 if isFirst
-                    <li id="#{comment.public_id}">
+                    <li>
                     +ucListComment(comment, user, followGoto, comment_reply_mode)
                     - isFirst = false
                 else 
                     - let commentIndent = comment.path.split('.').length - 2
                     
                     if commentIndent > currIndent
-                        <ul><li id="#{comment.public_id}">
+                        <ul><li>
                         +ucListComment(comment, user, followGoto, comment_reply_mode)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
@@ -123,10 +123,10 @@ block content
                             </ul></li>
                             - ++n
                         
-                        <li id="#{comment.public_id}">
+                        <li>
                         +ucListComment(comment, user, followGoto, comment_reply_mode)
                     else
-                        </li><li id="#{comment.public_id}">
+                        </li><li>
                         +ucListComment(comment, user, followGoto, comment_reply_mode)
                     
                     - currIndent = commentIndent
