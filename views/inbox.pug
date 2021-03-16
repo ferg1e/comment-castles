@@ -28,7 +28,7 @@ block content
         .comments
             ul
                 for c in comments
-                    li(id=c.public_id)
+                    li
                         +ucListComment(c, user, followGoto, comment_reply_mode)
         div
             a(href=`/inbox?p=${page + 1}`) more
