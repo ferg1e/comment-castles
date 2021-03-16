@@ -4,7 +4,7 @@ var currCpid = null
 var currForm = null
 
 //
-function reply(cpid) {
+function reply(cpid, isTargetLink) {
 
     // if open and same then remove and nothing else
     if(cpid == currCpid) {
@@ -74,7 +74,7 @@ function reply(cpid) {
                     replyLink.appendChild(replyLinkText)
                     replyLink.href = "#"
                     replyLink.onclick = function() {
-                        reply(data.public_id)
+                        reply(data.public_id, isTargetLink)
                         return false
                     }
 
@@ -92,6 +92,17 @@ function reply(cpid) {
                     footerElem.className = 'clinks'
                     footerElem.appendChild(permalink)
                     footerElem.appendChild(space2)
+
+                    if(isTargetLink) {
+                        const targetLink = document.createElement('a')
+                        const targetLinkText = document.createTextNode('link#')
+                        targetLink.appendChild(targetLinkText)
+                        targetLink.href = "#" + data.public_id
+
+                        footerElem.appendChild(targetLink)
+                        footerElem.appendChild(document.createTextNode(' '))
+                    }
+
                     footerElem.appendChild(replyLink)
                     footerElem.appendChild(space3)
                     footerElem.appendChild(editLink)

@@ -33,7 +33,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
                 if pUser
                     | 
                     if pCommentReplyMode == 'quick'
-                        a(onclick=`reply('${pComment.public_id}');return false;` href="#") reply
+                        a(onclick=`reply('${pComment.public_id}', ${isTargetLink});return false;` href="#") reply
                     else
                         a(href=`/c/${pComment.public_id}#write-comment`) reply
 
