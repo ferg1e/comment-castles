@@ -20,7 +20,7 @@ block content
                         - let minutesText = minutes ? ':' + Math.abs(minutes) : ''
                         option(value=tz.name selected=isSelected) #{tz.name} #{hoursText}#{minutesText}
             div
-                label(for="eyes" id="l_eyes") Allow List
+                label(for="eyes" id="l_eyes") Followed Users
                 select(id="eyes" name="eyes")
                     option(value="") mine
                     each eyes in avaEyes
@@ -40,7 +40,7 @@ block content
                         b discover
                         |:
                         | 
-                        |show all posts and comments, only the username and time will show for those from not allowed users
+                        |show all posts and comments, unfollowed are partially shown
 
                 div
                     input(type="radio" name="post_mode" id="post_mode1" value="following-only" checked=isPostFollow)
@@ -48,7 +48,7 @@ block content
                         b locked
                         |:
                         | 
-                        |only show posts and comments from allowed users, those from not allowed users will be completely hidden
+                        |only show posts and comments from followed users
 
             if user
                 div Replying to Comments
