@@ -45,8 +45,8 @@ body {
 }
 
 .comments li {
-  margin-top: 12px;
-  margin-top: .75rem;
+  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .comments :target {
@@ -164,14 +164,33 @@ body {
   color: #0000d2;
 }
 
-.cuser, .cdate {
-  color: #867a7a;
+.cuser {
+  color: #3f4797;
+}
+
+.cdate {
+  color: #9b9292;
+}
+
+.cheader {
+  margin-bottom: 2px;
+  margin-bottom: .125rem;
+}
+
+.clinks {
+  margin-top: 2px;
+  margin-top: .125rem;
 }
 
 .clinks a {
   color: #0000d2;
   margin-right: 4px;
   margin-right: .25rem;
+  text-decoration: none;
+}
+
+.clinks-single a {
+  color: #0000d2;
 }
 
 .ptitle {

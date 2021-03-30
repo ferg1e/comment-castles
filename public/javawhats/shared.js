@@ -65,6 +65,7 @@ function reply(cpid, isTargetLink) {
                     dateSpan.innerText = 'on ' + data.created_on
 
                     const headerElem = document.createElement('div')
+                    headerElem.className = 'cheader'
                     headerElem.appendChild(bySpan)
                     headerElem.appendChild(space1)
                     headerElem.appendChild(dateSpan)

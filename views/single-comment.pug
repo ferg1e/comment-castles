@@ -33,7 +33,7 @@ block content
             span(class="cdate") on #{comment.created_on}
 
             | 
-            span.clinks
+            span.clinks-single
                 a(href=`/c/${comment.comment_public_id}`) link
 
                 if user && comment.user_id == user.user_id
