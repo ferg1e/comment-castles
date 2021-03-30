@@ -20,9 +20,9 @@ block content
                         - let minutesText = minutes ? ':' + Math.abs(minutes) : ''
                         option(value=tz.name selected=isSelected) #{tz.name} #{hoursText}#{minutesText}
             div
-                label(for="eyes" id="l_eyes") Followed Users
+                label(for="eyes" id="l_eyes") Following List
                 select(id="eyes" name="eyes")
-                    option(value="") mine
+                    option(value="") use mine
                     each eyes in avaEyes
                         - let isSelected2 = (currEyes == eyes.username)
                         option(value=eyes.username selected=isSelected2) #{eyes.username}'s
