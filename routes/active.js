@@ -821,7 +821,7 @@ function processPostTags(rTags) {
         let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
 
         if(!isCharError && isMatch === null) {
-            errors.push({'msg': 'tags can only contain numbers, letters and dashes'})
+            errors.push({'msg': 'group names can only contain numbers, letters and dashes'})
             isCharError = true
         }
 
@@ -829,7 +829,7 @@ function processPostTags(rTags) {
         let isLenOkay = tagLen >= 3 && tagLen <= 20
 
         if(!isLenError && !isLenOkay) {
-            errors.push({'msg': 'each tag must be 3-20 characters'})
+            errors.push({'msg': 'each group name must be 3-20 characters'})
             isLenError = true
         }
     }
