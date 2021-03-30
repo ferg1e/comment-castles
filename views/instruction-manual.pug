@@ -13,7 +13,7 @@ block content
         li
             a(href="#formatting") Formatting
         li
-            a(href="#tags") Tags
+            a(href="#groups") Groups
         li
             a(href="#following") Following
         li
@@ -39,7 +39,7 @@ block content
         a(href="/new") new post
         | 
         |in the site navigation to go to the create post form. 
-        |Posts have a title, link, content and tags. 
+        |Posts have a title, link, content and a group. 
         |Only title is required.
 
     h2#comments Comments
@@ -79,15 +79,14 @@ block content
                 |All whitespace in between will be preserved. 
                 |This is intended for writing computer programming source code.
 
-    h2#tags Tags
+    h2#groups Groups
     p
-        |When you create a post you can assign tags to it. 
-        |All the tags assigned to a post are displayed right after the post time; 
-        |you can click these tags to go to that tag's page. 
-        |All posts with the same tag are grouped together. 
-        |For example, all posts tagged "meta" are available at 
-        a(href="/r/meta") r/meta
-        |.
+        |When you create a post you can add it to a group(this is optional). 
+        |Each group has its own page with all of its posts. 
+        |For example, the 
+        a(href="/r/meta") meta group
+        |. Groups display to the right of the post time for each post; 
+        |click these links to go to the group's page!
 
     h2#following Following
     p
