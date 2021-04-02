@@ -45,8 +45,8 @@ body {
 }
 
 .comments li {
-  margin-top: 16px;
-  margin-top: 1rem;
+  margin-top: 18px;
+  margin-top: 1.125rem;
 }
 
 .comments :target {
