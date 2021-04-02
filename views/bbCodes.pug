@@ -2,6 +2,18 @@ mixin bbCodes(text)
     -
         text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
+        //
+        const urlRegex = /\[([^\[\]]*)\]((https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+
+        text = text.replace(
+            urlRegex,
+            function(all, label, url) {
+                const title = (label === '') ? url : label
+                return '<a href="' + url + '">' + title + '</a>'
+            }
+        )
+
+        //
         let lines = text.split(/\r\n|\r|\n/)
         let preOpens = []
         let preCloses = []
