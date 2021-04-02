@@ -183,10 +183,11 @@ body {
 }
 
 .clinks a {
-  color: #0000d2;
+  color: #b99faa;
   margin-right: 4px;
   margin-right: .25rem;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .clinks-single a {
