@@ -58,7 +58,7 @@ function reply(cpid, isTargetLink) {
 
                     const bySpan = document.createElement('span')
                     bySpan.className = 'cuser'
-                    bySpan.innerHTML = data.by
+                    bySpan.innerHTML = 'by ' + data.by
 
                     const dateSpan = document.createElement('span')
                     dateSpan.className = 'cdate'
