@@ -156,8 +156,16 @@ body {
   background: #f0bcf0;
 }
 
-.puser2, .pdate2, .pcount2, .cuser2, .cdate2, .clinks2 a, .cby2 {
+.puser2, .pdate2, .pcount2, .cuser2,
+.cdate2, .cby2, .clinks2-single a, .clinks2 a {
   color: #b2b2b2;
+}
+
+.clinks2 a {
+  font-size: 14px;
+  font-size: .875rem;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .plinks a {
@@ -165,7 +173,7 @@ body {
 }
 
 .cuser {
-  color: #382004;
+  color: #5f5f64;
 }
 
 .cdate, .cby {
@@ -183,10 +191,13 @@ body {
 }
 
 .clinks a {
-  color: #c5a37c;
+  color: #b14f4f;
   margin-right: 4px;
   margin-right: .25rem;
   text-decoration: none;
+  font-size: 14px;
+  font-size: .875rem;
+  font-weight: bold;
 }
 
 .clinks-single a {
