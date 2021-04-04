@@ -56,8 +56,8 @@ body {
 }
 
 .posts > div {
-  margin-bottom: 16px;
-  margin-bottom: 1rem;
+  margin-bottom: 18px;
+  margin-bottom: 1.125rem;
 }
 
 .mod-posts > div {
