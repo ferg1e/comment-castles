@@ -8,7 +8,9 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
     div(id=pComment.public_id)
         if pComment.is_visible
             div.cheader
-                span(class="cuser") by #{pComment.username}
+                span(class="cby") by
+                | 
+                span(class="cuser") #{pComment.username}
 
                 if !pUser || (pComment.user_id != pUser.user_id)
                     | 
@@ -41,7 +43,9 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
                     | 
                     a(href=`/c/${pComment.public_id}/edit`) edit
         else
-            span(class="cuser2") by #{pComment.username}
+            span(class="cby2") by
+            | 
+            span(class="cuser2") #{pComment.username}
 
             if !pUser || (pComment.user_id != pUser.user_id)
                 | 

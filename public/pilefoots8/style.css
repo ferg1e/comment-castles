@@ -156,7 +156,7 @@ body {
   background: #f0bcf0;
 }
 
-.puser2, .pdate2, .pcount2, .cuser2, .cdate2, .clinks2 a {
+.puser2, .pdate2, .pcount2, .cuser2, .cdate2, .clinks2 a, .cby2 {
   color: #b2b2b2;
 }
 
@@ -168,7 +168,7 @@ body {
   color: #382004;
 }
 
-.cdate {
+.cdate, .cby {
   color: #9b9292;
 }
 

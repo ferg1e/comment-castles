@@ -20,7 +20,9 @@ block content
     article.the-comment
 
         if comment.is_visible
-            span(class="cuser") by #{comment.username}
+            span(class="cby") by
+            | 
+            span(class="cuser") #{comment.username}
 
             if !user || (comment.user_id != user.user_id)
                 | 
@@ -43,7 +45,9 @@ block content
             div.the-comment-content
                 +bbCodes(comment.text_content)
         else
-            span(class="cuser2") by #{comment.username}
+            span(class="cby2") by
+            | 
+            span(class="cuser2") #{comment.username}
 
             if !user || (comment.user_id != user.user_id)
                 | 
