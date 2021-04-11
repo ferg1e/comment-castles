@@ -187,3 +187,16 @@ END; $$ LANGUAGE 'plpgsql';
 --
 create type comment_reply_mode as enum('basic', 'quick');
 alter table tuser add column comment_reply_mode comment_reply_mode not null default 'quick';
+
+--
+create table tfruit (
+    fruit_id serial primary key,
+    name varchar(32) not null
+);
+
+insert into tfruit
+    (name)
+values
+    ('apple'),
+    ('pear'),
+    ('banana');
