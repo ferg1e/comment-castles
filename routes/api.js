@@ -53,7 +53,7 @@ router.get(
                 post_time: v.created_on_raw,
                 by: v.username,
                 num_comments: v.num_comments,
-                tags: v.tags
+                groups: v.tags
             })
         }
 
@@ -124,7 +124,7 @@ router.get(
                 post_time: rows[0].created_on_raw,
                 by: rows[0].username,
                 comments: comments2,
-                tags: rows[0].tags
+                groups: rows[0].tags
             }
 
             res.json(r)
