@@ -7,50 +7,51 @@ html
     link(rel='stylesheet', href='/zileboots7/style.css')
     block head
   body
-    header
-      h1.main-logo
-        a(href="/")
-          img(src="/images/mlogo.png" width="64" height="32")
-          span(id="peaches") Peaches
-          | 
-          |'n'
-          | 
-          span(id="stink") Stink
-      nav.main-nav
-        ul
-          li
-            a(href="/") home
+    div#body2
+      header
+        h1.main-logo
+          a(href="/")
+            img(src="/images/mlogo.png" width="64" height="32")
+            span(id="peaches") Peaches
+            | 
+            |'n'
+            | 
+            span(id="stink") Stink
+        nav.main-nav
+          ul
+            li
+              a(href="/") home
 
-          if user
+            if user
+              li
+                a(href="/new") new post
+              li
+                a(href="/following") following
+              li
+                a(href="/inbox") inbox
+              li
+                a(href="/settings") settings
+              li
+                a(href="/manual") manual
+              li
+                a(href="/logout") log out
+              li #{user.username}
+            else
+              li
+                a(href="/settings") settings
+              li
+                a(href="/sign-up") sign up
+              li
+                a(href="/login") log in
+              li
+                a(href="/manual") manual
+      main
+        block content
+      footer.main-footer
+        nav.main-footer-nav
+          ul
             li
-              a(href="/new") new post
+              a(href="/privacy-policy") privacy policy
             li
-              a(href="/following") following
-            li
-              a(href="/inbox") inbox
-            li
-              a(href="/settings") settings
-            li
-              a(href="/manual") manual
-            li
-              a(href="/logout") log out
-            li #{user.username}
-          else
-            li
-              a(href="/settings") settings
-            li
-              a(href="/sign-up") sign up
-            li
-              a(href="/login") log in
-            li
-              a(href="/manual") manual
-    main
-      block content
-    footer.main-footer
-      nav.main-footer-nav
-        ul
-          li
-            a(href="/privacy-policy") privacy policy
-          li
-            a(href="/api") API
+              a(href="/api") API
 

@@ -3,10 +3,19 @@ header, nav, main, footer, section {
 }
 
 body {
-  background: #fefefe;
+  background: #a79f7c;
   color: #232323;
   margin-bottom: 48px;
   margin-bottom: 3rem;
+}
+
+#body2 {
+  max-width: 640px;
+  max-width: 40rem;
+  margin: 0 auto;
+  background: #fefefe;
+  padding: 10px;
+  padding: .625rem;
 }
 
 .main-logo {
@@ -239,7 +248,7 @@ pre {
 }
 
 /**/
-@media(max-width: 640px) {
+@media(max-width: 43.75em) {
   .comments > ul {
     padding-left: 24px;
     padding-left: 1.5rem;
@@ -248,5 +257,13 @@ pre {
   .comments li ul {
     padding-left: 16px;
     padding-left: 1rem;
+  }
+
+  body {
+    background: #fefefe;
+  }
+
+  #body2 {
+    padding: 0;
   }
 }
