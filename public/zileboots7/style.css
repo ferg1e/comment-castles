@@ -252,6 +252,10 @@ pre {
   margin-bottom: .75rem;
 }
 
+.alert1 a, .alert2 a {
+  color: #0000d2;
+}
+
 #write-comment {
   margin: 16px 0 16px 0;
   margin: 1rem 0 1rem 0;
