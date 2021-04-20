@@ -53,6 +53,16 @@ body {
   color: #9b4747;
 }
 
+.comments > ul {
+  padding-left: 24px;
+  padding-left: 1.5rem;
+}
+
+.comments li ul {
+  padding-left: 16px;
+  padding-left: 1rem;
+}
+
 .comments li {
   margin-top: 18px;
   margin-top: 1.125rem;
@@ -249,16 +259,6 @@ pre {
 
 /**/
 @media(max-width: 43.75em) {
-  .comments > ul {
-    padding-left: 24px;
-    padding-left: 1.5rem;
-  }
-
-  .comments li ul {
-    padding-left: 16px;
-    padding-left: 1rem;
-  }
-
   body {
     background: #fefefe;
   }
