@@ -59,8 +59,8 @@ body {
 }
 
 .comments li ul {
-  padding-left: 16px;
-  padding-left: 1rem;
+  padding-left: 18px;
+  padding-left: 1.125rem;
 }
 
 .comments li {
