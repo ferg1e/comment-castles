@@ -3,19 +3,9 @@ header, nav, main, footer, section {
 }
 
 body {
-  background: #bbb5a1;
   color: #232323;
   margin-bottom: 48px;
   margin-bottom: 3rem;
-}
-
-#body2 {
-  max-width: 640px;
-  max-width: 40rem;
-  margin: 0 auto;
-  background: #fefefe;
-  padding: 10px;
-  padding: .625rem;
 }
 
 .main-logo {
@@ -259,15 +249,4 @@ pre {
 #write-comment {
   margin: 16px 0 16px 0;
   margin: 1rem 0 1rem 0;
-}
-
-/**/
-@media(max-width: 43.75em) {
-  body {
-    background: #fefefe;
-  }
-
-  #body2 {
-    padding: 0;
-  }
 }

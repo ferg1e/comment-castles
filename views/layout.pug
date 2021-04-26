@@ -6,6 +6,38 @@ html
     title=html_title
     link(rel='stylesheet', href='/zileboots7/style.css')
     block head
+
+    if max_width !== null
+      style.
+        body {
+          background: #bbb5a1;
+        }
+
+        #body2 {
+          max-width: #{max_width}px;
+          max-width: #{max_width/16}rem;
+          margin: 0 auto;
+          background: #fefefe;
+          padding: 10px;
+          padding: .625rem;
+        }
+
+        @media(max-width: #{(max_width + 40)/16}em) {
+          body {
+            background: #fefefe;
+          }
+
+          #body2 {
+            padding: 0;
+            max-width: 100%;
+          }
+        }
+    else
+      style.
+        body {
+          background: #fefefe;
+        }
+
   body
     div#body2
       header

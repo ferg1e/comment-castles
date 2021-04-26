@@ -82,7 +82,8 @@ router.route('/')
                 posts: rows,
                 page: page,
                 base_url: '/',
-                is_discover_mode: isDiscoverMode
+                is_discover_mode: isDiscoverMode,
+                max_width: getCurrSiteMaxWidth(req)
             })
     })
 
@@ -1367,6 +1368,12 @@ function getCurrCommentReplyMode(req) {
     else {
         return defaultValue
     }
+}
+
+//
+function getCurrSiteMaxWidth(req) {
+    return 700;
+    //return null;
 }
 
 //
