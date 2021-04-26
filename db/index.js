@@ -272,65 +272,6 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
     )
 }
 
-exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) => {
-    return query(`
-        select
-            p.public_id,
-            p.title,
-            to_char(
-                timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            u.username,
-            p.link,
-            P.num_comments,
-            g.name as group_name,
-            p.num_spam_votes,
-            p.text_content,
-            p.is_removed,
-            exists(select
-                    1
-                from
-                    tspampost
-                where
-                    post_id = p.post_id and
-                    user_id = $2) is_user_post_spam,
-            g.owned_by = $3 or exists(select
-                    1
-                from
-                    tmember
-                where
-                    user_id = $4 and
-                    group_id = g.group_id and
-                    is_moderator) is_group_moderator
-        from
-            tpost p
-        join
-            tuser u on u.user_id = p.user_id
-        join
-            tgroup g on p.group_id = g.group_id
-        where
-            (not p.is_removed or extract(epoch from removed_on) > $5) and
-            extract(epoch from created_on) < $6 and
-            ($7 or
-                g.group_viewing_mode = 'anyone' or
-                g.owned_by = $8 or
-                exists(select
-                        1
-                    from
-                        tmember
-                    where
-                        user_id = $9 and
-                        group_id = g.group_id))
-        order by
-            p.created_on desc
-        limit
-            5
-        offset
-            $10`,
-        [timeZone, userId, userId, userId, before, before, isSuperAdmin, userId, userId, (page - 1)*5]
-    )
-}
-
 //never used this
 exports.getAllPosts2 = (timeZone, userId, page, before) => {
     return query(`
