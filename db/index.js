@@ -272,30 +272,6 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
     )
 }
 
-exports.getPostsWithGroupId = (groupId, timeZone) => {
-    return query(`
-        select
-            p.public_id,
-            p.title,
-            to_char(
-                timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            u.username,
-            p.link,
-            P.num_comments
-        from
-            tpost p
-        join
-            tuser u on u.user_id = p.user_id
-        where
-            p.group_id = $2 and
-            not is_removed
-        order by
-            p.created_on desc`,
-        [timeZone, groupId]
-    )
-}
-
 exports.getAllUserVisiblePosts = (timeZone, userId, isSuperAdmin, page, before) => {
     return query(`
         select
