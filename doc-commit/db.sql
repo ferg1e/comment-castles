@@ -200,3 +200,6 @@ values
     ('apple'),
     ('pear'),
     ('banana');
+
+--
+alter table tuser add column site_width smallint default 600;

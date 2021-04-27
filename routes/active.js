@@ -209,6 +209,7 @@ router.post(
                     time_zone: rows[0].time_zone,
                     post_mode: rows[0].post_mode,
                     comment_reply_mode: rows[0].comment_reply_mode,
+                    site_width: rows[0].site_width,
                     eyes: rows[0].eyes
                 }
 
@@ -265,6 +266,7 @@ router.post(
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
                         comment_reply_mode: rows[0].comment_reply_mode,
+                        site_width: rows[0].site_width,
                         eyes: rows[0].eyes
                     }
 
@@ -340,7 +342,9 @@ router.route('/settings')
                 avaEyes: avaEyes,
                 currEyes: currEyes,
                 postMode: getCurrPostMode(req),
-                commentReplyMode: getCurrCommentReplyMode(req)
+                commentReplyMode: getCurrCommentReplyMode(req),
+                siteWidth: getCurrSiteMaxWidth(req),
+                max_width: getCurrSiteMaxWidth(req)
             })
     })
     .post(async (req, res) => {
@@ -387,18 +391,65 @@ router.route('/settings')
         }
 
         //
-        if(rows.length && eyesOkay) {
+        let errors = []
+
+        if(!rows.length) {
+            errors.push({msg: 'unknown time zone, pick again'})
+        }
+
+        if(!eyesOkay) {
+            errors.push({msg: 'bad following list'})
+        }
+
+        const siteWidthInt = parseInt(req.body.site_width)
+        const wisNaN = isNaN(siteWidthInt)
+        const widthOkay = (req.body.site_width === '') ||
+            (!wisNaN && siteWidthInt >= 500 && siteWidthInt <= 1000)
+
+        if(!widthOkay) {
+            errors.push({msg: 'max width must be between 500-1000, or left blank'})
+        }
+
+        //
+        const {rows:rows2} = await db.getTimeZones()
+        const {rows:avaEyes} = await db.getAvailableEyes()
+        const currEyes = req.body.eyes
+
+        //
+        if(errors.length) {
+            res.render(
+                'my-settings',
+                {
+                    html_title: htmlTitleSettings,
+                    errors: errors,
+                    user: req.session.user,
+                    time_zones: rows2,
+                    time_zone: req.body.time_zone,
+                    avaEyes: avaEyes,
+                    currEyes: currEyes,
+                    postMode: req.body.post_mode,
+                    commentReplyMode: req.body.comment_reply_mode,
+                    siteWidth: req.body.site_width,
+                    max_width: getCurrSiteMaxWidth(req)
+                })
+        }
+        else {
             if(req.session.user) {
                 await db.updateUser(
                     req.session.user.user_id,
                     req.body.time_zone,
                     req.body.post_mode,
                     req.body.comment_reply_mode,
+                    req.body.site_width,
                     eyesValue)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
+                req.session.user.site_width = (req.body.site_width === '')
+                    ? null
+                    : parseInt(req.body.site_width);
+                
                 req.session.user.eyes = eyesValue
             }
             else {
@@ -421,11 +472,12 @@ router.route('/settings')
                     'comment_mode',
                     req.body.comment_mode,
                     {maxAge: cookieMaxAge})
-            }
 
-            const {rows:rows2} = await db.getTimeZones()
-            const {rows:avaEyes} = await db.getAvailableEyes()
-            const currEyes = req.body.eyes
+                res.cookie(
+                    'site_width',
+                    req.body.site_width,
+                    {maxAge: cookieMaxAge})
+            }
 
             res.render(
                 'my-settings',
@@ -438,11 +490,10 @@ router.route('/settings')
                     avaEyes: avaEyes,
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
-                    commentReplyMode: req.body.comment_reply_mode
+                    commentReplyMode: req.body.comment_reply_mode,
+                    siteWidth: req.body.site_width,
+                    max_width: req.body.site_width === '' ? null : parseInt(req.body.site_width)
                 })
-        }
-        else {
-            res.send('error')
         }
     })
 
@@ -1372,8 +1423,34 @@ function getCurrCommentReplyMode(req) {
 
 //
 function getCurrSiteMaxWidth(req) {
-    return 700;
-    //return null;
+    const defaultValue = 600
+
+    if(req.session.user) {
+        return (typeof req.session.user.site_width === 'undefined')
+            ? defaultValue
+            : req.session.user.site_width
+    }
+    else {
+        if(typeof req.cookies.site_width === 'undefined') {
+            return defaultValue
+        }
+        else if(req.cookies.site_width === '') {
+            return null
+        }
+        else {
+            const siteWidthInt = parseInt(req.cookies.site_width)
+
+            if(isNaN(siteWidthInt)) {
+                return defaultValue
+            }
+            else if(siteWidthInt < 500 || siteWidthInt > 1000) {
+                return defaultValue
+            }
+            else {
+                return siteWidthInt
+            }
+        }
+    }
 }
 
 //
