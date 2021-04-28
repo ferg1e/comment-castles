@@ -31,6 +31,6 @@ block content
                     li
                         +ucListComment(c, user, followGoto, comment_reply_mode, false)
         div
-            a(href=`/inbox?p=${page + 1}`) more
+            a(class="more" href=`/inbox?p=${page + 1}`) more &gt;
     else
         span no comments
