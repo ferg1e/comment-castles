@@ -93,7 +93,8 @@ router.route('/manual')
             'instruction-manual',
             {
                 html_title: htmlTitleManual,
-                user: req.session.user
+                user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req)
             })
     })
 
@@ -103,7 +104,8 @@ router.route('/privacy-policy')
             'privacy-policy',
             {
                 html_title: 'Privacy Policy',
-                user: req.session.user
+                user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req)
             })
     })
 
@@ -113,7 +115,8 @@ router.route('/api')
             'api',
             {
                 html_title: 'API',
-                user: req.session.user
+                user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req)
             })
     })
 
@@ -129,6 +132,7 @@ router.route('/api')
             {
                 html_title: htmlTitleTags,
                 user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req),
                 tags: rows
             })
     })*/
@@ -143,7 +147,8 @@ router.get(
                     html_title: htmlTitleSignUp,
                     message: "You already signed up." +
                         " If you want to create another account then please log out.",
-                    user: req.session.user
+                    user: req.session.user,
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -153,7 +158,8 @@ router.get(
                     html_title: htmlTitleSignUp,
                     errors:[],
                     username: "",
-                    is_login: "yes"
+                    is_login: "yes",
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
     }
@@ -177,7 +183,8 @@ router.post(
                     html_title: htmlTitleSignUp,
                     errors:errors,
                     username: req.body.username,
-                    is_login: req.body.is_login
+                    is_login: req.body.is_login,
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -198,7 +205,8 @@ router.post(
                         html_title: htmlTitleSignUp,
                         errors:[{msg:errorMessage}],
                         username: req.body.username,
-                        is_login: req.body.is_login
+                        is_login: req.body.is_login,
+                        max_width: getCurrSiteMaxWidth(req)
                     })
             }
 
@@ -221,7 +229,8 @@ router.post(
                     {
                         html_title: htmlTitleSignUp,
                         message: "Sign up was successful, you can now log in.",
-                        user: req.session.user
+                        user: req.session.user,
+                        max_width: getCurrSiteMaxWidth(req)
                     })
             }
         }
@@ -238,7 +247,8 @@ router.get(
                     html_title: htmlTitleLogin,
                     message: "You're already logged in." +
                         " If you want to log in with a different account then please log out.",
-                    user: req.session.user
+                    user: req.session.user,
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -246,7 +256,9 @@ router.get(
                 'login',
                 {
                     html_title: htmlTitleLogin,
-                    errors:[]})
+                    errors:[],
+                    max_width: getCurrSiteMaxWidth(req)
+                })
         }
     }
 )
@@ -288,7 +300,9 @@ router.post(
             'login',
             {
                 html_title: htmlTitleLogin,
-                errors:errors})
+                errors:errors,
+                max_width: getCurrSiteMaxWidth(req)
+            })
     }
 )
 
@@ -544,7 +558,8 @@ router.get(
                 posts: rows,
                 page: page,
                 base_url: `/r/${tag}`,
-                is_discover_mode: isDiscoverMode
+                is_discover_mode: isDiscoverMode,
+                max_width: getCurrSiteMaxWidth(req)
             })
     }
 )
@@ -563,7 +578,8 @@ router.route('/new')
                     link: "",
                     textContent: "",
                     tags: "",
-                    submitLabel: 'Create Post'
+                    submitLabel: 'Create Post',
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -609,7 +625,8 @@ router.route('/new')
                             link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
                             textContent: req.body.text_content,
                             tags: req.body.tags,
-                            submitLabel: 'Create Post'
+                            submitLabel: 'Create Post',
+                            max_width: getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -664,7 +681,8 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                     link: rows[0].link === null ? '' : rows[0].link,
                     textContent: rows[0].text_content,
                     tags: rows[0].tags.join(', '),
-                    submitLabel: 'Edit Post'
+                    submitLabel: 'Edit Post',
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -725,7 +743,8 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                             link: (typeof req.body.link !== 'undefined' ? req.body.link : ''),
                             textContent: req.body.text_content,
                             tags: req.body.tags,
-                            submitLabel: 'Edit Post'
+                            submitLabel: 'Edit Post',
+                            max_width: getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -777,7 +796,8 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
                     html_title: htmlTitleEditComment,
                     user: req.session.user,
                     errors: [],
-                    textContent: rows[0].text_content
+                    textContent: rows[0].text_content,
+                    max_width: getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -812,7 +832,8 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
                             html_title: htmlTitleEditComment,
                             user: req.session.user,
                             errors: errors,
-                            textContent: ""
+                            textContent: "",
+                            max_width: getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -951,7 +972,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     comments: comments,
                     errors: [],
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req)
+                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    max_width: getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -998,7 +1020,8 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                                 comments: comments,
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
-                                comment_reply_mode: getCurrCommentReplyMode(req)
+                                comment_reply_mode: getCurrCommentReplyMode(req),
+                                max_width: getCurrSiteMaxWidth(req)
                             }
                         )
                     }
@@ -1059,7 +1082,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     comments: comments,
                     errors: [],
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req)
+                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    max_width: getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -1105,7 +1129,8 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                                 comments: comments,
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
-                                comment_reply_mode: getCurrCommentReplyMode(req)
+                                comment_reply_mode: getCurrCommentReplyMode(req),
+                                max_width: getCurrSiteMaxWidth(req)
                             }
                         )
                     }
@@ -1188,7 +1213,8 @@ router.route('/inbox')
                     comments: comments,
                     page: page,
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req)
+                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    max_width: getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -1386,7 +1412,8 @@ async function renderFollowing(req, res, errors, formUsername) {
             errors: errors,
             user: req.session.user,
             followees: rows,
-            formUsername: formUsername
+            formUsername: formUsername,
+            max_width: getCurrSiteMaxWidth(req)
         }
     )
 }
