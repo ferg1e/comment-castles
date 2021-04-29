@@ -421,7 +421,7 @@ router.route('/settings')
             (!wisNaN && siteWidthInt >= 500 && siteWidthInt <= 1000)
 
         if(!widthOkay) {
-            errors.push({msg: 'max width must be between 500-1000, or left blank'})
+            errors.push({msg: 'site width must be between 500-1000, or left blank'})
         }
 
         //
