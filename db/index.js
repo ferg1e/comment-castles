@@ -693,33 +693,6 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
         [timeZone, userId, filterUserId, filterUserId, userId, path, path, isDiscoverMode, filterUserId, userId, filterUserId, path])
 }
 
-exports.getCommentWithGroupAndPublics = (groupName, publicPostId, publicCommentId, timeZone) => {
-    return query(`
-        select
-            c.text_content,
-            to_char(
-                timezone($1, c.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            c.path,
-            c.post_id,
-            u.username
-        from
-            ttest c
-        join
-            tuser u on u.user_id = c.user_id
-        join
-            tpost p on p.post_id = c.post_id
-        join
-            tgroup g on g.group_id = p.group_id
-        where
-            not p.is_removed and
-            c.public_id = $2 and
-            p.public_id = $3 and
-            g.name = $4`,
-        [timeZone, publicCommentId, publicPostId, groupName]
-    )
-}
-
 exports.getCommentsWithGroupId = (groupId, timeZone) => {
     return query(`
         select
