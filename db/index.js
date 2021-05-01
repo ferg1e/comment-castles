@@ -277,45 +277,6 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
     )
 }
 
-//never used this
-exports.getAllPosts2 = (timeZone, userId, page, before) => {
-    return query(`
-        select
-            p.public_id,
-            p.title,
-            to_char(
-                timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
-            u.username,
-            p.link,
-            p.num_comments,
-            p.num_spam_votes,
-            p.text_content,
-            p.is_removed,
-            exists(select
-                    1
-                from
-                    tspampost
-                where
-                    post_id = p.post_id and
-                    user_id = $2) is_user_post_spam
-        from
-            tpost p
-        join
-            tuser u on u.user_id = p.user_id
-        where
-            (not p.is_removed or extract(epoch from removed_on) > $3) and
-            extract(epoch from created_on) < $4
-        order by
-            p.created_on desc
-        limit
-            5
-        offset
-            $5`,
-        [timeZone, userId, before, before, (page - 1)*5]
-    )
-}
-
 exports.canMarkPostRemoved = (userId, postId, groupId) => {
     return query(`
         select
