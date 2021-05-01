@@ -1,6 +1,5 @@
 const argon2 = require('argon2')
 const {Pool, types} = require('pg')
-const shortid = require('shortid')
 const nanoid = require('nanoid/generate');
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 const nanoidLen = 22;
