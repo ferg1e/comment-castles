@@ -1177,7 +1177,8 @@ exports.getTimeZones = () => {
             pg_timezone_names
         where
             name not like 'Etc/%' and
-            name not like 'GMT%'
+            name not like 'GMT%' and
+            name not like 'posix%'
         order by
             utc_offset, name`
     )
