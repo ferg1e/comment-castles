@@ -109,6 +109,17 @@ router.route('/privacy-policy')
             })
     })
 
+router.route('/contact-us')
+    .get((req, res) => {
+        res.render(
+            'contact-us',
+            {
+                html_title: 'Contact Us',
+                user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req)
+            })
+    })
+
 router.route('/api')
     .get((req, res) => {
         res.render(
