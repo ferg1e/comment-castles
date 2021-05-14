@@ -3,7 +3,7 @@ extends layout
 block content
     h2 API
     p
-        | Peaches 'n' Stink has two API endpoints available:
+        | Peaches 'n' Stink has three API endpoints available:
 
     h3 GET /api/v1/posts
 
@@ -46,3 +46,22 @@ block content
 
     p
         a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN
+
+    h3 GET /api/v1/comment
+
+    p
+        |This call will return a single comment and its child comments. 
+        |You can use 
+        em commentid
+        | 
+        |and 
+        em viewmode
+        | 
+        |variables in the URL. 
+        em commentid
+        | 
+        |is required. 
+        |Examples of this endpoint:
+
+    p
+        a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn
