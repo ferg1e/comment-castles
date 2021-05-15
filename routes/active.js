@@ -594,7 +594,14 @@ router.route('/new')
                 })
         }
         else {
-            res.send('log in to post')
+            res.render(
+                'message',
+                {
+                    html_title: htmlTitleNewPost,
+                    message: "Please <a href=\"/login\">log in</a> to create a post.",
+                    user: req.session.user,
+                    max_width: getCurrSiteMaxWidth(req)
+                })
         }
     })
     .post(
@@ -1230,7 +1237,14 @@ router.route('/inbox')
             )
         }
         else {
-            res.send('plz log in...')
+            res.render(
+                'message',
+                {
+                    html_title: 'Inbox',
+                    message: "<a href=\"/login\">Log in</a> to view your inbox.",
+                    user: req.session.user,
+                    max_width: getCurrSiteMaxWidth(req)
+                })
         }
     })
 
