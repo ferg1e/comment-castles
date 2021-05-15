@@ -7,14 +7,14 @@ block content
 
     h3 GET /api/v1/posts
 
-    p
-        |This call will return all posts in JSON format. 
-        |You can use p and viewmode variables in the URL. 
-        |p is for page and it starts at 1. The page size is 15. 
-        |If viewmode is "discover" then the discover view mode is used. 
-        |If any other value is used for viewmode then the locked view mode is used. 
-        |In discover view mode, the post title and link will be false if the post author is not on the selected allow list.
-        |Examples of this endpoint:
+    p.
+        This call will return all posts in JSON format.
+        You can use #[em p] and #[em viewmode] variables in the URL.
+        #[em p] is for page and it starts at 1. The page size is 15.
+        If #[em viewmode] is #[em "discover"] then the discover view mode is used.
+        If any other value is used for #[em viewmode] then the locked view mode is used.
+        In discover view mode, the post title and link will be false if the post author is not on the selected following list.
+        Examples of this endpoint:
 
     p
         a(href="/api/v1/posts") /api/v1/posts
@@ -30,38 +30,22 @@ block content
 
     h3 GET /api/v1/post
 
-    p
-        |This call will return a single post and its comments. 
-        |You can use 
-        em postid
-        | 
-        |and 
-        em viewmode
-        | 
-        |variables in the URL. 
-        em postid
-        | 
-        |is required. 
-        |Examples of this endpoint:
+    p.
+        This call will return a single post and its comments.
+        You can use #[em postid] and #[em viewmode] variables in the URL.
+        #[em postid] is required.
+        Examples of this endpoint:
 
     p
         a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN
 
     h3 GET /api/v1/comment
 
-    p
-        |This call will return a single comment and its child comments. 
-        |You can use 
-        em commentid
-        | 
-        |and 
-        em viewmode
-        | 
-        |variables in the URL. 
-        em commentid
-        | 
-        |is required. 
-        |Examples of this endpoint:
+    p.
+        This call will return a single comment and its child comments.
+        You can use #[em commentid] and #[em viewmode] variables in the URL.
+        #[em commentid] is required.
+        Examples of this endpoint:
 
     p
         a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn
