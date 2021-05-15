@@ -3,17 +3,26 @@ extends layout
 block content
     h2 API
     p
-        | Peaches 'n' Stink has three API endpoints available:
+        |The Peaches 'n' Stink API has three available endpoints. 
+        |All of the API endpoints return JSON. 
+        |We do not have any user authentication for the API, 
+        |thus it's currently limited to read only using stink's following list.
+
+    p.
+        All of the API calls accept an optional #[em viewmode] variable in the URL.
+        If #[em viewmode] is #[em "discover"] then the discover view mode is used.
+        If any other value is used for #[em viewmode] then the locked view mode is used.
+        You can read more about how view mode works in the
+        #[a(href="/manual#settings") settings section of the instruction manual].
+
+    p
+        |Here is a description of each call:
 
     h3 GET /api/v1/posts
 
     p.
-        This call will return all posts in JSON format.
         You can use #[em p] and #[em viewmode] variables in the URL.
         #[em p] is for page and it starts at 1. The page size is 15.
-        If #[em viewmode] is #[em "discover"] then the discover view mode is used.
-        If any other value is used for #[em viewmode] then the locked view mode is used.
-        In discover view mode, the post title and link will be false if the post author is not on the selected following list.
         Examples of this endpoint:
 
     p
