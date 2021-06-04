@@ -1,9 +1,0 @@
-extends layout
-
-block head
-    link(rel='stylesheet', href='/cillmit99b/groups.css')
-
-block content
-    each group in groups
-        a(href=`/g/${group.name}`) g/#{group.name}
-        | 
