@@ -32,13 +32,6 @@ function sharedAllHandler(req, res, next) {
         }
     }
 
-    //
-    if(req.session.user) {
-        let superUserIds = [1]
-        let isSuperAdmin = superUserIds.indexOf(req.session.user.user_id) !== -1
-        req.session.user.is_super_admin = isSuperAdmin
-    }
-
     next()
 }
 
