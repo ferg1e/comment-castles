@@ -1467,20 +1467,6 @@ function isDiscover(req) {
 }
 
 //
-function getCurrCommentMode(req) {
-    if(req.session.user) {
-        return (typeof req.session.user.comment_mode === 'undefined')
-            ? 'discover'
-            : req.session.user.comment_mode
-    }
-    else {
-        return (typeof req.cookies.comment_mode === 'undefined')
-            ? 'following-only'
-            : req.cookies.comment_mode
-    }
-}
-
-//
 async function getCurrEyes(req) {
     let eyes = ''
 
