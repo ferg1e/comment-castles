@@ -1461,18 +1461,6 @@ function getCurrSiteMaxWidth(req) {
 
 //
 function isDiscover(req) {
-
-    //
-    /*const isLoggedInMyList = req.session.user && !req.session.user.eyes
-    const isLoggedOutMyList = !req.session.user && req.cookies.eyes === ''
-    const isMyList = isLoggedInMyList || isLoggedOutMyList
-
-    //guarantee that discover mode is only used with own allow list
-    if(!isMyList) {
-        return 0
-    }*/
-
-    //
     return getCurrPostMode(req) !== 'discover'
         ? 0
         : 1
