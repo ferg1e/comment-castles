@@ -21,8 +21,8 @@ app.set('views', path.join(__dirname, 'views'))
 //security is good enough
 app.use(session({
     genid: req => uuid(),
-    name: 'sid03lellie',
-    secret: 'secret38lwi9wlxDeiwo',
+    name: process.env.SESSION_NAME,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: new redisStore({ host: "localhost", port: process.env.REDIS_PORT, client: redisClient })
