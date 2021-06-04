@@ -124,23 +124,6 @@ router.route('/api')
             })
     })
 
-//
-/*router.route('/tags')
-    .get(async (req, res) => {
-        
-        //
-        const {rows} = await db.getTags()
-
-        res.render(
-            'tags',
-            {
-                html_title: htmlTitleTags,
-                user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req),
-                tags: rows
-            })
-    })*/
-
 router.get(
     '/sign-up',
     (req, res) => {
