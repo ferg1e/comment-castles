@@ -350,28 +350,6 @@ router.route('/settings')
     })
     .post(async (req, res) => {
         
-        // can only use view mode = discover with own allow list
-        /*let isBadDiscover = req.body.post_mode === 'discover' &&
-            req.body.eyes !== ''
-
-        if(isBadDiscover) {
-            const {rows:rows2} = await db.getTimeZones()
-            const {rows:avaEyes} = await db.getAvailableEyes()
-
-            return res.render(
-                'my-settings',
-                {
-                    html_title: htmlTitleSettings,
-                    errors: [{msg: 'You can only use discover view mode with your own allow list.'}],
-                    user: req.session.user,
-                    time_zones: rows2,
-                    time_zone: req.body.time_zone,
-                    avaEyes: avaEyes,
-                    currEyes: req.body.eyes,
-                    postMode: req.body.post_mode,
-                })
-        }*/
-
         //
         const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
