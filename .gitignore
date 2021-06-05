@@ -2,4 +2,3 @@ node_modules
 .env
 my-files/
 doc/
-test*.js
