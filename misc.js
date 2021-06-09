@@ -21,10 +21,10 @@ exports.getCurrTimeZone = (req) => {
 
 //
 exports.processComment = (rawText) => {
-    let noWhitespace = rawText.replace(/\s/g, '')
-    let numNonWsChars = noWhitespace.length
-    let compressedText = rawText.trim()
-    let errors = []
+    const noWhitespace = rawText.replace(/\s/g, '')
+    const numNonWsChars = noWhitespace.length
+    const compressedText = rawText.trim()
+    const errors = []
 
     if(rawText.length === 0) {
         errors.push({'msg': 'Please fill in a comment'})
