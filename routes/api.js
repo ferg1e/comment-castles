@@ -219,7 +219,7 @@ router.post(
 
             //
             if(rows.length) {
-                let [compressedComment, errors] = processComment(req.body.text_content)
+                let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                 if(errors.length) {
                     res.json(0)
@@ -257,24 +257,6 @@ router.post(
         }
     }
 )
-
-//todo: dry this up
-function processComment(rawText) {
-    let noWhitespace = rawText.replace(/\s/g, '')
-    let numNonWsChars = noWhitespace.length
-    let compressedText = rawText.trim()
-    let errors = []
-
-    if(rawText.length === 0) {
-        errors.push({'msg': 'Please fill in a comment'})
-    }
-    else if(numNonWsChars < 1) {
-        errors.push({'msg': 'Comment must be at least 1 character'})
-    }
-
-    //
-    return [compressedText, errors]
-}
 
 //
 module.exports = router

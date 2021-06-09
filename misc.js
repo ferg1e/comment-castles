@@ -18,3 +18,21 @@ exports.getCurrTimeZone = (req) => {
     //
     return timeZone
 }
+
+//
+exports.processComment = (rawText) => {
+    let noWhitespace = rawText.replace(/\s/g, '')
+    let numNonWsChars = noWhitespace.length
+    let compressedText = rawText.trim()
+    let errors = []
+
+    if(rawText.length === 0) {
+        errors.push({'msg': 'Please fill in a comment'})
+    }
+    else if(numNonWsChars < 1) {
+        errors.push({'msg': 'Comment must be at least 1 character'})
+    }
+
+    //
+    return [compressedText, errors]
+}

@@ -792,7 +792,7 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
                 }
 
                 //
-                let [compressedComment, errors] = processComment(req.body.text_content)
+                let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                 //
                 if(errors.length) {
@@ -966,7 +966,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     filterUserId)
 
                 if(rows.length) {
-                    let [compressedComment, errors] = processComment(req.body.text_content)
+                    let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                     //
                     if(errors.length) {
@@ -1075,7 +1075,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     filterUserId)
 
                 if(rows.length) {
-                    let [compressedComment, errors] = processComment(req.body.text_content)
+                    let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                     if(errors.length) {
 
@@ -1127,24 +1127,6 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                 res.send('nope...')
             }
     })
-
-//todo: dry this up
-function processComment(rawText) {
-    let noWhitespace = rawText.replace(/\s/g, '')
-    let numNonWsChars = noWhitespace.length
-    let compressedText = rawText.trim()
-    let errors = []
-
-    if(rawText.length === 0) {
-        errors.push({'msg': 'Please fill in a comment'})
-    }
-    else if(numNonWsChars < 1) {
-        errors.push({'msg': 'Comment must be at least 1 character'})
-    }
-
-    //
-    return [compressedText, errors]
-}
 
 //
 router.route('/inbox')
