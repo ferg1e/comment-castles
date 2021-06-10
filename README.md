@@ -4,6 +4,21 @@ Peaches 'n' Stink is an experimental Internet forum. Users write posts and neste
 
 Moderation systems are very important when it comes to Internet message boards. On most boards, all users use the same moderation blacklist that is maintained by the owners of the forum. With this project we are trying out something close to the opposite of that, each user uses their own moderation whitelist. Users can use other users' whitelists (but only certain users' lists are made available for use).
 
+Other features:
+
+* [Instruction Manual](https://www.peachesnstink.com/manual)
+* Inbox that shows all comments made on your posts and comments
+* Everything works with front-end JavaScript turned off
+* Option to use AJAX commenting or non-JavaScript commenting
+* Setting to set the width of the site
+* Can use settings when logged out
+* Works properly on practically all browsers and devices
+* No up or down voting
+* No follower counts
+* REST API (but currently read-only with no auth)
+* Groups
+* Can post source code snippets in posts and comments
+
 ## Install
 
 Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
