@@ -2,6 +2,8 @@
 
 Peaches 'n' Stink is an experimental Internet forum. Users write posts and nested comments. You can try out the official instance at [peachesnstink.com](https://www.peachesnstink.com)!
 
+Moderation systems are very important when it comes to Internet message boards. On most boards, all users use the same moderation blacklist that is maintained by the owners of the forum. With this project we are trying out something close to the opposite of that, each user uses their own moderation whitelist. Users can use other users' whitelists (but only certain users' lists are made available for use).
+
 ## Install
 
 Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
