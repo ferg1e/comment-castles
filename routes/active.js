@@ -532,6 +532,13 @@ router.get(
 router.route('/new')
     .get(async (req, res) => {
         if(req.session.user) {
+
+            //
+            const tags = (typeof req.query.group !== 'undefined')
+                ? req.query.group
+                : "";
+
+            //
             res.render(
                 'new-post2',
                 {
@@ -541,7 +548,7 @@ router.route('/new')
                     title: "",
                     link: "",
                     textContent: "",
-                    tags: "",
+                    tags: tags,
                     submitLabel: 'Create Post',
                     max_width: getCurrSiteMaxWidth(req)
                 })
