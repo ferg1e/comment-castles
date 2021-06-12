@@ -12,7 +12,11 @@ mixin unfollowLink(username)
 
 block content
     if page_tag
-        h2.group-top r/#{page_tag}
+        h2.group-top
+            |r/#{page_tag}
+            if user
+                | 
+                a(href=`/new?group=${page_tag}`) new post
 
     if is_discover_mode
         div(class="alert2o")
