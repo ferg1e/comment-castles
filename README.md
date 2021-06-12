@@ -15,6 +15,8 @@ Create a PostgreSQL 11 database and execute all the code in `doc-commit/structur
 
 Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so version 2+.
 
+Make sure you have Node.js installed. We have only used Node.js v10.
+
 Run `npm install` to download all the Node.js dependencies that are listed in `package.json`.
 
 Set the following environment variables:
