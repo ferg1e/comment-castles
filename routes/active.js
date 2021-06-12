@@ -522,7 +522,8 @@ router.get(
                 page: page,
                 base_url: `/r/${tag}`,
                 is_discover_mode: isDiscoverMode,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: getCurrSiteMaxWidth(req),
+                page_tag: tag
             })
     }
 )

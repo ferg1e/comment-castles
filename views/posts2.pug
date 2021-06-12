@@ -11,6 +11,9 @@ mixin unfollowLink(username)
     a(href=`/following?unfollow=${username}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
+    if page_tag
+        h2.group-top r/#{page_tag}
+
     if is_discover_mode
         div(class="alert2o")
             span(class="alert2")
