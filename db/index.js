@@ -32,12 +32,16 @@ exports.createUser = (username, password) => {
     return argon2.hash(password)
         .then(hash => query(`
             insert into tuser
-                (username, password)
+                (username, password, public_id)
             values
-                ($1, $2)
+                ($1, $2, $3)
             returning
                 user_id, username, time_zone, post_mode, eyes, comment_reply_mode, site_width`,
-            [username, hash]))
+            [
+                username,
+                hash,
+                nanoid(nanoidAlphabet, nanoidLen)
+            ]))
 }
 
 exports.getUserWithUsername = (username) => {
