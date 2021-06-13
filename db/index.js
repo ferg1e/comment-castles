@@ -86,6 +86,16 @@ exports.getUserWithUserId = (userId) => {
     )
 }
 
+exports.getUsersWithoutPublicId = () => {
+    return query(`
+        select
+            user_id
+        from
+            tuser
+        where
+            public_id = ''`)
+}
+
 exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes) => {
     const finalSiteWidth = (siteWidth === '')
         ? null
@@ -115,6 +125,22 @@ exports.updateUserViewMode = (userId, postMode) => {
         where
             user_id = $2`,
         [postMode, userId])
+}
+
+//
+exports.genUserPublicId = (userId) => {
+    return query(`
+        update
+            tuser
+        set
+            public_id = $1
+        where
+            user_id = $2 and
+            public_id = ''`,
+        [
+            nanoid(nanoidAlphabet, nanoidLen),
+            userId
+        ])
 }
 
 //post
