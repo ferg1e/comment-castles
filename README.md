@@ -77,3 +77,6 @@ module.exports = {
 There must exist a user with a `user_id` of `1` and a `username` of `stink`. These two values are currently hardcoded into the application and serve as the default user whitelist. So after an instance of this application is launched, you should immediately sign up as the user `stink`. Also set `is_eyes` to `true` for `stink` in the `tuser` database table.
 
 On the [API page](https://www.peachesnstink.com/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
+
+## Update
+When you deploy new commits to your instance of this app that is already running, make sure to also execute any new commands that are in `doc-commit/since-github.sql`. If you deployed your instance before commit [46d52bff7765b250317ee297d570800447cb4afa](https://github.com/ferg1e/peaches-n-stink/commit/46d52bff7765b250317ee297d570800447cb4afa), then you need to run `gen-user-public-ids.js` in order to generate public IDs for users that are already in the database.
