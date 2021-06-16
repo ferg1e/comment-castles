@@ -7,6 +7,7 @@ Other features:
 * REST API
 * Groups
 * High Eternal September resistance
+* Censorship buffer
 * [Instruction Manual](https://www.peachesnstink.com/manual)
 
 ## Install
