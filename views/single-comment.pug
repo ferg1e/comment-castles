@@ -27,9 +27,9 @@ block content
             if !user || (comment.user_id != user.user_id)
                 | 
                 if comment.is_follow
-                    +ucUnfollowLink(comment.username, followGoto)
+                    +ucUnfollowLink(comment.username, comment.user_public_id, followGoto)
                 else
-                    +ucFollowLink(comment.username, followGoto)
+                    +ucFollowLink(comment.username, comment.user_public_id, followGoto)
 
             | 
             span(class="cdate") on #{comment.created_on}
@@ -52,9 +52,9 @@ block content
             if !user || (comment.user_id != user.user_id)
                 | 
                 if comment.is_follow
-                    +ucUnfollowLink(comment.username, followGoto)
+                    +ucUnfollowLink(comment.username, comment.user_public_id, followGoto)
                 else
-                    +ucFollowLink(comment.username, followGoto)
+                    +ucFollowLink(comment.username, comment.user_public_id, followGoto)
 
             | 
             span(class="cdate2") on #{comment.created_on}

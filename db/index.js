@@ -608,6 +608,7 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
             c.path,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
@@ -680,6 +681,7 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             c.public_id comment_public_id,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             p.public_id post_public_id,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
