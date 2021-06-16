@@ -502,6 +502,7 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page
             c.path,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
