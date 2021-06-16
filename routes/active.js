@@ -1203,10 +1203,13 @@ router.route('/following')
         if(req.session.user) {
 
             if(isUnfollow) {
-                let username = req.query.unfollow
-                const {rows} = await db.getUserWithUsername(username)
+                const userPublicId = req.query.unfollow
+                const {rows} = await db.getUserWithPublicId(userPublicId)
 
                 if(rows.length) {
+
+                    //
+                    const username = rows[0].username
 
                     //
                     const {rows:rows2} = await db.getUserFollowee(
@@ -1240,10 +1243,15 @@ router.route('/following')
                 }
             }
             else if(isFollow) {
-                let username = req.query.follow
-                const {rows} = await db.getUserWithUsername(username)
+                const userPublicId = req.query.follow
+                const {rows} = await db.getUserWithPublicId(userPublicId)
 
                 if(rows.length) {
+
+                    //
+                    const username = rows[0].username
+
+                    //
                     if(req.session.user.user_id == rows[0].user_id) {
                         renderFollowing(req, res,
                             [{msg: 'You don\'t need to follow yourself'}],
@@ -1279,7 +1287,7 @@ router.route('/following')
                 else {
                     renderFollowing(req, res,
                         [{msg: 'No such user'}],
-                        username)
+                        '')
                 }
             }
             else if(isFollowed) {

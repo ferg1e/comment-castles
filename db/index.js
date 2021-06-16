@@ -64,6 +64,27 @@ exports.getUserWithUsername = (username) => {
     )
 }
 
+//TODO: consider combining this with getUserWithUsername()
+exports.getUserWithPublicId = (publicId) => {
+    return query(`
+        select
+            user_id,
+            username,
+            password,
+            time_zone,
+            post_mode,
+            is_eyes,
+            eyes,
+            comment_reply_mode,
+            site_width
+        from
+            tuser
+        where
+            public_id = $1`,
+        [publicId]
+    )
+}
+
 exports.getAvailableEyes = () => {
     return query(`
         select
@@ -179,6 +200,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
             p.created_on created_on_raw,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             p.link,
             p.num_comments,
             u.user_id = $2 or u.user_id = $3 or
@@ -244,6 +266,7 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             p.link,
             p.num_comments,
             u.user_id = $2 or u.user_id = $3 or
@@ -709,7 +732,8 @@ exports.getUserFollowees = (userId) => {
     return query(`
         select
             u.user_id,
-            u.username
+            u.username,
+            u.public_id
         from
             tfollower f
         join
