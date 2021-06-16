@@ -1,8 +1,8 @@
-mixin ucFollowLink(pUsername, pGoto)
-    a(href=`/following?follow=${pUsername}&goto=${pGoto}` class="follow" title=`follow ${pUsername}`) +
+mixin ucFollowLink(pUsername, pUserPublicId, pGoto)
+    a(href=`/following?follow=${pUserPublicId}&goto=${pGoto}` class="follow" title=`follow ${pUsername}`) +
 
-mixin ucUnfollowLink(pUsername, pGoto)
-    a(href=`/following?unfollow=${pUsername}&goto=${pGoto}` class="unfollow" title=`unfollow ${pUsername}`) -
+mixin ucUnfollowLink(pUsername, pUserPublicId, pGoto)
+    a(href=`/following?unfollow=${pUserPublicId}&goto=${pGoto}` class="unfollow" title=`unfollow ${pUsername}`) -
 
 mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLink)
     div(id=pComment.public_id)
@@ -15,9 +15,9 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
                 if !pUser || (pComment.user_id != pUser.user_id)
                     | 
                     if pComment.is_follow
-                        +ucUnfollowLink(pComment.username, pFollowGoto)
+                        +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
                     else
-                        +ucFollowLink(pComment.username, pFollowGoto)
+                        +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
 
                 | 
                 span(class="cdate") on #{pComment.created_on}
@@ -50,9 +50,9 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
             if !pUser || (pComment.user_id != pUser.user_id)
                 | 
                 if pComment.is_follow
-                    +ucUnfollowLink(pComment.username, pFollowGoto)
+                    +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
                 else
-                    +ucFollowLink(pComment.username, pFollowGoto)
+                    +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
 
             | 
             span(class="cdate2") on #{pComment.created_on}

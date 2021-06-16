@@ -368,6 +368,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             p.text_content,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             p.public_id,
             p.link,
             p.num_comments,
@@ -557,6 +558,7 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
             c.path,
             u.username,
             u.user_id,
+            u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on,

@@ -28,9 +28,9 @@ block content
 
                 if !user || (post.user_id != user.user_id)
                     if post.is_follow
-                        +ucUnfollowLink(post.username, followGoto)
+                        +ucUnfollowLink(post.username, post.user_public_id, followGoto)
                     else
-                        +ucFollowLink(post.username, followGoto)
+                        +ucFollowLink(post.username, post.user_public_id, followGoto)
 
                 | 
                 span(class="pdate") on #{post.created_on}
@@ -60,9 +60,9 @@ block content
 
             if !user || (post.user_id != user.user_id)
                 if post.is_follow
-                    +ucUnfollowLink(post.username, followGoto)
+                    +ucUnfollowLink(post.username, post.user_public_id, followGoto)
                 else
-                    +ucFollowLink(post.username, followGoto)
+                    +ucFollowLink(post.username, post.user_public_id, followGoto)
 
             | 
             span(class="pdate2") on #{post.created_on}
