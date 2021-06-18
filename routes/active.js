@@ -490,8 +490,25 @@ router.route('/settings-sensitive')
             {
                 html_title: htmlTitleSensitiveSettings,
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: getCurrSiteMaxWidth(req),
+                errors: []
             })
+    })
+    .post(async (req, res) => {
+
+        if(req.session.user) {
+            res.render(
+                'my-settings-sensitive',
+                {
+                    html_title: htmlTitleSensitiveSettings,
+                    user: req.session.user,
+                    max_width: getCurrSiteMaxWidth(req),
+                    errors: [{'msg': 'submitted!'}]
+                })
+        }
+        else {
+            res.send('nope...')
+        }
     })
 
 router.get(

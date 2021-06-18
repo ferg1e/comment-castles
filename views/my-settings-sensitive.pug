@@ -1,4 +1,22 @@
 extends my-settings-top
 
+block head
+    link(rel='stylesheet', href='/cillmit99b/my-settings-sensitive.css')
+
 block content2
-    span test 1 2 3
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+    form(method="post")
+        div
+            label(for="username") Username
+            input(name="username" id="username" value="")
+        div
+            label(for="new-password") New Password
+            input(name="new-password" id="new-password" type="password" )
+        div
+            label(for="password") Existing Password
+            input(name="password" id="password" type="password" )
+        div
+            input(type="submit" value="Save")
