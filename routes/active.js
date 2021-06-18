@@ -10,6 +10,7 @@ const htmlTitleHome = "Peaches 'n' Stink"
 const htmlTitleSignUp = 'Sign Up'
 const htmlTitleLogin = 'Log In'
 const htmlTitleSettings = 'Settings'
+const htmlTitleSensitiveSettings = 'Sensitive Settings'
 const htmlTitleNewPost = 'New Post'
 const htmlTitleEditPost = 'Edit Post'
 const htmlTitleEditComment = 'Edit Comment'
@@ -472,6 +473,25 @@ router.route('/settings')
                     max_width: req.body.site_width === '' ? null : parseInt(req.body.site_width)
                 })
         }
+    })
+
+//
+router.route('/settings-sensitive')
+    .get(async (req, res) => {
+
+        //
+        if(!req.session.user) {
+            return res.redirect('/settings')
+        }
+
+        //
+        res.render(
+            'my-settings-sensitive',
+            {
+                html_title: htmlTitleSensitiveSettings,
+                user: req.session.user,
+                max_width: getCurrSiteMaxWidth(req)
+            })
     })
 
 router.get(

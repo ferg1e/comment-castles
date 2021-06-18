@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    if user
+        nav.settings-nav
+            ul
+                li
+                    a(href="/settings") general
+                li
+                    a(href="/settings-sensitive") sensitive
+    div
+        block content2
