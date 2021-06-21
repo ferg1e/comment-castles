@@ -153,6 +153,18 @@ exports.updateUserViewMode = (userId, postMode) => {
 }
 
 //
+exports.updateUserUsername = (userId, username) => {
+    return query(`
+        update
+            tuser
+        set
+            username = $1
+        where
+            user_id = $2`,
+        [username, userId])
+}
+
+//
 exports.genUserPublicId = (userId) => {
     return query(`
         update

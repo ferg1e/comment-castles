@@ -491,20 +491,59 @@ router.route('/settings-sensitive')
                 html_title: htmlTitleSensitiveSettings,
                 user: req.session.user,
                 max_width: getCurrSiteMaxWidth(req),
-                errors: []
+                errors: [],
+                username: req.session.user.username
             })
     })
     .post(async (req, res) => {
 
         if(req.session.user) {
-            res.render(
-                'my-settings-sensitive',
-                {
-                    html_title: htmlTitleSensitiveSettings,
-                    user: req.session.user,
-                    max_width: getCurrSiteMaxWidth(req),
-                    errors: [{'msg': 'submitted!'}]
-                })
+
+            //
+            const errors = []
+            const username = req.body.username
+
+            //
+            if(!username.match(regexUsername)) {
+                errors.push({msg: "Username must be 4-16 characters(letters, numbers and dashes only)"})
+            }
+            else {
+                const {rows} = await db.getUserWithUsername(username)
+
+                if(rows.length && rows[0].user_id != req.session.user.user_id) {
+                    errors.push({msg: "username already taken"})
+                }
+            }
+
+            //
+            if(errors.length) {
+                res.render(
+                    'my-settings-sensitive',
+                    {
+                        html_title: htmlTitleSensitiveSettings,
+                        user: req.session.user,
+                        max_width: getCurrSiteMaxWidth(req),
+                        errors: errors,
+                        username: username
+                    })
+            }
+            else {
+
+                //
+                await db.updateUserUsername(req.session.user.user_id, username)
+                req.session.user.username = username
+
+                //
+                res.render(
+                    'my-settings-sensitive',
+                    {
+                        html_title: htmlTitleSensitiveSettings,
+                        user: req.session.user,
+                        max_width: getCurrSiteMaxWidth(req),
+                        errors: [{'msg': 'Username successfully saved'}],
+                        username: username
+                    })
+            }
         }
         else {
             res.send('nope...')
