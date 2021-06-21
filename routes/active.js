@@ -486,7 +486,7 @@ router.route('/settings-sensitive')
 
         //
         res.render(
-            'my-settings-sensitive',
+            'my-settings-username',
             {
                 html_title: htmlTitleSensitiveSettings,
                 user: req.session.user,
@@ -518,7 +518,7 @@ router.route('/settings-sensitive')
             //
             if(errors.length) {
                 res.render(
-                    'my-settings-sensitive',
+                    'my-settings-username',
                     {
                         html_title: htmlTitleSensitiveSettings,
                         user: req.session.user,
@@ -535,7 +535,7 @@ router.route('/settings-sensitive')
 
                 //
                 res.render(
-                    'my-settings-sensitive',
+                    'my-settings-username',
                     {
                         html_title: htmlTitleSensitiveSettings,
                         user: req.session.user,
