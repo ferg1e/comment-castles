@@ -13,24 +13,24 @@ body {
   padding: 0;
 }
 
-.main-nav {
+.main-nav, .settings-nav {
   margin-bottom: 12px;
   margin-bottom: .75rem;
 }
 
-.main-nav ul, .main-footer-nav ul {
+.main-nav ul, .main-footer-nav ul, .settings-nav ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
-.main-nav ul li, .main-footer-nav ul li {
+.main-nav ul li, .main-footer-nav ul li, .settings-nav ul li {
   display: inline-block;
   padding: 0;
   margin: 0 10px 12px 0;
 }
 
-.main-nav a {
+.main-nav a, .settings-nav a {
   color: #4b4949;
 }
 
