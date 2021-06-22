@@ -10,7 +10,7 @@ const htmlTitleHome = "Peaches 'n' Stink"
 const htmlTitleSignUp = 'Sign Up'
 const htmlTitleLogin = 'Log In'
 const htmlTitleSettings = 'Settings'
-const htmlTitleSensitiveSettings = 'Sensitive Settings'
+const htmlTitleSettingsUsername = 'Settings / Username'
 const htmlTitleNewPost = 'New Post'
 const htmlTitleEditPost = 'Edit Post'
 const htmlTitleEditComment = 'Edit Comment'
@@ -476,7 +476,7 @@ router.route('/settings')
     })
 
 //
-router.route('/settings-sensitive')
+router.route('/settings/username')
     .get(async (req, res) => {
 
         //
@@ -488,7 +488,7 @@ router.route('/settings-sensitive')
         res.render(
             'my-settings-username',
             {
-                html_title: htmlTitleSensitiveSettings,
+                html_title: htmlTitleSettingsUsername,
                 user: req.session.user,
                 max_width: getCurrSiteMaxWidth(req),
                 errors: [],
@@ -520,7 +520,7 @@ router.route('/settings-sensitive')
                 res.render(
                     'my-settings-username',
                     {
-                        html_title: htmlTitleSensitiveSettings,
+                        html_title: htmlTitleSettingsUsername,
                         user: req.session.user,
                         max_width: getCurrSiteMaxWidth(req),
                         errors: errors,
@@ -537,7 +537,7 @@ router.route('/settings-sensitive')
                 res.render(
                     'my-settings-username',
                     {
-                        html_title: htmlTitleSensitiveSettings,
+                        html_title: htmlTitleSettingsUsername,
                         user: req.session.user,
                         max_width: getCurrSiteMaxWidth(req),
                         errors: [{'msg': 'Username successfully saved'}],
