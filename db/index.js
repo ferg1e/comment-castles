@@ -102,7 +102,8 @@ exports.getAvailableEyes = () => {
 exports.getUserWithUserId = (userId) => {
     return query(`
         select
-            username
+            username,
+            password
         from
             tuser
         where

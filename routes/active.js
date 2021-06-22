@@ -516,6 +516,14 @@ router.route('/settings/username')
             }
 
             //
+            const {rows:rows2} = await db.getUserWithUserId(req.session.user.user_id)
+            const isCorrectPassword = await argon2.verify(rows2[0].password, req.body.password)
+
+            if(!isCorrectPassword) {
+                errors.push({msg: "incorrect existing password"})
+            }
+
+            //
             if(errors.length) {
                 res.render(
                     'my-settings-username',
