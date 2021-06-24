@@ -12,9 +12,11 @@ Other features:
 
 ## Install
 
-Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql` and then execute all the code in `doc-commit/since-github.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
+Install one of the [tagged releases](https://github.com/ferg1e/peaches-n-stink/releases), preferably the most recent.
 
-Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so version 2+.
+Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
+
+Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so most versions are probably fine.
 
 Make sure you have Node.js installed. We have only used Node.js v10.
 
