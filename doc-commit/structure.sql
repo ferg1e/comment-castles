@@ -529,7 +529,8 @@ CREATE TABLE public.tuser (
     is_eyes boolean DEFAULT false NOT NULL,
     eyes integer,
     comment_reply_mode public.comment_reply_mode DEFAULT 'quick'::public.comment_reply_mode NOT NULL,
-    site_width smallint DEFAULT 600
+    site_width smallint DEFAULT 600,
+    public_id character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
