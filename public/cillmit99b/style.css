@@ -24,10 +24,16 @@ body {
   list-style-type: none;
 }
 
-.main-nav ul li, .main-footer-nav ul li, .settings-nav ul li {
+.main-nav ul li, .settings-nav ul li {
   display: inline-block;
   padding: 0;
   margin: 0 10px 12px 0;
+}
+
+.main-footer-nav ul li {
+  display: inline-block;
+  padding: 0;
+  margin: 12px 10px 0 0;
 }
 
 .main-nav a, .settings-nav a {
@@ -35,8 +41,8 @@ body {
 }
 
 .main-footer {
-  margin-top: 32px;
-  margin-top: 2rem;
+  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .main-footer a {
