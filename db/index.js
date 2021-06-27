@@ -94,7 +94,7 @@ exports.getAvailableEyes = () => {
         where
             is_eyes
         order by
-            username`,
+            lower(username)`,
         []
     )
 }
@@ -759,7 +759,7 @@ exports.getUserFollowees = (userId) => {
         where
             f.user_id = $1
         order by
-            u.username`,
+            lower(u.username)`,
         [userId]
     )
 }
