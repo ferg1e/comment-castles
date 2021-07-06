@@ -1025,10 +1025,16 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                 isDiscoverMode,
                 filterUserId)
 
+            //
+            const htmlTitle = rows[0].is_visible
+                ? rows[0].title
+                : 'Post #' + rows[0].public_id;
+
+            //
             res.render(
                 'single-post',
                 {
-                    html_title: rows[0].title,
+                    html_title: htmlTitle,
                     user: req.session.user,
                     post: rows[0],
                     comments: comments,
@@ -1073,10 +1079,16 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                             isDiscoverMode,
                             filterUserId)
 
+                        //
+                        const htmlTitle = rows[0].is_visible
+                            ? rows[0].title
+                            : 'Post #' + rows[0].public_id;
+
+                        //
                         res.render(
                             'single-post',
                             {
-                                html_title: rows[0].title,
+                                html_title: htmlTitle,
                                 user: req.session.user,
                                 post: rows[0],
                                 comments: comments,
