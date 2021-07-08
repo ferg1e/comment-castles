@@ -36,3 +36,24 @@ exports.processComment = (rawText) => {
     //
     return [compressedText, errors]
 }
+
+//
+exports.processPostTitle = (rTitle) => {
+    let titleNoWhitespace = rTitle.replace(/\s/g, '')
+    let numNonWsChars = titleNoWhitespace.length
+    let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+    let error = null
+
+    if(rTitle.length === 0) {
+        error = {'msg': 'Please fill in a title'}
+    }
+    else if(numNonWsChars < 4) {
+        error = {'msg': 'Title must be at least 4 characters'}
+    }
+    else if(wsCompressedTitle.length > 160) {
+        error = {'msg': 'Title can\'t be more than 160 characters'}
+    }
+
+    //
+    return [wsCompressedTitle, error]
+}
