@@ -341,7 +341,7 @@ router.route('/settings')
                 time_zone: myMisc.getCurrTimeZone(req),
                 avaEyes: avaEyes,
                 currEyes: currEyes,
-                postMode: getCurrPostMode(req),
+                postMode: myMisc.getCurrPostMode(req),
                 commentReplyMode: getCurrCommentReplyMode(req),
                 siteWidth: getCurrSiteMaxWidth(req),
                 max_width: getCurrSiteMaxWidth(req)
@@ -1405,20 +1405,6 @@ async function renderFollowing(req, res, errors, formUsername) {
 module.exports = router
 
 //
-function getCurrPostMode(req) {
-    if(req.session.user) {
-        return (typeof req.session.user.post_mode === 'undefined')
-            ? 'discover'
-            : req.session.user.post_mode
-    }
-    else {
-        return (typeof req.cookies.post_mode === 'undefined')
-            ? 'following-only'
-            : req.cookies.post_mode
-    }
-}
-
-//
 function getCurrCommentReplyMode(req) {
     const defaultValue = 'quick'
 
@@ -1466,7 +1452,7 @@ function getCurrSiteMaxWidth(req) {
 
 //
 function isDiscover(req) {
-    return getCurrPostMode(req) !== 'discover'
+    return myMisc.getCurrPostMode(req) !== 'discover'
         ? 0
         : 1
 }

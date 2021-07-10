@@ -101,3 +101,17 @@ exports.processPostTags = (rTags) => {
     //
     return [trimTags, errors]
 }
+
+//
+exports.getCurrPostMode = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.post_mode === 'undefined')
+            ? 'discover'
+            : req.session.user.post_mode
+    }
+    else {
+        return (typeof req.cookies.post_mode === 'undefined')
+            ? 'following-only'
+            : req.cookies.post_mode
+    }
+}
