@@ -808,6 +808,27 @@ exports.createPostTag = (tagId, postId) => {
         [tagId, postId])
 }
 
+exports.createPostTags = async (trimTags, postId) => {
+    let tagIds = []
+
+    for(let i = 0; i < trimTags.length; ++i) {
+        const {rows:tagd} = await module.exports.getTag(trimTags[i])
+
+        if(tagd.length) {
+            tagIds.push(tagd[0].tag_id)
+        }
+        else {
+            const {rows:tagInsert} = await module.exports.createTag(trimTags[i])
+            tagIds.push(tagInsert[0].tag_id)
+        }
+    }
+
+    //
+    for(let i = 0; i < tagIds.length; ++i) {
+        await module.exports.createPostTag(tagIds[i], postId)
+    }
+}
+
 exports.getTag = (tagName) => {
     return query(`
         select

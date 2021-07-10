@@ -701,7 +701,7 @@ router.route('/new')
                     const {rows} = await vals[0]
 
                     //
-                    await createPostTags(trimTags, rows[0].post_id)
+                    await db.createPostTags(trimTags, rows[0].post_id)
                     
                     //
                     return res.redirect('/p/' + vals[1])
@@ -820,7 +820,7 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                     await db.deletePostTags(rows[0].post_id)
 
                     //
-                    await createPostTags(trimTags, rows[0].post_id)
+                    await db.createPostTags(trimTags, rows[0].post_id)
                     
                     //
                     return res.redirect('/p/' + postPublicId)
@@ -912,28 +912,6 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
             }
         }
     )
-
-//
-async function createPostTags(trimTags, postId) {
-    let tagIds = []
-
-    for(let i = 0; i < trimTags.length; ++i) {
-        const {rows:tagd} = await db.getTag(trimTags[i])
-
-        if(tagd.length) {
-            tagIds.push(tagd[0].tag_id)
-        }
-        else {
-            const {rows:tagInsert} = await db.createTag(trimTags[i])
-            tagIds.push(tagInsert[0].tag_id)
-        }
-    }
-
-    //
-    for(let i = 0; i < tagIds.length; ++i) {
-        await db.createPostTag(tagIds[i], postId)
-    }
-}
 
 //single post
 router.route(/^\/p\/([a-z0-9]{22})$/i)
