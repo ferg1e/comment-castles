@@ -75,7 +75,7 @@ router.route('/')
                 page: page,
                 base_url: '/',
                 is_discover_mode: isDiscoverMode,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
 
@@ -86,7 +86,7 @@ router.route('/manual')
             {
                 html_title: htmlTitleManual,
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
 
@@ -97,7 +97,7 @@ router.route('/privacy-policy')
             {
                 html_title: 'Privacy Policy',
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
 
@@ -108,7 +108,7 @@ router.route('/contact-us')
             {
                 html_title: 'Contact Us',
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
 
@@ -119,7 +119,7 @@ router.route('/api')
             {
                 html_title: 'API',
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
 
@@ -134,7 +134,7 @@ router.get(
                     message: "You already signed up." +
                         " If you want to create another account then please log out.",
                     user: req.session.user,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -145,7 +145,7 @@ router.get(
                     errors:[],
                     username: "",
                     is_login: "yes",
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
     }
@@ -170,7 +170,7 @@ router.post(
                     errors:errors,
                     username: req.body.username,
                     is_login: req.body.is_login,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -192,7 +192,7 @@ router.post(
                         errors:[{msg:errorMessage}],
                         username: req.body.username,
                         is_login: req.body.is_login,
-                        max_width: getCurrSiteMaxWidth(req)
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
                     })
             }
 
@@ -216,7 +216,7 @@ router.post(
                         html_title: htmlTitleSignUp,
                         message: "Sign up was successful, you can now log in.",
                         user: req.session.user,
-                        max_width: getCurrSiteMaxWidth(req)
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
                     })
             }
         }
@@ -234,7 +234,7 @@ router.get(
                     message: "You're already logged in." +
                         " If you want to log in with a different account then please log out.",
                     user: req.session.user,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -243,7 +243,7 @@ router.get(
                 {
                     html_title: htmlTitleLogin,
                     errors:[],
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
     }
@@ -287,7 +287,7 @@ router.post(
             {
                 html_title: htmlTitleLogin,
                 errors:errors,
-                max_width: getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
 )
@@ -343,8 +343,8 @@ router.route('/settings')
                 currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
-                siteWidth: getCurrSiteMaxWidth(req),
-                max_width: getCurrSiteMaxWidth(req)
+                siteWidth: myMisc.getCurrSiteMaxWidth(req),
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     })
     .post(async (req, res) => {
@@ -408,7 +408,7 @@ router.route('/settings')
                     postMode: req.body.post_mode,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -490,7 +490,7 @@ router.route('/settings/username')
             {
                 html_title: htmlTitleSettingsUsername,
                 user: req.session.user,
-                max_width: getCurrSiteMaxWidth(req),
+                max_width: myMisc.getCurrSiteMaxWidth(req),
                 errors: [],
                 username: req.session.user.username
             })
@@ -530,7 +530,7 @@ router.route('/settings/username')
                     {
                         html_title: htmlTitleSettingsUsername,
                         user: req.session.user,
-                        max_width: getCurrSiteMaxWidth(req),
+                        max_width: myMisc.getCurrSiteMaxWidth(req),
                         errors: errors,
                         username: username
                     })
@@ -547,7 +547,7 @@ router.route('/settings/username')
                     {
                         html_title: htmlTitleSettingsUsername,
                         user: req.session.user,
-                        max_width: getCurrSiteMaxWidth(req),
+                        max_width: myMisc.getCurrSiteMaxWidth(req),
                         errors: [{'msg': 'Username successfully saved'}],
                         username: username
                     })
@@ -606,7 +606,7 @@ router.get(
                 page: page,
                 base_url: `/r/${tag}`,
                 is_discover_mode: isDiscoverMode,
-                max_width: getCurrSiteMaxWidth(req),
+                max_width: myMisc.getCurrSiteMaxWidth(req),
                 page_tag: tag
             })
     }
@@ -634,7 +634,7 @@ router.route('/new')
                     textContent: "",
                     tags: tags,
                     submitLabel: 'Create Post',
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -644,7 +644,7 @@ router.route('/new')
                     html_title: htmlTitleNewPost,
                     message: "Please <a href=\"/login\">log in</a> to create a post.",
                     user: req.session.user,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
     })
@@ -688,7 +688,7 @@ router.route('/new')
                             textContent: req.body.text_content,
                             tags: req.body.tags,
                             submitLabel: 'Create Post',
-                            max_width: getCurrSiteMaxWidth(req)
+                            max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -744,7 +744,7 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                     textContent: rows[0].text_content,
                     tags: rows[0].tags.join(', '),
                     submitLabel: 'Edit Post',
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -806,7 +806,7 @@ router.route(/^\/p\/([a-z0-9]{22})\/edit$/i)
                             textContent: req.body.text_content,
                             tags: req.body.tags,
                             submitLabel: 'Edit Post',
-                            max_width: getCurrSiteMaxWidth(req)
+                            max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -859,7 +859,7 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
                     user: req.session.user,
                     errors: [],
                     textContent: rows[0].text_content,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -895,7 +895,7 @@ router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
                             user: req.session.user,
                             errors: errors,
                             textContent: "",
-                            max_width: getCurrSiteMaxWidth(req)
+                            max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }
                 else {
@@ -954,7 +954,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     errors: [],
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -1008,7 +1008,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                                max_width: getCurrSiteMaxWidth(req)
+                                max_width: myMisc.getCurrSiteMaxWidth(req)
                             }
                         )
                     }
@@ -1070,7 +1070,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     errors: [],
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -1117,7 +1117,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                                max_width: getCurrSiteMaxWidth(req)
+                                max_width: myMisc.getCurrSiteMaxWidth(req)
                             }
                         )
                     }
@@ -1183,7 +1183,7 @@ router.route('/inbox')
                     page: page,
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 }
             )
         }
@@ -1194,7 +1194,7 @@ router.route('/inbox')
                     html_title: 'Inbox',
                     message: "<a href=\"/login\">Log in</a> to view your inbox.",
                     user: req.session.user,
-                    max_width: getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
     })
@@ -1397,44 +1397,12 @@ async function renderFollowing(req, res, errors, formUsername) {
             user: req.session.user,
             followees: rows,
             formUsername: formUsername,
-            max_width: getCurrSiteMaxWidth(req)
+            max_width: myMisc.getCurrSiteMaxWidth(req)
         }
     )
 }
 
 module.exports = router
-
-//
-function getCurrSiteMaxWidth(req) {
-    const defaultValue = 600
-
-    if(req.session.user) {
-        return (typeof req.session.user.site_width === 'undefined')
-            ? defaultValue
-            : req.session.user.site_width
-    }
-    else {
-        if(typeof req.cookies.site_width === 'undefined') {
-            return defaultValue
-        }
-        else if(req.cookies.site_width === '') {
-            return null
-        }
-        else {
-            const siteWidthInt = parseInt(req.cookies.site_width)
-
-            if(isNaN(siteWidthInt)) {
-                return defaultValue
-            }
-            else if(siteWidthInt < 500 || siteWidthInt > 1000) {
-                return defaultValue
-            }
-            else {
-                return siteWidthInt
-            }
-        }
-    }
-}
 
 //
 function isDiscover(req) {

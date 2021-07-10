@@ -129,3 +129,35 @@ exports.getCurrCommentReplyMode = req => {
         return defaultValue
     }
 }
+
+//
+exports.getCurrSiteMaxWidth = req => {
+    const defaultValue = 600
+
+    if(req.session.user) {
+        return (typeof req.session.user.site_width === 'undefined')
+            ? defaultValue
+            : req.session.user.site_width
+    }
+    else {
+        if(typeof req.cookies.site_width === 'undefined') {
+            return defaultValue
+        }
+        else if(req.cookies.site_width === '') {
+            return null
+        }
+        else {
+            const siteWidthInt = parseInt(req.cookies.site_width)
+
+            if(isNaN(siteWidthInt)) {
+                return defaultValue
+            }
+            else if(siteWidthInt < 500 || siteWidthInt > 1000) {
+                return defaultValue
+            }
+            else {
+                return siteWidthInt
+            }
+        }
+    }
+}
