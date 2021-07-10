@@ -342,7 +342,7 @@ router.route('/settings')
                 avaEyes: avaEyes,
                 currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
-                commentReplyMode: getCurrCommentReplyMode(req),
+                commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: getCurrSiteMaxWidth(req),
                 max_width: getCurrSiteMaxWidth(req)
             })
@@ -953,7 +953,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     comments: comments,
                     errors: [],
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: getCurrSiteMaxWidth(req)
                 }
             )
@@ -1007,7 +1007,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                                 comments: comments,
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
-                                comment_reply_mode: getCurrCommentReplyMode(req),
+                                comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: getCurrSiteMaxWidth(req)
                             }
                         )
@@ -1069,7 +1069,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     comments: comments,
                     errors: [],
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: getCurrSiteMaxWidth(req)
                 }
             )
@@ -1116,7 +1116,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                                 comments: comments,
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
-                                comment_reply_mode: getCurrCommentReplyMode(req),
+                                comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: getCurrSiteMaxWidth(req)
                             }
                         )
@@ -1182,7 +1182,7 @@ router.route('/inbox')
                     comments: comments,
                     page: page,
                     is_discover_mode: isDiscoverMode,
-                    comment_reply_mode: getCurrCommentReplyMode(req),
+                    comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: getCurrSiteMaxWidth(req)
                 }
             )
@@ -1403,20 +1403,6 @@ async function renderFollowing(req, res, errors, formUsername) {
 }
 
 module.exports = router
-
-//
-function getCurrCommentReplyMode(req) {
-    const defaultValue = 'quick'
-
-    if(req.session.user) {
-        return (typeof req.session.user.comment_reply_mode === 'undefined')
-            ? defaultValue
-            : req.session.user.comment_reply_mode
-    }
-    else {
-        return defaultValue
-    }
-}
 
 //
 function getCurrSiteMaxWidth(req) {
