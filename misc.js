@@ -39,9 +39,9 @@ exports.processComment = (rawText) => {
 
 //
 exports.processPostTitle = (rTitle) => {
-    let titleNoWhitespace = rTitle.replace(/\s/g, '')
-    let numNonWsChars = titleNoWhitespace.length
-    let wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+    const titleNoWhitespace = rTitle.replace(/\s/g, '')
+    const numNonWsChars = titleNoWhitespace.length
+    const wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
     let error = null
 
     if(rTitle.length === 0) {
