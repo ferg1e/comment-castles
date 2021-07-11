@@ -3,6 +3,7 @@ const argon2 = require('argon2')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
@@ -14,7 +15,6 @@ const htmlTitleEditPost = 'Edit Post'
 const htmlTitleEditComment = 'Edit Comment'
 const htmlTitleComment = 'Comment #'
 const htmlTitleManual = 'Manual'
-const eyesDefaultUsername = 'stink'
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -1143,7 +1143,7 @@ async function getCurrEyesId(req) {
             : req.session.user.user_id
     }
     else {
-        let username = eyesDefaultUsername
+        let username = config.eyesDefaultUsername
 
         if(typeof req.cookies.eyes !== 'undefined') {
             if(req.cookies.eyes === '') {

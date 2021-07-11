@@ -2,6 +2,7 @@ const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
@@ -288,7 +289,7 @@ async function getCurrEyes(req) {
     else if(!req.session.user) {
         eyes = typeof req.cookies.eyes !== 'undefined'
             ? req.cookies.eyes
-            : eyesDefaultUsername
+            : config.eyesDefaultUsername
     }
 
     return eyes
