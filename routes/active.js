@@ -52,7 +52,7 @@ router.route('/')
         }
 
         //
-        const isDiscoverMode = isDiscover(req)
+        const isDiscoverMode = myMisc.isDiscover(req)
         const filterUserId = await getCurrEyesId(req)
 
         //
@@ -316,7 +316,7 @@ router.get(
         }
 
         //
-        const isDiscoverMode = isDiscover(req)
+        const isDiscoverMode = myMisc.isDiscover(req)
         const filterUserId = await getCurrEyesId(req)
 
         //
@@ -660,7 +660,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
         if(rows.length) {
 
             //
-            const isDiscoverMode = isDiscover(req)
+            const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
@@ -714,7 +714,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
                     if(errors.length) {
 
                         //
-                        const isDiscoverMode = isDiscover(req)
+                        const isDiscoverMode = myMisc.isDiscover(req)
 
                         const{rows:comments} = await db.getPostComments(
                             rows[0].post_id,
@@ -781,7 +781,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
         if(rows.length) {
 
             //
-            const isDiscoverMode = isDiscover(req)
+            const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
@@ -828,7 +828,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
                     if(errors.length) {
 
                         //
-                        const isDiscoverMode = isDiscover(req)
+                        const isDiscoverMode = myMisc.isDiscover(req)
 
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
@@ -883,7 +883,7 @@ router.route('/inbox')
 
             //
             const filterUserId = await getCurrEyesId(req)
-            const isDiscoverMode = isDiscover(req)
+            const isDiscoverMode = myMisc.isDiscover(req)
 
             //
             let page = 1
@@ -1134,13 +1134,6 @@ async function renderFollowing(req, res, errors, formUsername) {
 }
 
 module.exports = router
-
-//
-function isDiscover(req) {
-    return myMisc.getCurrPostMode(req) !== 'discover'
-        ? 0
-        : 1
-}
 
 //
 async function getCurrEyesId(req) {

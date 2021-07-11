@@ -161,3 +161,10 @@ exports.getCurrSiteMaxWidth = req => {
         }
     }
 }
+
+//
+exports.isDiscover = req => {
+    return module.exports.getCurrPostMode(req) !== 'discover'
+        ? 0
+        : 1
+}
