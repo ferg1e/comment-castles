@@ -3,7 +3,6 @@ const argon2 = require('argon2')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../misc.js')
-const config = require('../config')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
@@ -53,7 +52,7 @@ router.route('/')
 
         //
         const isDiscoverMode = myMisc.isDiscover(req)
-        const filterUserId = await getCurrEyesId(req)
+        const filterUserId = await db.getCurrEyesId(req)
 
         //
         const {rows} = await db.getPosts(
@@ -317,7 +316,7 @@ router.get(
 
         //
         const isDiscoverMode = myMisc.isDiscover(req)
-        const filterUserId = await getCurrEyesId(req)
+        const filterUserId = await db.getCurrEyesId(req)
 
         //
         const {rows} = await db.getTagPosts(
@@ -649,7 +648,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const postPublicId = req.params[0]
         const finalUserId = req.session.user ? req.session.user.user_id : -1
-        const filterUserId = await getCurrEyesId(req)
+        const filterUserId = await db.getCurrEyesId(req)
 
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
@@ -699,7 +698,7 @@ router.route(/^\/p\/([a-z0-9]{22})$/i)
             if(req.session.user) {
                 const postPublicId = req.params[0]
                 const finalUserId = req.session.user ? req.session.user.user_id : -1
-                const filterUserId = await getCurrEyesId(req)
+                const filterUserId = await db.getCurrEyesId(req)
 
                 const {rows} = await db.getPostWithPublic2(
                     postPublicId,
@@ -770,7 +769,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
         const finalUserId = req.session.user ? req.session.user.user_id : -1
-        const filterUserId = await getCurrEyesId(req)
+        const filterUserId = await db.getCurrEyesId(req)
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
@@ -814,7 +813,7 @@ router.route(/^\/c\/([a-z0-9]{22})$/i)
             if(req.session.user) {
                 const commentPublicId = req.params[0]
                 const finalUserId = req.session.user ? req.session.user.user_id : -1
-                const filterUserId = await getCurrEyesId(req)
+                const filterUserId = await db.getCurrEyesId(req)
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
@@ -882,7 +881,7 @@ router.route('/inbox')
         if(req.session.user) {
 
             //
-            const filterUserId = await getCurrEyesId(req)
+            const filterUserId = await db.getCurrEyesId(req)
             const isDiscoverMode = myMisc.isDiscover(req)
 
             //
@@ -1134,34 +1133,3 @@ async function renderFollowing(req, res, errors, formUsername) {
 }
 
 module.exports = router
-
-//
-async function getCurrEyesId(req) {
-    if(req.session.user) {
-        return req.session.user.eyes
-            ? req.session.user.eyes
-            : req.session.user.user_id
-    }
-    else {
-        let username = config.eyesDefaultUsername
-
-        if(typeof req.cookies.eyes !== 'undefined') {
-            if(req.cookies.eyes === '') {
-                return -1
-            }
-            else {
-                username = req.cookies.eyes
-            }
-        }
-
-        //
-        const {rows} = await db.getUserWithUsername(username)
-
-        if(rows.length && rows[0].is_eyes) {
-            return rows[0].user_id
-        }
-        else {
-            return -1
-        }
-    }
-}

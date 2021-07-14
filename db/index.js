@@ -1,4 +1,5 @@
 const argon2 = require('argon2')
+const config = require('../config')
 const {Pool, types} = require('pg')
 const nanoid = require('nanoid/generate');
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -97,6 +98,36 @@ exports.getAvailableEyes = () => {
             lower(username)`,
         []
     )
+}
+
+exports.getCurrEyesId = async req => {
+    if(req.session.user) {
+        return req.session.user.eyes
+            ? req.session.user.eyes
+            : req.session.user.user_id
+    }
+    else {
+        let username = config.eyesDefaultUsername
+
+        if(typeof req.cookies.eyes !== 'undefined') {
+            if(req.cookies.eyes === '') {
+                return -1
+            }
+            else {
+                username = req.cookies.eyes
+            }
+        }
+
+        //
+        const {rows} = await module.exports.getUserWithUsername(username)
+
+        if(rows.length && rows[0].is_eyes) {
+            return rows[0].user_id
+        }
+        else {
+            return -1
+        }
+    }
 }
 
 exports.getUserWithUserId = (userId) => {
