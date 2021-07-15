@@ -154,10 +154,6 @@ exports.getUsersWithoutPublicId = () => {
 }
 
 exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes) => {
-    const finalSiteWidth = (siteWidth === '')
-        ? null
-        : siteWidth;
-
     return query(`
         update
             tuser
@@ -169,7 +165,7 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             site_width = $5
         where
             user_id = $6`,
-        [timeZoneName, postMode, commentReplyMode, eyes, finalSiteWidth, userId])
+        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, userId])
 }
 
 //

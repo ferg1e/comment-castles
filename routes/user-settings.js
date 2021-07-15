@@ -130,21 +130,31 @@ router.route('/')
                 })
         }
         else {
+
+            //
+            const siteWidthEmptied = req.body.site_width === ''
+                ? ''
+                : siteWidthInt
+
+            //
+            const siteWidthNulled = req.body.site_width === ''
+                ? null
+                : siteWidthInt
+
+            //
             if(req.session.user) {
                 await db.updateUser(
                     req.session.user.user_id,
                     req.body.time_zone,
                     req.body.post_mode,
                     req.body.comment_reply_mode,
-                    req.body.site_width,
+                    siteWidthNulled,
                     eyesValue)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
-                req.session.user.site_width = (req.body.site_width === '')
-                    ? null
-                    : parseInt(req.body.site_width);
+                req.session.user.site_width = siteWidthNulled
                 
                 req.session.user.eyes = eyesValue
             }
@@ -171,7 +181,7 @@ router.route('/')
 
                 res.cookie(
                     'site_width',
-                    req.body.site_width,
+                    siteWidthEmptied,
                     {maxAge: cookieMaxAge})
             }
 
@@ -188,7 +198,7 @@ router.route('/')
                     postMode: req.body.post_mode,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
-                    max_width: req.body.site_width === '' ? null : parseInt(req.body.site_width)
+                    max_width: siteWidthNulled
                 })
         }
     })
