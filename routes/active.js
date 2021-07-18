@@ -1,12 +1,10 @@
 const express = require('express')
-const argon2 = require('argon2')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../misc.js')
 
 const router = express.Router()
 const htmlTitleHome = "Peaches 'n' Stink"
-const htmlTitleLogin = 'Log In'
 const htmlTitleNewPost = 'New Post'
 const htmlTitleEditPost = 'Edit Post'
 const htmlTitleEditComment = 'Edit Comment'
