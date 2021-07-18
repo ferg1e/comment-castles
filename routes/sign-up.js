@@ -16,7 +16,7 @@ router.get(
                 {
                     html_title: htmlTitleSignUp,
                     message: "You already signed up." +
-                        " If you want to create another account then please log out.",
+                        " If you want to create another account then please <a href=\"/logout\">log out</a>.",
                     user: req.session.user,
                     max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
@@ -37,7 +37,7 @@ router.get(
 
 router.post(
     '/',
-    body('username', 'Username must be 4-16 characters(letters, numbers and dashes only)')
+    body('username', 'Username must be 4-16 characters (letters, numbers and dashes only)')
         .notEmpty().withMessage('Please fill in a username')
         .matches(regexUsername),
     body('password', 'Password must be 9-100 characters')
@@ -98,7 +98,7 @@ router.post(
                     'message',
                     {
                         html_title: htmlTitleSignUp,
-                        message: "Sign up was successful, you can now log in.",
+                        message: "Sign up was successful, you can now <a href=\"/login\">log in</a>.",
                         user: req.session.user,
                         max_width: myMisc.getCurrSiteMaxWidth(req)
                     })
