@@ -1,6 +1,6 @@
 # Peaches 'n' Stink
 
-Peaches 'n' Stink is an experimental Internet forum. Users write posts and nested comments. Users must whitelist other users in order to see their content. The official instance is at [peachesnstink.com](https://www.peachesnstink.com)!
+Peaches 'n' Stink is a general purpose, adminless, whitelist-moderated Internet forum. Users write posts and nested comments. Users must follow (ie. add) other users in order to see their content. The official instance is at [peachesnstink.com](https://www.peachesnstink.com)!
 
 Other features:
 
