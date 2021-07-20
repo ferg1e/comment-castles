@@ -45,6 +45,7 @@ app.use(express.static(path.join(
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
 app.use('/', websiteRouter)
+app.use('/', require('./routes/home'))
 app.use('/settings/', routesUserSettings)
 app.use('/sign-up/', routeSignUp)
 app.use('/login/', routeLogin)
