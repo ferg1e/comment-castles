@@ -4,7 +4,6 @@ const myMisc = require('../misc.js')
 
 const router = express.Router()
 const htmlTitleHome = "Peaches 'n' Stink"
-const htmlTitleEditComment = 'Edit Comment'
 const htmlTitleManual = 'Manual'
 
 // every request
@@ -164,87 +163,6 @@ router.get(
             })
     }
 )
-
-//edit comment
-router.route(/^\/c\/([a-z0-9]{22})\/edit$/i)
-    .get(async (req, res) => {
-        if(req.session.user) {
-
-            //
-            const commentPublicId = req.params[0]
-            const {rows} = await db.getCommentWithPublic(commentPublicId)
-
-            //
-            if(!rows.length) {
-                return res.send('unknown comment...')
-            }
-
-            //
-            if(rows[0].user_id != req.session.user.user_id) {
-                return res.send('wrong user...')
-            }
-
-            //
-            res.render(
-                'edit-comment',
-                {
-                    html_title: htmlTitleEditComment,
-                    user: req.session.user,
-                    errors: [],
-                    textContent: rows[0].text_content,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
-        else {
-            res.send('sorry...')
-        }
-    })
-    .post(async (req, res) => {
-            if(req.session.user) {
-
-                //
-                const commentPublicId = req.params[0]
-                const {rows} = await db.getCommentWithPublic(commentPublicId)
-
-                //
-                if(!rows.length) {
-                    return res.send('unknown comment...')
-                }
-
-                //
-                if(rows[0].user_id != req.session.user.user_id) {
-                    return res.send('wrong user...')
-                }
-
-                //
-                let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
-
-                //
-                if(errors.length) {
-                    res.render(
-                        'edit-comment',
-                        {
-                            html_title: htmlTitleEditComment,
-                            user: req.session.user,
-                            errors: errors,
-                            textContent: "",
-                            max_width: myMisc.getCurrSiteMaxWidth(req)
-                        })
-                }
-                else {
-                    await db.updateComment(
-                        rows[0].comment_id,
-                        compressedComment)
-                    
-                    //
-                    return res.redirect('/c/' + commentPublicId)
-                }
-            }
-            else {
-                res.send('nope...')
-            }
-        }
-    )
 
 //
 router.route('/inbox')
