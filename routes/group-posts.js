@@ -17,7 +17,7 @@ router.get(
             page = parseInt(req.query.p)
 
             if(isNaN(page)) {
-                return res.redirect(`/${tag}`)
+                return res.redirect(`/r/${tag}`)
             }
         }
 
