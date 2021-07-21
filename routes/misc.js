@@ -2,7 +2,6 @@ const express = require('express')
 const myMisc = require('../misc.js')
 
 const router = express.Router()
-const htmlTitleManual = 'Manual'
 
 // every request
 function sharedAllHandler(req, res, next) {
@@ -28,7 +27,7 @@ router.route('/manual')
         res.render(
             'instruction-manual',
             {
-                html_title: htmlTitleManual,
+                html_title: 'Manual',
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
