@@ -1,5 +1,8 @@
 extends layout
 
+append head
+    link(rel='stylesheet', href='/cillmit99b/manual.css')
+
 block content
     ul
         li
@@ -67,7 +70,7 @@ block content
     h2#formatting Formatting
     p
         |These are the available formatting rules for posts and comments:
-        ul
+        ul.list1
             li
                 |All newlines are automatically preserved.
             li
@@ -125,7 +128,7 @@ block content
         a(href="/settings/username") username
         |. 
         |The available settings are:
-        ul
+        ul.list1
             li
                 b Time Zone
                 |: this will adjust the time that is displayed for each post and comment.
