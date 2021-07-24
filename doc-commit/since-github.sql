@@ -6,3 +6,11 @@
 
 --
 alter table tuser add column public_id varchar(32) not null default '';
+
+--
+create table tdomainname (
+    domain_name_id serial primary key,
+    domain_name varchar(256)
+);
+
+alter table tpost add column domain_name_id integer default null;

@@ -448,6 +448,17 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
     )
 }
 
+exports.getPostLinks = () => {
+    return query(`
+        select
+            post_id,
+            link
+        from
+            tpost
+        where
+            link is not null`)
+}
+
 exports.updatePost = (postId, title, textContent, link) => {
     let finalLink = typeof link !== 'undefined' ? link : null
     let finalTextContent = textContent.trim() === '' ? null : textContent
@@ -473,6 +484,40 @@ exports.incPostNumComments = (postId) => {
         where
             post_id = $1`,
         [postId])
+}
+
+exports.updatePostDomainNameId = (postId, domainNameId) => {
+    return query(`
+        update
+            tpost
+        set
+            domain_name_id = $1
+        where
+            post_id = $2`,
+        [domainNameId, postId])
+}
+
+//domain name
+exports.createDomainName = (domainName) => {
+    return query(`
+        insert into tdomainname
+            (domain_name)
+        values
+            ($1)
+        returning
+            domain_name_id`,
+        [domainName])
+}
+
+exports.getDomainName = (domainName) => {
+    return query(`
+        select
+            domain_name_id
+        from
+            tdomainname
+        where
+            domain_name = $1`,
+        [domainName])
 }
 
 //comment
