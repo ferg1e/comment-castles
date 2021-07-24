@@ -4,7 +4,7 @@ require('dotenv').config()
 
 //
 const {URL} = require('url');
-const db = require('./db')
+const db = require('../db')
 
 db.getPostLinks().then(async res => {
     for(let i = 0; i < res.rows.length; ++i) {
