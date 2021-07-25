@@ -1,3 +1,4 @@
+const {URL} = require('url')
 
 //
 exports.getCurrTimeZone = (req) => {
@@ -167,4 +168,10 @@ exports.isDiscover = req => {
     return module.exports.getCurrPostMode(req) !== 'discover'
         ? 0
         : 1
+}
+
+//
+exports.getDomainName = link => {
+    const myUrl = new URL(link)
+    return myUrl.hostname.replace(/^(www\.)/, '')
 }

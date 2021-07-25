@@ -209,19 +209,22 @@ exports.genUserPublicId = (userId) => {
 }
 
 //post
-exports.createPost = (userId, title, textContent, link) => {
+exports.createPost = (userId, title, textContent, link, domainNameId) => {
     let newPostId = nanoid(nanoidAlphabet, nanoidLen)
     let finalLink = typeof link !== 'undefined' ? link : null
     let finalTextContent = textContent.trim() === '' ? null : textContent
 
     let promise = query(`
         insert into tpost
-            (public_id, user_id, title, text_content, link)
+            (public_id, user_id, title, text_content, link,
+            domain_name_id)
         values
-            ($1, $2, $3, $4, $5)
+            ($1, $2, $3, $4, $5,
+            $6)
         returning
             post_id`,
-        [newPostId, userId, title, finalTextContent, finalLink]
+        [newPostId, userId, title, finalTextContent, finalLink,
+        domainNameId]
     )
 
     return [promise, newPostId]
@@ -518,6 +521,18 @@ exports.getDomainName = (domainName) => {
         where
             domain_name = $1`,
         [domainName])
+}
+
+exports.getDomainNameId = async domainName => {
+    const {rows} = await module.exports.getDomainName(domainName)
+
+    if(rows.length) {
+        return rows[0].domain_name_id
+    }
+    else {
+        const {rows:rowsNew} = await module.exports.createDomainName(domainName)
+        return rowsNew[0].domain_name_id
+    }
 }
 
 //comment

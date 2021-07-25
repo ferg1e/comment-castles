@@ -85,11 +85,22 @@ router.route('/')
                         })
                 }
                 else {
+
+                    //
+                    let domainNameId = null
+
+                    if(typeof req.body.link !== 'undefined') {
+                        const domainName = myMisc.getDomainName(req.body.link)
+                        domainNameId = await db.getDomainNameId(domainName)
+                    }
+
+                    //
                     let vals = db.createPost(
                         req.session.user.user_id,
                         wsCompressedTitle,
                         req.body.text_content,
-                        req.body.link)
+                        req.body.link,
+                        domainNameId)
     
                     const {rows} = await vals[0]
 
