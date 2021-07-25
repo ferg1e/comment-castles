@@ -11,7 +11,9 @@ db.getPostLinks().then(async res => {
         const link = res.rows[i]['link']
         const postId = res.rows[i]['post_id']
         const myUrl = new URL(link)
-        const domainName = myUrl.hostname
+
+        // remove leading www.
+        const domainName = myUrl.hostname.replace(/^(www\.)/, '')
 
         db.getDomainName(domainName).then(async res => {
             const isExist = res.rows.length
