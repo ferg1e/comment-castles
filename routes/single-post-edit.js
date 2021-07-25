@@ -54,7 +54,9 @@ router.route('/')
             next()
         },
         body('text_content', 'Please write some content').optional(),
-        body('link', 'link must be a URL to a website').optional().isURL(),
+        body('link', 'link must be an http or https URL')
+            .optional()
+            .isURL({protocols:['http', 'https'], require_protocol:true}),
         async (req, res) => {
             if(req.session.user) {
 
