@@ -104,11 +104,21 @@ router.route('/')
                         })
                 }
                 else {
+
+                    //
+                    let domainNameId = null
+
+                    if(typeof req.body.link !== 'undefined') {
+                        const domainName = myMisc.getDomainName(req.body.link)
+                        domainNameId = await db.getDomainNameId(domainName)
+                    }
+
                     await db.updatePost(
                         rows[0].post_id,
                         wsCompressedTitle,
                         req.body.text_content,
-                        req.body.link)
+                        req.body.link,
+                        domainNameId)
 
                     // delete tags for this post
                     await db.deletePostTags(rows[0].post_id)

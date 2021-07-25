@@ -462,7 +462,7 @@ exports.getPostLinks = () => {
             link is not null`)
 }
 
-exports.updatePost = (postId, title, textContent, link) => {
+exports.updatePost = (postId, title, textContent, link, domainNameId) => {
     let finalLink = typeof link !== 'undefined' ? link : null
     let finalTextContent = textContent.trim() === '' ? null : textContent
 
@@ -472,10 +472,11 @@ exports.updatePost = (postId, title, textContent, link) => {
         set
             title = $1,
             link = $2,
-            text_content = $3
+            text_content = $3,
+            domain_name_id = $4
         where
-            post_id = $4`,
-        [title, finalLink, finalTextContent, postId])
+            post_id = $5`,
+        [title, finalLink, finalTextContent, domainNameId, postId])
 }
 
 exports.incPostNumComments = (postId) => {
