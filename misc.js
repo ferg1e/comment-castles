@@ -112,7 +112,7 @@ exports.getCurrPostMode = req => {
     }
     else {
         return (typeof req.cookies.post_mode === 'undefined')
-            ? 'following-only'
+            ? 'discover'
             : req.cookies.post_mode
     }
 }
