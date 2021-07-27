@@ -175,6 +175,40 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: tdomainname; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tdomainname (
+    domain_name_id integer NOT NULL,
+    domain_name character varying(256)
+);
+
+
+ALTER TABLE public.tdomainname OWNER TO postgres;
+
+--
+-- Name: tdomainname_domain_name_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tdomainname_domain_name_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tdomainname_domain_name_id_seq OWNER TO postgres;
+
+--
+-- Name: tdomainname_domain_name_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tdomainname_domain_name_id_seq OWNED BY public.tdomainname.domain_name_id;
+
+
+--
 -- Name: tfollower; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -301,7 +335,8 @@ CREATE TABLE public.tpost (
     link character varying(400) DEFAULT NULL::character varying,
     num_comments integer DEFAULT 0,
     num_spam_votes integer DEFAULT 0,
-    removed_on timestamp with time zone
+    removed_on timestamp with time zone,
+    domain_name_id integer
 );
 
 
@@ -559,6 +594,13 @@ ALTER SEQUENCE public.tuser_user_id_seq OWNED BY public.tuser.user_id;
 
 
 --
+-- Name: tdomainname domain_name_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdomainname ALTER COLUMN domain_name_id SET DEFAULT nextval('public.tdomainname_domain_name_id_seq'::regclass);
+
+
+--
 -- Name: tfollower follower_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -626,6 +668,14 @@ ALTER TABLE ONLY public.ttest ALTER COLUMN comment_id SET DEFAULT nextval('publi
 --
 
 ALTER TABLE ONLY public.tuser ALTER COLUMN user_id SET DEFAULT nextval('public.tuser_user_id_seq'::regclass);
+
+
+--
+-- Name: tdomainname tdomainname_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdomainname
+    ADD CONSTRAINT tdomainname_pkey PRIMARY KEY (domain_name_id);
 
 
 --
