@@ -231,7 +231,7 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
 }
 
 exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
-    let pageSize = 15
+    let pageSize = 20
 
     return query(`
         select
@@ -301,7 +301,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
 
 //TODO: very similar to getPosts(), may want to combine
 exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId) => {
-    let pageSize = 15
+    let pageSize = 20
 
     return query(`
         select
@@ -604,7 +604,7 @@ exports.createCommentComment = (postId, userId, content, parentPath, timeZone) =
 }
 
 exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page) => {
-    const pageSize = 15
+    const pageSize = 20
 
     return query(`
         select
