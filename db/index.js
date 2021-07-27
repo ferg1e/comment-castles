@@ -246,6 +246,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
             u.public_id as user_public_id,
             p.link,
             p.num_comments,
+            dn.domain_name,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
@@ -275,6 +276,8 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        left join
+            tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
             not is_removed and
             ($6 or u.user_id = $7 or u.user_id = $8 or
@@ -312,6 +315,7 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
             u.public_id as user_public_id,
             p.link,
             p.num_comments,
+            dn.domain_name,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
@@ -341,6 +345,8 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        left join
+            tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
             not is_removed and
             exists(
@@ -415,6 +421,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             p.public_id,
             p.link,
             p.num_comments,
+            dn.domain_name,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
                     1
@@ -444,6 +451,8 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        left join
+            tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
             p.public_id = $6 and
             not p.is_removed`,

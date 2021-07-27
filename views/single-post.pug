@@ -21,6 +21,8 @@ block content
             else
                 h3
                     a(href=post.link)=post.title
+                    | 
+                    span.domname1 (#{post.domain_name})
 
             div
                 span(class="puser") by #{post.username}

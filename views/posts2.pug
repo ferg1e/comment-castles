@@ -41,6 +41,8 @@ block content
                             a(class="ptitle" href=`/p/${post.public_id}`) #{post.title}
                         else
                             a(class="ptitle" href=post.link)= post.title
+                            | 
+                            span.domname1 (#{post.domain_name})
 
                         div
                             span(class="puser") by #{post.username}
