@@ -86,7 +86,8 @@ body {
 }
 
 .the-post h3 {
-  margin: 0 0 4px 0;
+  margin: 0 0 2px 0;
+  margin: 0 0 .125rem 0;
   padding: 0;
 }
 
@@ -222,8 +223,8 @@ body {
 }
 
 .ptitle {
-  font-size: 20px;
-  font-size: 1.25rem;
+  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 pre {
@@ -275,4 +276,9 @@ pre {
   color: #50794b;
   font-size: 14px;
   font-size: .875rem;
+}
+
+.pinfo1 {
+  margin-top: 2px;
+  margin-top: .125rem;
 }
