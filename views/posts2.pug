@@ -18,15 +18,15 @@ block content
                 | 
                 a(href=`/new?group=${page_tag}`) new post
 
-    nav.sort-nav
-        ul
-            li Sort
-            li
-                a(href=base_url) Newest
-            li
-                a(href=`${base_url}?sort=oldest`) Oldest
-            li
-                a(href=`${base_url}?sort=comments`) Comments
+    div.sort1o
+        span.sort1
+            |Sort By:
+            | 
+            a(href=base_url) Newest
+            | 
+            a(href=`${base_url}?sort=oldest`) Oldest
+            | 
+            a(href=`${base_url}?sort=comments`) Comments
 
     if is_discover_mode
         div(class="alert2o")

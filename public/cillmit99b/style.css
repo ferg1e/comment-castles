@@ -283,19 +283,17 @@ pre {
   margin-top: .125rem;
 }
 
-.sort-nav ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
+.sort1o {
+  margin-bottom: 12px;
+  margin-bottom: .75rem;
 }
 
-.sort-nav ul li {
-  display: inline-block;
-  padding: 0;
-  margin: 0 10px 0 0;
-  margin: 0 .625rem 0 0;
+.sort1 {
+  background: #d5f8bd;
 }
 
-.sort-nav a {
-  color: #f04444;
+.sort1 a {
+  color: #0000d2;
+  margin-left: 4px;
+  margin-left: .25rem;
 }
