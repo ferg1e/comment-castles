@@ -36,6 +36,7 @@ router.route('/')
                     textContent: rows[0].text_content,
                     tags: rows[0].tags.join(', '),
                     submitLabel: 'Edit Post',
+                    heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
@@ -100,6 +101,7 @@ router.route('/')
                             textContent: req.body.text_content,
                             tags: req.body.tags,
                             submitLabel: 'Edit Post',
+                            heading: 'Edit Post',
                             max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }

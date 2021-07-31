@@ -27,6 +27,7 @@ router.route('/')
                     textContent: "",
                     tags: tags,
                     submitLabel: 'Create Post',
+                    heading: 'New Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
@@ -83,6 +84,7 @@ router.route('/')
                             textContent: req.body.text_content,
                             tags: req.body.tags,
                             submitLabel: 'Create Post',
+                            heading: 'New Post',
                             max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }

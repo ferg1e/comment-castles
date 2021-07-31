@@ -260,12 +260,12 @@ pre {
   margin: 1rem 0 1rem 0;
 }
 
-.group-top {
-  margin: 0 0 12px 0;
-  margin: 0 0 .75rem 0;
+.pageh1 {
+  margin: 0 0 16px 0;
+  margin: 0 0 1rem 0;
 }
 
-.group-top a {
+.pageh1 a {
   font-size: 16px;
   font-size: 1rem;
   font-weight: normal;
