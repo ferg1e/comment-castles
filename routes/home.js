@@ -22,6 +22,16 @@ router.route('/')
         }
 
         //
+        let sort = ''
+        const validSortVals = ['oldest', 'comments']
+        const isSortVal = (typeof req.query.sort !== 'undefined')
+        const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
+
+        if(isSort) {
+            sort = req.query.sort
+        }
+
+        //
         const isDiscoverMode = myMisc.isDiscover(req)
         const filterUserId = await db.getCurrEyesId(req)
 
@@ -31,7 +41,8 @@ router.route('/')
             myMisc.getCurrTimeZone(req),
             page,
             isDiscoverMode,
-            filterUserId)
+            filterUserId,
+            sort)
 
         res.render(
             'posts2',
@@ -42,7 +53,8 @@ router.route('/')
                 page: page,
                 base_url: '/',
                 is_discover_mode: isDiscoverMode,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                sort: sort
             })
     })
 

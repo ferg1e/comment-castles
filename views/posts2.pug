@@ -18,6 +18,16 @@ block content
                 | 
                 a(href=`/new?group=${page_tag}`) new post
 
+    nav.sort-nav
+        ul
+            li Sort
+            li
+                a(href=base_url) Newest
+            li
+                a(href=`${base_url}?sort=oldest`) Oldest
+            li
+                a(href=`${base_url}?sort=comments`) Comments
+
     if is_discover_mode
         div(class="alert2o")
             span(class="alert2")
@@ -86,6 +96,13 @@ block content
                         | 
                         a(class="pcount2" href=`/p/${post.public_id}`) comments(#{post.num_comments})
         div
-            a(class="more" href=`${base_url}?p=${page + 1}`) more &gt;
+            -
+                let pageUrl = `${base_url}?p=${page + 1}`
+
+                if(sort !== '') {
+                    pageUrl += `&sort=${sort}`
+                }
+
+            a(class="more" href=pageUrl) more &gt;
     else
         span no posts

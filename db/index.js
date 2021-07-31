@@ -230,7 +230,7 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
     return [promise, newPostId]
 }
 
-exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
+exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
     let pageSize = 20
 
     return query(`
@@ -289,13 +289,19 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId) => {
                     followee_user_id = u.user_id and
                     user_id = $9))
         order by
-            p.created_on desc
+            case when $10 = '' then p.created_on end desc,
+
+            case when $11 = 'oldest' then p.created_on end asc,
+
+            case when $12 = 'comments' then p.num_comments end desc,
+            case when $13 = 'comments' then p.created_on end desc
         limit
-            $10
+            $14
         offset
-            $11`,
+            $15`,
         [timeZone, userId, filterUserId, filterUserId, userId, isDiscoverMode,
-            userId, filterUserId, filterUserId, pageSize, (page - 1)*pageSize]
+            userId, filterUserId, filterUserId, sort, sort, sort, sort,
+            pageSize, (page - 1)*pageSize]
     )
 }
 
