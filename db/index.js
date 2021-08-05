@@ -516,6 +516,22 @@ exports.updatePostDomainNameId = (postId, domainNameId) => {
         [domainNameId, postId])
 }
 
+exports.setLastCommentTimes = () => {
+    return query(`
+        update
+            tpost p
+        set
+            last_comment = (
+                select
+                    max(created_on)
+                from
+                    ttest
+                where
+                    post_id = p.post_id
+            )`,
+        [])
+}
+
 //domain name
 exports.createDomainName = (domainName) => {
     return query(`

@@ -14,3 +14,6 @@ create table tdomainname (
 );
 
 alter table tpost add column domain_name_id integer default null;
+
+--
+alter table tpost add column last_comment timestamp with time zone default null;
