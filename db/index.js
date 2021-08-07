@@ -294,13 +294,16 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) 
             case when $11 = 'oldest' then p.created_on end asc,
 
             case when $12 = 'comments' then p.num_comments end desc,
-            case when $13 = 'comments' then p.created_on end desc
+            case when $13 = 'comments' then p.created_on end desc,
+
+            case when $14 = 'last' then p.last_comment end desc nulls last,
+            case when $15 = 'last' then p.created_on end desc
         limit
-            $14
+            $16
         offset
-            $15`,
+            $17`,
         [timeZone, userId, filterUserId, filterUserId, userId, isDiscoverMode,
-            userId, filterUserId, filterUserId, sort, sort, sort, sort,
+            userId, filterUserId, filterUserId, sort, sort, sort, sort, sort, sort,
             pageSize, (page - 1)*pageSize]
     )
 }

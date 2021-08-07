@@ -23,7 +23,7 @@ router.route('/')
 
         //
         let sort = ''
-        const validSortVals = ['oldest', 'comments']
+        const validSortVals = ['oldest', 'comments', 'last']
         const isSortVal = (typeof req.query.sort !== 'undefined')
         const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
 
