@@ -22,6 +22,16 @@ router.get(
         }
 
         //
+        let sort = ''
+        const validSortVals = ['oldest', 'comments', 'last']
+        const isSortVal = (typeof req.query.sort !== 'undefined')
+        const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
+
+        if(isSort) {
+            sort = req.query.sort
+        }
+
+        //
         const isDiscoverMode = myMisc.isDiscover(req)
         const filterUserId = await db.getCurrEyesId(req)
 
@@ -32,7 +42,8 @@ router.get(
             page,
             tag,
             isDiscoverMode,
-            filterUserId)
+            filterUserId,
+            sort)
 
         res.render(
             'posts2',

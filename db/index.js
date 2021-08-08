@@ -309,7 +309,7 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) 
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId) => {
+exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId, sort) => {
     let pageSize = 20
 
     return query(`
@@ -378,13 +378,23 @@ exports.getTagPosts = (userId, timeZone, page, tag, isDiscoverMode, filterUserId
                     followee_user_id = u.user_id and
                     user_id = $10))
         order by
-            p.created_on desc
+            case when $11 = '' then p.created_on end desc,
+
+            case when $12 = 'oldest' then p.created_on end asc,
+
+            case when $13 = 'comments' then p.num_comments end desc,
+            case when $14 = 'comments' then p.created_on end desc,
+
+            case when $15 = 'last' then p.last_comment end desc nulls last,
+            case when $16 = 'last' then p.created_on end desc
         limit
-            $11
+            $17
         offset
-            $12`,
+            $18`,
         [timeZone, userId, filterUserId, filterUserId, userId, tag,
-            isDiscoverMode, userId, filterUserId, filterUserId, pageSize, (page - 1)*pageSize]
+            isDiscoverMode, userId, filterUserId, filterUserId,
+            sort, sort, sort, sort, sort, sort,
+            pageSize, (page - 1)*pageSize]
     )
 }
 
