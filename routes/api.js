@@ -32,13 +32,15 @@ router.get(
 
         const userId = -1
         const filterUserId = 1
+        const sort = myMisc.getPostSort(req)
 
         const {rows} = await db.getPosts(
             userId,
             'UTC', //TODO: dry this up
             page,
             isDiscoverMode,
-            filterUserId)
+            filterUserId,
+            sort)
 
         //
         let rows2 = []
