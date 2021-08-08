@@ -17,3 +17,16 @@ alter table tpost add column domain_name_id integer default null;
 
 --
 alter table tpost add column last_comment timestamp with time zone default null;
+
+CREATE OR REPLACE FUNCTION f_post_comment()
+RETURNS TRIGGER AS $$
+BEGIN
+  update tpost set last_comment = new.created_on where post_id = new.post_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+create trigger post_comment
+    after insert
+    on ttest
+    for each row
+    execute procedure f_post_comment();
