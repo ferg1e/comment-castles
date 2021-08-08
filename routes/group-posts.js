@@ -22,14 +22,7 @@ router.get(
         }
 
         //
-        let sort = ''
-        const validSortVals = ['oldest', 'comments', 'last']
-        const isSortVal = (typeof req.query.sort !== 'undefined')
-        const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
-
-        if(isSort) {
-            sort = req.query.sort
-        }
+        const sort = myMisc.getPostSort(req)
 
         //
         const isDiscoverMode = myMisc.isDiscover(req)

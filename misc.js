@@ -175,3 +175,17 @@ exports.getDomainName = link => {
     const myUrl = new URL(link)
     return myUrl.hostname.replace(/^(www\.)/, '')
 }
+
+//
+exports.getPostSort = req => {
+    let sort = ''
+    const validSortVals = ['oldest', 'comments', 'last']
+    const isSortVal = (typeof req.query.sort !== 'undefined')
+    const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
+
+    if(isSort) {
+        sort = req.query.sort
+    }
+
+    return sort
+}
