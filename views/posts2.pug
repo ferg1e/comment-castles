@@ -11,6 +11,8 @@ mixin unfollowLink(username, publicId)
     a(href=`/following?unfollow=${publicId}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
+    - const gotoUrl = (sort === '') ? base_url : `${base_url}?sort=${sort}`
+
     if page_tag
         h2.pageh1
             |r/#{page_tag}
@@ -22,13 +24,13 @@ block content
         div(class="alert2o")
             span(class="alert2")
                 |Showing all posts. 
-                a(href=`/settings?viewmode=locked&goto=${base_url}`) Switch to locked
+                a(href=`/settings?viewmode=locked&goto=${gotoUrl}`) Switch to locked
                 |.
     else
         div(class="alert2o")
             span(class="alert2")
                 |Some posts may be hidden. 
-                a(href=`/settings?viewmode=discover&goto=${base_url}`) Show all
+                a(href=`/settings?viewmode=discover&goto=${gotoUrl}`) Show all
                 |.
 
     div.sort1o
