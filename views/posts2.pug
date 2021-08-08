@@ -2,12 +2,18 @@ extends layout
 
 mixin followLink(username, publicId)
     - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const goto = encodeURIComponent(`${base_url}${pagePart}`)
+    - const sortNameValue = (sort !== '') ? `sort=${sort}` : ''
+    - const sortSeparator = (pagePart === '') ? '?' : '&'
+    - const sortPart = (sortNameValue !== '') ? `${sortSeparator}${sortNameValue}` : ''
+    - const goto = encodeURIComponent(`${base_url}${pagePart}${sortPart}`)
     a(href=`/following?follow=${publicId}&goto=${goto}` class="follow" title=`follow ${username}`) +
 
 mixin unfollowLink(username, publicId)
     - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const goto = encodeURIComponent(`${base_url}${pagePart}`)
+    - const sortNameValue = (sort !== '') ? `sort=${sort}` : ''
+    - const sortSeparator = (pagePart === '') ? '?' : '&'
+    - const sortPart = (sortNameValue !== '') ? `${sortSeparator}${sortNameValue}` : ''
+    - const goto = encodeURIComponent(`${base_url}${pagePart}${sortPart}`)
     a(href=`/following?unfollow=${publicId}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
