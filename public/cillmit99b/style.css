@@ -247,8 +247,8 @@ pre {
 }
 
 .alert2o {
-  margin-bottom: 12px;
-  margin-bottom: .75rem;
+  margin-bottom: 4px;
+  margin-bottom: .25rem;
 }
 
 .alert1 a, .alert2 a {
@@ -284,12 +284,8 @@ pre {
 }
 
 .sort1o {
-  margin-bottom: 12px;
-  margin-bottom: .75rem;
-}
-
-.sort1 {
-  background: #d5f8bd;
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .sort1 a {

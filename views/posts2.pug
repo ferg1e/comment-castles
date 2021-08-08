@@ -18,18 +18,6 @@ block content
                 | 
                 a(href=`/new?group=${page_tag}`) new post
 
-    div.sort1o
-        span.sort1
-            |Sort By:
-            | 
-            a(href=base_url) Newest
-            | 
-            a(href=`${base_url}?sort=oldest`) Oldest
-            | 
-            a(href=`${base_url}?sort=comments`) Comments
-            | 
-            a(href=`${base_url}?sort=last`) Last Comment
-
     if is_discover_mode
         div(class="alert2o")
             span(class="alert2")
@@ -42,6 +30,18 @@ block content
                 |Some posts may be hidden. 
                 a(href=`/settings?viewmode=discover&goto=${base_url}`) Show all
                 |.
+
+    div.sort1o
+        span.sort1
+            |sort:
+            | 
+            a(href=base_url) newest
+            | 
+            a(href=`${base_url}?sort=oldest`) oldest
+            | 
+            a(href=`${base_url}?sort=comments`) comments
+            | 
+            a(href=`${base_url}?sort=last`) last comment
 
     if posts.length
         .posts
