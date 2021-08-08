@@ -53,7 +53,33 @@ block content
         |The 
         a(href="/") home page
         | 
-        |displays all posts from all users in reverse chronological order.
+        |displays all posts from all users.
+
+    p
+        |There are four ways to sort posts. 
+        |These sorting options are available at the top of the 
+        a(href="/") home page
+        |, 
+        |at the top of group pages (e.g. 
+        a(href="/r/meta") r/meta
+        |), and when using the /posts API call. 
+        |Here is a description of each sorting option:
+        ul.list1
+            li
+                b Newest
+                |: This is a reverse chronological ordering based on the post time, 
+                |and this is also the default.
+            li
+                b Oldest
+                |: This is a chronological ordering based on the post time.
+            li
+                b Comments
+                |: This ordering is based on the number of comments a post has. 
+                |The posts with the most comments will appear first.
+            li
+                b Last Comment
+                |: This ordering is based on the last comment time for the post. 
+                |The post with the most recent comment will appear first.
 
     h2#comments Comments
     p
