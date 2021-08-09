@@ -24,10 +24,13 @@ block content
     h3 GET /api/v1/posts
 
     p.
-        This will return all posts in reverse chronological order.
+        This returns all posts.
         The data is paginated at 20 records per page.
-        You can use #[em p] and #[em viewmode] variables in the URL.
+        You can use #[em p], #[em viewmode] and #[em sort] variables in the URL.
         #[em p] is for page and it starts at 1.
+        #[em sort] can be either #[em newest], #[em oldest], #[em comments] or #[em last] -
+        the default is #[em newest].
+        There is more info about post sorting in the #[a(href="/manual#posts") posts section] of the manual.
         Examples of this endpoint:
 
     p
@@ -41,6 +44,12 @@ block content
 
     p
         a(href="/api/v1/posts?viewmode=discover&p=2") /api/v1/posts?viewmode=discover&p=2
+
+    p
+        a(href="/api/v1/posts?sort=comments") /api/v1/posts?sort=comments
+
+    p
+        a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /api/v1/posts?sort=last&viewmode=discover&p=2
 
     h3 GET /api/v1/post
 
