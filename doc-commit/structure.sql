@@ -122,6 +122,21 @@ END; $$;
 ALTER FUNCTION public.f_comment_spam_vote() OWNER TO postgres;
 
 --
+-- Name: f_post_comment(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.f_post_comment() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  update tpost set last_comment = new.created_on where post_id = new.post_id;
+  return null;
+END; $$;
+
+
+ALTER FUNCTION public.f_post_comment() OWNER TO postgres;
+
+--
 -- Name: f_post_spam_vote(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -336,7 +351,8 @@ CREATE TABLE public.tpost (
     num_comments integer DEFAULT 0,
     num_spam_votes integer DEFAULT 0,
     removed_on timestamp with time zone,
-    domain_name_id integer
+    domain_name_id integer,
+    last_comment timestamp with time zone
 );
 
 
@@ -793,6 +809,13 @@ CREATE UNIQUE INDEX username_unique_idx ON public.tuser USING btree (lower((user
 --
 
 CREATE TRIGGER comment_spam_vote AFTER INSERT ON public.tspamcomment FOR EACH ROW EXECUTE PROCEDURE public.f_comment_spam_vote();
+
+
+--
+-- Name: ttest post_comment; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER post_comment AFTER INSERT ON public.ttest FOR EACH ROW EXECUTE PROCEDURE public.f_post_comment();
 
 
 --
