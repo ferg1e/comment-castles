@@ -30,3 +30,18 @@ create trigger post_comment
     on ttest
     for each row
     execute procedure f_post_comment();
+
+--
+create table tprivategroup (
+    private_group_id serial primary key,
+    created_by integer not null,
+    name varchar(32) not null,
+    created_on timestamp with time zone not null default now()
+);
+
+create table tgroupmember (
+    group_member_id serial primary key,
+    private_group_id integer not null,
+    user_id integer not null,
+    created_on timestamp with time zone not null default now()
+);
