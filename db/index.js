@@ -961,6 +961,15 @@ exports.createPostTags = async (trimTags, postId) => {
     }
 }
 
+exports.createPrivateGroup = (groupName, userId) => {
+    return query(`
+        insert into tprivategroup
+            (created_by, name)
+        values
+            ($1, $2)`,
+        [userId, groupName])
+}
+
 exports.getTag = (tagName) => {
     return query(`
         select

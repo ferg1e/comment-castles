@@ -1,4 +1,14 @@
 extends my-settings-top
 
 block content2
-    |Groups Page!
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+
+    form(method="post")
+        div
+            label(for="group") Group
+            input(name="group" id="group")
+        div
+            input(type="submit" value="Create")
