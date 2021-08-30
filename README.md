@@ -1,6 +1,6 @@
 # Peaches 'n' Stink
 
-Peaches 'n' Stink is a whitelist-moderated link aggregation Internet forum. Users write posts and nested comments. Users must follow (i.e. add) other users in order to see their content. The official instance is at [peachesnstink.com](https://www.peachesnstink.com)!
+Peaches 'n' Stink is a link aggregation Internet forum. Users write posts and nested comments. Users must follow other users in order to see their content. The official instance is at [peachesnstink.com](https://www.peachesnstink.com)!
 
 Other features:
 
@@ -9,6 +9,7 @@ Other features:
 * High Eternal September resistance
 * Censorship buffer
 * [Instruction Manual](https://www.peachesnstink.com/manual)
+* Adminless
 
 ## Install
 
