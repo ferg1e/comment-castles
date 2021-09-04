@@ -25,14 +25,28 @@ router.route('/')
     .post(async (req, res) => {
         if(req.session.user) {
 
-            // todo: make sure group has no posts
-            // todo: make sure group hasn't already been claimed
-            // todo: make sure group starts with "p-"
-            await db.createPrivateGroup(
-                req.body.group,
-                req.session.user.user_id)
+            //
+            const errors = await db.validatePrivateGroup(req.body.group)
 
-            res.send('created..')
+            //
+            if(errors.length) {
+                res.render(
+                    'my-settings-groups',
+                    {
+                        html_title: htmlTitle,
+                        user: req.session.user,
+                        max_width: myMisc.getCurrSiteMaxWidth(req),
+                        errors: errors
+                    })
+            }
+            else {
+                await db.createPrivateGroup(
+                    req.body.group,
+                    req.session.user.user_id)
+
+                //
+                res.send('created..')
+            }
         }
         else {
             res.send(':)')

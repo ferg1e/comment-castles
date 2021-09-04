@@ -1,5 +1,6 @@
 const argon2 = require('argon2')
 const config = require('../config')
+const myMisc = require('../misc.js')
 const {Pool, types} = require('pg')
 const nanoid = require('nanoid/generate');
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -970,16 +971,71 @@ exports.createPrivateGroup = (groupName, userId) => {
         [userId, groupName])
 }
 
+exports.getPrivateGroupWithName = (groupName) => {
+    return query(`
+        select
+            private_group_id
+        from
+            tprivategroup
+        where
+            name = lower($1)`,
+        [groupName]
+    )
+}
+
 exports.getTag = (tagName) => {
     return query(`
         select
-            tag_id
+            tag_id,
+            num_posts
         from
             ttag
         where
             tag = lower($1)`,
         [tagName]
     )
+}
+
+exports.validatePrivateGroup = async (groupName) => {
+
+    // this function is used to process and validate multiple groups
+    // when creating and editing posts, but we can use it for a single
+    // group here as well
+    const [cleanedGroups, groupErrors] = myMisc.processPostTags(groupName)
+
+    //
+    if(groupErrors.length) {
+        return groupErrors
+    }
+
+    //
+    const errors = []
+    const cleanedGroupName = cleanedGroups[0]
+
+    //
+    if(cleanedGroupName.substr(0, 2) != 'p-') {
+        errors.push({msg: 'Private group names must start with "p-", e.g. "p-frogs"'})
+    }
+
+    //
+    if(!errors.length) {
+        const {rows:pgroup} = await module.exports.getPrivateGroupWithName(cleanedGroupName)
+
+        if(pgroup.length) {
+            errors.push({msg: 'This private group has already been claimed'})
+        }
+    }
+
+    //
+    if(!errors.length) {
+        const {rows:tagd} = await module.exports.getTag(cleanedGroupName)
+
+        if(tagd.length && tagd[0].num_posts > 0) {
+            errors.push({msg: 'This group already has public posts'})
+        }
+    }
+
+    return errors
 }
 
 exports.deletePostTags = (postId) => {
