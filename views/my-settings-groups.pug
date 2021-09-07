@@ -1,6 +1,8 @@
 extends my-settings-top
 
 block content2
+    h3 Create New Private Group
+
     if errors.length
         ul
             each error in errors
@@ -12,3 +14,13 @@ block content2
             input(name="group" id="group")
         div
             input(type="submit" value="Create")
+
+    h3 Your Created Private Groups
+
+    if created_groups.length
+        ul
+            each cg in created_groups
+                li
+                    a(href="#")= cg.name
+    else
+        div None

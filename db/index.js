@@ -983,6 +983,20 @@ exports.getPrivateGroupWithName = (groupName) => {
     )
 }
 
+exports.getUserCreatedPrivateGroups = (userId) => {
+    return query(`
+        select
+            name
+        from
+            tprivategroup
+        where
+            created_by = $1
+        order by
+            name`,
+        [userId]
+    )
+}
+
 exports.getTag = (tagName) => {
     return query(`
         select
@@ -1006,6 +1020,11 @@ exports.validatePrivateGroup = async (groupName) => {
     //
     if(groupErrors.length) {
         return groupErrors
+    }
+
+    //
+    if(!cleanedGroups.length) {
+        return [{msg:"Please enter a group name"}]
     }
 
     //

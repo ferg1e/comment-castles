@@ -13,13 +13,17 @@ router.route('/')
         }
 
         //
+        const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
+
+        //
         res.render(
             'my-settings-groups',
             {
                 html_title: htmlTitle,
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
-                errors: []
+                errors: [],
+                created_groups: createdGroups
             })
     })
     .post(async (req, res) => {
@@ -30,13 +34,19 @@ router.route('/')
 
             //
             if(errors.length) {
+
+                //
+                const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
+
+                //
                 res.render(
                     'my-settings-groups',
                     {
                         html_title: htmlTitle,
                         user: req.session.user,
                         max_width: myMisc.getCurrSiteMaxWidth(req),
-                        errors: errors
+                        errors: errors,
+                        created_groups: createdGroups
                     })
             }
             else {
