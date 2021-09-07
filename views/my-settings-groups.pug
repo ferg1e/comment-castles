@@ -21,6 +21,8 @@ block content2
         ul
             each cg in created_groups
                 li
-                    a(href="#")= cg.name
+                    a(href=`/r/${cg.name}`)= cg.name
+                    | 
+                    a(href=`/settings/group?name=${cg.name}`) [settings]
     else
         div None
