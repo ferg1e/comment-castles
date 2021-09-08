@@ -1,4 +1,14 @@
 extends my-settings-top
 
 block content2
-    h3 blah
+    if errors.length
+        ul
+            each error in errors
+                li #{error.msg}
+
+    form(method="post")
+        div
+            label(for="user") Username
+            input(name="user" id="user")
+        div
+            input(type="submit" value="Add")
