@@ -974,7 +974,8 @@ exports.createPrivateGroup = (groupName, userId) => {
 exports.getPrivateGroupWithName = (groupName) => {
     return query(`
         select
-            private_group_id
+            private_group_id,
+            created_by
         from
             tprivategroup
         where
