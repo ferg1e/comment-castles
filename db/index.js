@@ -1077,6 +1077,19 @@ exports.createGroupMember = (groupId, userId) => {
         [groupId, userId])
 }
 
+exports.getGroupMember = (groupId, userId) => {
+    return query(`
+        select
+            group_member_id
+        from
+            tgroupmember
+        where
+            private_group_id = $1 and
+            user_id = $2`,
+        [groupId, userId]
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

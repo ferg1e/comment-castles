@@ -76,6 +76,17 @@ router.route('/')
                     }
 
                     //
+                    if(!errors.length) {
+                        const {rows:data3} = await db.getGroupMember(
+                            privateGroup.private_group_id,
+                            submittedUser.user_id)
+
+                        if(data3.length) {
+                            errors.push({msg: 'User is already a member'})
+                        }
+                    }
+
+                    //
                     if(errors.length) {
                         res.render(
                             'my-settings-group',
