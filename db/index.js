@@ -1067,6 +1067,16 @@ exports.deletePostTags = (postId) => {
         [postId])
 }
 
+//private group member
+exports.createGroupMember = (groupId, userId) => {
+    return query(`
+        insert into tgroupmember
+            (private_group_id, user_id)
+        values
+            ($1, $2)`,
+        [groupId, userId])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
