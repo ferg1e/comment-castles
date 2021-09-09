@@ -22,13 +22,19 @@ router.route('/')
             const privateGroup = data1[0]
 
             if(privateGroup.created_by == req.session.user.user_id) {
+
+                //
+                const {rows:groupMembers} = await db.getGroupMembers(privateGroup.private_group_id)
+
+                //
                 res.render(
                     'my-settings-group',
                     {
                         html_title: htmlTitle,
                         user: req.session.user,
                         max_width: myMisc.getCurrSiteMaxWidth(req),
-                        errors: []
+                        errors: [],
+                        group_members: groupMembers
                     })
             }
             else {
@@ -88,13 +94,16 @@ router.route('/')
 
                     //
                     if(errors.length) {
+                        const {rows:groupMembers} = await db.getGroupMembers(privateGroup.private_group_id)
+
                         res.render(
                             'my-settings-group',
                             {
                                 html_title: htmlTitle,
                                 user: req.session.user,
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
-                                errors: errors
+                                errors: errors,
+                                group_members: groupMembers
                             })
                     }
                     else {

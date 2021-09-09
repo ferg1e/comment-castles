@@ -1090,6 +1090,23 @@ exports.getGroupMember = (groupId, userId) => {
     )
 }
 
+exports.getGroupMembers = (groupId) => {
+    return query(`
+        select
+            u.public_id,
+            u.username
+        from
+            tuser u
+        join
+            tgroupmember gm on gm.user_id = u.user_id
+        where
+            gm.private_group_id = $1
+        order by
+            u.username`,
+        [groupId]
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

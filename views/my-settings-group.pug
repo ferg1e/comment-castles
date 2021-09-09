@@ -1,6 +1,8 @@
 extends my-settings-top
 
 block content2
+    h3 Add User
+
     if errors.length
         ul
             each error in errors
@@ -12,3 +14,13 @@ block content2
             input(name="user" id="user")
         div
             input(type="submit" value="Add")
+
+    h3 Existing Users
+
+    if group_members.length
+        ul
+            each gm in group_members
+                li
+                    span= gm.username
+    else
+        div None
