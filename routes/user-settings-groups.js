@@ -13,18 +13,7 @@ router.route('/')
         }
 
         //
-        const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
-
-        //
-        res.render(
-            'my-settings-groups',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                errors: [],
-                created_groups: createdGroups
-            })
+        renderHtml(req, res, [])
     })
     .post(async (req, res) => {
         if(req.session.user) {
@@ -36,18 +25,7 @@ router.route('/')
             if(errors.length) {
 
                 //
-                const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
-
-                //
-                res.render(
-                    'my-settings-groups',
-                    {
-                        html_title: htmlTitle,
-                        user: req.session.user,
-                        max_width: myMisc.getCurrSiteMaxWidth(req),
-                        errors: errors,
-                        created_groups: createdGroups
-                    })
+                renderHtml(req, res, errors)
             }
             else {
                 await db.createPrivateGroup(
@@ -64,3 +42,19 @@ router.route('/')
     })
 
 module.exports = router
+
+//
+async function renderHtml(req, res, errors) {
+    const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
+
+    //
+    res.render(
+        'my-settings-groups',
+        {
+            html_title: htmlTitle,
+            user: req.session.user,
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            errors: errors,
+            created_groups: createdGroups
+        })
+}
