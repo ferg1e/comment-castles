@@ -33,7 +33,7 @@ router.route('/')
                     req.session.user.user_id)
 
                 //
-                res.send('created..')
+                renderHtml(req, res, [{msg:"Private group successfully created"}])
             }
         }
         else {
