@@ -90,7 +90,11 @@ router.route('/')
                             privateGroup.private_group_id,
                             submittedUser.user_id)
 
-                        res.send('good..')
+                        renderHtml(
+                            req,
+                            res,
+                            [{msg: "User successfully added to private group"}],
+                            privateGroup.private_group_id)
                     }
                 }
                 else {
