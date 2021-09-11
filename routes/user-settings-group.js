@@ -24,18 +24,7 @@ router.route('/')
             if(privateGroup.created_by == req.session.user.user_id) {
 
                 //
-                const {rows:groupMembers} = await db.getGroupMembers(privateGroup.private_group_id)
-
-                //
-                res.render(
-                    'my-settings-group',
-                    {
-                        html_title: htmlTitle,
-                        user: req.session.user,
-                        max_width: myMisc.getCurrSiteMaxWidth(req),
-                        errors: [],
-                        group_members: groupMembers
-                    })
+                renderHtml(req, res, [], privateGroup.private_group_id)
             }
             else {
                 res.send('hello...')
@@ -94,17 +83,7 @@ router.route('/')
 
                     //
                     if(errors.length) {
-                        const {rows:groupMembers} = await db.getGroupMembers(privateGroup.private_group_id)
-
-                        res.render(
-                            'my-settings-group',
-                            {
-                                html_title: htmlTitle,
-                                user: req.session.user,
-                                max_width: myMisc.getCurrSiteMaxWidth(req),
-                                errors: errors,
-                                group_members: groupMembers
-                            })
+                        renderHtml(req, res, errors, privateGroup.private_group_id)
                     }
                     else {
                         await db.createGroupMember(
@@ -128,3 +107,19 @@ router.route('/')
     })
 
 module.exports = router
+
+//
+async function renderHtml(req, res, errors, privateGroupId) {
+    const {rows:groupMembers} = await db.getGroupMembers(privateGroupId)
+
+    //
+    res.render(
+        'my-settings-group',
+        {
+            html_title: htmlTitle,
+            user: req.session.user,
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            errors: errors,
+            group_members: groupMembers
+        })
+}
