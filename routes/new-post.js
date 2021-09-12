@@ -71,6 +71,28 @@ router.route('/')
                 let [trimTags, tagErrors] = myMisc.processPostTags(req.body.tags)
                 errors = errors.concat(tagErrors)
 
+                // check private group permission here if no errors
+                if(!errors.length) {
+                    const {rows:privateGroups} = await db.getPrivateGroupsWithNames(trimTags)
+
+                    for(let i = 0; i < privateGroups.length; ++i) {
+                        const pGroup = privateGroups[i]
+
+                        if(req.session.user.user_id == pGroup.created_by) {
+                            continue
+                        }
+
+                        const {rows:gMember} = await db.getGroupMember(
+                            pGroup.private_group_id,
+                            req.session.user.user_id)
+
+                        if(!gMember.length) {
+                            errors.push({msg: "You used a private group you don't have access to"})
+                            break
+                        }
+                    }
+                }
+
                 //
                 if(errors.length) {
                     res.render(

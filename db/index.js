@@ -984,6 +984,25 @@ exports.getPrivateGroupWithName = (groupName) => {
     )
 }
 
+exports.getPrivateGroupsWithNames = (groupNames) => {
+    const placeholders = []
+
+    for(let i = 1; i <= groupNames.length; ++i) {
+        placeholders.push(`$${i}`)
+    }
+
+    return query(`
+        select
+            private_group_id,
+            created_by
+        from
+            tprivategroup
+        where
+            name in(${placeholders.join()})`,
+        groupNames
+    )
+}
+
 exports.getUserCreatedPrivateGroups = (userId) => {
     return query(`
         select
