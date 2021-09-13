@@ -71,8 +71,8 @@ router.route('/')
                 let [trimTags, tagErrors] = myMisc.processPostTags(req.body.tags)
                 errors = errors.concat(tagErrors)
 
-                // check private group permission here if no errors
-                if(!errors.length) {
+                // check private group permissions
+                if(!errors.length && trimTags.length) {
                     const {rows:privateGroups} = await db.getPrivateGroupsWithNames(trimTags)
 
                     for(let i = 0; i < privateGroups.length; ++i) {
