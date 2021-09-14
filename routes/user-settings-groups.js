@@ -46,6 +46,7 @@ module.exports = router
 //
 async function renderHtml(req, res, errors) {
     const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
+    const {rows:memberGroups} = await db.getUserMemberPrivateGroups(req.session.user.user_id)
 
     //
     res.render(
@@ -55,6 +56,7 @@ async function renderHtml(req, res, errors) {
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             errors: errors,
-            created_groups: createdGroups
+            created_groups: createdGroups,
+            member_groups: memberGroups
         })
 }

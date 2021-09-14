@@ -26,3 +26,13 @@ block content2
                     a(href=`/settings/group?name=${cg.name}`) [settings]
     else
         div None
+
+    h3 Other Private Group Memberships
+
+    if member_groups.length
+        ul
+            each mg in member_groups
+                li
+                    a(href=`/r/${mg.name}`)= mg.name
+    else
+        div None

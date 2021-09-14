@@ -1050,6 +1050,22 @@ exports.getUserCreatedPrivateGroups = (userId) => {
     )
 }
 
+exports.getUserMemberPrivateGroups = (userId) => {
+    return query(`
+        select
+            pg.name
+        from
+            tprivategroup pg
+        join
+            tgroupmember gm on gm.private_group_id = pg.private_group_id
+        where
+            gm.user_id = $1
+        order by
+            pg.name`,
+        [userId]
+    )
+}
+
 exports.getTag = (tagName) => {
     return query(`
         select
