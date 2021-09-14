@@ -233,6 +233,30 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
 
 exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
     let pageSize = 20
+    const numLeadingPlaceholders = 9
+    const allowedPrivateIds = []
+    const dynamicPlaceholders = []
+
+    if(userId != -1) {
+
+        //hardcode some fake values for now
+        allowedPrivateIds.push(2, 4, 9)
+
+        for(let i = 1; i <= allowedPrivateIds.length; ++i) {
+            const placeholderNum = numLeadingPlaceholders + i
+            dynamicPlaceholders.push(`$${placeholderNum}`)
+        }
+    }
+
+    const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
+
+    const beforeParams = [timeZone, userId, filterUserId, filterUserId, userId, isDiscoverMode,
+        userId, filterUserId, filterUserId]
+
+    const afterParams = [sort, sort, sort, sort, sort, sort,
+        pageSize, (page - 1)*pageSize]
+
+    const finalParams = beforeParams.concat(allowedPrivateIds, afterParams)
 
     return query(`
         select
@@ -288,24 +312,33 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) 
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $9))
+                    user_id = $9)) and
+            (array(
+                select
+                    pg.private_group_id
+                from
+                    tprivategroup pg
+                join
+                    ttag t on t.tag = pg.name
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id) <@ Array[${dynamicPlaceholders.join()}]::integer[])
         order by
-            case when $10 = '' then p.created_on end desc,
+            case when $${pAfter} = '' then p.created_on end desc,
 
-            case when $11 = 'oldest' then p.created_on end asc,
+            case when $${pAfter+1} = 'oldest' then p.created_on end asc,
 
-            case when $12 = 'comments' then p.num_comments end desc,
-            case when $13 = 'comments' then p.created_on end desc,
+            case when $${pAfter+2} = 'comments' then p.num_comments end desc,
+            case when $${pAfter+3} = 'comments' then p.created_on end desc,
 
-            case when $14 = 'last' then p.last_comment end desc nulls last,
-            case when $15 = 'last' then p.created_on end desc
+            case when $${pAfter+4} = 'last' then p.last_comment end desc nulls last,
+            case when $${pAfter+5} = 'last' then p.created_on end desc
         limit
-            $16
+            $${pAfter+6}
         offset
-            $17`,
-        [timeZone, userId, filterUserId, filterUserId, userId, isDiscoverMode,
-            userId, filterUserId, filterUserId, sort, sort, sort, sort, sort, sort,
-            pageSize, (page - 1)*pageSize]
+            $${pAfter+7}`,
+        finalParams
     )
 }
 
