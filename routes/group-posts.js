@@ -22,6 +22,27 @@ router.get(
         }
 
         //
+        const {rows:privateGroup} = await db.getPrivateGroupWithName(tag)
+
+        if(privateGroup.length) {
+            const ids = []
+
+            if(req.session.user) {
+                const {rows:userPrivateGroups} = await db.getUserAllPrivateGroupIds(req.session.user.user_id)
+
+                for(const i in userPrivateGroups) {
+                    ids.push(userPrivateGroups[i].private_group_id)
+                }
+            }
+
+            const isAllowed = ids.includes(privateGroup[0].private_group_id)
+
+            if(!isAllowed) {
+                return res.send("blocked!!!")
+            }
+        }
+
+        //
         const sort = myMisc.getPostSort(req)
 
         //
