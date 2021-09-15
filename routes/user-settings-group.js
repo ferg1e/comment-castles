@@ -72,6 +72,13 @@ router.route('/')
 
                     //
                     if(!errors.length) {
+                        if(submittedUser.user_id == req.session.user.user_id) {
+                            errors.push({msg: "You don't need to add yourself"})
+                        }
+                    }
+
+                    //
+                    if(!errors.length) {
                         const {rows:data3} = await db.getGroupMember(
                             privateGroup.private_group_id,
                             submittedUser.user_id)
