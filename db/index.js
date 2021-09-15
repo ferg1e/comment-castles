@@ -231,7 +231,7 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
     return [promise, newPostId]
 }
 
-exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
+exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
     let pageSize = 20
     const numLeadingPlaceholders = 9
     const allowedPrivateIds = []
@@ -239,8 +239,12 @@ exports.getPosts = (userId, timeZone, page, isDiscoverMode, filterUserId, sort) 
 
     if(userId != -1) {
 
-        //hardcode some fake values for now
-        allowedPrivateIds.push(2, 4, 9)
+        //
+        const {rows} = await module.exports.getUserAllPrivateGroupIds(userId)
+
+        for(const i in rows) {
+            allowedPrivateIds.push(rows[i].private_group_id)
+        }
 
         for(let i = 1; i <= allowedPrivateIds.length; ++i) {
             const placeholderNum = numLeadingPlaceholders + i
@@ -1063,6 +1067,29 @@ exports.getUserMemberPrivateGroups = (userId) => {
         order by
             pg.name`,
         [userId]
+    )
+}
+
+exports.getUserAllPrivateGroupIds = (userId) => {
+    return query(`
+        select
+            private_group_id
+        from
+            tprivategroup
+        where
+            created_by = $1
+
+        union
+
+        select
+            pg.private_group_id
+        from
+            tprivategroup pg
+        join
+            tgroupmember gm on gm.private_group_id = pg.private_group_id
+        where
+            gm.user_id = $2`,
+        [userId, userId]
     )
 }
 
