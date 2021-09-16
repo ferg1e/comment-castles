@@ -77,6 +77,16 @@ router.route('/')
                     filterUserId)
 
                 if(rows.length) {
+
+                    //
+                    const isAllowed = await isAllowedToView(
+                        rows[0].private_group_ids,
+                        req.session.user.user_id)
+
+                    if(!isAllowed) {
+                        return res.send("blocked!!!")
+                    }
+
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                     //
