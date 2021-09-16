@@ -25,7 +25,14 @@ router.route('/')
                 req.session.user.user_id)
 
             if(!isAllowed) {
-                return res.send("blocked!!!")
+                return res.render(
+                    'message',
+                    {
+                        html_title: 'Post #' + rows[0].public_id,
+                        message: "This post is from a private group and you do not have access.",
+                        user: req.session.user,
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
+                    })
             }
 
             //
@@ -84,7 +91,14 @@ router.route('/')
                         req.session.user.user_id)
 
                     if(!isAllowed) {
-                        return res.send("blocked!!!")
+                        return res.render(
+                            'message',
+                            {
+                                html_title: 'Post #' + rows[0].public_id,
+                                message: "This post is from a private group and you do not have access.",
+                                user: req.session.user,
+                                max_width: myMisc.getCurrSiteMaxWidth(req)
+                            })
                     }
 
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
