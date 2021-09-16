@@ -503,7 +503,19 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
                     tposttag pt on pt.tag_id = t.tag_id
                 where
                     pt.post_id = p.post_id
-            ) as tags
+            ) as tags,
+            array(
+                select
+                    pg.private_group_id
+                from
+                    tprivategroup pg
+                join
+                    ttag t on t.tag = pg.name
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as private_group_ids
         from
             tpost p
         join

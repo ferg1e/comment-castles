@@ -20,6 +20,21 @@ router.route('/')
         if(rows.length) {
 
             //
+            const {rows:userPrivateGroups} = await db.getUserAllPrivateGroupIds(req.session.user.user_id)
+            const privateIds = []
+
+            for(const i in userPrivateGroups) {
+                privateIds.push(userPrivateGroups[i].private_group_id)
+            }
+
+            //check that the post's IDs are a subset of the user's IDs
+            const isAllowed = rows[0].private_group_ids.every(v => privateIds.includes(v))
+
+            if(!isAllowed) {
+                return res.send("blocked!!!")
+            }
+
+            //
             const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getPostComments(
