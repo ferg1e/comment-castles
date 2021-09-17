@@ -20,7 +20,7 @@ router.route('/')
         if(rows.length) {
 
             //
-            const isAllowed = await isAllowedToView(
+            const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
                 req.session.user.user_id)
 
@@ -86,7 +86,7 @@ router.route('/')
                 if(rows.length) {
 
                     //
-                    const isAllowed = await isAllowedToView(
+                    const isAllowed = await db.isAllowedToViewPost(
                         rows[0].private_group_ids,
                         req.session.user.user_id)
 
@@ -159,19 +159,3 @@ router.route('/')
         })
 
 module.exports = router
-
-//
-async function isAllowedToView(postPrivateIds, userId) {
-    const {rows:userPrivateGroups} = await db.getUserAllPrivateGroupIds(userId)
-    const privateIds = []
-
-    for(const i in userPrivateGroups) {
-        privateIds.push(userPrivateGroups[i].private_group_id)
-    }
-
-    //check that the post's IDs are a subset of the user's IDs
-    const isAllowed = postPrivateIds.every(v => privateIds.includes(v))
-
-    //
-    return isAllowed
-}
