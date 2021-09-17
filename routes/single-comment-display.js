@@ -20,6 +20,22 @@ router.route('/')
         if(rows.length) {
 
             //
+            const isAllowed = await db.isAllowedToViewPost(
+                rows[0].private_group_ids,
+                req.session.user.user_id)
+
+            if(!isAllowed) {
+                return res.render(
+                    'message',
+                    {
+                        html_title: htmlTitleComment + commentPublicId,
+                        message: "This comment is from a private group and you do not have access.",
+                        user: req.session.user,
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
+                    })
+            }
+
+            //
             const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getCommentComments(
@@ -62,6 +78,23 @@ router.route('/')
                     filterUserId)
 
                 if(rows.length) {
+
+                    //
+                    const isAllowed = await db.isAllowedToViewPost(
+                        rows[0].private_group_ids,
+                        req.session.user.user_id)
+
+                    if(!isAllowed) {
+                        return res.render(
+                            'message',
+                            {
+                                html_title: htmlTitleComment + commentPublicId,
+                                message: "This comment is from a private group and you do not have access.",
+                                user: req.session.user,
+                                max_width: myMisc.getCurrSiteMaxWidth(req)
+                            })
+                    }
+
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                     if(errors.length) {

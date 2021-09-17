@@ -893,7 +893,19 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $5) is_follow
+                    user_id = $5) is_follow,
+            array(
+                select
+                    pg.private_group_id
+                from
+                    tprivategroup pg
+                join
+                    ttag t on t.tag = pg.name
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as private_group_ids
         from
             ttest c
         join
@@ -1103,6 +1115,21 @@ exports.getUserAllPrivateGroupIds = (userId) => {
             gm.user_id = $2`,
         [userId, userId]
     )
+}
+
+exports.isAllowedToViewPost = async (postPrivateIds, userId) => {
+    const {rows:userPrivateGroups} = await module.exports.getUserAllPrivateGroupIds(userId)
+    const privateIds = []
+
+    for(const i in userPrivateGroups) {
+        privateIds.push(userPrivateGroups[i].private_group_id)
+    }
+
+    //check that the post's IDs are a subset of the user's IDs
+    const isAllowed = postPrivateIds.every(v => privateIds.includes(v))
+
+    //
+    return isAllowed
 }
 
 exports.getTag = (tagName) => {
