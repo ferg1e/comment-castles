@@ -42,6 +42,10 @@ body {
   color: #4b4949;
 }
 
+.main-nav a {
+  text-decoration: none;
+}
+
 .main-footer {
   margin-top: 20px;
   margin-top: 1.25rem;
