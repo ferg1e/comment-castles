@@ -1,0 +1,8 @@
+form > div {
+    margin-bottom: 12px;
+    margin-bottom: .75rem;
+}
+
+form label {
+    display: block;
+}
