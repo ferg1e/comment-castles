@@ -38,7 +38,14 @@ router.get(
             const isAllowed = ids.includes(privateGroup[0].private_group_id)
 
             if(!isAllowed) {
-                return res.send("blocked!!!")
+                return res.render(
+                    'message',
+                    {
+                        html_title: tag,
+                        message: "This group is private and you do not have access.",
+                        user: req.session.user,
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
+                    })
             }
         }
 
