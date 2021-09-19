@@ -239,6 +239,17 @@ router.post(
 
             //
             if(rows.length) {
+
+                //
+                const isAllowed = await db.isAllowedToViewPost(
+                    rows[0].private_group_ids,
+                    req.session.user.user_id)
+
+                if(!isAllowed) {
+                    return res.json(0)
+                }
+
+                //
                 let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                 if(errors.length) {

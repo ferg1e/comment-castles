@@ -45,9 +45,16 @@ function reply(cpid, isTargetLink) {
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
             xhr.onload = function() {
                 if(xhr.status == 200) {
-                    
+
                     //
                     const data = JSON.parse(xhr.responseText)
+
+                    //
+                    const isError = typeof data.by === 'undefined'
+
+                    if(isError) {
+                        return
+                    }
 
                     //
                     const li = document.createElement('li')

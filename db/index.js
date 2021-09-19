@@ -891,7 +891,19 @@ exports.getCommentWithPublic = (publicId) => {
             c.post_id,
             c.path,
             c.user_id,
-            c.text_content
+            c.text_content,
+            array(
+                select
+                    pg.private_group_id
+                from
+                    tprivategroup pg
+                join
+                    ttag t on t.tag = pg.name
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = c.post_id
+            ) as private_group_ids
         from
             ttest c
         where
