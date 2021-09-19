@@ -23,7 +23,11 @@ block content2
     if group_members.length
         ul
             each gm in group_members
-                li
+                li.memlist
                     span= gm.username
+                    | 
+                    form(method="post" class="fdel")
+                        input(type="submit" value="x" title="delete")
+                        input(type="hidden" name="deleteid" value=gm.public_id)
     else
         div None

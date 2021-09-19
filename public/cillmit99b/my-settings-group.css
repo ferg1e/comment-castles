@@ -6,3 +6,12 @@ form > div {
 form label {
     display: block;
 }
+
+.fdel {
+    display: inline;
+}
+
+.memlist {
+    margin-bottom: 4px;
+    margin-bottom: .25rem;
+}

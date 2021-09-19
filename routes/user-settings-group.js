@@ -50,6 +50,18 @@ router.route('/')
 
                 if(privateGroup.created_by == req.session.user.user_id) {
 
+                    // start delete member
+                    const isDeleteMember = typeof req.body.deleteid !== 'undefined'
+
+                    if(isDeleteMember) {
+                        await db.deleteGroupMember(
+                            privateGroup.private_group_id,
+                            req.body.deleteid)
+
+                        return res.redirect(`/settings/group?name=${req.query.name}`)
+                    }
+                    // end delete member
+
                     //
                     const errors = []
                     let submittedUser = null

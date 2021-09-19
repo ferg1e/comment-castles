@@ -1277,6 +1277,20 @@ exports.getGroupMembers = (groupId) => {
     )
 }
 
+exports.deleteGroupMember = (privateGroupId, publicUserId) => {
+    return query(`
+        delete from
+            tgroupmember gm
+        using
+            tuser u
+        where
+            u.public_id = $1 and
+            gm.private_group_id = $2 and
+            u.user_id = gm.user_id`,
+        [publicUserId, privateGroupId]
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
