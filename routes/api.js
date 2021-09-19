@@ -88,6 +88,15 @@ router.get(
         if(rows.length) {
 
             //
+            const isAllowed = await db.isAllowedToViewPost(
+                rows[0].private_group_ids,
+                userId)
+
+            if(!isAllowed) {
+                return res.json(0)
+            }
+
+            //
             let isDiscoverMode = false
 
             if(typeof req.query.viewmode !== 'undefined' &&
@@ -161,6 +170,15 @@ router.get(
 
         //
         if(rows.length) {
+
+            //
+            const isAllowed = await db.isAllowedToViewPost(
+                rows[0].private_group_ids,
+                userId)
+
+            if(!isAllowed) {
+                return res.json(0)
+            }
 
             //
             let isDiscoverMode = false
