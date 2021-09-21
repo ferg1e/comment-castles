@@ -88,6 +88,30 @@ router.route('/')
                 let [trimTags, tagErrors] = myMisc.processPostTags(req.body.tags)
                 errors = errors.concat(tagErrors)
 
+                // start private group check
+                const existingPrivateGroups = rows[0].private_group_names
+                const editedPrivateGroups = []
+
+                if(trimTags.length) {
+                    const {rows:dataGroups} = await db.getPrivateGroupsWithNames(trimTags)
+
+                    for(let i = 0; i < dataGroups.length; ++i) {
+                        editedPrivateGroups.push(dataGroups[i].name)
+                    }
+                }
+
+                //make sure private groups are unchanged
+                //check that the lengths are equal
+                //and check that one is a subset of the other
+                const isPrivateGroupsSame =
+                    existingPrivateGroups.length == editedPrivateGroups.length &&
+                    existingPrivateGroups.every(v => editedPrivateGroups.includes(v))
+
+                if(!isPrivateGroupsSame) {
+                    errors.push({msg: "You cannot edit private groups"})
+                }
+                // end private group check
+
                 //
                 if(errors.length) {
                     res.render(

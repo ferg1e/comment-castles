@@ -489,7 +489,19 @@ exports.getPostWithPublic = (publicId) => {
                     tposttag pt on pt.tag_id = t.tag_id
                 where
                     pt.post_id = p.post_id
-            ) as tags
+            ) as tags,
+            array(
+                select
+                    pg.name
+                from
+                    tprivategroup pg
+                join
+                    ttag t on t.tag = pg.name
+                join
+                    tposttag pt on pt.tag_id = t.tag_id
+                where
+                    pt.post_id = p.post_id
+            ) as private_group_names
         from
             tpost p
         where
@@ -1103,7 +1115,8 @@ exports.getPrivateGroupsWithNames = (groupNames) => {
     return query(`
         select
             private_group_id,
-            created_by
+            created_by,
+            name
         from
             tprivategroup
         where
