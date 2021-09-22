@@ -20,6 +20,8 @@ block content
         li
             a(href="#groups") Groups
         li
+            a(href="#private-groups") Private Groups
+        li
             a(href="#following") Following
         li
             a(href="#settings") Settings
@@ -137,6 +139,32 @@ block content
         a(href="/r/meta") meta group
         |. Groups display to the right of the post time for each post; 
         |click these links to go to the group's page!
+
+    h2#private-groups Private Groups
+    p
+        |By default, all posts and comments are public. 
+        |But with private groups, you can use Peaches 'n' Stink privately 
+        |with your friends, family and peers. Private groups use the same 
+        |mechanism as "normal" groups and can be mixed with them.
+
+    p
+        |In order to create a private group you must log in and go to 
+        a(href="/settings/groups") groups settings
+        |. On this page you can create new private groups, see all your created private groups, 
+        |and see all the other private groups you're a part of. 
+        |For each of your created private groups, there is a settings link 
+        |where you can add and remove users.
+
+    p
+        |All private groups must start with "p-", for example, "p-cheese". When you 
+        |first create a private group it must be empty of posts. 
+        |Private groups attached to posts cannot be edited like normal groups. 
+        |It is possible to use multiple private groups on the same post. 
+        |Posts and comments from private groups will properly show and hide throughout 
+        |the entire site. For example, posts from your private groups will appear on the home page. 
+        |Posts and comments for private groups are currently stored in the database the same way 
+        |as normal groups - in other words, private groups content is not currently encrypted or 
+        |anything like that.
 
     h2#following Following
     p
