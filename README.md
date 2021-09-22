@@ -5,7 +5,7 @@ Peaches 'n' Stink is a link aggregation Internet forum. Users write posts and ne
 Other features:
 
 * REST API
-* Groups
+* Public and Private Groups
 * High Eternal September resistance
 * Censorship buffer
 * [Instruction Manual](https://www.peachesnstink.com/manual)
