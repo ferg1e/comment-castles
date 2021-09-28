@@ -42,7 +42,7 @@ body {
   color: #4b4949;
 }
 
-.main-nav a {
+.main-nav a, .main-footer-nav a, .settings-nav a {
   text-decoration: none;
 }
 
@@ -257,6 +257,7 @@ pre {
 
 .alert1 a, .alert2 a {
   color: #0000d2;
+  text-decoration: none;
 }
 
 #write-comment {
@@ -296,4 +297,5 @@ pre {
   color: #0000d2;
   margin-left: 4px;
   margin-left: .25rem;
+  text-decoration: none;
 }
