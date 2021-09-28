@@ -22,7 +22,7 @@ router.route('/')
             //
             const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
-                req.session.user.user_id)
+                finalUserId)
 
             if(!isAllowed) {
                 return res.render(

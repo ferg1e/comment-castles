@@ -1179,11 +1179,14 @@ exports.getUserAllPrivateGroupIds = (userId) => {
 }
 
 exports.isAllowedToViewPost = async (postPrivateIds, userId) => {
-    const {rows:userPrivateGroups} = await module.exports.getUserAllPrivateGroupIds(userId)
     const privateIds = []
 
-    for(const i in userPrivateGroups) {
-        privateIds.push(userPrivateGroups[i].private_group_id)
+    if(userId != -1) {
+        const {rows:userPrivateGroups} = await module.exports.getUserAllPrivateGroupIds(userId)
+
+        for(const i in userPrivateGroups) {
+            privateIds.push(userPrivateGroups[i].private_group_id)
+        }
     }
 
     //check that the post's IDs are a subset of the user's IDs
