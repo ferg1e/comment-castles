@@ -36,6 +36,17 @@ router.route('/')
             }
 
             //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    return res.redirect(`/p/${postPublicId}`)
+                }
+            }
+
+            //
             const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getPostComments(
@@ -43,7 +54,8 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
-                filterUserId)
+                filterUserId,
+                page)
 
             //
             const htmlTitle = rows[0].is_visible
@@ -61,7 +73,8 @@ router.route('/')
                     errors: [],
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req),
+                    page: page
                 }
             )
         }

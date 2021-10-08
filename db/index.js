@@ -795,7 +795,10 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page
             isDiscoverMode, userId, filterUserId, filterUserId, pageSize, (page - 1)*pageSize])
 }
 
-exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserId) => {
+exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserId, page) => {
+    const limit = config.commentsPerPage
+    const offset = (page - 1)*config.commentsPerPage
+
     return query(`
         select
             c.text_content,
@@ -841,8 +844,14 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
                     c2.user_id != $9 and
                     c2.user_id != $10))
         order by
-            c.path`,
-        [timeZone, userId, filterUserId, filterUserId, userId, postId, isDiscoverMode, filterUserId, userId, filterUserId])
+            c.path
+        limit
+            $11
+        offset
+            $12`,
+        [timeZone, userId, filterUserId, filterUserId,
+        userId, postId, isDiscoverMode, filterUserId,
+        userId, filterUserId, limit, offset])
 }
 
 exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUserId) => {

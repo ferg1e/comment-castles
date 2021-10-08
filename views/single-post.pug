@@ -145,5 +145,10 @@ block content
                 </ul>
             else
                 </li></ul>
+
+            div
+                - let pageUrl = `/p/${post.public_id}?p=${page + 1}`
+
+                a(class="more" href=pageUrl) more &gt;
         else
             | no comments yet
