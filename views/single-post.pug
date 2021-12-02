@@ -105,13 +105,21 @@ block content
             <ul>
 
             for comment in comments
+                - const commentIndent = comment.path.split('.').length - 2
+
                 if isFirst
+
+                    - let i = 0
+
+                    while i < commentIndent
+                        <li style="list-style-type:none"><ul>
+                        - ++i
+
                     <li>
                     +ucListComment(comment, user, followGoto, comment_reply_mode, true)
                     - isFirst = false
+                    - currIndent = commentIndent
                 else 
-                    - let commentIndent = comment.path.split('.').length - 2
-                    
                     if commentIndent > currIndent
                         <ul><li>
                         +ucListComment(comment, user, followGoto, comment_reply_mode, true)
