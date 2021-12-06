@@ -22,7 +22,7 @@ router.route('/')
             //
             const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
-                req.session.user.user_id)
+                finalUserId)
 
             if(!isAllowed) {
                 return res.render(
@@ -36,6 +36,17 @@ router.route('/')
             }
 
             //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    return res.redirect(`/c/${commentPublicId}`)
+                }
+            }
+
+            //
             const isDiscoverMode = myMisc.isDiscover(req)
 
             const{rows:comments} = await db.getCommentComments(
@@ -43,7 +54,8 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
-                filterUserId)
+                filterUserId,
+                page)
 
             res.render(
                 'single-comment',
@@ -56,7 +68,8 @@ router.route('/')
                     errors: [],
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req),
+                    page: page
                 }
             )
         }

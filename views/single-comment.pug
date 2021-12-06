@@ -93,17 +93,26 @@ block content
         if comments.length
             - let currIndent = comments[0].path.split('.').length - 2
             - let isFirst = true
+            - const parentIndent = comment.path.split('.').length - 2
 
             <ul>
 
             for comment in comments
+                - const commentIndent = comment.path.split('.').length - 2
+
                 if isFirst
+
+                    - let i = 0
+                    - const numEmpty = commentIndent - parentIndent - 1
+
+                    while i < numEmpty
+                        <li style="list-style-type:none"><ul>
+                        - ++i
+
                     <li>
                     +ucListComment(comment, user, followGoto, comment_reply_mode, true)
                     - isFirst = false
                 else 
-                    - let commentIndent = comment.path.split('.').length - 2
-                    
                     if commentIndent > currIndent
                         <ul><li>
                         +ucListComment(comment, user, followGoto, comment_reply_mode, true)
@@ -137,5 +146,10 @@ block content
                 </ul>
             else
                 </li></ul>
+
+            div
+                - let pageUrl = `/c/${comment.comment_public_id}?p=${page + 1}`
+
+                a(class="more" href=pageUrl) more &gt;
         else
             | no comments yet

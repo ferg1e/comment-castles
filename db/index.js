@@ -854,7 +854,10 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
         userId, filterUserId, limit, offset])
 }
 
-exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUserId) => {
+exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUserId, page) => {
+    const limit = config.commentsPerPage
+    const offset = (page - 1)*config.commentsPerPage
+
     return query(`
         select
             c.text_content,
@@ -901,8 +904,14 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
                     c2.user_id != $11 and
                     not (c2.path @> $12)))
         order by
-            c.path`,
-        [timeZone, userId, filterUserId, filterUserId, userId, path, path, isDiscoverMode, filterUserId, userId, filterUserId, path])
+            c.path
+        limit
+            $13
+        offset
+            $14`,
+        [timeZone, userId, filterUserId, filterUserId, userId,
+            path, path, isDiscoverMode, filterUserId, userId,
+            filterUserId, path, limit, offset])
 }
 
 exports.getCommentWithPublic = (publicId) => {
