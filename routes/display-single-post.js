@@ -1,3 +1,4 @@
+const config = require('../config')
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
@@ -120,6 +121,17 @@ router.route('/')
                     if(errors.length) {
 
                         //
+                        let page = 1
+
+                        if(typeof req.query.p !== 'undefined') {
+                            page = parseInt(req.query.p)
+
+                            if(isNaN(page)) {
+                                return res.redirect(`/p/${postPublicId}`)
+                            }
+                        }
+
+                        //
                         const isDiscoverMode = myMisc.isDiscover(req)
 
                         const{rows:comments} = await db.getPostComments(
@@ -127,7 +139,8 @@ router.route('/')
                             myMisc.getCurrTimeZone(req),
                             finalUserId,
                             isDiscoverMode,
-                            filterUserId)
+                            filterUserId,
+                            page)
 
                         //
                         const htmlTitle = rows[0].is_visible
@@ -145,7 +158,8 @@ router.route('/')
                                 errors: errors,
                                 is_discover_mode: isDiscoverMode,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                                max_width: myMisc.getCurrSiteMaxWidth(req)
+                                max_width: myMisc.getCurrSiteMaxWidth(req),
+                                page: page
                             }
                         )
                     }
@@ -159,7 +173,15 @@ router.route('/')
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
-                        return res.redirect(`/p/${postPublicId}#${data1[0].public_id}`)
+
+                        //
+                        const numComments = rows[0].num_comments + 1
+                        const pages = Math.ceil(numComments/config.commentsPerPage)
+                        const redirectUrl = (pages > 1)
+                            ? `/p/${postPublicId}?p=${pages}#${data1[0].public_id}`
+                            : `/p/${postPublicId}#${data1[0].public_id}`
+
+                        return res.redirect(redirectUrl)
                     }
                 }
                 else {
