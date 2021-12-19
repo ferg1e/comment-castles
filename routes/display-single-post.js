@@ -36,9 +36,16 @@ const get = async (req, res) => {
         });
     }
 
-    // Get the requested page or fall back to 1
-    const requestedPage = Array.isArray(req.query.p) ? req.query.p[0] : req.query.p;
-    const page = parseInt(requestedPage?.toString() ?? '1', 10);
+    //
+    let page = 1
+
+    if(typeof req.query.p !== 'undefined') {
+        page = parseInt(req.query.p)
+
+        if(isNaN(page)) {
+            return res.redirect(`/p/${postPublicId}`)
+        }
+    }
 
     // Check if discover mode is enabled
     const isDiscoverModeEnabled = myMisc.isDiscover(req);
@@ -93,9 +100,17 @@ const post = async (req, res) => {
 
     // Render an error page if we found any errors in the comment
     if (errors.length > 0) {
-        // Get the requested page or fall back to 1
-        const requestedPage = Array.isArray(req.query.p) ? req.query.p[0] : req.query.p;
-        const page = parseInt(requestedPage?.toString() ?? '1', 10);
+
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                return res.redirect(`/p/${postPublicId}`)
+            }
+        }
 
         // Check if discover mode is enabled
         const isDiscoverModeEnabled = myMisc.isDiscover(req)
