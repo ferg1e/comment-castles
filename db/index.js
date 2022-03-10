@@ -914,6 +914,36 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
             filterUserId, path, limit, offset])
 }
 
+// this is copied from the above query
+// it's the "count only" version of the query
+// ie. it uses the same "where" as above
+// these two where clauses need to stay the same
+exports.getCommentNumComments = (path, userId, isDiscoverMode, filterUserId) => {
+    return query(`
+        select
+            count(1) as count
+        from
+            ttest c
+        join
+            tuser u on u.user_id = c.user_id
+        where
+            c.path <@ $1 and
+            not (c.path ~ $2) and
+            ($3 or not exists(
+                select
+                    1
+                from
+                    ttest c2
+                where
+                    c2.path @> c.path and
+                    not exists(select 1 from tfollower where user_id = $4 and followee_user_id = c2.user_id) and
+                    c2.user_id != $5 and
+                    c2.user_id != $6 and
+                    not (c2.path @> $7)))`,
+        [path, path, isDiscoverMode, filterUserId, userId,
+            filterUserId, path])
+}
+
 exports.getCommentWithPublic = (publicId) => {
     return query(`
         select

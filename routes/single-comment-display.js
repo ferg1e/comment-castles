@@ -1,3 +1,4 @@
+const config = require('../config')
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
@@ -109,6 +110,7 @@ router.route('/')
                     }
 
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+                    const isDiscoverMode = myMisc.isDiscover(req)
 
                     if(errors.length) {
 
@@ -122,9 +124,6 @@ router.route('/')
                                 return res.redirect(`/c/${commentPublicId}`)
                             }
                         }
-
-                        //
-                        const isDiscoverMode = myMisc.isDiscover(req)
 
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
@@ -162,7 +161,21 @@ router.route('/')
 
                         //
                         await db.incPostNumComments(rows[0].post_id)
-                        return res.redirect(`/c/${commentPublicId}#${data1[0].public_id}`)
+
+                        //
+                        const {rows:data2} = await db.getCommentNumComments(
+                            rows[0].path,
+                            finalUserId,
+                            isDiscoverMode,
+                            filterUserId)
+
+                        const numComments = data2[0]['count']
+                        const pages = Math.ceil(numComments/config.commentsPerPage)
+                        const redirectUrl = (pages > 1)
+                            ? `/c/${commentPublicId}?p=${pages}#${data1[0].public_id}`
+                            : `/c/${commentPublicId}#${data1[0].public_id}`
+
+                        return res.redirect(redirectUrl)
                     }
                 }
                 else {
