@@ -110,6 +110,7 @@ const post = async (req, res) => {
 
     //
     const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+    const isDiscoverMode = myMisc.isDiscover(req)
 
     //
     if(errors.length > 0) {
@@ -124,9 +125,6 @@ const post = async (req, res) => {
                 return res.redirect(`/p/${postPublicId}`)
             }
         }
-
-        //
-        const isDiscoverMode = myMisc.isDiscover(req)
 
         const {rows:comments} = await db.getPostComments(
             row.post_id,
@@ -164,7 +162,14 @@ const post = async (req, res) => {
     await db.incPostNumComments(row.post_id)
 
     //
-    const numComments = row.num_comments + 1
+    const {rows:data2} = await db.getPostNumComments(
+        row.post_id,
+        finalUserId,
+        isDiscoverMode,
+        filterUserId)
+
+    //
+    const numComments = data2[0]['count']
     const pages = Math.ceil(numComments / config.commentsPerPage)
     const redirectUrl = (pages > 1)
         ? `/p/${postPublicId}?p=${pages}#${data1[0].public_id}`

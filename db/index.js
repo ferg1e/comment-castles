@@ -854,6 +854,31 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
         userId, filterUserId, limit, offset])
 }
 
+// count query for above query
+// their two where clauses need to remain identical
+exports.getPostNumComments = (postId, userId, isDiscoverMode, filterUserId) => {
+    return query(`
+        select
+            count(1) as count
+        from
+            ttest c
+        where
+            c.path <@ $1 and
+            ($2 or not exists(
+                select
+                    1
+                from
+                    ttest c2
+                where
+                    c2.path @> c.path and
+                    not exists(select 1 from tfollower where user_id = $3 and followee_user_id = c2.user_id) and
+                    c2.user_id != $4 and
+                    c2.user_id != $5))`,
+        [postId, isDiscoverMode, filterUserId,
+            userId, filterUserId])
+}
+
+//
 exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUserId, page) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
