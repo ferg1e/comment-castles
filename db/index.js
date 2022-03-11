@@ -949,8 +949,6 @@ exports.getCommentNumComments = (path, userId, isDiscoverMode, filterUserId) => 
             count(1) as count
         from
             ttest c
-        join
-            tuser u on u.user_id = c.user_id
         where
             c.path <@ $1 and
             not (c.path ~ $2) and
