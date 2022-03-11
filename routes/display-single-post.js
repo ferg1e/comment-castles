@@ -63,6 +63,16 @@ const get = async (req, res) => {
         : 'Post #' + row.public_id
 
     //
+    const {rows:data2} = await db.getPostNumComments(
+        row.post_id,
+        finalUserId,
+        isDiscoverMode,
+        filterUserId)
+
+    const numComments = data2[0]['count']
+    const totalPages = Math.ceil(numComments/config.commentsPerPage)
+
+    //
     res.render('single-post', {
         html_title: htmlTitle,
         user: req.session.user,
@@ -72,7 +82,8 @@ const get = async (req, res) => {
         is_discover_mode: isDiscoverMode,
         comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
         max_width: myMisc.getCurrSiteMaxWidth(req),
-        page
+        page,
+        total_pages: totalPages
     })
 }
 
@@ -139,6 +150,16 @@ const post = async (req, res) => {
             : 'Post #' + row.public_id
 
         //
+        const {rows:data2} = await db.getPostNumComments(
+            row.post_id,
+            finalUserId,
+            isDiscoverMode,
+            filterUserId)
+
+        const numComments = data2[0]['count']
+        const totalPages = Math.ceil(numComments/config.commentsPerPage)
+
+        //
         return res.render('single-post', {
             html_title: htmlTitle,
             user: req.session.user,
@@ -148,7 +169,8 @@ const post = async (req, res) => {
             is_discover_mode: isDiscoverMode,
             comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
             max_width: myMisc.getCurrSiteMaxWidth(req),
-            page
+            page,
+            total_pages: totalPages
         })
     }
 
