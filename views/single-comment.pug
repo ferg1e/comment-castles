@@ -10,7 +10,8 @@ include bbCodes.pug
 include userContent.pug
 
 block content
-    - const followGoto = '/c/' + comment.comment_public_id
+    - const pagePart = (page > 1 ? `?p=${page}` : '')
+    - const followGoto = '/c/' + comment.comment_public_id + pagePart
 
     nav.backpost-nav
         a(href=`/p/${post_public_id}`) !{'&lt;'} Post
