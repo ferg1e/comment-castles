@@ -58,6 +58,17 @@ router.route('/')
                 filterUserId,
                 page)
 
+            //
+            const {rows:data2} = await db.getCommentNumComments(
+                rows[0].path,
+                finalUserId,
+                isDiscoverMode,
+                filterUserId)
+
+            const numComments = data2[0]['count']
+            const totalPages = Math.ceil(numComments/config.commentsPerPage)
+
+            //
             res.render(
                 'single-comment',
                 {
@@ -70,7 +81,8 @@ router.route('/')
                     is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: myMisc.getCurrSiteMaxWidth(req),
-                    page: page
+                    page: page,
+                    total_pages: totalPages
                 }
             )
         }
@@ -133,6 +145,17 @@ router.route('/')
                             filterUserId,
                             page)
 
+                        //
+                        const {rows:data2} = await db.getCommentNumComments(
+                            rows[0].path,
+                            finalUserId,
+                            isDiscoverMode,
+                            filterUserId)
+
+                        const numComments = data2[0]['count']
+                        const totalPages = Math.ceil(numComments/config.commentsPerPage)
+
+                        //
                         res.render(
                             'single-comment',
                             {
@@ -145,7 +168,8 @@ router.route('/')
                                 is_discover_mode: isDiscoverMode,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
-                                page
+                                page,
+                                total_pages: totalPages
                             }
                         )
                     }

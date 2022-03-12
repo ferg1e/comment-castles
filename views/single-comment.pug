@@ -147,9 +147,10 @@ block content
             else
                 </li></ul>
 
-            div
-                - let pageUrl = `/c/${comment.comment_public_id}?p=${page + 1}`
+            if page < total_pages
+                div
+                    - let pageUrl = `/c/${comment.comment_public_id}?p=${page + 1}`
 
-                a(class="more" href=pageUrl) more &gt;
+                    a(class="more" href=pageUrl) more &gt;
         else
             | no comments yet
