@@ -298,6 +298,42 @@ ALTER SEQUENCE public.tgroup_group_id_seq OWNED BY public.tgroup.group_id;
 
 
 --
+-- Name: tgroupmember; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tgroupmember (
+    group_member_id integer NOT NULL,
+    private_group_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_on timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tgroupmember OWNER TO postgres;
+
+--
+-- Name: tgroupmember_group_member_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tgroupmember_group_member_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tgroupmember_group_member_id_seq OWNER TO postgres;
+
+--
+-- Name: tgroupmember_group_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tgroupmember_group_member_id_seq OWNED BY public.tgroupmember.group_member_id;
+
+
+--
 -- Name: tmember; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -413,6 +449,42 @@ ALTER TABLE public.tposttag_posttag_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.tposttag_posttag_id_seq OWNED BY public.tposttag.posttag_id;
+
+
+--
+-- Name: tprivategroup; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tprivategroup (
+    private_group_id integer NOT NULL,
+    created_by integer NOT NULL,
+    name character varying(32) NOT NULL,
+    created_on timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tprivategroup OWNER TO postgres;
+
+--
+-- Name: tprivategroup_private_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tprivategroup_private_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tprivategroup_private_group_id_seq OWNER TO postgres;
+
+--
+-- Name: tprivategroup_private_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tprivategroup_private_group_id_seq OWNED BY public.tprivategroup.private_group_id;
 
 
 --
@@ -631,6 +703,13 @@ ALTER TABLE ONLY public.tgroup ALTER COLUMN group_id SET DEFAULT nextval('public
 
 
 --
+-- Name: tgroupmember group_member_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tgroupmember ALTER COLUMN group_member_id SET DEFAULT nextval('public.tgroupmember_group_member_id_seq'::regclass);
+
+
+--
 -- Name: tmember member_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -649,6 +728,13 @@ ALTER TABLE ONLY public.tpost ALTER COLUMN post_id SET DEFAULT nextval('public.t
 --
 
 ALTER TABLE ONLY public.tposttag ALTER COLUMN posttag_id SET DEFAULT nextval('public.tposttag_posttag_id_seq'::regclass);
+
+
+--
+-- Name: tprivategroup private_group_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tprivategroup ALTER COLUMN private_group_id SET DEFAULT nextval('public.tprivategroup_private_group_id_seq'::regclass);
 
 
 --
@@ -719,6 +805,14 @@ ALTER TABLE ONLY public.tgroup
 
 
 --
+-- Name: tgroupmember tgroupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tgroupmember
+    ADD CONSTRAINT tgroupmember_pkey PRIMARY KEY (group_member_id);
+
+
+--
 -- Name: tmember tmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -740,6 +834,14 @@ ALTER TABLE ONLY public.tpost
 
 ALTER TABLE ONLY public.tposttag
     ADD CONSTRAINT tposttag_pkey PRIMARY KEY (posttag_id);
+
+
+--
+-- Name: tprivategroup tprivategroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tprivategroup
+    ADD CONSTRAINT tprivategroup_pkey PRIMARY KEY (private_group_id);
 
 
 --
