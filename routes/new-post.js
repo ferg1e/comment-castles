@@ -1,3 +1,4 @@
+const config = require('../config')
 const express = require('express')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
@@ -89,6 +90,51 @@ router.route('/')
                         if(!gMember.length) {
                             errors.push({msg: "You used a private group you don't have access to"})
                             break
+                        }
+                    }
+                }
+
+                // actions
+                if(!errors.length) {
+                    const isAction = trimTags.indexOf('action') != -1
+                    
+                    if(isAction) {
+                        let actionType = null
+
+                        for(let i = 0; i < config.validActions.length; ++i) {
+                            const action = config.validActions[i]
+
+                            if(trimTags.indexOf(action) != -1) {
+                                actionType = action
+                                break
+                            }
+                        }
+
+                        if(actionType != null) {
+                            if(actionType == 'new-node') {
+
+                                if(trimTags.length != 3) {
+                                    errors.push({msg: "The new-node action uses three groups."})
+                                }
+                                else {
+                                    const filterTags = trimTags.filter(v => ['action', 'new-node'].indexOf(v) == -1)
+                                    const nodeUrl = filterTags[0]
+
+                                    // regex is partially copied from bbCodes.pug
+                                    const urlRegex = /(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
+                                    const isValidUrl = urlRegex.test(nodeUrl)
+
+                                    if(isValidUrl) {
+                                        console.log('new-node url is valid, request url')
+                                    }
+                                    else {
+                                        errors.push({msg: "Invalid URL for new node action"})
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            errors.push({msg: "Unknown action"})
                         }
                     }
                 }
