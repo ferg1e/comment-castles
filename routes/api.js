@@ -202,12 +202,25 @@ router.get(
                 isDiscoverMode = true
             }
 
+            //
+            let page = 1
+
+            if(typeof req.query.p !== 'undefined') {
+                page = parseInt(req.query.p)
+
+                if(isNaN(page)) {
+                    page = 1
+                }
+            }
+
+            //
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
                 'UTC',
                 userId,
                 isDiscoverMode,
-                filterUserId)
+                filterUserId,
+                page)
 
             //
             let comments2 = []
