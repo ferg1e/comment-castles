@@ -117,8 +117,18 @@ router.route('/')
 
                                     try {
                                         const myJson = JSON.parse(urlContent)
-                                        console.log(myJson)
-                                        errors.push({msg: "got some json!"})
+                                        const keys = Object.keys(myJson)
+                                        const isGood = keys.length == 3 &&
+                                            keys.indexOf('users') != -1 &&
+                                            keys.indexOf('posts') != -1 &&
+                                            keys.indexOf('comments') != -1
+
+                                        if(isGood) {
+                                            errors.push({msg: "json is good!"})
+                                        }
+                                        else {
+                                            errors.push({msg: "Invalid node"})
+                                        }
                                     }
                                     catch(e) {
                                         errors.push({msg: "Invalid node"})
