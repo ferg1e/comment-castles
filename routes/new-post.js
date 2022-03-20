@@ -125,11 +125,11 @@ router.route('/')
                                     }
                                 }
                                 catch(e) {
-                                    errors.push({msg: "Unknown URL error"})
+                                    errors.push({msg: "Invalid node"})
                                 }
                             }
                             else {
-                                errors.push({msg: "Invalid URL for new node action"})
+                                errors.push({msg: "Invalid node"})
                             }
                         }
                     }
