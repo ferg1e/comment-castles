@@ -1,4 +1,5 @@
 const {URL} = require('url')
+const http = require('http')
 
 //
 exports.getCurrTimeZone = (req) => {
@@ -188,4 +189,23 @@ exports.getPostSort = req => {
     }
 
     return sort
+}
+
+//
+exports.getUrlContent = url => {
+    return new Promise((resolve, reject) => {
+        http.get(url, res => {
+            res.setEncoding('utf8')
+
+            let rawData = ''
+
+            res.on('data', chunk => rawData += chunk)
+
+            res.on('end', () => {
+                resolve(rawData)
+            })
+        }).on('error', () => {
+            reject('error')
+        })
+    })
 }

@@ -110,7 +110,23 @@ router.route('/')
                             const isValidUrl = urlRegex.test(nodeUrl)
 
                             if(isValidUrl) {
-                                errors.push({msg: "it's valid!!"})
+                                const statsUrl = nodeUrl + '/api/v1/stats'
+
+                                try {
+                                    const urlContent = await myMisc.getUrlContent(statsUrl)
+
+                                    try {
+                                        const myJson = JSON.parse(urlContent)
+                                        console.log(myJson)
+                                        errors.push({msg: "got some json!"})
+                                    }
+                                    catch(e) {
+                                        errors.push({msg: "Invalid node"})
+                                    }
+                                }
+                                catch(e) {
+                                    errors.push({msg: "Unknown URL error"})
+                                }
                             }
                             else {
                                 errors.push({msg: "Invalid URL for new node action"})
