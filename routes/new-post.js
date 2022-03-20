@@ -96,45 +96,25 @@ router.route('/')
 
                 // actions
                 if(!errors.length) {
-                    const isAction = trimTags.indexOf('action') != -1
-                    
-                    if(isAction) {
-                        let actionType = null
+                    const isNewNode = trimTags.indexOf('new-node') != -1
 
-                        for(let i = 0; i < config.validActions.length; ++i) {
-                            const action = config.validActions[i]
-
-                            if(trimTags.indexOf(action) != -1) {
-                                actionType = action
-                                break
-                            }
-                        }
-
-                        if(actionType != null) {
-                            if(actionType == 'new-node') {
-
-                                if(trimTags.length != 3) {
-                                    errors.push({msg: "The new-node action uses three groups."})
-                                }
-                                else {
-                                    const filterTags = trimTags.filter(v => ['action', 'new-node'].indexOf(v) == -1)
-                                    const nodeUrl = filterTags[0]
-
-                                    // regex is partially copied from bbCodes.pug
-                                    const urlRegex = /(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
-                                    const isValidUrl = urlRegex.test(nodeUrl)
-
-                                    if(isValidUrl) {
-                                        console.log('new-node url is valid, request url')
-                                    }
-                                    else {
-                                        errors.push({msg: "Invalid URL for new node action"})
-                                    }
-                                }
-                            }
+                    if(isNewNode) {
+                        if(trimTags.length > 1) {
+                            errors.push({msg: "The new-node action must use only one group."})
                         }
                         else {
-                            errors.push({msg: "Unknown action"})
+                            const nodeUrl = req.body.text_content
+
+                            // regex is partially copied from bbCodes.pug
+                            const urlRegex = /(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
+                            const isValidUrl = urlRegex.test(nodeUrl)
+
+                            if(isValidUrl) {
+                                errors.push({msg: "it's valid!!"})
+                            }
+                            else {
+                                errors.push({msg: "Invalid URL for new node action"})
+                            }
                         }
                     }
                 }

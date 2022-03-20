@@ -78,10 +78,10 @@ exports.processPostTags = (rTags) => {
     let isLenError = false
 
     for(let i = 0; i < trimTags.length; ++i) {
-        let isMatch = trimTags[i].match(/^[0-9a-zA-Z-:.\/]+$/)
+        let isMatch = trimTags[i].match(/^[0-9a-zA-Z-]+$/)
 
         if(!isCharError && isMatch === null) {
-            errors.push({'msg': 'group names can only contain numbers, letters, -, :, . and /'})
+            errors.push({'msg': 'group names can only contain numbers, letters and dashes'})
             isCharError = true
         }
 
