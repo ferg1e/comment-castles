@@ -1390,6 +1390,28 @@ exports.deleteGroupMember = (privateGroupId, publicUserId) => {
     )
 }
 
+//network node
+exports.createNetworkNode = (nodeUrl) => {
+    return query(`
+        insert into tnetworknode
+            (node_url)
+        values
+            ($1)`,
+        [nodeUrl])
+}
+
+exports.getNetworkNodeWithUrl = (nodeUrl) => {
+    return query(`
+        select
+            network_node_id
+        from
+            tnetworknode
+        where
+            node_url = $1`,
+        [nodeUrl]
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

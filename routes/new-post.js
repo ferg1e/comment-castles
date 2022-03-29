@@ -122,7 +122,14 @@ router.route('/')
                                             keys.indexOf('pnsid') != -1
 
                                         if(isGood) {
-                                            errors.push({msg: "json is good!"})
+                                            const {rows:[networkNode]} = await db.getNetworkNodeWithUrl(nodeUrl)
+
+                                            if(networkNode) {
+                                                errors.push({msg: "This node already knows about that node"})
+                                            }
+                                            else {
+                                                await db.createNetworkNode(nodeUrl)
+                                            }
                                         }
                                         else {
                                             errors.push({msg: "Invalid node"})

@@ -45,3 +45,10 @@ create table tgroupmember (
     user_id integer not null,
     created_on timestamp with time zone not null default now()
 );
+
+--
+create table tnetworknode (
+    network_node_id serial primary key,
+    node_url varchar(256),
+    created_on timestamp with time zone not null default now()
+);
