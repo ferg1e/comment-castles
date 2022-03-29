@@ -315,13 +315,5 @@ router.post(
     }
 )
 
-router.get(
-    '/stats',
-    async (req, res) => {
-        const stats = await db.getStats()
-        res.json(stats)
-    }
-)
-
 //
 module.exports = router

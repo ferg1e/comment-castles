@@ -154,14 +154,6 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.getNumUsers = () => {
-    return query(`
-        select
-            count(1) as count
-        from
-            tuser`)
-}
-
 exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes) => {
     return query(`
         update
@@ -594,14 +586,6 @@ exports.getPostLinks = () => {
             tpost
         where
             link is not null`)
-}
-
-exports.getNumPosts = () => {
-    return query(`
-        select
-            count(1) as count
-        from
-            tpost`)
 }
 
 exports.updatePost = (postId, title, textContent, link, domainNameId) => {
@@ -1066,14 +1050,6 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
     )
 }
 
-exports.getNumComments = () => {
-    return query(`
-        select
-            count(1) as count
-        from
-            ttest`)
-}
-
 exports.updateComment = (commentId, textContent) => {
     return query(`
         update
@@ -1444,16 +1420,4 @@ exports.getTimeZones = () => {
         order by
             utc_offset, name`
     )
-}
-
-exports.getStats = async () => {
-    const {rows:[users]} = await module.exports.getNumUsers()
-    const {rows:[posts]} = await module.exports.getNumPosts()
-    const {rows:[comments]} = await module.exports.getNumComments()
-
-    return {
-        users: users.count,
-        posts: posts.count,
-        comments: comments.count
-    }
 }
