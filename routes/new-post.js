@@ -110,18 +110,16 @@ router.route('/')
                             const isValidUrl = urlRegex.test(nodeUrl)
 
                             if(isValidUrl) {
-                                const statsUrl = nodeUrl + '/api/v1/stats'
+                                const pingUrl = nodeUrl + '/api/v1/ping'
 
                                 try {
-                                    const urlContent = await myMisc.getUrlContent(statsUrl)
+                                    const urlContent = await myMisc.getUrlContent(pingUrl)
 
                                     try {
                                         const myJson = JSON.parse(urlContent)
                                         const keys = Object.keys(myJson)
-                                        const isGood = keys.length == 3 &&
-                                            keys.indexOf('users') != -1 &&
-                                            keys.indexOf('posts') != -1 &&
-                                            keys.indexOf('comments') != -1
+                                        const isGood = keys.length == 1 &&
+                                            keys.indexOf('pnsid') != -1
 
                                         if(isGood) {
                                             errors.push({msg: "json is good!"})
