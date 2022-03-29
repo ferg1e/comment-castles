@@ -316,4 +316,12 @@ router.post(
 )
 
 //
+router.get(
+    '/ping',
+    async (req, res) => {
+        res.json({pnsid:""})
+    }
+)
+
+//
 module.exports = router
