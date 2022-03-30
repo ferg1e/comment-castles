@@ -1,0 +1,12 @@
+.nodes {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.nodes, .nodes th, .nodes td {
+    border: 1px solid #000000;
+}
+
+.nodes th, .nodes td {
+    padding: 5px 7px;
+}

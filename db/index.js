@@ -1412,6 +1412,21 @@ exports.getNetworkNodeWithUrl = (nodeUrl) => {
     )
 }
 
+exports.getAllNetworkNodes = (timeZone) => {
+    return query(`
+        select
+            node_url,
+            to_char(
+                timezone($1, created_on),
+                'Mon FMDD, YYYY FMHH12:MIam') created_on
+        from
+            tnetworknode
+        order by
+            created_on`,
+        [timeZone]
+    )
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
