@@ -22,6 +22,8 @@ block content
         li
             a(href="#private-groups") Private Groups
         li
+            a(href="#action-groups") Action Groups
+        li
             a(href="#following") Following
         li
             a(href="#settings") Settings
@@ -164,6 +166,25 @@ block content
         |Posts and comments for private groups are currently stored in the database the same way 
         |as normal groups - in other words, private groups content is not currently encrypted or 
         |anything like that.
+
+    h2#action-groups Action Groups
+    p
+        |There are special groups called action groups. 
+        |When you use one of these groups on your post, 
+        |it will trigger a specific action outside of your post. 
+        |Any data that the action requires is placed in the post content. 
+        |Here are the currently available actions:
+        ul.list1
+            li
+                b New Node
+                |: This action will add a new network node to the 
+                a(href="/network") network page
+                |. 
+                |It simply makes the current instance of Peaches 'n' Stink 
+                |aware of a different instance of Peaches 'n' Stink. 
+                |In order to trigger this action you must use the "new-node" group 
+                |on a post. And you must put only the root URL of the Peaches 'n' Stink 
+                |instance in the post content.
 
     h2#following Following
     p
