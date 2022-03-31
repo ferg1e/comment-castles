@@ -10,3 +10,7 @@
 .nodes th, .nodes td {
     padding: 5px 7px;
 }
+
+#none {
+    text-align: center;
+}

@@ -10,13 +10,18 @@ block content
         |These are all the network nodes that this node knows about 
         |from the new-node action.
 
-    table(class="nodes")
-        tr
-            th Date Added
-            th Site
-
-        each node in nodes
+    if nodes.length
+        table(class="nodes")
             tr
-                td=node.created_on
-                td
-                    a(href=node.node_url)=node.node_url
+                th Date Added
+                th Site
+
+            each node in nodes
+                tr
+                    td=node.created_on
+                    td
+                        a(href=node.node_url)=node.node_url
+    else
+        table(class="nodes")
+            tr
+                td#none none so far
