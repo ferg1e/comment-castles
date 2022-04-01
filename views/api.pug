@@ -6,13 +6,13 @@ append head
 block content
     h2.pageh1 API
     p
-        |The Peaches 'n' Stink API has three available endpoints. 
+        |The Peaches 'n' Stink API has four available endpoints. 
         |All of the API endpoints return JSON. 
         |We do not have any user authentication for the API, 
         |thus it's currently limited to read only using stink's following list.
 
     p.
-        All of the API calls accept an optional #[em viewmode] variable in the URL.
+        All of the API calls, except for /ping, accept an optional #[em viewmode] variable in the URL.
         If #[em viewmode] is #[em "discover"] then the discover view mode is used.
         If any other value is used for #[em viewmode] then the locked view mode is used.
         You can read more about how view mode works in the
@@ -20,6 +20,13 @@ block content
 
     p
         |Here is a description of each call:
+
+    h3 GET /api/v1/ping
+
+    p.
+        This returns a single #[em pnsid] variable that is the empty string. 
+        The new-node #[a(href="/manual#action-groups") action group] uses this API endpoint 
+        to identify Peaches 'n' Stink instances.
 
     h3 GET /api/v1/posts
 
