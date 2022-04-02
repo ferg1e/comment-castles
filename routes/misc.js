@@ -1,5 +1,6 @@
 const express = require('express')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router()
 
@@ -51,7 +52,8 @@ router.route('/contact-us')
             {
                 html_title: 'Contact Us',
                 user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                contact_email: config.contactEmail
             })
     })
 
