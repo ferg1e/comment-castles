@@ -10,11 +10,15 @@ const uuid = require('uuid/v4')
 const session = require('express-session')
 const redisStore = require('connect-redis')(session)
 const redis = require('redis')
+const config = require('./config')
 
 //
 const redisClient = redis.createClient(process.env.REDIS_PORT)
 const app = express()
 const server = app.listen(process.env.HTTP_PORT)
+
+//
+app.locals.siteName = config.siteName
 
 //
 app.set('view engine', 'pug')

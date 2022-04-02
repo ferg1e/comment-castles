@@ -1,9 +1,10 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router()
-const htmlTitleHome = "Peaches 'n' Stink"
+const htmlTitleHome = config.siteName
 
 //
 router.route('/')
