@@ -1,5 +1,6 @@
 const {URL} = require('url')
 const http = require('http')
+const https = require('https')
 
 //
 exports.getCurrTimeZone = (req) => {
@@ -194,7 +195,12 @@ exports.getPostSort = req => {
 //
 exports.getUrlContent = url => {
     return new Promise((resolve, reject) => {
-        http.get(url, res => {
+        const myUrl = new URL(url)
+        const protocol = myUrl.protocol == 'https:'
+            ? https
+            : http
+
+        protocol.get(url, res => {
             res.setEncoding('utf8')
 
             let rawData = ''
