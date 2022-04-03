@@ -65,8 +65,9 @@ block content
 
     p.
         This call will return a single post and its comments.
-        You can use #[em postid] and #[em viewmode] variables in the URL.
+        You can use #[em postid], #[em viewmode] and #[em p] variables in the URL.
         #[em postid] is required.
+        #[em p] is for comment pagination and it starts at 1, there are #{commentsPerPage} comments per page.
         Examples of this endpoint:
 
     p
@@ -76,8 +77,9 @@ block content
 
     p.
         This call will return a single comment and its child comments.
-        You can use #[em commentid] and #[em viewmode] variables in the URL.
+        You can use #[em commentid], #[em viewmode] and #[em p] variables in the URL.
         #[em commentid] is required.
+        #[em p] is for comment pagination and it starts at 1, there are #{commentsPerPage} comments per page.
         Examples of this endpoint:
 
     p
