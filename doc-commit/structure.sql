@@ -372,6 +372,41 @@ ALTER SEQUENCE public.tmember_member_id_seq OWNED BY public.tmember.member_id;
 
 
 --
+-- Name: tnetworknode; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tnetworknode (
+    network_node_id integer NOT NULL,
+    node_url character varying(256),
+    created_on timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tnetworknode OWNER TO postgres;
+
+--
+-- Name: tnetworknode_network_node_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tnetworknode_network_node_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tnetworknode_network_node_id_seq OWNER TO postgres;
+
+--
+-- Name: tnetworknode_network_node_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tnetworknode_network_node_id_seq OWNED BY public.tnetworknode.network_node_id;
+
+
+--
 -- Name: tpost; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -717,6 +752,13 @@ ALTER TABLE ONLY public.tmember ALTER COLUMN member_id SET DEFAULT nextval('publ
 
 
 --
+-- Name: tnetworknode network_node_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tnetworknode ALTER COLUMN network_node_id SET DEFAULT nextval('public.tnetworknode_network_node_id_seq'::regclass);
+
+
+--
 -- Name: tpost post_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -818,6 +860,14 @@ ALTER TABLE ONLY public.tgroupmember
 
 ALTER TABLE ONLY public.tmember
     ADD CONSTRAINT tmember_pkey PRIMARY KEY (member_id);
+
+
+--
+-- Name: tnetworknode tnetworknode_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tnetworknode
+    ADD CONSTRAINT tnetworknode_pkey PRIMARY KEY (network_node_id);
 
 
 --
