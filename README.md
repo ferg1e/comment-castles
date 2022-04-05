@@ -1,6 +1,6 @@
 # Peaches 'n' Stink
 
-Peaches 'n' Stink is a distributed link aggregation internet forum with an emphasis on non-engagement and privacy. Users write posts and nested comments. Users must follow other users in order to see their content. The first instance is at [peachesnstink.com](https://www.peachesnstink.com)!
+Peaches 'n' Stink is a distributed link aggregation internet forum with an emphasis on non-engagement and privacy. Users write posts and nested comments. Users must follow other users in order to see their content. There are instances running at [peachesnstink.com](https://www.peachesnstink.com) and [yourfamous.net](https://www.yourfamous.net)!
 
 Other features:
 
