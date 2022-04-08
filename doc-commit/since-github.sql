@@ -52,3 +52,6 @@ create table tnetworknode (
     node_url varchar(256),
     created_on timestamp with time zone not null default now()
 );
+
+--
+create index idx_tposttag_post_id on tposttag(post_id);
