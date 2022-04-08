@@ -278,19 +278,19 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
             dn.domain_name,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
+                        1
+                    from
+                        tfollower
+                    where
+                        followee_user_id = u.user_id and
+                        user_id = $4) is_visible,
+            exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_visible,
-            exists(select
-                1
-            from
-                tfollower
-            where
-                followee_user_id = u.user_id and
-                user_id = $5) is_follow,
+                    user_id = $5) is_follow,
             array(
                 select
                     t.tag
@@ -299,8 +299,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
                 join
                     tposttag pt on pt.tag_id = t.tag_id
                 where
-                    pt.post_id = p.post_id
-            ) as tags
+                    pt.post_id = p.post_id) tags
         from
             tpost p
         join
@@ -311,12 +310,12 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
             not is_removed and
             ($6 or u.user_id = $7 or u.user_id = $8 or
                 exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $9)) and
+                        1
+                    from
+                        tfollower
+                    where
+                        followee_user_id = u.user_id and
+                        user_id = $9)) and
             (array(
                 select
                     pg.private_group_id
