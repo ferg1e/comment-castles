@@ -943,6 +943,27 @@ ALTER TABLE ONLY public.tuser
 
 
 --
+-- Name: idx_tposttag_post_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_tposttag_post_id ON public.tposttag USING btree (post_id);
+
+
+--
+-- Name: idx_tprivategroup_name; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_tprivategroup_name ON public.tprivategroup USING btree (name);
+
+
+--
+-- Name: idx_ttag_tag; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_ttag_tag ON public.ttag USING btree (tag);
+
+
+--
 -- Name: path_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
