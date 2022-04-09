@@ -275,7 +275,10 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
             u.public_id as user_public_id,
             p.link,
             p.num_comments,
-            dn.domain_name,
+            case
+                when p.domain_name_id is null then null
+                else (select domain_name from tdomainname where domain_name_id = p.domain_name_id)
+                end domain_name,
             u.user_id = $2 or u.user_id = $3 or
                 exists(select
                         1
@@ -304,8 +307,6 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
             tpost p
         join
             tuser u on u.user_id = p.user_id
-        left join
-            tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
             not is_removed and
             ($6 or u.user_id = $7 or u.user_id = $8 or

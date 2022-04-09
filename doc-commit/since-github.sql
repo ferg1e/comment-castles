@@ -55,3 +55,5 @@ create table tnetworknode (
 
 --
 create index idx_tposttag_post_id on tposttag(post_id);
+create index idx_tprivategroup_name on tprivategroup(name);
+create index idx_ttag_tag on ttag(tag);
