@@ -643,6 +643,26 @@ exports.setLastCommentTimes = () => {
         [])
 }
 
+exports.deletePost = (postId) => {
+    return query(`
+        delete from
+            tpost
+        where
+            post_id = $1`,
+        [postId])
+}
+
+exports.deleteWholePost = async (publicPostId) => {
+
+    //
+    const {rows:[post]} = await module.exports.getPostWithPublic(publicPostId)
+    const postId = post.post_id
+
+    //
+    await module.exports.deletePost(postId)
+    await module.exports.deletePostComments(postId)
+}
+
 //domain name
 exports.createDomainName = (domainName) => {
     return query(`
@@ -1059,6 +1079,15 @@ exports.updateComment = (commentId, textContent) => {
         where
             comment_id = $2`,
         [textContent, commentId])
+}
+
+exports.deletePostComments = (postId) => {
+    return query(`
+        delete from
+            ttest
+        where
+            post_id = $1`,
+        [postId])
 }
 
 //follower

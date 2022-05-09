@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h2.pageh1 Delete Post
+
+    div
+        |Are you sure you want to delete your post titled "
+        |#{title}"? The post and all its comments will be permanently deleted.
+
+    form(method="post")
+        input(type="hidden" name="sflag" value="cat")
+        input(type="submit" value="Yes, Delete My Post")
