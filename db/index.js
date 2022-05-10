@@ -661,6 +661,7 @@ exports.deleteWholePost = async (publicPostId) => {
     //
     await module.exports.deletePost(postId)
     await module.exports.deletePostComments(postId)
+    await module.exports.deletePostTags(postId)
 }
 
 //domain name
