@@ -91,6 +91,8 @@ block content
                                 if user && user.user_id == post.user_id
                                     | 
                                     a(href=`/p/${post.public_id}/edit`) edit
+                                    | 
+                                    a(href=`/p/${post.public_id}/delete`) delete
                     else
                         span(class="puser2") by #{post.username}
                         | 

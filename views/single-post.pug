@@ -53,6 +53,8 @@ block content
                     if user && post.user_id == user.user_id
                         | 
                         a(href=`/p/${post.public_id}/edit`) edit
+                        | 
+                        a(href=`/p/${post.public_id}/delete`) delete
 
             if post.text_content !== null
                 div.the-post-content
