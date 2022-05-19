@@ -1091,6 +1091,17 @@ exports.deletePostComments = (postId) => {
         [postId])
 }
 
+exports.deleteComment = async (path) => {
+
+    // delete the comment and all its sub comments
+    await query(`
+        delete from
+            ttest
+        where
+            path <@ $1`,
+        [path])
+}
+
 //follower
 exports.addFollower = (userId, followeeUserId) => {
     return query(`
