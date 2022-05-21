@@ -57,3 +57,17 @@ create table tnetworknode (
 create index idx_tposttag_post_id on tposttag(post_id);
 create index idx_tprivategroup_name on tprivategroup(name);
 create index idx_ttag_tag on ttag(tag);
+
+--
+CREATE OR REPLACE FUNCTION f_comment_del()
+RETURNS TRIGGER AS $$
+BEGIN
+  update tpost set num_comments = num_comments - 1 where post_id = old.post_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+create trigger comment_del
+    after delete
+    on ttest
+    for each row
+    execute procedure f_comment_del();
