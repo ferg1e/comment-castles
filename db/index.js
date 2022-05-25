@@ -29,6 +29,20 @@ function numToOrderedAlpha(num) {
         String.fromCharCode(96 + third)
 }
 
+//
+function orderedAlphaToNum(oAlpha) {
+    const rightChar = oAlpha.substring(2, 3)
+    const rightValue = rightChar.charCodeAt() - 96
+  
+    const middleChar = oAlpha.substring(1, 2)
+    const middleValue = 26*(middleChar.charCodeAt() - 97)
+  
+    const leftChar = oAlpha.substring(0, 1)
+    const leftValue = 26*26*(leftChar.charCodeAt() - 97)
+  
+    return rightValue + middleValue + leftValue
+}
+
 //user
 exports.createUser = (username, password) => {
     return argon2.hash(password)
@@ -700,7 +714,7 @@ exports.getDomainNameId = async domainName => {
 }
 
 //comment
-exports.createPostComment = (postId, userId, content) => {
+exports.createPostComment = async (postId, userId, content) => {
 
     /*TODO: figure out how to put this postId in
     the query as a query param, currently
@@ -708,15 +722,30 @@ exports.createPostComment = (postId, userId, content) => {
     operator doesn't accept*/
     let lQuery = parseInt(postId) + '.*{1}'
 
-    /*TODO: this might need an SQL transaction*/
-    return query(`
+    // get next ltree path int based on most recent ltree path
+    const {rows:[row]} = await query(`
         select
-            count(1) as count
+            path
         from
             ttest
         where
-            path ~ $1`,
-        [lQuery]).then(res => query(`
+            path ~ $1
+        order by
+            path desc
+        limit
+            1`,
+        [lQuery])
+
+    let nextPathInt = 1
+
+    if(row) {
+        const lastDotIndex = row.path.lastIndexOf('.')
+        const lastTriple = row.path.substring(lastDotIndex + 1)
+        nextPathInt = orderedAlphaToNum(lastTriple) + 1
+    }
+
+    //
+    return query(`
         insert into ttest
             (post_id, user_id, text_content, path, public_id)
         values
@@ -724,9 +753,8 @@ exports.createPostComment = (postId, userId, content) => {
         returning
             public_id`,
         [postId, userId, content,
-            postId + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
+            postId + '.' + numToOrderedAlpha(nextPathInt),
             nanoid(nanoidAlphabet, nanoidLen)])
-    )
 }
 
 exports.createCommentComment = (postId, userId, content, parentPath, timeZone) => {
