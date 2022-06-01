@@ -757,17 +757,32 @@ exports.createPostComment = async (postId, userId, content) => {
             nanoid(nanoidAlphabet, nanoidLen)])
 }
 
-exports.createCommentComment = (postId, userId, content, parentPath, timeZone) => {
+exports.createCommentComment = async (postId, userId, content, parentPath, timeZone) => {
     let lQuery = parentPath + '.*{1}'
 
-    return query(`
+    // get next ltree path int based on most recent ltree path
+    const {rows:[row]} = await query(`
         select
-            count(1) as count
+            path
         from
             ttest
         where
-            path ~ $1`,
-        [lQuery]).then(res => query(`
+            path ~ $1
+        order by
+            path desc
+        limit
+            1`,
+        [lQuery])
+
+    let nextPathInt = 1
+
+    if(row) {
+        const lastDotIndex = row.path.lastIndexOf('.')
+        const lastTriple = row.path.substring(lastDotIndex + 1)
+        nextPathInt = orderedAlphaToNum(lastTriple) + 1
+    }
+
+    return query(`
         insert into ttest
             (post_id, user_id, text_content, path, public_id)
         values
@@ -779,10 +794,9 @@ exports.createCommentComment = (postId, userId, content, parentPath, timeZone) =
                 timezone($6, created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on`,
         [postId, userId, content,
-            parentPath + '.' + numToOrderedAlpha(parseInt(res.rows[0].count) + 1),
+            parentPath + '.' + numToOrderedAlpha(nextPathInt),
             nanoid(nanoidAlphabet, nanoidLen),
             timeZone])
-    )
 }
 
 exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page) => {
