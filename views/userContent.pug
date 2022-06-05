@@ -42,6 +42,8 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
                 if pUser && pUser.user_id == pComment.user_id
                     | 
                     a(href=`/c/${pComment.public_id}/edit`) edit
+                    | 
+                    a(href=`/c/${pComment.public_id}/delete`) delete
         else
             span(class="cby2") by
             | 

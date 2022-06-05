@@ -62,6 +62,7 @@ function reply(cpid, isTargetLink) {
                     const space1 = document.createTextNode(' ')
                     const space2 = document.createTextNode(' ')
                     const space3 = document.createTextNode(' ')
+                    const space4 = document.createTextNode(' ')
 
                     const bySpan0 = document.createElement('span')
                     bySpan0.className = 'cby'
@@ -102,6 +103,11 @@ function reply(cpid, isTargetLink) {
                     editLink.appendChild(editLinkText)
                     editLink.href = "/c/" + data.public_id + '/edit'
 
+                    const deleteLink = document.createElement('a')
+                    const deleteLinkText = document.createTextNode('delete')
+                    deleteLink.appendChild(deleteLinkText)
+                    deleteLink.href = "/c/" + data.public_id + '/delete'
+
                     const footerElem = document.createElement('div')
                     footerElem.className = 'clinks'
                     footerElem.appendChild(permalink)
@@ -120,6 +126,8 @@ function reply(cpid, isTargetLink) {
                     footerElem.appendChild(replyLink)
                     footerElem.appendChild(space3)
                     footerElem.appendChild(editLink)
+                    footerElem.appendChild(space4)
+                    footerElem.appendChild(deleteLink)
 
                     const contentSpan = document.createElement('span')
                     contentSpan.innerHTML = data.text_content

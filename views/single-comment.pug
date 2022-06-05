@@ -40,6 +40,8 @@ block content
                 if user && comment.user_id == user.user_id
                     | 
                     a(href=`/c/${comment.comment_public_id}/edit`) edit
+                    | 
+                    a(href=`/c/${comment.comment_public_id}/delete`) delete
 
             div.the-comment-content
                 +bbCodes(comment.text_content)
