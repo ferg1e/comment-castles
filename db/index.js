@@ -15,34 +15,6 @@ function query(query, params) {
     return pool.query(query, params)
 }
 
-function numToOrderedAlpha(num) {
-    var first = Math.ceil(num/676)
-
-    var second = Math.ceil(num/26)%26
-    second = second ? second : 26
-
-    var third = Math.ceil(num%26)
-    third = third ? third : 26
-
-    return String.fromCharCode(96 + first) +
-        String.fromCharCode(96 + second) +
-        String.fromCharCode(96 + third)
-}
-
-//
-function orderedAlphaToNum(oAlpha) {
-    const rightChar = oAlpha.substring(2, 3)
-    const rightValue = rightChar.charCodeAt() - 96
-  
-    const middleChar = oAlpha.substring(1, 2)
-    const middleValue = 26*(middleChar.charCodeAt() - 97)
-  
-    const leftChar = oAlpha.substring(0, 1)
-    const leftValue = 26*26*(leftChar.charCodeAt() - 97)
-  
-    return rightValue + middleValue + leftValue
-}
-
 //user
 exports.createUser = (username, password) => {
     return argon2.hash(password)
@@ -741,7 +713,7 @@ exports.createPostComment = async (postId, userId, content) => {
     if(row) {
         const lastDotIndex = row.path.lastIndexOf('.')
         const lastTriple = row.path.substring(lastDotIndex + 1)
-        nextPathInt = orderedAlphaToNum(lastTriple) + 1
+        nextPathInt = myMisc.orderedAlphaToNum(lastTriple) + 1
     }
 
     //
@@ -753,7 +725,7 @@ exports.createPostComment = async (postId, userId, content) => {
         returning
             public_id`,
         [postId, userId, content,
-            postId + '.' + numToOrderedAlpha(nextPathInt),
+            postId + '.' + myMisc.numToOrderedAlpha(nextPathInt),
             nanoid(nanoidAlphabet, nanoidLen)])
 }
 
@@ -779,7 +751,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
     if(row) {
         const lastDotIndex = row.path.lastIndexOf('.')
         const lastTriple = row.path.substring(lastDotIndex + 1)
-        nextPathInt = orderedAlphaToNum(lastTriple) + 1
+        nextPathInt = myMisc.orderedAlphaToNum(lastTriple) + 1
     }
 
     return query(`
@@ -794,7 +766,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
                 timezone($6, created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on`,
         [postId, userId, content,
-            parentPath + '.' + numToOrderedAlpha(nextPathInt),
+            parentPath + '.' + myMisc.numToOrderedAlpha(nextPathInt),
             nanoid(nanoidAlphabet, nanoidLen),
             timeZone])
 }
