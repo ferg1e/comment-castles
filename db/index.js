@@ -197,9 +197,9 @@ exports.genUserPublicId = (userId) => {
 
 //post
 exports.createPost = (userId, title, textContent, link, domainNameId) => {
-    let newPostId = nanoid(nanoidAlphabet, nanoidLen)
-    let finalLink = typeof link !== 'undefined' ? link : null
-    let finalTextContent = textContent.trim() === '' ? null : textContent
+    const newPostId = nanoid(nanoidAlphabet, nanoidLen)
+    const finalLink = typeof link !== 'undefined' ? link : null
+    const finalTextContent = textContent.trim() === '' ? null : textContent
 
     let promise = query(`
         insert into tpost
@@ -218,7 +218,7 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
 }
 
 exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
-    let pageSize = 20
+    const pageSize = 20
     const numLeadingPlaceholders = 9
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
@@ -334,7 +334,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
 
 //TODO: very similar to getPosts(), may want to combine
 exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filterUserId, sort) => {
-    let pageSize = 20
+    const pageSize = 20
     const numLeadingPlaceholders = 10
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
@@ -575,8 +575,8 @@ exports.getPostLinks = () => {
 }
 
 exports.updatePost = (postId, title, textContent, link, domainNameId) => {
-    let finalLink = typeof link !== 'undefined' ? link : null
-    let finalTextContent = textContent.trim() === '' ? null : textContent
+    const finalLink = typeof link !== 'undefined' ? link : null
+    const finalTextContent = textContent.trim() === '' ? null : textContent
 
     return query(`
         update
@@ -692,7 +692,7 @@ exports.createPostComment = async (postId, userId, content) => {
     the query as a query param, currently
     concat returns type 'text' which the ~
     operator doesn't accept*/
-    let lQuery = parseInt(postId) + '.*{1}'
+    const lQuery = parseInt(postId) + '.*{1}'
 
     // get next ltree path int based on most recent ltree path
     const {rows:[row]} = await query(`
@@ -730,7 +730,7 @@ exports.createPostComment = async (postId, userId, content) => {
 }
 
 exports.createCommentComment = async (postId, userId, content, parentPath, timeZone) => {
-    let lQuery = parentPath + '.*{1}'
+    const lQuery = parentPath + '.*{1}'
 
     // get next ltree path int based on most recent ltree path
     const {rows:[row]} = await query(`
@@ -1189,7 +1189,7 @@ exports.createPostTag = (tagId, postId) => {
 }
 
 exports.createPostTags = async (trimTags, postId) => {
-    let tagIds = []
+    const tagIds = []
 
     for(let i = 0; i < trimTags.length; ++i) {
         const {rows:tagd} = await module.exports.getTag(trimTags[i])
