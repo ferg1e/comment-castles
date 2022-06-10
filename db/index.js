@@ -2,9 +2,9 @@ const argon2 = require('argon2')
 const config = require('../config')
 const myMisc = require('../misc.js')
 const {Pool, types} = require('pg')
-const nanoid = require('nanoid/generate');
-const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const nanoidLen = 22;
+const nanoid = require('nanoid/generate')
+const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+const nanoidLen = 22
 
 //returns raw timestamp instead of converting to a js Date obj
 types.setTypeParser(1114, str => str)
