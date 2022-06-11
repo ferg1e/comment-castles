@@ -1,6 +1,8 @@
-# Peaches 'n' Stink
+Notice: We are currently in the process of changing the project name from Peaches 'n' Stink to Comment Castles.
 
-Peaches 'n' Stink is a distributed link aggregation internet forum with an emphasis on non-engagement and privacy. Users write posts and nested comments. Users must follow other users in order to see their content. There are instances running at [peachesnstink.com](https://www.peachesnstink.com) and [yourfamous.net](https://www.yourfamous.net)!
+# Comment Castles
+
+Comment Castles is a distributed link aggregation internet forum with an emphasis on non-engagement and privacy. Users write posts and nested comments. Users must follow other users in order to see their content. There are instances running at [peachesnstink.com](https://www.peachesnstink.com) and [yourfamous.net](https://www.yourfamous.net)!
 
 Other features:
 
