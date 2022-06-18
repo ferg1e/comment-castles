@@ -7,3 +7,10 @@ exports.eyesDefaultUsername = "stink"
 exports.commentsPerPage = 200
 exports.siteName = "Comment Castles"
 exports.contactEmail = "peachesnstink@protonmail.com"
+
+/*
+Default view mode for someone not logged in.
+Use 'discover' for discover view mode, all
+other values indicate locked view mode.
+*/
+exports.defaultVisitorViewMode = 'locked'

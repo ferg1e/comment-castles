@@ -1,6 +1,7 @@
 const {URL} = require('url')
 const http = require('http')
 const https = require('https')
+const config = require('./config')
 
 //
 exports.getCurrTimeZone = (req) => {
@@ -114,7 +115,7 @@ exports.getCurrPostMode = req => {
     }
     else {
         return (typeof req.cookies.post_mode === 'undefined')
-            ? 'discover'
+            ? config.defaultVisitorViewMode
             : req.cookies.post_mode
     }
 }
