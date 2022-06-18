@@ -71,3 +71,6 @@ create trigger comment_del
     on ttest
     for each row
     execute procedure f_comment_del();
+
+--
+alter table ttest rename to tcomment;

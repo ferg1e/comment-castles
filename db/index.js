@@ -622,7 +622,7 @@ exports.setLastCommentTimes = () => {
                 select
                     max(created_on)
                 from
-                    ttest
+                    tcomment
                 where
                     post_id = p.post_id
             )`,
@@ -699,7 +699,7 @@ exports.createPostComment = async (postId, userId, content) => {
         select
             path
         from
-            ttest
+            tcomment
         where
             path ~ $1
         order by
@@ -718,7 +718,7 @@ exports.createPostComment = async (postId, userId, content) => {
 
     //
     return query(`
-        insert into ttest
+        insert into tcomment
             (post_id, user_id, text_content, path, public_id)
         values
             ($1, $2, $3, $4, $5)
@@ -737,7 +737,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
         select
             path
         from
-            ttest
+            tcomment
         where
             path ~ $1
         order by
@@ -755,7 +755,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
     }
 
     return query(`
-        insert into ttest
+        insert into tcomment
             (post_id, user_id, text_content, path, public_id)
         values
             ($1, $2, $3, $4, $5)
@@ -802,7 +802,7 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page
                     followee_user_id = u.user_id and
                     user_id = $5) is_follow
         from
-            ttest c
+            tcomment c
         join
             tuser u on u.user_id = c.user_id
         join
@@ -810,7 +810,7 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, filterUserId, page
         where
             (
                 (nlevel(c.path) = 2 and p.user_id = $6) or
-                (nlevel(c.path) > 2 and (select user_id from ttest where path = subpath(c.path, 0, -1)) = $7)
+                (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $7)
             ) and
             ($8 or c.user_id = $9 or c.user_id = $10 or
                 exists(select
@@ -863,7 +863,7 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
                     followee_user_id = u.user_id and
                     user_id = $5) is_follow
         from
-            ttest c
+            tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
@@ -872,7 +872,7 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, filterUserI
                 select
                     1
                 from
-                    ttest c2
+                    tcomment c2
                 where
                     c2.path @> c.path and
                     not exists(select 1 from tfollower where user_id = $8 and followee_user_id = c2.user_id) and
@@ -896,14 +896,14 @@ exports.getPostNumComments = (postId, userId, isDiscoverMode, filterUserId) => {
         select
             count(1) as count
         from
-            ttest c
+            tcomment c
         where
             c.path <@ $1 and
             ($2 or not exists(
                 select
                     1
                 from
-                    ttest c2
+                    tcomment c2
                 where
                     c2.path @> c.path and
                     not exists(select 1 from tfollower where user_id = $3 and followee_user_id = c2.user_id) and
@@ -946,7 +946,7 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
                     followee_user_id = u.user_id and
                     user_id = $5) is_follow
         from
-            ttest c
+            tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
@@ -956,7 +956,7 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, filterUser
                 select
                     1
                 from
-                    ttest c2
+                    tcomment c2
                 where
                     c2.path @> c.path and
                     not exists(select 1 from tfollower where user_id = $9 and followee_user_id = c2.user_id) and
@@ -983,7 +983,7 @@ exports.getCommentNumComments = (path, userId, isDiscoverMode, filterUserId) => 
         select
             count(1) as count
         from
-            ttest c
+            tcomment c
         where
             c.path <@ $1 and
             not (c.path ~ $2) and
@@ -991,7 +991,7 @@ exports.getCommentNumComments = (path, userId, isDiscoverMode, filterUserId) => 
                 select
                     1
                 from
-                    ttest c2
+                    tcomment c2
                 where
                     c2.path @> c.path and
                     not exists(select 1 from tfollower where user_id = $4 and followee_user_id = c2.user_id) and
@@ -1023,7 +1023,7 @@ exports.getCommentWithPublic = (publicId) => {
                     pt.post_id = c.post_id
             ) as private_group_ids
         from
-            ttest c
+            tcomment c
         where
             c.public_id = $1`,
         [publicId]
@@ -1073,7 +1073,7 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
                     pt.post_id = p.post_id
             ) as private_group_ids
         from
-            ttest c
+            tcomment c
         join
             tuser u on u.user_id = c.user_id
         join
@@ -1088,7 +1088,7 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, filterUserId) => {
 exports.updateComment = (commentId, textContent) => {
     return query(`
         update
-            ttest
+            tcomment
         set
             text_content = $1
         where
@@ -1099,7 +1099,7 @@ exports.updateComment = (commentId, textContent) => {
 exports.deletePostComments = (postId) => {
     return query(`
         delete from
-            ttest
+            tcomment
         where
             post_id = $1`,
         [postId])
@@ -1110,7 +1110,7 @@ exports.deleteComment = async (path) => {
     // delete the comment and all its sub comments
     await query(`
         delete from
-            ttest
+            tcomment
         where
             path <@ $1`,
         [path])
