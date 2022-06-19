@@ -74,3 +74,4 @@ create trigger comment_del
 
 --
 alter table ttest rename to tcomment;
+drop table tgroup, tmember, tspamcomment, tspampost;
