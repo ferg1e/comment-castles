@@ -39,7 +39,7 @@ body {
 }
 
 .main-nav a, .settings-nav a {
-  color: #4b4949;
+  color: #3e4a55;
 }
 
 .main-nav a, .main-footer-nav a, .settings-nav a {
@@ -52,7 +52,7 @@ body {
 }
 
 .main-footer a {
-  color: #9b4747;
+  color: #616e7c;
 }
 
 .comments > ul {
@@ -71,9 +71,9 @@ body {
 }
 
 .comments :target {
-  background: #faf7f1;
+  background: #eaffeb;
   padding: 3px;
-  border: 2px solid #ebbc58;
+  border: 2px solid #1eaa25;
 }
 
 .posts > div {
@@ -114,7 +114,7 @@ body {
 
 .backpost-nav a, .more {
   padding: 4px 6px;
-  background: #ffcc80;
+  background: #f4e8de;
   color: #000000;
   text-decoration: none;
   border: 1px solid #000000;
@@ -126,15 +126,15 @@ body {
 }
 
 .main-logo a #peaches {
-  color: #d1803a;
+  color: #c0c0c0;
 }
 
 .main-logo a #stink {
-  color: #6d4006;
+  color: #708090;
 }
 
 .follow {
-  background: #cbeed1;
+  background: #d9d9d9;
   text-decoration: none;
   color: black;
   padding: 0 4px;
@@ -142,11 +142,11 @@ body {
 }
 
 .follow:hover {
-  background: #b7e6bf;
+  background: #d9d9d9;
 }
 
 .unfollow {
-  background: #f3cece;
+  background: #fdb8db;
   text-decoration: none;
   color: black;
   padding: 0 6px;
@@ -159,7 +159,7 @@ body {
 
 .tag1 {
   color: #030303;
-  background: #e6e7dc;
+  background: #f4e6db;
   text-decoration: none;
   padding: 1px 2px;
   border-radius: 2px;
@@ -213,7 +213,7 @@ body {
 }
 
 .clinks a {
-  color: #994949;
+  color: #724523;
   margin-right: 4px;
   margin-right: .25rem;
   text-decoration: none;
@@ -238,7 +238,7 @@ pre {
 }
 
 .alert1 {
-  background: #f8edbd;
+  background: #f4e8de;
 }
 
 .alert1o {
@@ -247,7 +247,7 @@ pre {
 }
 
 .alert2 {
-  background: #f8edbd;
+  background: #f4e8de;
 }
 
 .alert2o {
