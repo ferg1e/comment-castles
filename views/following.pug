@@ -10,7 +10,7 @@ block content
     h2.pageh1 Following
 
     if errors.length
-        ul
+        ul.uerror1
             each error in errors
                 li #{error.msg}
     form(method="post" action="/following")

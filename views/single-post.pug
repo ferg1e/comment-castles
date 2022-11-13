@@ -77,7 +77,7 @@ block content
     if user
         form(method="post" id="write-comment")
             if errors.length
-                ul
+                ul.uerror1
                     each error in errors
                         li #{error.msg}
 
