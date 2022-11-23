@@ -186,7 +186,8 @@ router.route('/')
                 'my-settings',
                 {
                     html_title: htmlTitleSettings,
-                    errors: [{msg: 'Settings successfully saved.'}],
+                    errors: [],
+                    success: 'Settings successfully saved.',
                     user: req.session.user,
                     time_zones: rows2,
                     time_zone: req.body.time_zone,
