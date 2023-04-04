@@ -79,7 +79,8 @@ router.route('/')
                         html_title: htmlTitleSettingsUsername,
                         user: req.session.user,
                         max_width: myMisc.getCurrSiteMaxWidth(req),
-                        errors: [{'msg': 'Username successfully saved'}],
+                        errors: [],
+                        success: 'Username successfully saved',
                         username: username
                     })
             }
