@@ -6,6 +6,10 @@ append head
 block content2
     h3 Add User
 
+    if success
+        ul.usuccess1
+            li=success
+
     if errors.length
         ul.uerror1
             each error in errors

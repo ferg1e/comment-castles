@@ -112,8 +112,9 @@ router.route('/')
                         renderHtml(
                             req,
                             res,
-                            [{msg: "User successfully added to private group"}],
-                            privateGroup.private_group_id)
+                            [],
+                            privateGroup.private_group_id,
+                            "User successfully added to private group")
                     }
                 }
                 else {
@@ -132,7 +133,7 @@ router.route('/')
 module.exports = router
 
 //
-async function renderHtml(req, res, errors, privateGroupId) {
+async function renderHtml(req, res, errors, privateGroupId, success) {
     const {rows:groupMembers} = await db.getGroupMembers(privateGroupId)
 
     //
@@ -143,6 +144,7 @@ async function renderHtml(req, res, errors, privateGroupId) {
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             errors: errors,
+            success: success,
             group_members: groupMembers
         })
 }
