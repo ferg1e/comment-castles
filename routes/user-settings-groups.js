@@ -33,7 +33,7 @@ router.route('/')
                     req.session.user.user_id)
 
                 //
-                renderHtml(req, res, [{msg:"Private group successfully created"}])
+                renderHtml(req, res, [], "Private group successfully created")
             }
         }
         else {
@@ -44,7 +44,7 @@ router.route('/')
 module.exports = router
 
 //
-async function renderHtml(req, res, errors) {
+async function renderHtml(req, res, errors, success) {
     const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
     const {rows:memberGroups} = await db.getUserMemberPrivateGroups(req.session.user.user_id)
 
@@ -56,6 +56,7 @@ async function renderHtml(req, res, errors) {
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             errors: errors,
+            success: success,
             created_groups: createdGroups,
             member_groups: memberGroups
         })
