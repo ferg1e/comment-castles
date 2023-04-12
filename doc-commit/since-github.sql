@@ -75,3 +75,12 @@ create trigger comment_del
 --
 alter table ttest rename to tcomment;
 drop table tgroup, tmember, tspamcomment, tspampost;
+
+--
+create table toauthclient (
+    client_id serial primary key,
+    user_id integer not null,
+    app_name varchar(64) not null,
+    redirect_uri varchar(256) not null,
+    public_client_id varchar(32) not null
+);

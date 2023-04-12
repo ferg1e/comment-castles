@@ -5,6 +5,7 @@ const {Pool, types} = require('pg')
 const nanoid = require('nanoid/generate')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 const nanoidLen = 22
+const oauthClientIdLen = 32
 
 //returns raw timestamp instead of converting to a js Date obj
 types.setTypeParser(1114, str => str)
@@ -1480,6 +1481,21 @@ exports.getAllNetworkNodes = (timeZone) => {
             created_on`,
         [timeZone]
     )
+}
+
+//oauth client
+exports.createClient = (appName, redirectUri, userId) => {
+
+    //
+    const publicClientId = nanoid(nanoidAlphabet, oauthClientIdLen)
+
+    //
+    return query(`
+        insert into toauthclient
+            (user_id, app_name, redirect_uri, public_client_id)
+        values
+            ($1, $2, $3, $4)`,
+        [userId, appName, redirectUri, publicClientId])
 }
 
 //misc

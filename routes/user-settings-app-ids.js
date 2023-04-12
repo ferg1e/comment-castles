@@ -15,6 +15,21 @@ router.route('/')
         //
         renderHtml(req, res, [])
     })
+    .post(async (req, res) => {
+
+        //
+        if(!req.session.user) {
+            return res.send(':)')
+        }
+
+        //
+        await db.createClient(
+            req.body.name,
+            req.body.ruri,
+            req.session.user.user_id)
+
+        res.send('created!')
+    })
 
 module.exports = router
 
