@@ -84,3 +84,22 @@ create table toauthclient (
     redirect_uri varchar(256) not null,
     public_client_id varchar(32) not null
 );
+
+--
+create table toauthauthcode (
+    authcode_id serial primary key,
+    client_id integer not null,
+    logged_in_user_id integer not null,
+    code varchar(40) not null,
+    redirect_uri varchar(256) not null,
+    expires_on timestamp with time zone not null
+);
+
+--
+create table toauthaccesstoken (
+    accesstoken_id serial primary key,
+    client_id integer not null,
+    logged_in_user_id integer not null,
+    token varchar(40) not null,
+    expires_on timestamp with time zone not null
+);
