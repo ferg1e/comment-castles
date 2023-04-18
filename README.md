@@ -4,14 +4,14 @@ Notice: We are currently in the process of changing the project name from Peache
 
 Comment Castles is an internet forum project. Users write posts and nested comments. There are instances running at [peachesnstink.com](https://www.peachesnstink.com) and [yourfamous.net](https://www.yourfamous.net)!
 
-Other features:
+Features:
 
 * REST API
-* Public and Private Groups
-* High Eternal September resistance
-* Censorship buffer
-* [Instruction Manual](https://www.peachesnstink.com/manual)
-* Adminless
+* public and private groups
+* Eternal September and spam resistance
+* censorship buffer
+* [instruction manual](https://www.peachesnstink.com/manual)
+* adminless
 
 ## Install
 
