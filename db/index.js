@@ -1498,6 +1498,18 @@ exports.createClient = (appName, redirectUri, userId) => {
         [userId, appName, redirectUri, publicClientId])
 }
 
+//
+exports.getClient = (publicClientId) => {
+    return query(`
+        select
+            redirect_uri
+        from
+            toauthclient
+        where
+            public_client_id = $1`,
+        [publicClientId])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

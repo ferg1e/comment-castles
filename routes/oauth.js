@@ -11,11 +11,18 @@ const router = express.Router()
 //
 const oauth = new OAuth2Server({
     model: {
-        getClient: (clientId, clientSecret) => {
-            return {
-                id: "mybigfakeid",
-                redirectUris: ['http://localhost:6007'],
-                grants: ['authorization_code'],
+        getClient: async (clientId, clientSecret) => {
+
+            //
+            const {rows} = await db.getClient(clientId)
+
+            //
+            if(rows.length > 0) {
+                return {
+                    id: clientId,
+                    redirectUris: [rows[0].redirect_uri],
+                    grants: ['authorization_code'],
+                }
             }
         },
 
