@@ -19,6 +19,7 @@ const oauth = new OAuth2Server({
             //
             if(rows.length > 0) {
                 return {
+                    privateId: rows[0].client_id,
                     id: clientId,
                     redirectUris: [rows[0].redirect_uri],
                     grants: ['authorization_code'],
@@ -26,9 +27,23 @@ const oauth = new OAuth2Server({
             }
         },
 
-        saveAuthorizationCode: (code, client, user) => {
+        saveAuthorizationCode: async (code, client, user) => {
+
+            //
+            await db.createAuthCode(
+                client.privateId,
+                user.user_id,
+                code.authorizationCode,
+                code.redirectUri,
+                code.expiresAt)
+
+            //
             return {
                 authorizationCode: code.authorizationCode,
+                expiresAt: code.expiresAt,
+                redirectUri: code.redirectUri,
+                client: client,
+                user: user,
             }
         },
 

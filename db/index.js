@@ -1502,12 +1502,23 @@ exports.createClient = (appName, redirectUri, userId) => {
 exports.getClient = (publicClientId) => {
     return query(`
         select
+            client_id,
             redirect_uri
         from
             toauthclient
         where
             public_client_id = $1`,
         [publicClientId])
+}
+
+//oauth authorization codes
+exports.createAuthCode = (clientId, userId, code, redirectUri, expires) => {
+    return query(`
+        insert into toauthauthcode
+            (client_id, logged_in_user_id, code, redirect_uri, expires_on)
+        values
+            ($1, $2, $3, $4, $5::timestamptz)`,
+        [clientId, userId, code, redirectUri, expires])
 }
 
 //misc
