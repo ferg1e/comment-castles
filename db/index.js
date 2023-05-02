@@ -1521,6 +1521,44 @@ exports.createAuthCode = (clientId, userId, code, redirectUri, expires) => {
         [clientId, userId, code, redirectUri, expires])
 }
 
+//
+exports.getAuthCode = (code) => {
+    return query(`
+        select
+            ac.redirect_uri,
+            ac.expires_on,
+            ac.logged_in_user_id,
+            c.public_client_id
+        from
+            toauthauthcode ac
+        join
+            toauthclient c on c.client_id = ac.client_id
+        where
+            ac.code = $1`,
+        [code])
+}
+
+//
+exports.deleteAuthCode = (code) => {
+    return query(`
+        delete from
+            toauthauthcode
+        where
+            code = $1`,
+        [code]
+    )
+}
+
+//oauth access token
+exports.createAccessToken = (clientId, userId, token, expires) => {
+    return query(`
+        insert into toauthaccesstoken
+            (client_id, logged_in_user_id, token, expires_on)
+        values
+            ($1, $2, $3, $4::timestamptz)`,
+        [clientId, userId, token, expires])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
