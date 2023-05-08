@@ -37,9 +37,25 @@ module.exports = {
         }
     },
 
-    getAccessToken: (accessToken) => {
-        return {
-            accessToken: accessToken,
+    getAccessToken: async (accessToken) => {
+
+        //
+        const {rows} = await db.getAccessToken(accessToken)
+
+        //
+        if(rows.length > 0) {
+            const row = rows[0]
+
+            return {
+                accessToken: accessToken,
+                accessTokenExpiresAt: new Date(row.expires_on),
+                client: {
+                    id: row.public_client_id,
+                },
+                user: {
+                    user_id: row.logged_in_user_id,
+                }
+            }
         }
     },
 

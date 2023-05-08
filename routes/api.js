@@ -2,10 +2,19 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
 const pug = require('pug')
+const OAuth2Server = require('oauth2-server')
+const Request = require('oauth2-server').Request
+const Response = require('oauth2-server').Response
 
 //
 const router = express.Router()
 
+//
+const oauth = new OAuth2Server({
+    model: require('../oauth-model.js')
+})
+
+//
 router.get(
     '/posts',
     async (req, res) => {
@@ -22,6 +31,22 @@ router.get(
         }
 
         //
+        const request = new Request(req)
+        const response = new Response(res)
+        const options = {}
+        let oauthData = null
+
+        try {
+            oauthData = await oauth.authenticate(request, response, options)
+        }
+        catch(e) {
+            // basically no access token in header
+            // or wrong access token in header
+            // either way, do nothing and proceed
+            // with API call render
+        }
+
+        //
         let isDiscoverMode = false
 
         if(typeof req.query.viewmode !== 'undefined' &&
@@ -30,7 +55,7 @@ router.get(
             isDiscoverMode = true
         }
 
-        const userId = -1
+        const userId = oauthData ? oauthData.user.user_id : -1
         const filterUserId = 1
         const sort = myMisc.getPostSort(req)
 

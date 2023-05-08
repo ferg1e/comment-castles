@@ -1559,6 +1559,22 @@ exports.createAccessToken = (clientId, userId, token, expires) => {
         [clientId, userId, token, expires])
 }
 
+//
+exports.getAccessToken = (token) => {
+    return query(`
+        select
+            at.expires_on,
+            at.logged_in_user_id,
+            c.public_client_id
+        from
+            toauthaccesstoken at
+        join
+            toauthclient c on c.client_id = at.client_id
+        where
+            at.token = $1`,
+        [token])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
