@@ -16,6 +16,15 @@ const oauth = new OAuth2Server({
 //
 router.route('/authorize')
     .get(async (req, res) => {
+        return res.render(
+            'oauth-authorize',
+            {
+                html_title: "Authorize App",
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req)
+            })
+    })
+    .post(async (req, res) => {
 
         //
         const request = new Request(req);
