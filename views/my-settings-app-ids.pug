@@ -27,4 +27,12 @@ block content2
 
     h3 Your Created Apps
 
-    div display previously created here
+    if clients.length
+        ul
+            each c in clients
+                li
+                    =c.app_name
+                    | 
+                    a(href=`/settings/app-id?id=${c.public_client_id}`) [settings]
+    else
+        div None

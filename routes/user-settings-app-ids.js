@@ -13,6 +13,7 @@ router.route('/')
         }
 
         //
+
         renderHtml(req, res, [])
     })
     .post(async (req, res) => {
@@ -35,7 +36,7 @@ module.exports = router
 
 //
 async function renderHtml(req, res, errors, success) {
-    //const {rows:createdGroups} = await db.getUserCreatedPrivateGroups(req.session.user.user_id)
+    const {rows:clients} = await db.getUserClients(req.session.user.user_id)
 
     //
     res.render(
@@ -44,6 +45,7 @@ async function renderHtml(req, res, errors, success) {
             html_title: htmlTitle,
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
+            clients: clients,
             errors: errors,
             success: success,
         })

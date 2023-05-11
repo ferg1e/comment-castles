@@ -1511,6 +1511,19 @@ exports.getClient = (publicClientId) => {
         [publicClientId])
 }
 
+//
+exports.getUserClients = (userId) => {
+    return query(`
+        select
+            public_client_id,
+            app_name
+        from
+            toauthclient
+        where
+            user_id = $1`,
+        [userId])
+}
+
 //oauth authorization codes
 exports.createAuthCode = (clientId, userId, code, redirectUri, expires) => {
     return query(`
