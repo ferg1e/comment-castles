@@ -1,0 +1,28 @@
+extends my-settings-top
+
+append head
+    link(rel='stylesheet', href='/cillmit99b/my-settings-groups.css')
+
+block content2
+    h3 App Settings
+
+    if success
+        ul.usuccess1
+            li=success
+
+    if errors && errors.length
+        ul.uerror1
+            each error in errors
+                li=error
+
+    form(method="post")
+        div
+            label(for="name") Application Name
+            input(name="name" id="name" value=client.app_name)
+        div
+            label(for="ruri") Redirect URI
+            input(name="ruri" id="ruri" value=client.redirect_uri)
+        div
+            input(type="submit" value="Edit")
+
+    div=`client ID: ${client.public_client_id}`

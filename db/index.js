@@ -1503,7 +1503,10 @@ exports.getClient = (publicClientId) => {
     return query(`
         select
             client_id,
-            redirect_uri
+            redirect_uri,
+            user_id,
+            app_name,
+            public_client_id
         from
             toauthclient
         where
@@ -1522,6 +1525,19 @@ exports.getUserClients = (userId) => {
         where
             user_id = $1`,
         [userId])
+}
+
+//
+exports.updateClient = (clientId, appName, redirectUri) => {
+    return query(`
+        update
+            toauthclient
+        set
+            app_name = $1,
+            redirect_uri = $2
+        where
+            client_id = $3`,
+        [appName, redirectUri, clientId])
 }
 
 //oauth authorization codes
