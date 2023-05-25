@@ -13,15 +13,15 @@ block content2
     if errors.length
         ul.uerror1
             each error in errors
-                li #{error.msg}
+                li=error
 
     form(method="post")
         div
             label(for="name") Application Name
-            input(name="name" id="name")
+            input(name="name" id="name" value=form_data.name)
         div
             label(for="ruri") Redirect URI
-            input(name="ruri" id="ruri")
+            input(name="ruri" id="ruri" value=form_data.ruri)
         div
             input(type="submit" value="Create")
 

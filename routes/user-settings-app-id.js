@@ -55,8 +55,10 @@ router.route('/')
         }
 
         //
-        const errors = []
-        //errors.push("an error ocurred")
+        const errors = myMisc.validateOauthClient(
+            req.body.name,
+            req.body.ruri
+        )
 
         const updatedRow = {
             public_client_id: row.public_client_id,

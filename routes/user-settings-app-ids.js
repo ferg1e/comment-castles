@@ -14,7 +14,7 @@ router.route('/')
 
         //
 
-        renderHtml(req, res, [])
+        renderHtml(req, res, {}, [])
     })
     .post(async (req, res) => {
 
@@ -24,18 +24,37 @@ router.route('/')
         }
 
         //
-        await db.createClient(
+        const errors = myMisc.validateOauthClient(
             req.body.name,
-            req.body.ruri,
-            req.session.user.user_id)
+            req.body.ruri
+        )
 
-        res.send('created!')
+        if(errors.length > 0) {
+            renderHtml(
+                req,
+                res,
+                {
+                    name: req.body.name,
+                    ruri: req.body.ruri,
+                },
+                errors
+            )
+        }
+        else {
+            await db.createClient(
+                req.body.name,
+                req.body.ruri,
+                req.session.user.user_id,
+            )
+
+            res.send('created!')
+        }
     })
 
 module.exports = router
 
 //
-async function renderHtml(req, res, errors, success) {
+async function renderHtml(req, res, formData, errors, success) {
     const {rows:clients} = await db.getUserClients(req.session.user.user_id)
 
     //
@@ -48,5 +67,6 @@ async function renderHtml(req, res, errors, success) {
             clients: clients,
             errors: errors,
             success: success,
+            form_data: formData,
         })
 }
