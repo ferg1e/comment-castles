@@ -1494,7 +1494,9 @@ exports.createClient = (appName, redirectUri, userId) => {
         insert into toauthclient
             (user_id, app_name, redirect_uri, public_client_id)
         values
-            ($1, $2, $3, $4)`,
+            ($1, $2, $3, $4)
+        returning
+            public_client_id`,
         [userId, appName, redirectUri, publicClientId])
 }
 
