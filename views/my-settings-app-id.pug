@@ -1,7 +1,7 @@
 extends my-settings-top
 
 append head
-    link(rel='stylesheet', href='/cillmit99b/my-settings-groups.css')
+    link(rel='stylesheet', href='/cillmit99b/my-settings-app-id.css')
 
 block content2
     h3 App Settings
@@ -17,6 +17,9 @@ block content2
 
     form(method="post")
         div
+            label Client ID
+            div.cid=client.public_client_id
+        div
             label(for="name") Application Name
             input(name="name" id="name" value=client.app_name)
         div
@@ -24,5 +27,3 @@ block content2
             input(name="ruri" id="ruri" value=client.redirect_uri)
         div
             input(type="submit" value="Edit")
-
-    div=`client ID: ${client.public_client_id}`

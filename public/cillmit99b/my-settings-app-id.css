@@ -1,0 +1,15 @@
+form > div {
+    margin-bottom: 12px;
+    margin-bottom: .75rem;
+}
+
+form label {
+    display: block;
+}
+
+.cid {
+    background-color: lemonchiffon;
+    border: 1px solid lightgoldenrodyellow;
+    padding: 2px;
+    padding: .125rem;
+}
