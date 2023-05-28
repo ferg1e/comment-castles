@@ -51,7 +51,12 @@ router.post(
                         eyes: rows[0].eyes
                     }
 
-                    return res.redirect('/')
+                    //
+                    const redirectUrl = (typeof req.query.rurl === 'undefined')
+                        ? '/'
+                        : req.query.rurl
+
+                    return res.redirect(redirectUrl)
                 }
                 else {
                     errors.push('Invalid username and password')

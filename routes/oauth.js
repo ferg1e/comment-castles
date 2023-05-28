@@ -16,6 +16,17 @@ const oauth = new OAuth2Server({
 //
 router.route('/authorize')
     .get(async (req, res) => {
+
+        //
+        if(!req.session.user) {
+            const currUrl = req.protocol + '://' + req.get('host') + req.originalUrl
+            const encodedCurrUrl = encodeURIComponent(currUrl)
+            const redirectUrl = `/login?rurl=${encodedCurrUrl}`
+
+            return res.redirect(redirectUrl)
+        }
+
+        //
         return res.render(
             'oauth-authorize',
             {
@@ -25,6 +36,11 @@ router.route('/authorize')
             })
     })
     .post(async (req, res) => {
+
+        //
+        if(!req.session.user) {
+            return res.send('bail')
+        }
 
         //
         const request = new Request(req);
