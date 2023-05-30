@@ -1596,11 +1596,16 @@ exports.getAccessToken = (token) => {
         select
             at.expires_on,
             at.logged_in_user_id,
-            c.public_client_id
+            c.public_client_id,
+            u.time_zone,
+            u.post_mode,
+            u.eyes
         from
             toauthaccesstoken at
         join
             toauthclient c on c.client_id = at.client_id
+        join
+            tuser u on u.user_id = at.logged_in_user_id
         where
             at.token = $1`,
         [token])
