@@ -7,6 +7,7 @@ const myMisc = require('../misc.js')
 const config = require('../config')
 
 const router = express.Router()
+const authorizeHtmlTitle = "Authorize App"
 
 //
 const oauth = new OAuth2Server({
@@ -27,10 +28,26 @@ router.route('/authorize')
         }
 
         //
+        const {rows} = await db.getClient(req.query.client_id)
+
+        //
+        if(rows.length == 0) {
+            return res.render(
+                'message',
+                {
+                    html_title: authorizeHtmlTitle,
+                    message: "Unknown client ID.",
+                    user: req.session.user,
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                })
+        }
+
+        //
         return res.render(
             'oauth-authorize',
             {
-                html_title: "Authorize App",
+                app_name: rows[0].app_name,
+                html_title: authorizeHtmlTitle,
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
