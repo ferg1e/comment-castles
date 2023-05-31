@@ -31,20 +31,7 @@ router.get(
         }
 
         //
-        const request = new Request(req)
-        const response = new Response(res)
-        const options = {}
-        let oauthData = null
-
-        try {
-            oauthData = await oauth.authenticate(request, response, options)
-        }
-        catch(e) {
-            // basically no access token in header
-            // or wrong access token in header
-            // either way, do nothing and proceed
-            // with API call render
-        }
+        const oauthData = await oauthAuthenticate(req, res)
 
         //
         const isDiscoverMode = oauthData
