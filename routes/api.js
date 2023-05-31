@@ -185,14 +185,21 @@ router.get(
         }
 
         //
+        const oauthData = await oauthAuthenticate(req, res)
+
+        //
         const commentPublicId = req.query.commentid
-        const userId = -1
-        const filterUserId = 1
+        const userId = oauthData ? oauthData.user.user_id : -1
+        const filterUserId = oauthData
+            ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
+            : 1
+
+        const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
         //
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
-            'UTC',
+            timeZone,
             userId,
             filterUserId)
 
@@ -209,13 +216,9 @@ router.get(
             }
 
             //
-            let isDiscoverMode = false
-
-            if(typeof req.query.viewmode !== 'undefined' &&
-                req.query.viewmode.toLowerCase() == 'discover')
-            {
-                isDiscoverMode = true
-            }
+            const isDiscoverMode = oauthData
+                ? (oauthData.user.post_mode == 'discover')
+                : (typeof req.query.viewmode !== 'undefined' && req.query.viewmode.toLowerCase() == 'discover')
 
             //
             let page = 1
@@ -231,7 +234,7 @@ router.get(
             //
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
-                'UTC',
+                timeZone,
                 userId,
                 isDiscoverMode,
                 filterUserId,
