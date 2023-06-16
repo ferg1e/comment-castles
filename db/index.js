@@ -1446,43 +1446,6 @@ exports.deleteGroupMember = (privateGroupId, publicUserId) => {
     )
 }
 
-//network node
-exports.createNetworkNode = (nodeUrl) => {
-    return query(`
-        insert into tnetworknode
-            (node_url)
-        values
-            ($1)`,
-        [nodeUrl])
-}
-
-exports.getNetworkNodeWithUrl = (nodeUrl) => {
-    return query(`
-        select
-            network_node_id
-        from
-            tnetworknode
-        where
-            node_url = $1`,
-        [nodeUrl]
-    )
-}
-
-exports.getAllNetworkNodes = (timeZone) => {
-    return query(`
-        select
-            node_url,
-            to_char(
-                timezone($1, created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on
-        from
-            tnetworknode
-        order by
-            created_on`,
-        [timeZone]
-    )
-}
-
 //oauth client
 exports.createClient = (appName, redirectUri, userId) => {
 

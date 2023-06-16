@@ -103,3 +103,6 @@ create table toauthaccesstoken (
     token varchar(40) not null,
     expires_on timestamp with time zone not null
 );
+
+--
+drop table tnetworknode;

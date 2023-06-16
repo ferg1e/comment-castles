@@ -94,62 +94,6 @@ router.route('/')
                     }
                 }
 
-                // actions
-                if(!errors.length) {
-                    const isNewNode = trimTags.indexOf('new-node') != -1
-
-                    if(isNewNode) {
-                        if(trimTags.length > 1) {
-                            errors.push({msg: "The new-node action must use only one group."})
-                        }
-                        else {
-                            const nodeUrl = req.body.text_content
-
-                            // regex is partially copied from bbCodes.pug
-                            const urlRegex = /(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
-                            const isValidUrl = urlRegex.test(nodeUrl)
-
-                            if(isValidUrl) {
-                                const pingUrl = nodeUrl + '/api/v1/ping'
-
-                                try {
-                                    const urlContent = await myMisc.getUrlContent(pingUrl)
-
-                                    try {
-                                        const myJson = JSON.parse(urlContent)
-                                        const keys = Object.keys(myJson)
-                                        const isGood = keys.length == 1 &&
-                                            keys.indexOf('pnsid') != -1
-
-                                        if(isGood) {
-                                            const {rows:[networkNode]} = await db.getNetworkNodeWithUrl(nodeUrl)
-
-                                            if(networkNode) {
-                                                errors.push({msg: "This node already knows about that node"})
-                                            }
-                                            else {
-                                                await db.createNetworkNode(nodeUrl)
-                                            }
-                                        }
-                                        else {
-                                            errors.push({msg: "Invalid node"})
-                                        }
-                                    }
-                                    catch(e) {
-                                        errors.push({msg: "Invalid node"})
-                                    }
-                                }
-                                catch(e) {
-                                    errors.push({msg: "Invalid node"})
-                                }
-                            }
-                            else {
-                                errors.push({msg: "Invalid node"})
-                            }
-                        }
-                    }
-                }
-
                 //
                 if(errors.length) {
                     res.render(
