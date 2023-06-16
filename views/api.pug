@@ -6,7 +6,7 @@ append head
 block content
     h2.pageh1 API
     p
-        |The #{siteName} API has four available endpoints. 
+        |The #{siteName} API has three available endpoints. 
         |All of the API endpoints return JSON.
     
     h3 API User Authentication
@@ -50,7 +50,7 @@ block content
     h3 API Endpoints
 
     p.
-        All of the API calls, except for /ping, accept an optional #[em viewmode] variable in the URL.
+        All of the API calls accept an optional #[em viewmode] variable in the URL.
         If #[em viewmode] is #[em "discover"] then the discover view mode is used.
         If any other value is used for #[em viewmode] then the locked view mode is used.
         You can read more about how view mode works in the
@@ -58,16 +58,6 @@ block content
 
     p
         |Here is a description of each call:
-
-    h4 GET /api/v1/ping
-
-    p.
-        This returns a single #[em pnsid] variable that is the empty string. 
-        The new-node #[a(href="/manual#action-groups") action group] uses this API endpoint 
-        to identify Peaches 'n' Stink instances. Here's the URL:
-
-    p
-        a(href="/api/v1/ping") /api/v1/ping
 
     h4 GET /api/v1/posts
 
