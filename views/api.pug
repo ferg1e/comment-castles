@@ -8,45 +8,7 @@ block content
     p
         |The #{siteName} API has three available endpoints. 
         |All of the API endpoints return JSON.
-    
-    h3 API User Authentication
 
-    p.
-        You can authenticate users for API calls by using OAuth 2. Here are the instructions for how to use our OAuth 2 setup:
-    
-    p.
-        #[b Step 1:] Sign up, log in and go to app IDs in the settings. Register your app by specifying a name and a redirect URI. Once you register your app the client ID will show. You will need to use the client ID and redirect URI in later steps.
-    
-    p.
-        #[b Step 2:] In the app you're building, make the login button display this page in the browser:
-    
-    p.
-        https://www.commentcastles.org/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz
-    
-    p.
-        Replace xxx with your client ID, replace yyy with a state value (it can be anything), and fill in zzz with your redirect URI (it must match the redirect URI from step 1).
-    
-    p.
-        When a user visits the above URL they have to click a confirm button.
-    
-    p.
-        #[b Step 3:] When a user clicks the confirm button they will be redirected to your redirect URI with a state variable and a code variable in the URL. The code variable is an authorization code. The app you're building now requests POST /oauth/token. Here is the request in PowerShell: 
-    
-    p.
-        Invoke-WebRequest -Uri https://www.commentcastles.org/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz'}
-    
-    p.
-        Replace xxx with your client ID, replace yyy with the authorization code that was in the URL, and use your redirect URI for zzz. If successful, the above URL request will return JSON that contains an access token.
-
-    p.
-        #[b Step 4:] Now you can pass the access token to API calls and it will be as if a user is logged in. For example, in PowerShell:
-
-    p.
-        Invoke-RestMethod -Method Get -Uri "https://www.commentcastles.org/api/v1/posts" -Headers @{Authorization='Bearer xxx'}
-    
-    p.
-        Replace xxx with your access token obtained from step 3.
-    
     h3 API Endpoints
 
     p.
@@ -112,3 +74,41 @@ block content
 
     p
         a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn
+    
+    h3 API User Authentication
+
+    p.
+        You can authenticate users for API calls by using OAuth 2. Here are the instructions for how to use our OAuth 2 setup:
+    
+    p.
+        #[b Step 1:] Sign up, log in and go to app IDs in the settings. Register your app by specifying a name and a redirect URI. Once you register your app the client ID will show. You will need to use the client ID and redirect URI in later steps.
+    
+    p.
+        #[b Step 2:] In the app you're building, make the login button display this page in the browser:
+    
+    p.
+        https://www.commentcastles.org/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz
+    
+    p.
+        Replace xxx with your client ID, replace yyy with a state value (it can be anything), and fill in zzz with your redirect URI (it must match the redirect URI from step 1).
+    
+    p.
+        When a user visits the above URL they have to click a confirm button.
+    
+    p.
+        #[b Step 3:] When a user clicks the confirm button they will be redirected to your redirect URI with a state variable and a code variable in the URL. The code variable is an authorization code. The app you're building now requests POST /oauth/token. Here is the request in PowerShell: 
+    
+    p.
+        Invoke-WebRequest -Uri https://www.commentcastles.org/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz'}
+    
+    p.
+        Replace xxx with your client ID, replace yyy with the authorization code that was in the URL, and use your redirect URI for zzz. If successful, the above URL request will return JSON that contains an access token.
+
+    p.
+        #[b Step 4:] Now you can pass the access token to API calls and it will be as if a user is logged in. For example, in PowerShell:
+
+    p.
+        Invoke-RestMethod -Method Get -Uri "https://www.commentcastles.org/api/v1/posts" -Headers @{Authorization='Bearer xxx'}
+    
+    p.
+        Replace xxx with your access token obtained from step 3.
