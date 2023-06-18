@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.10 (Ubuntu 11.10-1.pgdg20.04+1)
--- Dumped by pg_dump version 11.10 (Ubuntu 11.10-1.pgdg20.04+1)
+-- Dumped from database version 12.15 (Ubuntu 12.15-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.15 (Ubuntu 12.15-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,7 +17,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: ltree; Type: EXTENSION; Schema: -; Owner: 
+-- Name: ltree; Type: EXTENSION; Schema: -; Owner: -
 --
 
 CREATE EXTENSION IF NOT EXISTS ltree WITH SCHEMA public;
@@ -101,6 +101,21 @@ CREATE TYPE public.post_mode AS ENUM (
 
 
 ALTER TYPE public.post_mode OWNER TO postgres;
+
+--
+-- Name: f_comment_del(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.f_comment_del() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  update tpost set num_comments = num_comments - 1 where post_id = old.post_id;
+  return null;
+END; $$;
+
+
+ALTER FUNCTION public.f_comment_del() OWNER TO postgres;
 
 --
 -- Name: f_comment_spam_vote(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -187,7 +202,27 @@ ALTER FUNCTION public.f_post_tag_del() OWNER TO postgres;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
+
+--
+-- Name: tcomment; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tcomment (
+    comment_id integer NOT NULL,
+    public_id character varying(32) NOT NULL,
+    post_id integer NOT NULL,
+    user_id integer NOT NULL,
+    text_content text NOT NULL,
+    created_on timestamp with time zone DEFAULT now() NOT NULL,
+    path public.ltree,
+    is_removed boolean DEFAULT false NOT NULL,
+    num_spam_votes integer DEFAULT 0,
+    removed_on timestamp with time zone
+);
+
+
+ALTER TABLE public.tcomment OWNER TO postgres;
 
 --
 -- Name: tdomainname; Type: TABLE; Schema: public; Owner: postgres
@@ -259,45 +294,6 @@ ALTER SEQUENCE public.tfollower_follower_id_seq OWNED BY public.tfollower.follow
 
 
 --
--- Name: tgroup; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tgroup (
-    group_id integer NOT NULL,
-    created_by integer NOT NULL,
-    owned_by integer NOT NULL,
-    name character varying(36) NOT NULL,
-    group_viewing_mode public.group_viewing_mode DEFAULT 'anyone'::public.group_viewing_mode NOT NULL,
-    group_posting_mode public.group_posting_mode DEFAULT 'anyone-that-can-view'::public.group_posting_mode NOT NULL,
-    group_commenting_mode public.group_commenting_mode DEFAULT 'anyone-that-can-view'::public.group_commenting_mode NOT NULL
-);
-
-
-ALTER TABLE public.tgroup OWNER TO postgres;
-
---
--- Name: tgroup_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tgroup_group_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tgroup_group_id_seq OWNER TO postgres;
-
---
--- Name: tgroup_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tgroup_group_id_seq OWNED BY public.tgroup.group_id;
-
-
---
 -- Name: tgroupmember; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -334,26 +330,100 @@ ALTER SEQUENCE public.tgroupmember_group_member_id_seq OWNED BY public.tgroupmem
 
 
 --
--- Name: tmember; Type: TABLE; Schema: public; Owner: postgres
+-- Name: toauthaccesstoken; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.tmember (
-    member_id integer NOT NULL,
-    group_id integer NOT NULL,
+CREATE TABLE public.toauthaccesstoken (
+    accesstoken_id integer NOT NULL,
+    client_id integer NOT NULL,
+    logged_in_user_id integer NOT NULL,
+    token character varying(40) NOT NULL,
+    expires_on timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.toauthaccesstoken OWNER TO postgres;
+
+--
+-- Name: toauthaccesstoken_accesstoken_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.toauthaccesstoken_accesstoken_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.toauthaccesstoken_accesstoken_id_seq OWNER TO postgres;
+
+--
+-- Name: toauthaccesstoken_accesstoken_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.toauthaccesstoken_accesstoken_id_seq OWNED BY public.toauthaccesstoken.accesstoken_id;
+
+
+--
+-- Name: toauthauthcode; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.toauthauthcode (
+    authcode_id integer NOT NULL,
+    client_id integer NOT NULL,
+    logged_in_user_id integer NOT NULL,
+    code character varying(40) NOT NULL,
+    redirect_uri character varying(256) NOT NULL,
+    expires_on timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.toauthauthcode OWNER TO postgres;
+
+--
+-- Name: toauthauthcode_authcode_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.toauthauthcode_authcode_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.toauthauthcode_authcode_id_seq OWNER TO postgres;
+
+--
+-- Name: toauthauthcode_authcode_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.toauthauthcode_authcode_id_seq OWNED BY public.toauthauthcode.authcode_id;
+
+
+--
+-- Name: toauthclient; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.toauthclient (
+    client_id integer NOT NULL,
     user_id integer NOT NULL,
-    is_moderator boolean DEFAULT false NOT NULL,
-    is_poster boolean DEFAULT false NOT NULL,
-    is_commenter boolean DEFAULT false NOT NULL
+    app_name character varying(64) NOT NULL,
+    redirect_uri character varying(256) NOT NULL,
+    public_client_id character varying(32) NOT NULL
 );
 
 
-ALTER TABLE public.tmember OWNER TO postgres;
+ALTER TABLE public.toauthclient OWNER TO postgres;
 
 --
--- Name: tmember_member_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: toauthclient_client_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.tmember_member_id_seq
+CREATE SEQUENCE public.toauthclient_client_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -362,48 +432,13 @@ CREATE SEQUENCE public.tmember_member_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tmember_member_id_seq OWNER TO postgres;
+ALTER TABLE public.toauthclient_client_id_seq OWNER TO postgres;
 
 --
--- Name: tmember_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: toauthclient_client_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.tmember_member_id_seq OWNED BY public.tmember.member_id;
-
-
---
--- Name: tnetworknode; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tnetworknode (
-    network_node_id integer NOT NULL,
-    node_url character varying(256),
-    created_on timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.tnetworknode OWNER TO postgres;
-
---
--- Name: tnetworknode_network_node_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tnetworknode_network_node_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tnetworknode_network_node_id_seq OWNER TO postgres;
-
---
--- Name: tnetworknode_network_node_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tnetworknode_network_node_id_seq OWNED BY public.tnetworknode.network_node_id;
+ALTER SEQUENCE public.toauthclient_client_id_seq OWNED BY public.toauthclient.client_id;
 
 
 --
@@ -523,78 +558,6 @@ ALTER SEQUENCE public.tprivategroup_private_group_id_seq OWNED BY public.tprivat
 
 
 --
--- Name: tspamcomment; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tspamcomment (
-    spamcomment_id integer NOT NULL,
-    comment_id integer NOT NULL,
-    user_id integer NOT NULL,
-    created_on timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.tspamcomment OWNER TO postgres;
-
---
--- Name: tspamcomment_spamcomment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tspamcomment_spamcomment_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tspamcomment_spamcomment_id_seq OWNER TO postgres;
-
---
--- Name: tspamcomment_spamcomment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tspamcomment_spamcomment_id_seq OWNED BY public.tspamcomment.spamcomment_id;
-
-
---
--- Name: tspampost; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tspampost (
-    spampost_id integer NOT NULL,
-    post_id integer NOT NULL,
-    user_id integer NOT NULL,
-    created_on timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.tspampost OWNER TO postgres;
-
---
--- Name: tspampost_spampost_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tspampost_spampost_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tspampost_spampost_id_seq OWNER TO postgres;
-
---
--- Name: tspampost_spampost_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tspampost_spampost_id_seq OWNED BY public.tspampost.spampost_id;
-
-
---
 -- Name: ttag; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -631,26 +594,6 @@ ALTER SEQUENCE public.ttag_tag_id_seq OWNED BY public.ttag.tag_id;
 
 
 --
--- Name: ttest; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ttest (
-    comment_id integer NOT NULL,
-    public_id character varying(32) NOT NULL,
-    post_id integer NOT NULL,
-    user_id integer NOT NULL,
-    text_content text NOT NULL,
-    created_on timestamp with time zone DEFAULT now() NOT NULL,
-    path public.ltree,
-    is_removed boolean DEFAULT false NOT NULL,
-    num_spam_votes integer DEFAULT 0,
-    removed_on timestamp with time zone
-);
-
-
-ALTER TABLE public.ttest OWNER TO postgres;
-
---
 -- Name: ttest_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -669,7 +612,7 @@ ALTER TABLE public.ttest_comment_id_seq OWNER TO postgres;
 -- Name: ttest_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.ttest_comment_id_seq OWNED BY public.ttest.comment_id;
+ALTER SEQUENCE public.ttest_comment_id_seq OWNED BY public.tcomment.comment_id;
 
 
 --
@@ -717,6 +660,13 @@ ALTER SEQUENCE public.tuser_user_id_seq OWNED BY public.tuser.user_id;
 
 
 --
+-- Name: tcomment comment_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tcomment ALTER COLUMN comment_id SET DEFAULT nextval('public.ttest_comment_id_seq'::regclass);
+
+
+--
 -- Name: tdomainname domain_name_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -731,13 +681,6 @@ ALTER TABLE ONLY public.tfollower ALTER COLUMN follower_id SET DEFAULT nextval('
 
 
 --
--- Name: tgroup group_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tgroup ALTER COLUMN group_id SET DEFAULT nextval('public.tgroup_group_id_seq'::regclass);
-
-
---
 -- Name: tgroupmember group_member_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -745,17 +688,24 @@ ALTER TABLE ONLY public.tgroupmember ALTER COLUMN group_member_id SET DEFAULT ne
 
 
 --
--- Name: tmember member_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: toauthaccesstoken accesstoken_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tmember ALTER COLUMN member_id SET DEFAULT nextval('public.tmember_member_id_seq'::regclass);
+ALTER TABLE ONLY public.toauthaccesstoken ALTER COLUMN accesstoken_id SET DEFAULT nextval('public.toauthaccesstoken_accesstoken_id_seq'::regclass);
 
 
 --
--- Name: tnetworknode network_node_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: toauthauthcode authcode_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tnetworknode ALTER COLUMN network_node_id SET DEFAULT nextval('public.tnetworknode_network_node_id_seq'::regclass);
+ALTER TABLE ONLY public.toauthauthcode ALTER COLUMN authcode_id SET DEFAULT nextval('public.toauthauthcode_authcode_id_seq'::regclass);
+
+
+--
+-- Name: toauthclient client_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.toauthclient ALTER COLUMN client_id SET DEFAULT nextval('public.toauthclient_client_id_seq'::regclass);
 
 
 --
@@ -780,31 +730,10 @@ ALTER TABLE ONLY public.tprivategroup ALTER COLUMN private_group_id SET DEFAULT 
 
 
 --
--- Name: tspamcomment spamcomment_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tspamcomment ALTER COLUMN spamcomment_id SET DEFAULT nextval('public.tspamcomment_spamcomment_id_seq'::regclass);
-
-
---
--- Name: tspampost spampost_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tspampost ALTER COLUMN spampost_id SET DEFAULT nextval('public.tspampost_spampost_id_seq'::regclass);
-
-
---
 -- Name: ttag tag_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ttag ALTER COLUMN tag_id SET DEFAULT nextval('public.ttag_tag_id_seq'::regclass);
-
-
---
--- Name: ttest comment_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ttest ALTER COLUMN comment_id SET DEFAULT nextval('public.ttest_comment_id_seq'::regclass);
 
 
 --
@@ -831,22 +760,6 @@ ALTER TABLE ONLY public.tfollower
 
 
 --
--- Name: tgroup tgroup_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tgroup
-    ADD CONSTRAINT tgroup_name_key UNIQUE (name);
-
-
---
--- Name: tgroup tgroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tgroup
-    ADD CONSTRAINT tgroup_pkey PRIMARY KEY (group_id);
-
-
---
 -- Name: tgroupmember tgroupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -855,19 +768,27 @@ ALTER TABLE ONLY public.tgroupmember
 
 
 --
--- Name: tmember tmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: toauthaccesstoken toauthaccesstoken_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tmember
-    ADD CONSTRAINT tmember_pkey PRIMARY KEY (member_id);
+ALTER TABLE ONLY public.toauthaccesstoken
+    ADD CONSTRAINT toauthaccesstoken_pkey PRIMARY KEY (accesstoken_id);
 
 
 --
--- Name: tnetworknode tnetworknode_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: toauthauthcode toauthauthcode_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tnetworknode
-    ADD CONSTRAINT tnetworknode_pkey PRIMARY KEY (network_node_id);
+ALTER TABLE ONLY public.toauthauthcode
+    ADD CONSTRAINT toauthauthcode_pkey PRIMARY KEY (authcode_id);
+
+
+--
+-- Name: toauthclient toauthclient_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.toauthclient
+    ADD CONSTRAINT toauthclient_pkey PRIMARY KEY (client_id);
 
 
 --
@@ -895,22 +816,6 @@ ALTER TABLE ONLY public.tprivategroup
 
 
 --
--- Name: tspamcomment tspamcomment_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tspamcomment
-    ADD CONSTRAINT tspamcomment_pkey PRIMARY KEY (spamcomment_id);
-
-
---
--- Name: tspampost tspampost_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tspampost
-    ADD CONSTRAINT tspampost_pkey PRIMARY KEY (spampost_id);
-
-
---
 -- Name: ttag ttag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -919,10 +824,10 @@ ALTER TABLE ONLY public.ttag
 
 
 --
--- Name: ttest ttest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tcomment ttest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.ttest
+ALTER TABLE ONLY public.tcomment
     ADD CONSTRAINT ttest_pkey PRIMARY KEY (comment_id);
 
 
@@ -967,7 +872,7 @@ CREATE INDEX idx_ttag_tag ON public.ttag USING btree (tag);
 -- Name: path_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE INDEX path_idx ON public.ttest USING gist (path);
+CREATE INDEX path_idx ON public.tcomment USING gist (path);
 
 
 --
@@ -978,38 +883,199 @@ CREATE UNIQUE INDEX username_unique_idx ON public.tuser USING btree (lower((user
 
 
 --
--- Name: tspamcomment comment_spam_vote; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: tcomment comment_del; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER comment_spam_vote AFTER INSERT ON public.tspamcomment FOR EACH ROW EXECUTE PROCEDURE public.f_comment_spam_vote();
-
-
---
--- Name: ttest post_comment; Type: TRIGGER; Schema: public; Owner: postgres
---
-
-CREATE TRIGGER post_comment AFTER INSERT ON public.ttest FOR EACH ROW EXECUTE PROCEDURE public.f_post_comment();
+CREATE TRIGGER comment_del AFTER DELETE ON public.tcomment FOR EACH ROW EXECUTE FUNCTION public.f_comment_del();
 
 
 --
--- Name: tspampost post_spam_vote; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: tcomment post_comment; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER post_spam_vote AFTER INSERT ON public.tspampost FOR EACH ROW EXECUTE PROCEDURE public.f_post_spam_vote();
+CREATE TRIGGER post_comment AFTER INSERT ON public.tcomment FOR EACH ROW EXECUTE FUNCTION public.f_post_comment();
 
 
 --
 -- Name: tposttag post_tag; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER post_tag AFTER INSERT ON public.tposttag FOR EACH ROW EXECUTE PROCEDURE public.f_post_tag();
+CREATE TRIGGER post_tag AFTER INSERT ON public.tposttag FOR EACH ROW EXECUTE FUNCTION public.f_post_tag();
 
 
 --
 -- Name: tposttag post_tag_del; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER post_tag_del AFTER DELETE ON public.tposttag FOR EACH ROW EXECUTE PROCEDURE public.f_post_tag_del();
+CREATE TRIGGER post_tag_del AFTER DELETE ON public.tposttag FOR EACH ROW EXECUTE FUNCTION public.f_post_tag_del();
+
+
+--
+-- Name: TABLE tcomment; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tcomment TO pns_user;
+
+
+--
+-- Name: TABLE tdomainname; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tdomainname TO pns_user;
+
+
+--
+-- Name: SEQUENCE tdomainname_domain_name_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tdomainname_domain_name_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tfollower; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tfollower TO pns_user;
+
+
+--
+-- Name: SEQUENCE tfollower_follower_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tfollower_follower_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tgroupmember; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tgroupmember TO pns_user;
+
+
+--
+-- Name: SEQUENCE tgroupmember_group_member_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tgroupmember_group_member_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE toauthaccesstoken; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.toauthaccesstoken TO pns_user;
+
+
+--
+-- Name: SEQUENCE toauthaccesstoken_accesstoken_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.toauthaccesstoken_accesstoken_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE toauthauthcode; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.toauthauthcode TO pns_user;
+
+
+--
+-- Name: SEQUENCE toauthauthcode_authcode_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.toauthauthcode_authcode_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE toauthclient; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.toauthclient TO pns_user;
+
+
+--
+-- Name: SEQUENCE toauthclient_client_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.toauthclient_client_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tpost; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tpost TO pns_user;
+
+
+--
+-- Name: SEQUENCE tpost_post_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tpost_post_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tposttag; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tposttag TO pns_user;
+
+
+--
+-- Name: SEQUENCE tposttag_posttag_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tposttag_posttag_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tprivategroup; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tprivategroup TO pns_user;
+
+
+--
+-- Name: SEQUENCE tprivategroup_private_group_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tprivategroup_private_group_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE ttag; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.ttag TO pns_user;
+
+
+--
+-- Name: SEQUENCE ttag_tag_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.ttag_tag_id_seq TO pns_user;
+
+
+--
+-- Name: SEQUENCE ttest_comment_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.ttest_comment_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tuser; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tuser TO pns_user;
+
+
+--
+-- Name: SEQUENCE tuser_user_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tuser_user_id_seq TO pns_user;
 
 
 --
