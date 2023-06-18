@@ -1,12 +1,10 @@
-Notice: We are currently in the process of changing the project name from Peaches 'n' Stink to Comment Castles.
-
 # Comment Castles
 
-Comment Castles is an internet forum project. Users write posts and nested comments. There are instances running at [peachesnstink.com](https://www.peachesnstink.com) and [yourfamous.net](https://www.yourfamous.net)!
+Comment Castles is an internet forum project. Users write posts and nested comments. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Features:
 
-* REST API
+* OAuth 2 REST API
 * public and private groups
 * Eternal September and spam resistance
 * censorship buffer
