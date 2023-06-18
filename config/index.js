@@ -6,7 +6,7 @@ exports.eyesDefaultUsername = "stink"
 //
 exports.commentsPerPage = 200
 exports.siteName = "Comment Castles"
-exports.contactEmail = "peachesnstink@protonmail.com"
+exports.contactEmail = "commentcastles@proton.me"
 
 /*
 Default view mode for someone not logged in.
