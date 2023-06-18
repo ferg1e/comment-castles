@@ -8,12 +8,12 @@ Features:
 * public and private groups
 * Eternal September and spam resistance
 * censorship buffer
-* [instruction manual](https://www.peachesnstink.com/manual)
+* [instruction manual](https://www.commentcastles.org/manual)
 * adminless
 
 ## Install
 
-Install one of the [tagged releases](https://github.com/ferg1e/peaches-n-stink/releases), preferably the most recent.
+Install one of the [tagged releases](https://github.com/ferg1e/comment-castles/releases), preferably the most recent.
 
 Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
 
