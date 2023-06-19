@@ -110,7 +110,13 @@ CREATE FUNCTION public.f_comment_del() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-  update tpost set num_comments = num_comments - 1 where post_id = old.post_id;
+  update
+    tpost
+  set
+    num_comments = num_comments - 1,
+    last_comment = (select max(created_on) from tcomment where post_id = old.post_id)
+  where
+    post_id = old.post_id;
   return null;
 END; $$;
 
