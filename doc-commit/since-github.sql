@@ -106,3 +106,25 @@ create table toauthaccesstoken (
 
 --
 drop table tnetworknode;
+
+--
+drop trigger comment_del on tcomment;
+
+CREATE OR REPLACE FUNCTION f_comment_del()
+RETURNS TRIGGER AS $$
+BEGIN
+  update
+    tpost
+  set
+    num_comments = num_comments - 1,
+    last_comment = (select max(created_on) from tcomment where post_id = old.post_id)
+  where
+    post_id = old.post_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+create trigger comment_del
+    after delete
+    on tcomment
+    for each row
+    execute procedure f_comment_del();
