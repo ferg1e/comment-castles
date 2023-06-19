@@ -6,10 +6,8 @@ Features:
 
 * OAuth 2 REST API
 * public and private groups
-* Eternal September and spam resistance
-* censorship buffer
+* inbox for comments you receive
 * [instruction manual](https://www.commentcastles.org/manual)
-* adminless
 
 ## Install
 
