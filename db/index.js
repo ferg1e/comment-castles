@@ -199,7 +199,7 @@ exports.genUserPublicId = (userId) => {
 //post
 exports.createPost = (userId, title, textContent, link, domainNameId) => {
     const newPostId = nanoid(nanoidAlphabet, nanoidLen)
-    const finalLink = typeof link !== 'undefined' ? link : null
+    const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
     let promise = query(`
@@ -649,6 +649,59 @@ exports.deleteWholePost = async (publicPostId) => {
     await module.exports.deletePost(postId)
     await module.exports.deletePostComments(postId)
     await module.exports.deletePostTags(postId)
+}
+
+//
+exports.validateNewPost = async (title, link, group, user_id) => {
+
+    //
+    let errors = []
+
+    //
+    const urlRegex = /(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
+    const isValidLink = 
+        link === '' ||
+        urlRegex.test(link)
+
+    if(!isValidLink) {
+        errors.push({msg: 'link must be an http or https URL'})
+    }
+
+    //
+    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
+
+    if(error !== null) {
+        errors.push(error)
+    }
+
+    //
+    let [trimTags, tagErrors] = myMisc.processPostTags(group)
+    errors = errors.concat(tagErrors)
+
+    // check private group permissions
+    if(!errors.length && trimTags.length) {
+        const {rows:privateGroups} = await module.exports.getPrivateGroupsWithNames(trimTags)
+
+        for(let i = 0; i < privateGroups.length; ++i) {
+            const pGroup = privateGroups[i]
+
+            if(user_id == pGroup.created_by) {
+                continue
+            }
+
+            const {rows:gMember} = await module.exports.getGroupMember(
+                pGroup.private_group_id,
+                user_id)
+
+            if(!gMember.length) {
+                errors.push({msg: "You used a private group you don't have access to"})
+                break
+            }
+        }
+    }
+
+    //
+    return [errors, wsCompressedTitle, trimTags]
 }
 
 //domain name

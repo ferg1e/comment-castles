@@ -175,6 +175,17 @@ router.get(
 )
 
 //
+router.post(
+    '/post',
+    async (req, res) => {
+        return res.json({
+            test: "hello",
+            test2: [1,1,1,2,2,2],
+        })
+    }
+)
+
+//
 router.get(
     '/comment',
     async (req, res) => {
