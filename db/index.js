@@ -197,12 +197,21 @@ exports.genUserPublicId = (userId) => {
 }
 
 //post
-exports.createPost = (userId, title, textContent, link, domainNameId) => {
-    const newPostId = nanoid(nanoidAlphabet, nanoidLen)
+exports.createPost = async (userId, title, textContent, link, trimTags) => {
+    const newPublicPostId = nanoid(nanoidAlphabet, nanoidLen)
     const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
-    let promise = query(`
+    //
+    let domainNameId = null
+
+    if(link !== '') {
+        const domainName = myMisc.getDomainName(link)
+        domainNameId = await module.exports.getDomainNameId(domainName)
+    }
+
+    //
+    const {rows} = await query(`
         insert into tpost
             (public_id, user_id, title, text_content, link,
             domain_name_id)
@@ -211,11 +220,15 @@ exports.createPost = (userId, title, textContent, link, domainNameId) => {
             $6)
         returning
             post_id`,
-        [newPostId, userId, title, finalTextContent, finalLink,
+        [newPublicPostId, userId, title, finalTextContent, finalLink,
         domainNameId]
     )
 
-    return [promise, newPostId]
+    //
+    await module.exports.createPostTags(trimTags, rows[0].post_id)
+
+    //
+    return newPublicPostId
 }
 
 exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {

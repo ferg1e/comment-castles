@@ -73,28 +73,15 @@ router.route('/')
             else {
 
                 //
-                let domainNameId = null
-
-                if(req.body.link !== '') {
-                    const domainName = myMisc.getDomainName(req.body.link)
-                    domainNameId = await db.getDomainNameId(domainName)
-                }
-
-                //
-                let vals = db.createPost(
+                const publicPostId = await db.createPost(
                     req.session.user.user_id,
                     wsCompressedTitle,
                     req.body.text_content,
                     req.body.link,
-                    domainNameId)
-
-                const {rows} = await vals[0]
-
-                //
-                await db.createPostTags(trimTags, rows[0].post_id)
+                    trimTags)
                 
                 //
-                return res.redirect('/p/' + vals[1])
+                return res.redirect('/p/' + publicPostId)
             }
         }
         else {
