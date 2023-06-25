@@ -1,3 +1,5 @@
+
+//
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
@@ -5,6 +7,7 @@ const myMisc = require('../misc.js')
 const router = express.Router()
 const htmlTitleNewPost = 'New Post'
 
+//
 const get = async (req, res) => {
 
     if(!req.session.user) {
@@ -41,52 +44,51 @@ const get = async (req, res) => {
     )
 }
 
-router.route('/')
-    .post(async (req, res) => {
-        if(req.session.user) {
-            
-            //
-            const [errors, wsCompressedTitle, trimTags] = await db.validateNewPost(
-                req.body.title,
-                req.body.link,
-                req.body.tags,
-                req.session.user.user_id)
+//
+const post = async(req, res) => {
 
-            //
-            if(errors.length) {
-                res.render(
-                    'new-post2',
-                    {
-                        html_title: htmlTitleNewPost,
-                        user: req.session.user,
-                        errors: errors,
-                        title: req.body.title,
-                        link: req.body.link,
-                        textContent: req.body.text_content,
-                        tags: req.body.tags,
-                        submitLabel: 'Create Post',
-                        heading: 'New Post',
-                        max_width: myMisc.getCurrSiteMaxWidth(req)
-                    })
+    if(!req.session.user) {
+        return res.send('nope...')
+    }
+
+    //
+    const [errors, wsCompressedTitle, trimTags] = await db.validateNewPost(
+        req.body.title,
+        req.body.link,
+        req.body.tags,
+        req.session.user.user_id)
+
+    //
+    if(errors.length) {
+        return res.render(
+            'new-post2',
+            {
+                html_title: htmlTitleNewPost,
+                user: req.session.user,
+                errors: errors,
+                title: req.body.title,
+                link: req.body.link,
+                textContent: req.body.text_content,
+                tags: req.body.tags,
+                submitLabel: 'Create Post',
+                heading: 'New Post',
+                max_width: myMisc.getCurrSiteMaxWidth(req)
             }
-            else {
+        )
+    }
 
-                //
-                const publicPostId = await db.createPost(
-                    req.session.user.user_id,
-                    wsCompressedTitle,
-                    req.body.text_content,
-                    req.body.link,
-                    trimTags)
-                
-                //
-                return res.redirect('/p/' + publicPostId)
-            }
-        }
-        else {
-            res.send('nope...')
-        }
-    })
+    //
+    const publicPostId = await db.createPost(
+        req.session.user.user_id,
+        wsCompressedTitle,
+        req.body.text_content,
+        req.body.link,
+        trimTags)
 
+    return res.redirect('/p/' + publicPostId)
+}
+
+//
 router.get('/', get)
+router.post('/', post)
 module.exports = router
