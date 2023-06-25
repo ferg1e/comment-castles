@@ -1,48 +1,47 @@
-const config = require('../config')
 const express = require('express')
-const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../misc.js')
 
 const router = express.Router()
 const htmlTitleNewPost = 'New Post'
 
+const get = async (req, res) => {
+
+    if(!req.session.user) {
+        return res.render(
+            'message',
+            {
+                html_title: htmlTitleNewPost,
+                message: "Please <a href=\"/login\">log in</a> to create a post.",
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req)
+            }
+        )
+    }
+
+    //
+    const tags = (typeof req.query.group !== 'undefined')
+        ? req.query.group
+        : "";
+
+    return res.render(
+        'new-post2',
+        {
+            html_title: htmlTitleNewPost,
+            user: req.session.user,
+            errors: [],
+            title: "",
+            link: "",
+            textContent: "",
+            tags: tags,
+            submitLabel: 'Create Post',
+            heading: 'New Post',
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        }
+    )
+}
+
 router.route('/')
-    .get(async (req, res) => {
-        if(req.session.user) {
-
-            //
-            const tags = (typeof req.query.group !== 'undefined')
-                ? req.query.group
-                : "";
-
-            //
-            res.render(
-                'new-post2',
-                {
-                    html_title: htmlTitleNewPost,
-                    user: req.session.user,
-                    errors: [],
-                    title: "",
-                    link: "",
-                    textContent: "",
-                    tags: tags,
-                    submitLabel: 'Create Post',
-                    heading: 'New Post',
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
-        else {
-            res.render(
-                'message',
-                {
-                    html_title: htmlTitleNewPost,
-                    message: "Please <a href=\"/login\">log in</a> to create a post.",
-                    user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
-    })
     .post(async (req, res) => {
         if(req.session.user) {
             
@@ -89,4 +88,5 @@ router.route('/')
         }
     })
 
+router.get('/', get)
 module.exports = router
