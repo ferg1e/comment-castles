@@ -178,9 +178,48 @@ router.get(
 router.post(
     '/post',
     async (req, res) => {
+
+        //
+        const title = (typeof req.body.title === 'undefined') ? '' : req.body.title
+        const text_content = (typeof req.body.text_content === 'undefined') ? '' : req.body.text_content
+        const link = (typeof req.body.link === 'undefined') ? '' : req.body.link
+        const tags = (typeof req.body.tags === 'undefined') ? '' : req.body.tags
+
+        //
+        const oauthData = await oauthAuthenticate(req, res)
+
+        //
+        if(!oauthData) {
+            return res.json({
+                errors: ['no user auth'],
+            })
+        }
+
+        //
+        const [errors, wsCompressedTitle, trimTags] = await db.validateNewPost(
+            title,
+            link,
+            tags,
+            oauthData.user.user_id)
+
+        //
+        if(errors.length) {
+            return res.json({
+                errors: errors,
+            })
+        }
+
+        //
+        const publicPostId = await db.createPost(
+            oauthData.user.user_id,
+            wsCompressedTitle,
+            text_content,
+            link,
+            trimTags)
+
+        //
         return res.json({
-            test: "hello",
-            test2: [1,1,1,2,2,2],
+            post_id: publicPostId,
         })
     }
 )
