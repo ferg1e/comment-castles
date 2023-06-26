@@ -41,7 +41,7 @@ function reply(cpid, isTargetLink) {
         if(comment != '') {
             const xhr = new XMLHttpRequest()
 
-            xhr.open('POST', '/api/v1/comment')
+            xhr.open('POST', '/api/ajax/comment')
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
             xhr.onload = function() {
                 if(xhr.status == 200) {
