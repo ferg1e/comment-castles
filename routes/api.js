@@ -323,6 +323,107 @@ router.get(
 )
 
 //
+router.post(
+    '/comment',
+    async (req, res) => {
+
+        //
+        const oauthData = await oauthAuthenticate(req, res)
+
+        //
+        if(!oauthData) {
+            return res.json({errors: ['no user auth']})
+        }
+
+        //
+        const postId = req.body.post_id
+        const commentId = req.body.comment_id
+        const isPostId = typeof postId !== 'undefined'
+        const isCommentId = typeof commentId !== 'undefined'
+        const isBoth = isPostId && isCommentId
+        const isNeither = !isPostId && !isCommentId
+        const initialErrors = []
+
+        //
+        if(isNeither) {
+            initialErrors.push('must supply an existing post_id or comment_id')
+        }
+
+        //
+        if(isBoth) {
+            initialErrors.push('do not send both a post_id and comment_id')
+        }
+
+        //
+        if(typeof req.body.text_content === 'undefined') {
+            initialErrors.push('missing text_content value')
+        }
+
+        //
+        if(initialErrors.length > 0) {
+            return res.json({errors: initialErrors})
+        }
+
+        //
+        if(isPostId) {
+
+            //
+            const filterUserId = oauthData.user.eyes
+                ? oauthData.user.eyes
+                : oauthData.user.user_id
+
+            //
+            const {rows:[row]} = await db.getPostWithPublic2(
+                postId,
+                oauthData.user.time_zone,
+                oauthData.user.user_id,
+                filterUserId)
+
+            //
+            if(!row) {
+                return res.json({errors: ['no such post']})
+            }
+
+            //
+            const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
+
+            if(!isAllowed) {
+                return res.json({errors: ['this post is private and the active user does not have access']})
+            }
+
+            //
+            const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+
+            //
+            if(errors.length > 0) {
+                return res.json({errors: errors})
+            }
+
+            //
+            const {rows:data1} = await db.createPostComment(
+                row.post_id,
+                oauthData.user.user_id,
+                compressedComment)
+
+            //todo: use a postgres trigger for this
+            await db.incPostNumComments(row.post_id)
+
+            //
+            const publicCommentId = data1[0].public_id
+            
+            return res.json({
+                comment_id: publicCommentId,
+            })
+        }
+        else {
+            return res.json({
+                error: 'rest api comment on a comment not done yet...',
+            })
+        }
+    }
+)
+
+//
 module.exports = router
 
 //
