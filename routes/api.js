@@ -365,12 +365,12 @@ router.post(
         }
 
         //
-        if(isPostId) {
+        const filterUserId = oauthData.user.eyes
+            ? oauthData.user.eyes
+            : oauthData.user.user_id
 
-            //
-            const filterUserId = oauthData.user.eyes
-                ? oauthData.user.eyes
-                : oauthData.user.user_id
+        //
+        if(isPostId) {
 
             //
             const {rows:[row]} = await db.getPostWithPublic2(
@@ -416,8 +416,49 @@ router.post(
             })
         }
         else {
+
+            //
+            const {rows:[row]} = await db.getCommentWithPublic2(
+                commentId,
+                oauthData.user.time_zone,
+                oauthData.user.user_id,
+                filterUserId)
+
+            if(!row) {
+                return res.json({errors: ['no such comment']})
+            }
+
+            //
+            const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
+
+            if(!isAllowed) {
+                return res.json({errors: ['this comment is private and the active user does not have access']})
+            }
+
+            //
+            const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+
+            //
+            if(errors.length > 0) {
+                return res.json({errors: errors})
+            }
+
+            //
+            const {rows:data1} = await db.createCommentComment(
+                row.post_id,
+                oauthData.user.user_id,
+                compressedComment,
+                row.path,
+                oauthData.user.time_zone)
+
+            //todo: use trigger
+            await db.incPostNumComments(row.post_id)
+
+            //
+            const publicCommentId = data1[0].public_id
+            
             return res.json({
-                error: 'rest api comment on a comment not done yet...',
+                comment_id: publicCommentId,
             })
         }
     }
