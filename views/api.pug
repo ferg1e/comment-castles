@@ -4,84 +4,100 @@ append head
     link(rel='stylesheet', href='/cillmit99b/api.css')
 
 block content
-    h2.pageh1 API
+    h1 API
 
     p.
         This is the #{siteName} API documentation. 
         There is an API Endpoints section and an API User Authentication section below.
 
-    h3 API Endpoints
+    h2 API Endpoints
 
     p.
-        All of the API calls accept an optional #[em viewmode] variable in the URL.
-        If #[em viewmode] is #[em "discover"] then the discover view mode is used.
-        If any other value is used for #[em viewmode] then the locked view mode is used.
-        You can read more about how view mode works in the
-        #[a(href="/manual#settings") settings section of the instruction manual].
-        However, if you use user authentication for an API call then the user's #[em viewmode] from the database will be used.
-        So, this #[em viewmode] value only applies when no API user authentication is used.
-    
-    p.
-        User authentication is optional for all API calls.
+        The full URL for all endpoints starts with #[em https://www.commentcastles.org/api/v1]. All endpoints return JSON. Here are the details of each endpoint:
 
-    p
-        |Here is a description of each call:
-
-    h4 GET /api/v1/posts
+    h3 GET /posts
 
     p.
-        This returns all posts.
-        The data is paginated at 20 records per page.
-        You can use #[em p], #[em viewmode] and #[em sort] variables in the URL.
-        #[em p] is for page and it starts at 1.
-        #[em sort] can be either #[em newest], #[em oldest], #[em comments] or #[em last] -
-        the default is #[em newest].
-        There is more info about post sorting in the #[a(href="/manual#posts") posts section] of the manual.
-        Examples of this endpoint:
+        This returns all posts, exactly like the #[a(href="/") homepage].
+        The data is paginated at 20 posts per page.
+
+    h4 Query Params
+
+    ul
+        li #[b p]: page number for post pagination, the default page number is 1, optional
+        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
+        li #[b sort]: this is for post sorting, it can be either #[em newest], #[em oldest], #[em comments] or #[em last], see #[a(href="/manual#posts") posts] in the manual for more info, the default is #[em newest], optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
+
+    h4 Examples
 
     p
-        a(href="/api/v1/posts") /api/v1/posts
+        a(href="/api/v1/posts") /posts
 
     p
-        a(href="/api/v1/posts?p=2") /api/v1/posts?p=2
+        a(href="/api/v1/posts?p=2") /posts?p=2
 
     p
-        a(href="/api/v1/posts?viewmode=discover") /api/v1/posts?viewmode=discover
+        a(href="/api/v1/posts?viewmode=discover") /posts?viewmode=discover
 
     p
-        a(href="/api/v1/posts?viewmode=discover&p=2") /api/v1/posts?viewmode=discover&p=2
+        a(href="/api/v1/posts?viewmode=discover&p=2") /posts?viewmode=discover&p=2
 
     p
-        a(href="/api/v1/posts?sort=comments") /api/v1/posts?sort=comments
+        a(href="/api/v1/posts?sort=comments") /posts?sort=comments
 
     p
-        a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /api/v1/posts?sort=last&viewmode=discover&p=2
+        a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /posts?sort=last&viewmode=discover&p=2
 
-    h4 GET /api/v1/post
+    h3 GET /post
 
     p.
         This call will return a single post and its comments.
-        You can use #[em postid], #[em viewmode] and #[em p] variables in the URL.
-        #[em postid] is required.
-        #[em p] is for comment pagination and it starts at 1, there are #{commentsPerPage} comments per page.
-        Examples of this endpoint:
+
+    h4 Query Params
+
+    ul
+        li #[b postid]: the post id of the post you want to get, required
+        li #[b p]: page number for comment pagination, there are #{commentsPerPage} comments per page, the default page number is 1, optional
+        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
+
+    h4 Examples
 
     p
-        a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN
+        a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /post?postid=SxqYZnDk26oisgSCS9bTjN
 
-    h4 GET /api/v1/comment
+    h3 GET /comment
 
     p.
-        This call will return a single comment and its child comments.
-        You can use #[em commentid], #[em viewmode] and #[em p] variables in the URL.
-        #[em commentid] is required.
-        #[em p] is for comment pagination and it starts at 1, there are #{commentsPerPage} comments per page.
-        Examples of this endpoint:
+        This call will return a single comment and its subcomments.
+
+    h4 Query Params
+
+    ul
+        li #[b commentid]: the comment id of the comment you want to get, required
+        li #[b p]: page number for subcomment pagination, there are #{commentsPerPage} subcomments per page, the default page number is 1, optional
+        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
+
+    h4 Examples
 
     p
-        a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn
-    
-    h3 API User Authentication
+        a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /comment?commentid=utePeJTWFGjstaQfbVntPn
+
+    h2 API User Authentication
 
     p.
         You can authenticate users for API calls by using OAuth 2. Here are the instructions for how to use our OAuth 2 setup:
