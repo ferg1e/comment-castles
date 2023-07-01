@@ -6,11 +6,15 @@ append head
 block content
     h1 API
 
-    p.
-        This is the #{siteName} API documentation. 
-        There is an API Endpoints section and an API User Authentication section below.
+    ul
+        li
+            a(href="#api-endpoints") API Endpoints
+        li
+            a(href="#api-user-authentication") API User Authentication
+        li
+            a(href="#api-errors") API Errors
 
-    h2 API Endpoints
+    h2#api-endpoints API Endpoints
 
     p.
         The full URL for all endpoints starts with #[em https://www.commentcastles.org/api/v1]. All endpoints return JSON. Here are the details of each endpoint:
@@ -120,7 +124,7 @@ block content
     p
         a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /comment?commentid=utePeJTWFGjstaQfbVntPn
 
-    h2 API User Authentication
+    h2#api-user-authentication API User Authentication
 
     p.
         You can authenticate users for API calls by using OAuth 2. Here are the instructions for how to use our OAuth 2 setup:
@@ -157,3 +161,5 @@ block content
     
     p.
         Replace xxx with your access token obtained from step 3.
+
+    h2#api-errors API Errors
