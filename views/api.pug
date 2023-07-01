@@ -53,6 +53,29 @@ block content
     p
         a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /posts?sort=last&viewmode=discover&p=2
 
+    h3 POST /post
+
+    p.
+        This will create a new post.
+
+    h4 Body Params
+
+    ul
+        li #[b title]: title of the post, max characters is 160, required
+        li #[b link]: URL of the post, optional
+        li #[b text_content]: the text body/content of the post, optional
+        li #[b tags]: tags for the post, separate multiple with commas, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see API User Authentication), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
+
     h3 GET /post
 
     p.
