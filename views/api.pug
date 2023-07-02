@@ -31,6 +31,50 @@ block content
         li
             a(href="#post-post") POST /post
 
+    h3#get-comment GET /comment
+
+    p.
+        This call will return a single comment and its subcomments.
+
+    h4 Query Params
+
+    ul
+        li #[b commentid]: the comment id of the comment you want to get, required
+        li #[b p]: page number for subcomment pagination, there are #{commentsPerPage} subcomments per page, the default page number is 1, optional
+        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
+
+    h4 Examples
+
+    p
+        a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /comment?commentid=utePeJTWFGjstaQfbVntPn
+
+    h3#get-post GET /post
+
+    p.
+        This call will return a single post and its comments.
+
+    h4 Query Params
+
+    ul
+        li #[b postid]: the post id of the post you want to get, required
+        li #[b p]: page number for comment pagination, there are #{commentsPerPage} comments per page, the default page number is 1, optional
+        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
+
+    h4 Examples
+
+    p
+        a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /post?postid=SxqYZnDk26oisgSCS9bTjN
+
     h3#get-posts GET /posts
 
     p.
@@ -91,50 +135,6 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
-
-    h3#get-post GET /post
-
-    p.
-        This call will return a single post and its comments.
-
-    h4 Query Params
-
-    ul
-        li #[b postid]: the post id of the post you want to get, required
-        li #[b p]: page number for comment pagination, there are #{commentsPerPage} comments per page, the default page number is 1, optional
-        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
-
-    h4 Headers
-
-    ul
-        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
-
-    h4 Examples
-
-    p
-        a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /post?postid=SxqYZnDk26oisgSCS9bTjN
-
-    h3#get-comment GET /comment
-
-    p.
-        This call will return a single comment and its subcomments.
-
-    h4 Query Params
-
-    ul
-        li #[b commentid]: the comment id of the comment you want to get, required
-        li #[b p]: page number for subcomment pagination, there are #{commentsPerPage} subcomments per page, the default page number is 1, optional
-        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see #[a(href="/manual#settings") settings] in the manual for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
-
-    h4 Headers
-
-    ul
-        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see API User Authentication), optional
-
-    h4 Examples
-
-    p
-        a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /comment?commentid=utePeJTWFGjstaQfbVntPn
 
     h2#api-user-authentication API User Authentication
 
