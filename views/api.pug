@@ -17,9 +17,21 @@ block content
     h2#api-endpoints API Endpoints
 
     p.
-        The full URL for all endpoints starts with #[em https://www.commentcastles.org/api/v1]. All endpoints return JSON. Here are the details of each endpoint:
+        The full URL for all endpoints starts with #[em https://www.commentcastles.org/api/v1]. All endpoints return JSON.
 
-    h3 GET /posts
+    ul
+        li
+            a(href="#get-comment") GET /comment
+        li
+            a(href="#get-post") GET /post
+        li
+            a(href="#get-posts") GET /posts
+        li
+            a(href="#post-comment") POST /comment
+        li
+            a(href="#post-post") POST /post
+
+    h3#get-posts GET /posts
 
     p.
         This returns all posts, exactly like the #[a(href="/") homepage].
@@ -57,7 +69,7 @@ block content
     p
         a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /posts?sort=last&viewmode=discover&p=2
 
-    h3 POST /post
+    h3#post-post POST /post
 
     p.
         This will create a new post.
@@ -80,7 +92,7 @@ block content
     p.
         #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
 
-    h3 GET /post
+    h3#get-post GET /post
 
     p.
         This call will return a single post and its comments.
@@ -102,7 +114,7 @@ block content
     p
         a(href="/api/v1/post?postid=SxqYZnDk26oisgSCS9bTjN") /post?postid=SxqYZnDk26oisgSCS9bTjN
 
-    h3 GET /comment
+    h3#get-comment GET /comment
 
     p.
         This call will return a single comment and its subcomments.
