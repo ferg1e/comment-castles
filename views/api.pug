@@ -113,6 +113,31 @@ block content
     p
         a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /posts?sort=last&viewmode=discover&p=2
 
+    h3#post-comment POST /comment
+
+    p.
+        This will create a new comment. It can create a comment on a post or another comment. Supply either a #[em post_id] or a #[em comment_id], supplying both or neither is an error.
+
+    h4 Body Params
+
+    ul
+        li #[b post_id]: post id of the post you want to create a comment on
+        li #[b comment_id]: comment id of the comment you want to create a comment on
+        li #[b text_content]: the comment text, required
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see API User Authentication), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method POST -Uri "http://localhost:6007/api/v1/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{post_id='O9qIMDTUUlm512s3hZu0ps';text_content='hello';}]
+
+    p.
+        #[em Invoke-RestMethod -Method POST -Uri "http://localhost:6007/api/v1/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{comment_id='J2nfJKIeeIIF6ScwxJL2F2';text_content='hi!';}]
+
     h3#post-post POST /post
 
     p.
