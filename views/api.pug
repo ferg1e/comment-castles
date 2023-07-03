@@ -200,3 +200,17 @@ block content
         Replace xxx with your access token obtained from step 3.
 
     h2#api-errors API Errors
+
+    p.
+        If an API request results in an error then the http status code will be 400 or 500 something, and the returned JSON will only be an array of error messages. For example, if you try to get a post without a postid:
+
+    p.
+        #[a(href="https://www.commentcastles.org/api/v1/post") https://www.commentcastles.org/api/v1/post]
+
+    p.
+        Then you will get a 400 and this JSON back:
+
+    pre.
+        {
+            "errors": ["no postid in URL"]
+        }
