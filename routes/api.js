@@ -81,7 +81,9 @@ router.get(
 
         //
         if(typeof req.query.postid === 'undefined') {
-            return res.json(0)
+            return res.status(400).json({
+                errors: ['no postid in URL'],
+            })
         }
 
         //
@@ -112,7 +114,9 @@ router.get(
                 userId)
 
             if(!isAllowed) {
-                return res.json(0)
+                return res.status(403).json({
+                    errors: ["this post is private and you don't have access"],
+                })
             }
 
             //
@@ -169,7 +173,9 @@ router.get(
             res.json(r)
         }
         else {
-            res.json(0)
+            return res.status(404).json({
+                errors: ["no post with that postid"],
+            })
         }
     }
 )
@@ -190,8 +196,8 @@ router.post(
 
         //
         if(!oauthData) {
-            return res.json({
-                errors: ['no user auth'],
+            return res.status(401).json({
+                errors: ['invalid or no user auth'],
             })
         }
 
@@ -204,7 +210,7 @@ router.post(
 
         //
         if(errors.length) {
-            return res.json({
+            return res.status(400).json({
                 errors: errors,
             })
         }
@@ -231,7 +237,9 @@ router.get(
 
         //
         if(typeof req.query.commentid === 'undefined') {
-            return res.json(0)
+            return res.status(400).json({
+                errors: ['no commentid in URL'],
+            })
         }
 
         //
@@ -262,7 +270,9 @@ router.get(
                 userId)
 
             if(!isAllowed) {
-                return res.json(0)
+                return res.status(403).json({
+                    errors: ["this comment is private and you don't have access"],
+                })
             }
 
             //
@@ -317,7 +327,9 @@ router.get(
             res.json(r)
         }
         else {
-            res.json(0)
+            return res.status(404).json({
+                errors: ["no comment with that commentid"],
+            })
         }
     }
 )
@@ -332,7 +344,9 @@ router.post(
 
         //
         if(!oauthData) {
-            return res.json({errors: ['no user auth']})
+            return res.status(401).json({
+                errors: ['invalid or no user auth'],
+            })
         }
 
         //
@@ -361,7 +375,7 @@ router.post(
 
         //
         if(initialErrors.length > 0) {
-            return res.json({errors: initialErrors})
+            return res.status(400).json({errors: initialErrors})
         }
 
         //
@@ -381,14 +395,16 @@ router.post(
 
             //
             if(!row) {
-                return res.json({errors: ['no such post']})
+                return res.status(404).json({errors: ['no such post']})
             }
 
             //
             const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
 
             if(!isAllowed) {
-                return res.json({errors: ['this post is private and the active user does not have access']})
+                return res.status(403).json({
+                    errors: ['this post is private and the active user does not have access']
+                })
             }
 
             //
@@ -396,7 +412,7 @@ router.post(
 
             //
             if(errors.length > 0) {
-                return res.json({errors: errors})
+                return res.status(400).json({errors: errors})
             }
 
             //
@@ -425,14 +441,16 @@ router.post(
                 filterUserId)
 
             if(!row) {
-                return res.json({errors: ['no such comment']})
+                return res.status(404).json({errors: ['no such comment']})
             }
 
             //
             const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
 
             if(!isAllowed) {
-                return res.json({errors: ['this comment is private and the active user does not have access']})
+                return res.status(403).json({
+                    errors: ['this comment is private and the active user does not have access']
+                })
             }
 
             //
@@ -440,7 +458,7 @@ router.post(
 
             //
             if(errors.length > 0) {
-                return res.json({errors: errors})
+                return res.status(400).json({errors: errors})
             }
 
             //
