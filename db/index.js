@@ -588,11 +588,20 @@ exports.getPostLinks = () => {
             link is not null`)
 }
 
-exports.updatePost = (postId, title, textContent, link, domainNameId) => {
+exports.updatePost = async (postId, title, textContent, link, trimTags) => {
     const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
-    return query(`
+    //
+    let domainNameId = null
+
+    if(link !== '') {
+        const domainName = myMisc.getDomainName(link)
+        domainNameId = await module.exports.getDomainNameId(domainName)
+    }
+
+    //
+    await query(`
         update
             tpost
         set
@@ -603,6 +612,10 @@ exports.updatePost = (postId, title, textContent, link, domainNameId) => {
         where
             post_id = $5`,
         [title, finalLink, finalTextContent, domainNameId, postId])
+
+    //delete and recreate tags
+    await module.exports.deletePostTags(postId)
+    await module.exports.createPostTags(trimTags, postId)
 }
 
 exports.incPostNumComments = (postId) => {
@@ -726,7 +739,7 @@ exports.validateEditPost = async (title, link, group, existingPrivateGroups) => 
     //
     const isValidLink = 
         link === '' ||
-        config.urlRegex.test(link)
+        config.singleUrlRegex.test(link)
 
     if(!isValidLink) {
         errors.push({msg: 'link must be an http or https URL'})

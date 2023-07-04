@@ -92,26 +92,13 @@ router.route('/')
         }
 
         //
-        let domainNameId = null
-
-        if(req.body.link !== '') {
-            const domainName = myMisc.getDomainName(req.body.link)
-            domainNameId = await db.getDomainNameId(domainName)
-        }
-
         await db.updatePost(
             row.post_id,
             wsCompressedTitle,
             req.body.text_content,
             req.body.link,
-            domainNameId)
+            trimTags)
 
-        // delete tags for this post
-        await db.deletePostTags(row.post_id)
-
-        //
-        await db.createPostTags(trimTags, row.post_id)
-        
         //
         return res.redirect('/p/' + postPublicId)
     })
