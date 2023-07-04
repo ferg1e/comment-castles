@@ -14,3 +14,6 @@ Use 'discover' for discover view mode, all
 other values indicate locked view mode.
 */
 exports.defaultVisitorViewMode = 'locked'
+
+//
+exports.urlRegex = /(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig

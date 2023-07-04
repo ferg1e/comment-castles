@@ -589,7 +589,7 @@ exports.getPostLinks = () => {
 }
 
 exports.updatePost = (postId, title, textContent, link, domainNameId) => {
-    const finalLink = typeof link !== 'undefined' ? link : null
+    const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
     return query(`
@@ -712,6 +712,59 @@ exports.validateNewPost = async (title, link, group, user_id) => {
             }
         }
     }
+
+    //
+    return [errors, wsCompressedTitle, trimTags]
+}
+
+//
+exports.validateEditPost = async (title, link, group, existingPrivateGroups) => {
+
+    //
+    let errors = []
+
+    //
+    const isValidLink = 
+        link === '' ||
+        config.urlRegex.test(link)
+
+    if(!isValidLink) {
+        errors.push({msg: 'link must be an http or https URL'})
+    }
+
+    //
+    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
+
+    if(error !== null) {
+        errors.push(error)
+    }
+
+    //
+    let [trimTags, tagErrors] = myMisc.processPostTags(group)
+    errors = errors.concat(tagErrors)
+
+    // start private group check
+    const editedPrivateGroups = []
+
+    if(trimTags.length) {
+        const {rows:dataGroups} = await module.exports.getPrivateGroupsWithNames(trimTags)
+
+        for(let i = 0; i < dataGroups.length; ++i) {
+            editedPrivateGroups.push(dataGroups[i].name)
+        }
+    }
+
+    //make sure private groups are unchanged
+    //check that the lengths are equal
+    //and check that one is a subset of the other
+    const isPrivateGroupsSame =
+        existingPrivateGroups.length == editedPrivateGroups.length &&
+        existingPrivateGroups.every(v => editedPrivateGroups.includes(v))
+
+    if(!isPrivateGroupsSame) {
+        errors.push({msg: "You cannot edit private groups"})
+    }
+    // end private group check
 
     //
     return [errors, wsCompressedTitle, trimTags]

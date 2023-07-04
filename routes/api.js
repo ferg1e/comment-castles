@@ -230,6 +230,14 @@ router.post(
     }
 )
 
+// edit post
+router.put(
+    '/post',
+    async (req, res) => {
+        return res.json([1,2,4,8,16])
+    }
+)
+
 //
 router.get(
     '/comment',
