@@ -30,6 +30,8 @@ block content
             a(href="#post-comment") POST /comment
         li
             a(href="#post-post") POST /post
+        li
+            a(href="#put-post") PUT /post
 
     h3#get-comment GET /comment
 
@@ -160,6 +162,30 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
+
+    h3#put-post PUT /post
+
+    p.
+        This will edit a post.
+
+    h4 Body Params
+
+    ul
+        li #[b post_id]: post id of the post you want to edit, required
+        li #[b title]: a new title for the post, optional
+        li #[b link]: a new URL for the post, optional
+        li #[b text_content]: new text content for the post, optional
+        li #[b tags]: new tags for the post, separate multiple with commas, optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method PUT -Uri "http://localhost:6007/api/v1/post" -ContentType "application/x-www-form-urlencoded" -Headers @{Authorization='Bearer d80743e5ece197fa8bc888ffef5f3d7df993ecd7'} -Body @{post_id='cdD7zmyruJDJFieTLtKXls';title='my new title';text_content='some new content.'}]
 
     h2#api-user-authentication API User Authentication
 
