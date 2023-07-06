@@ -31,6 +31,8 @@ block content
         li
             a(href="#post-post") POST /post
         li
+            a(href="#put-comment") PUT /comment
+        li
             a(href="#put-post") PUT /post
 
     h3#get-comment GET /comment
@@ -162,6 +164,27 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
+
+    h3#put-comment PUT /comment
+
+    p.
+        This endpoint edits a comment.
+
+    h4 Body Params
+
+    ul
+        li #[b comment_id]: comment id of the comment you want to edit, required
+        li #[b text_content]: the new comment text, required
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method PUT -Uri "#{apiBaseUrl}/comment" -ContentType "application/x-www-form-urlencoded" -Headers @{Authorization='Bearer f55b564268cd8b14c394b0723f4d20b96ae2066b'} -Body @{comment_id='tnH5OAmOkilFPUsRmyW5d0';text_content='my new content'}]
 
     h3#put-post PUT /post
 
