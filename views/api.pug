@@ -17,7 +17,7 @@ block content
     h2#api-endpoints API Endpoints
 
     p.
-        The full URL for all endpoints starts with #[em https://www.commentcastles.org/api/v1]. All endpoints return JSON.
+        The full URL for all endpoints starts with #[em=apiBaseUrl]. All endpoints return JSON.
 
     ul
         li
@@ -135,10 +135,10 @@ block content
     h4 Examples
 
     p.
-        #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{post_id='O9qIMDTUUlm512s3hZu0ps';text_content='hello';}]
+        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{post_id='O9qIMDTUUlm512s3hZu0ps';text_content='hello';}]
 
     p.
-        #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{comment_id='J2nfJKIeeIIF6ScwxJL2F2';text_content='hi!';}]
+        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{comment_id='J2nfJKIeeIIF6ScwxJL2F2';text_content='hi!';}]
 
     h3#post-post POST /post
 
@@ -161,7 +161,7 @@ block content
     h4 Examples
 
     p.
-        #[em Invoke-RestMethod -Method POST -Uri "https://www.commentcastles.org/api/v1/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
+        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
 
     h3#put-post PUT /post
 
@@ -185,7 +185,7 @@ block content
     h4 Examples
 
     p.
-        #[em Invoke-RestMethod -Method PUT -Uri "http://localhost:6007/api/v1/post" -ContentType "application/x-www-form-urlencoded" -Headers @{Authorization='Bearer d80743e5ece197fa8bc888ffef5f3d7df993ecd7'} -Body @{post_id='cdD7zmyruJDJFieTLtKXls';title='my new title';text_content='some new content.'}]
+        #[em Invoke-RestMethod -Method PUT -Uri "#{apiBaseUrl}/post" -ContentType "application/x-www-form-urlencoded" -Headers @{Authorization='Bearer d80743e5ece197fa8bc888ffef5f3d7df993ecd7'} -Body @{post_id='cdD7zmyruJDJFieTLtKXls';title='my new title';text_content='some new content.'}]
 
     h2#api-user-authentication API User Authentication
 
@@ -199,7 +199,7 @@ block content
         #[b Step 2:] In the app you're building, make the login button display this page in the browser:
     
     p.
-        #[em https://www.commentcastles.org/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz]
+        #[em #{siteBaseUrl}/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz]
     
     p.
         Replace xxx with your client ID, replace yyy with a state value (it can be anything), and fill in zzz with your redirect URI (it must match the redirect URI from step 1).
@@ -211,7 +211,7 @@ block content
         #[b Step 3:] When a user clicks the confirm button they will be redirected to your redirect URI with a state variable and a code variable in the URL. The code variable is an authorization code. The app you're building now requests POST /oauth/token. Here is the request in PowerShell: 
     
     p.
-        #[em Invoke-WebRequest -Uri https://www.commentcastles.org/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz'}]
+        #[em Invoke-WebRequest -Uri #{siteBaseUrl}/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz'}]
     
     p.
         Replace xxx with your client ID, replace yyy with the authorization code that was in the URL, and use your redirect URI for zzz. If successful, the above URL request will return JSON that contains an access token.
@@ -220,7 +220,7 @@ block content
         #[b Step 4:] Now you can pass the access token to API calls and it will be as if a user is logged in. For example, in PowerShell:
 
     p.
-        #[em Invoke-RestMethod -Method Get -Uri "https://www.commentcastles.org/api/v1/posts" -Headers @{Authorization='Bearer xxx'}]
+        #[em Invoke-RestMethod -Method Get -Uri "#{apiBaseUrl}/posts" -Headers @{Authorization='Bearer xxx'}]
     
     p.
         Replace xxx with your access token obtained from step 3.
@@ -228,10 +228,10 @@ block content
     h2#api-errors API Errors
 
     p.
-        If an API request results in an error then the http status code will be 400 or 500 something, and the returned JSON will only be an array of error messages. For example, if you try to get a post without a postid:
+        If an API request results in an error then the http status code will be 400 or 500 something, and the returned JSON will only be an array of error messages. For example, if you try to get a post without a postid in the URL:
 
-    p.
-        #[a(href="https://www.commentcastles.org/api/v1/post") https://www.commentcastles.org/api/v1/post]
+    p
+        a(href=`${apiBaseUrl}/post`) #{apiBaseUrl}/post
 
     p.
         Then you will get a 400 and this JSON back:
