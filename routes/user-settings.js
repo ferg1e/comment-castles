@@ -42,7 +42,7 @@ router.route('/')
         }
 
         //
-        const {rows} = await db.getTimeZones()
+        const rows = config.timeZones
         const {rows:avaEyes} = await db.getAvailableEyes()
         const currEyes = await getCurrEyes(req)
 
@@ -104,7 +104,7 @@ router.route('/')
         }
 
         //
-        const {rows:rows2} = await db.getTimeZones()
+        const rows2 = config.timeZones
         const {rows:avaEyes} = await db.getAvailableEyes()
         const currEyes = req.body.eyes
 
