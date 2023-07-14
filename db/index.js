@@ -95,14 +95,15 @@ exports.getCurrEyesId = async req => {
             : req.session.user.user_id
     }
     else {
+        const cSettings = myMisc.getCookieSettings(req)
         let username = config.eyesDefaultUsername
 
-        if(typeof req.cookies.eyes !== 'undefined') {
-            if(req.cookies.eyes === '') {
+        if(typeof cSettings.eyes !== 'undefined') {
+            if(cSettings.eyes === '') {
                 return -1
             }
             else {
-                username = req.cookies.eyes
+                username = cSettings.eyes
             }
         }
 

@@ -13,10 +13,10 @@ exports.apiBaseUrl = `${module.exports.siteBaseUrl}/api/v1`
 
 /*
 Default view mode for someone not logged in.
-Use 'discover' for discover view mode, all
-other values indicate locked view mode.
+Use 'discover' for discover view mode, and
+'following-only' for locked view mode.
 */
-exports.defaultVisitorViewMode = 'locked'
+exports.defaultVisitorViewMode = 'following-only'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

@@ -27,9 +27,12 @@ router.route('/')
                 req.session.user.post_mode = viewMode
             }
             else {
+                const cSettings = myMisc.getCookieSettings(req)
+                cSettings.post_mode = viewMode
+
                 res.cookie(
-                    'post_mode',
-                    viewMode,
+                    'settings',
+                    JSON.stringify(cSettings),
                     {maxAge: cookieMaxAge})
             }
 
@@ -156,29 +159,18 @@ router.route('/')
                 req.session.user.eyes = eyesValue
             }
             else {
-                res.cookie(
-                    'time_zone',
-                    req.body.time_zone,
-                    {maxAge: cookieMaxAge})
+
+                //
+                const settings = {
+                    time_zone: req.body.time_zone,
+                    eyes: req.body.eyes,
+                    post_mode: req.body.post_mode,
+                    site_width: siteWidthEmptied,
+                }
 
                 res.cookie(
-                    'eyes',
-                    req.body.eyes,
-                    {maxAge: cookieMaxAge})
-
-                res.cookie(
-                    'post_mode',
-                    req.body.post_mode,
-                    {maxAge: cookieMaxAge})
-
-                res.cookie(
-                    'comment_mode',
-                    req.body.comment_mode,
-                    {maxAge: cookieMaxAge})
-
-                res.cookie(
-                    'site_width',
-                    siteWidthEmptied,
+                    'settings',
+                    JSON.stringify(settings),
                     {maxAge: cookieMaxAge})
             }
 
@@ -212,8 +204,9 @@ async function getCurrEyes(req) {
         eyes = rows[0].username
     }
     else if(!req.session.user) {
-        eyes = typeof req.cookies.eyes !== 'undefined'
-            ? req.cookies.eyes
+        const cSettings = myMisc.getCookieSettings(req)
+        eyes = typeof cSettings.eyes !== 'undefined'
+            ? cSettings.eyes
             : config.eyesDefaultUsername
     }
 

@@ -11,7 +11,8 @@ exports.getCurrTimeZone = (req) => {
         timeZone = req.session.user.time_zone
     }
     else {
-        timeZone = req.cookies.time_zone
+        const cSettings = module.exports.getCookieSettings(req)
+        timeZone = cSettings.time_zone
     }
 
     //
@@ -134,9 +135,11 @@ exports.getCurrPostMode = req => {
             : req.session.user.post_mode
     }
     else {
-        return (typeof req.cookies.post_mode === 'undefined')
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.post_mode === 'undefined')
             ? config.defaultVisitorViewMode
-            : req.cookies.post_mode
+            : cSettings.post_mode
     }
 }
 
@@ -164,14 +167,16 @@ exports.getCurrSiteMaxWidth = req => {
             : req.session.user.site_width
     }
     else {
-        if(typeof req.cookies.site_width === 'undefined') {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        if(typeof cSettings.site_width === 'undefined') {
             return defaultValue
         }
-        else if(req.cookies.site_width === '') {
+        else if(cSettings.site_width === '') {
             return null
         }
         else {
-            const siteWidthInt = parseInt(req.cookies.site_width)
+            const siteWidthInt = parseInt(cSettings.site_width)
 
             if(isNaN(siteWidthInt)) {
                 return defaultValue
@@ -264,4 +269,23 @@ exports.orderedAlphaToNum = oAlpha => {
     const leftValue = 26*26*(leftChar.charCodeAt() - 97)
   
     return rightValue + middleValue + leftValue
+}
+
+//
+exports.getCookieSettings = req => {
+    const settingsC = req.cookies.settings
+    const defaults = {
+        time_zone: 'UTC',
+        eyes: config.eyesDefaultUsername,
+        post_mode: config.defaultVisitorViewMode,
+        site_width: 600,
+    }
+
+    if(typeof settingsC == 'undefined') {
+        return defaults
+    }
+
+    //
+    const settings = JSON.parse(settingsC)
+    return settings
 }
