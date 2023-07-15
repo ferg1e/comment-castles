@@ -7,7 +7,7 @@ mixin unfollowLink(username, publicId)
     a(href=`/following?unfollow=${publicId}` class="unfollow" title=`unfollow ${username}`) -
 
 block content
-    h2.pageh1 Following
+    h1 Following
 
     if errors.length
         ul.uerror1
