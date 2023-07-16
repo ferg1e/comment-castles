@@ -58,7 +58,7 @@ router.route('/')
             return res.send('wrong user...')
         }
 
-        await db.deleteWholePost(postPublicId)
+        await db.deleteWholePost(rows[0].post_id)
         
         return res.render(
             'message',
