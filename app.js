@@ -28,9 +28,7 @@ app.locals.apiBaseUrl = config.apiBaseUrl
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
 
-//TODO: do the secret better
-//TODO: use more options to ensure cookie/session
-//security is good enough
+//TODO: use more options to increase cookie/session security
 app.use(session({
     genid: req => uuid(),
     name: process.env.SESSION_NAME,
@@ -41,12 +39,16 @@ app.use(session({
     })
 )
 
+//
 app.use(express.static(path.join(
     __dirname,
     'public')))
 
+//
 app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
+
+//
 app.use('/', require('./routes/misc'))
 app.use('/', require('./routes/home'))
 app.use('/settings/', require('./routes/user-settings'))
