@@ -36,6 +36,8 @@ block content
         li
             a(href="#put-post") PUT /post
         li
+            a(href="#delete-comment") DELETE /comment
+        li
             a(href="#delete-post") DELETE /post
 
     h3#get-comment GET /comment
@@ -212,6 +214,26 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method PUT -Uri "#{apiBaseUrl}/post" -ContentType "application/x-www-form-urlencoded" -Headers @{Authorization='Bearer d80743e5ece197fa8bc888ffef5f3d7df993ecd7'} -Body @{post_id='cdD7zmyruJDJFieTLtKXls';title='my new title';text_content='some new content.'}]
+
+    h3#delete-comment DELETE /comment
+
+    p.
+        This deletes a comment.
+
+    h4 Query Params
+
+    ul
+        li #[b comment_id]: comment id of the comment you want to delete, required
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method DELETE -Uri "#{apiBaseUrl}/comment?comment_id=D38yoq7I71oSON8jrxnF9a" -Headers @{Authorization='Bearer 4932ee96e45e154bb8a766f52dbc7ee3a34f1f3a'}]
 
     h3#delete-post DELETE /post
 
