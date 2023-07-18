@@ -740,6 +740,40 @@ router.delete(
     }
 )
 
+// get all user's followees
+router.get(
+    '/follow',
+    async (req, res) => {
+
+        //
+        const oauthData = await oauthAuthenticate(req, res)
+
+        //
+        if(!oauthData) {
+            return res.status(401).json({
+                errors: ['invalid or no user auth'],
+            })
+        }
+
+        //
+        const {rows} = await db.getUserFollowees(oauthData.user.user_id)
+
+        //
+        const rows2 = []
+
+        for(const i in rows) {
+            const v = rows[i]
+
+            rows2.push({
+                user_id: v.public_id,
+                username: v.username,
+            })
+        }
+
+        res.json(rows2)
+    }
+)
+
 //
 module.exports = router
 
