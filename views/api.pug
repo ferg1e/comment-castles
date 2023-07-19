@@ -32,6 +32,8 @@ block content
         li
             a(href="#post-comment") POST /comment
         li
+            a(href="#post-follow") POST /follow
+        li
             a(href="#post-post") POST /post
         li
             a(href="#put-comment") PUT /comment
@@ -163,6 +165,26 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{comment_id='J2nfJKIeeIIF6ScwxJL2F2';text_content='hi!';}]
+
+    h3#post-follow POST /follow
+
+    p.
+        Follow another user.
+
+    h4 Body Params
+
+    ul
+        li #[b user_id]: user id of the user you want to follow, required
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/follow" -Headers @{Authorization='Bearer 0f0276970a297e3bcc20d2981e1844df694377ff'} -Body @{user_id='t4TNrHnQuLNn3CBoX7bRkX'}]
 
     h3#post-post POST /post
 
