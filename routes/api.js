@@ -840,6 +840,65 @@ router.post(
     },
 )
 
+// unfollow
+router.delete(
+    '/follow',
+    async (req, res) => {
+        
+        //
+        const oauthData = await oauthAuthenticate(req, res)
+
+        //
+        if(!oauthData) {
+            return res.status(401).json({
+                errors: ['invalid or no user auth'],
+            })
+        }
+
+        //
+        if(typeof req.query.user_id === 'undefined') {
+            return res.status(400).json({
+                errors: ['no user_id in URL'],
+            })
+        }
+
+        //
+        const userPublicId = req.query.user_id
+        const {rows:[row]} = await db.getUserWithPublicId(userPublicId)
+
+        //
+        if(!row) {
+            return res.status(404).json({
+                errors: ["no user with that user id"],
+            })
+        }
+
+        //
+        const {rows:[fRow]} = await db.getUserFollowee(
+            oauthData.user.user_id,
+            row.user_id
+        )
+
+        //
+        if(!fRow) {
+            return res.status(400).json({
+                errors: ["cannot unfollow because not following"],
+            })
+        }
+
+        //
+        await db.removeFollower(
+            oauthData.user.user_id,
+            row.user_id
+        )
+
+        //
+        return res.json({
+            success: true,
+        })
+    },
+)
+
 //
 module.exports = router
 

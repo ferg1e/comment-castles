@@ -42,6 +42,8 @@ block content
         li
             a(href="#delete-comment") DELETE /comment
         li
+            a(href="#delete-follow") DELETE /follow
+        li
             a(href="#delete-post") DELETE /post
 
     h3#get-comment GET /comment
@@ -273,6 +275,26 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method DELETE -Uri "#{apiBaseUrl}/comment?comment_id=D38yoq7I71oSON8jrxnF9a" -Headers @{Authorization='Bearer 4932ee96e45e154bb8a766f52dbc7ee3a34f1f3a'}]
+
+    h3#delete-follow DELETE /follow
+
+    p.
+        Unfollow another user.
+
+    h4 Query Params
+
+    ul
+        li #[b user_id]: user id of the user you want to unfollow, required
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
+
+    h4 Examples
+
+    p.
+        #[em Invoke-RestMethod -Method DELETE -Uri "#{apiBaseUrl}/follow?user_id=f4NX2quPhZQJuxIVByOBRj" -Headers @{Authorization='Bearer 9b9fda40952b048dc1da193e19c087ac81bfcee6'}]
 
     h3#delete-post DELETE /post
 
