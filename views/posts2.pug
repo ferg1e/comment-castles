@@ -16,6 +16,75 @@ mixin unfollowLink(username, publicId)
     - const goto = encodeURIComponent(`${base_url}${pagePart}${sortPart}`)
     a(href=`/following?unfollow=${publicId}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
 
+mixin postTitle(p)
+    if p.link === null
+        a(class="ptitle" href=`/p/${p.public_id}`) #{p.title}
+    else
+        a(class="ptitle" href=p.link)= p.title
+        | 
+        span.domname1 (#{p.domain_name})
+
+mixin postFollowBut(p)
+    if !user || (p.user_id != user.user_id)
+        | 
+        if p.is_follow
+            +unfollowLink(p.username, p.user_public_id)
+        else
+            +followLink(p.username, p.user_public_id)
+
+mixin postTags(lTags)
+    if lTags.length
+        | 
+        |to
+        each tag in lTags
+            | 
+            a(href=`/r/${tag}` class="tag1")=tag
+
+mixin postLinks(p)
+    span.plinks
+        a(href=`/p/${p.public_id}`) comments(#{p.num_comments})
+
+        if user && user.user_id == p.user_id
+            | 
+            a(href=`/p/${p.public_id}/edit`) edit
+            | 
+            a(href=`/p/${p.public_id}/delete`) delete
+
+
+mixin singleLinePost(p)
+    div
+        +postTitle(p)
+
+        | 
+        span(class="puser") by #{p.username}
+
+        +postFollowBut(p)
+
+        | 
+        span(class="pdate") on #{p.created_on}
+
+        +postTags(p.tags)
+
+        | 
+        +postLinks(p)
+
+mixin multiLinePost(p)
+    div
+        +postTitle(p)
+
+        div.pinfo1
+            span(class="puser") by #{p.username}
+
+            +postFollowBut(p)
+
+            | 
+            span(class="pdate") on #{p.created_on}
+
+            +postTags(p.tags)
+
+            | 
+            +postLinks(p)
+
 block content
     - const gotoUrl = (sort === '') ? base_url : `${base_url}?sort=${sort}`
 
@@ -55,45 +124,10 @@ block content
         .posts
 
             each post in posts
-                div
-                    if post.is_visible
-                        if post.link === null
-                            a(class="ptitle" href=`/p/${post.public_id}`) #{post.title}
-                        else
-                            a(class="ptitle" href=post.link)= post.title
-                            | 
-                            span.domname1 (#{post.domain_name})
-
-                        div.pinfo1
-                            span(class="puser") by #{post.username}
-                            | 
-
-                            if !user || (post.user_id != user.user_id)
-                                if post.is_follow
-                                    +unfollowLink(post.username, post.user_public_id)
-                                else
-                                    +followLink(post.username, post.user_public_id)
-
-                            | 
-                            span(class="pdate") on #{post.created_on}
-
-                            if post.tags.length
-                                | 
-                                |to
-                                each tag in post.tags
-                                    | 
-                                    a(href=`/r/${tag}` class="tag1")=tag
-
-                            | 
-                            span.plinks
-                                a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
-
-                                if user && user.user_id == post.user_id
-                                    | 
-                                    a(href=`/p/${post.public_id}/edit`) edit
-                                    | 
-                                    a(href=`/p/${post.public_id}/delete`) delete
-                    else
+                if post.is_visible
+                    +multiLinePost(post)
+                else
+                    div
                         span(class="puser2") by #{post.username}
                         | 
 
