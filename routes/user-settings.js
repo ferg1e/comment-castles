@@ -60,6 +60,7 @@ router.route('/')
                 avaEyes: avaEyes,
                 currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
+                postLayout: myMisc.getCurrPostLayout(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: myMisc.getCurrSiteMaxWidth(req),
                 max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -124,6 +125,7 @@ router.route('/')
                     avaEyes: avaEyes,
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
+                    postLayout: req.body.post_layout,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -149,13 +151,14 @@ router.route('/')
                     req.body.post_mode,
                     req.body.comment_reply_mode,
                     siteWidthNulled,
-                    eyesValue)
+                    eyesValue,
+                    req.body.post_layout)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
+                req.session.user.post_layout = req.body.post_layout
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
-                
                 req.session.user.eyes = eyesValue
             }
             else {
@@ -165,6 +168,7 @@ router.route('/')
                     time_zone: req.body.time_zone,
                     eyes: req.body.eyes,
                     post_mode: req.body.post_mode,
+                    post_layout: req.body.post_layout,
                     site_width: siteWidthEmptied,
                 }
 
@@ -186,6 +190,7 @@ router.route('/')
                     avaEyes: avaEyes,
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
+                    postLayout: req.body.post_layout,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: siteWidthNulled

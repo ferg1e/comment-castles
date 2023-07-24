@@ -40,6 +40,9 @@ block content2
             - const isPostDiscover = postMode == 'discover'
             - const isPostFollow = postMode == 'following-only'
 
+            - const isPostLayoutSingle = postLayout == 'single-line'
+            - const isPostLayoutDouble = postLayout == 'double-line'
+
             - const isCommentBasic = commentReplyMode == 'basic'
             - const isCommentQuick = commentReplyMode == 'quick'
 
@@ -59,6 +62,17 @@ block content2
                         |:
                         | 
                         |only show posts and comments from followed users
+
+            div Post Layout
+                div
+                    input(type="radio" name="post_layout" id="post_layout0" value="single-line" checked=isPostLayoutSingle)
+                    label(for="post_layout0")
+                        |single line layout for posts
+
+                div
+                    input(type="radio" name="post_layout" id="post_layout1" value="double-line" checked=isPostLayoutDouble)
+                    label(for="post_layout1")
+                        |two line layout for posts
 
             if user
                 div Replying to Comments

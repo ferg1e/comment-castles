@@ -48,6 +48,7 @@ router.route('/')
                 base_url: '/',
                 is_discover_mode: isDiscoverMode,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
+                post_layout: myMisc.getCurrPostLayout(req),
                 sort: sort
             })
     })

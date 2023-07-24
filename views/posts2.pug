@@ -125,7 +125,10 @@ block content
 
             each post in posts
                 if post.is_visible
-                    +multiLinePost(post)
+                    if post_layout == 'single-line'
+                        +singleLinePost(post)
+                    else
+                        +multiLinePost(post)
                 else
                     div
                         span(class="puser2") by #{post.username}

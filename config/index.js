@@ -19,6 +19,9 @@ Use 'discover' for discover view mode, and
 exports.defaultVisitorViewMode = 'following-only'
 
 //
+exports.defaultPostLayout = 'double-line'
+
+//
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
 
 //generated with scripts/gen-config-time-zones.js

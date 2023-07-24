@@ -144,6 +144,22 @@ exports.getCurrPostMode = req => {
 }
 
 //
+exports.getCurrPostLayout = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.post_layout === 'undefined')
+            ? config.defaultPostLayout
+            : req.session.user.post_layout
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.post_layout === 'undefined')
+            ? config.defaultPostLayout
+            : cSettings.post_layout
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     const defaultValue = 'quick'
 
@@ -278,6 +294,7 @@ exports.getCookieSettings = req => {
         time_zone: 'UTC',
         eyes: config.eyesDefaultUsername,
         post_mode: config.defaultVisitorViewMode,
+        post_layout: config.defaultPostLayout,
         site_width: 600,
     }
 

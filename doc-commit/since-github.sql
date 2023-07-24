@@ -128,3 +128,7 @@ create trigger comment_del
     on tcomment
     for each row
     execute procedure f_comment_del();
+
+--
+create type post_layout as enum('single-line', 'double-line');
+alter table tuser add column post_layout post_layout not null default 'double-line';

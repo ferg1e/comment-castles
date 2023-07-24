@@ -86,6 +86,7 @@ router.post(
                     username: rows[0].username,
                     time_zone: rows[0].time_zone,
                     post_mode: rows[0].post_mode,
+                    post_layout: rows[0].post_layout,
                     comment_reply_mode: rows[0].comment_reply_mode,
                     site_width: rows[0].site_width,
                     eyes: rows[0].eyes

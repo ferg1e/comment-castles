@@ -25,7 +25,7 @@ exports.createUser = (username, password) => {
             values
                 ($1, $2, $3)
             returning
-                user_id, username, time_zone, post_mode, eyes, comment_reply_mode, site_width`,
+                user_id, username, time_zone, post_mode, post_layout, eyes, comment_reply_mode, site_width`,
             [
                 username,
                 hash,
@@ -41,6 +41,7 @@ exports.getUserWithUsername = (username) => {
             password,
             time_zone,
             post_mode,
+            post_layout,
             is_eyes,
             eyes,
             comment_reply_mode,
@@ -142,7 +143,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout) => {
     return query(`
         update
             tuser
@@ -151,10 +152,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             post_mode = $2,
             comment_reply_mode = $3,
             eyes = $4,
-            site_width = $5
+            site_width = $5,
+            post_layout = $6
         where
-            user_id = $6`,
-        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, userId])
+            user_id = $7`,
+        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, userId])
 }
 
 //

@@ -76,6 +76,7 @@ router.get(
                 base_url: `/r/${tag}`,
                 is_discover_mode: isDiscoverMode,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
+                post_layout: myMisc.getCurrPostLayout(req),
                 page_tag: tag,
                 sort: sort
             })
