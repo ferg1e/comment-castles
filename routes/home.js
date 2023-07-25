@@ -36,7 +36,8 @@ router.route('/')
             page,
             isDiscoverMode,
             filterUserId,
-            sort)
+            sort,
+            myMisc.getCurrPostsPerPage(req))
 
         res.render(
             'posts2',

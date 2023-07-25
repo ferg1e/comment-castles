@@ -132,3 +132,6 @@ create trigger comment_del
 --
 create type post_layout as enum('single-line', 'double-line');
 alter table tuser add column post_layout post_layout not null default 'double-line';
+
+--
+alter table tuser add column posts_per_page smallint default 20;

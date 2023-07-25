@@ -61,6 +61,7 @@ router.route('/')
                 currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
                 postLayout: myMisc.getCurrPostLayout(req),
+                postsPerPage: myMisc.getCurrPostsPerPage(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: myMisc.getCurrSiteMaxWidth(req),
                 max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -98,6 +99,7 @@ router.route('/')
             errors.push({msg: 'bad following list'})
         }
 
+        //
         const siteWidthInt = parseInt(req.body.site_width)
         const wisNaN = isNaN(siteWidthInt)
         const widthOkay = (req.body.site_width === '') ||
@@ -105,6 +107,17 @@ router.route('/')
 
         if(!widthOkay) {
             errors.push({msg: 'site width must be between 500-1000, or left blank'})
+        }
+
+        //
+        const postsPerPageInt = parseInt(req.body.posts_per_page)
+        const pppIsNaN = isNaN(postsPerPageInt)
+        const pppOkay = !pppIsNaN &&
+            postsPerPageInt >= config.minPostsPerPage &&
+            postsPerPageInt <= config.maxPostsPerPage
+
+        if(!pppOkay) {
+            errors.push({msg: `posts per page must be between ${config.minPostsPerPage}-${config.maxPostsPerPage}`})
         }
 
         //
@@ -126,6 +139,7 @@ router.route('/')
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
+                    postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -152,11 +166,13 @@ router.route('/')
                     req.body.comment_reply_mode,
                     siteWidthNulled,
                     eyesValue,
-                    req.body.post_layout)
+                    req.body.post_layout,
+                    postsPerPageInt)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.post_layout = req.body.post_layout
+                req.session.user.posts_per_page = postsPerPageInt
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
                 req.session.user.eyes = eyesValue
@@ -169,6 +185,7 @@ router.route('/')
                     eyes: req.body.eyes,
                     post_mode: req.body.post_mode,
                     post_layout: req.body.post_layout,
+                    posts_per_page: postsPerPageInt,
                     site_width: siteWidthEmptied,
                 }
 
@@ -191,6 +208,7 @@ router.route('/')
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
+                    postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: siteWidthNulled

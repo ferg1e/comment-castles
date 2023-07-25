@@ -25,7 +25,15 @@ exports.createUser = (username, password) => {
             values
                 ($1, $2, $3)
             returning
-                user_id, username, time_zone, post_mode, post_layout, eyes, comment_reply_mode, site_width`,
+                user_id,
+                username,
+                time_zone,
+                post_mode,
+                post_layout,
+                posts_per_page,
+                eyes,
+                comment_reply_mode,
+                site_width`,
             [
                 username,
                 hash,
@@ -42,6 +50,7 @@ exports.getUserWithUsername = (username) => {
             time_zone,
             post_mode,
             post_layout,
+            posts_per_page,
             is_eyes,
             eyes,
             comment_reply_mode,
@@ -143,7 +152,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout, postsPerPage) => {
     return query(`
         update
             tuser
@@ -153,10 +162,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             comment_reply_mode = $3,
             eyes = $4,
             site_width = $5,
-            post_layout = $6
+            post_layout = $6,
+            posts_per_page = $7
         where
-            user_id = $7`,
-        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, userId])
+            user_id = $8`,
+        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, postsPerPage, userId])
 }
 
 //
@@ -234,8 +244,7 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
     return newPublicPostId
 }
 
-exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort) => {
-    const pageSize = 20
+exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort, pageSize) => {
     const numLeadingPlaceholders = 9
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
@@ -350,8 +359,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filterUserId, sort) => {
-    const pageSize = 20
+exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filterUserId, sort, pageSize) => {
     const numLeadingPlaceholders = 10
     const allowedPrivateIds = []
     const dynamicPlaceholders = []

@@ -64,7 +64,8 @@ router.get(
             tag,
             isDiscoverMode,
             filterUserId,
-            sort)
+            sort,
+            myMisc.getCurrPostsPerPage(req))
 
         res.render(
             'posts2',

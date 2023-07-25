@@ -174,6 +174,35 @@ exports.getCurrCommentReplyMode = req => {
 }
 
 //
+exports.getCurrPostsPerPage = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.posts_per_page === 'undefined')
+            ? config.defaultPostsPerPage
+            : req.session.user.posts_per_page
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        if(typeof cSettings.posts_per_page === 'undefined') {
+            return config.defaultPostsPerPage
+        }
+        else {
+            const postsPerPageInt = parseInt(cSettings.posts_per_page)
+
+            if(isNaN(postsPerPageInt)) {
+                return config.defaultPostsPerPage
+            }
+            else if(postsPerPageInt < config.minPostsPerPage || postsPerPageInt > config.maxPostsPerPage) {
+                return config.defaultPostsPerPage
+            }
+            else {
+                return postsPerPageInt
+            }
+        }
+    }
+}
+
+//
 exports.getCurrSiteMaxWidth = req => {
     const defaultValue = 600
 
@@ -295,6 +324,7 @@ exports.getCookieSettings = req => {
         eyes: config.eyesDefaultUsername,
         post_mode: config.defaultVisitorViewMode,
         post_layout: config.defaultPostLayout,
+        posts_per_page: config.defaultPostsPerPage,
         site_width: 600,
     }
 
