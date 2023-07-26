@@ -103,10 +103,10 @@ router.route('/')
         const siteWidthInt = parseInt(req.body.site_width)
         const wisNaN = isNaN(siteWidthInt)
         const widthOkay = (req.body.site_width === '') ||
-            (!wisNaN && siteWidthInt >= 500 && siteWidthInt <= 1000)
+            (!wisNaN && siteWidthInt >= config.minSiteWidth && siteWidthInt <= config.maxSiteWidth)
 
         if(!widthOkay) {
-            errors.push({msg: 'site width must be between 500-1000, or left blank'})
+            errors.push({msg: `site width must be between ${config.minSiteWidth}-${config.maxSiteWidth}, or left blank`})
         }
 
         //

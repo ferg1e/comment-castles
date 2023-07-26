@@ -209,11 +209,11 @@ block content
             li
                 b Site Width
                 |: you can use this setting to set the site width. 
-                |Valid values are 500-1000 or blank. 
-                |If you use a number between 500-1000 then that will be the site width in pixels 
+                |Valid values are #{min_site_width}-#{max_site_width} or blank. 
+                |If you use a number between #{min_site_width}-#{max_site_width} then that will be the site width in pixels 
                 |and the site will be horizontally centered. 
                 |If this setting is left blank then the site will take up the entire browser width. 
-                |The default value is 600.
+                |The default value is #{default_site_width}.
             li
                 b View Mode
                 |: this affects how posts and comments display that are from unfollowed users; 

@@ -204,18 +204,16 @@ exports.getCurrPostsPerPage = req => {
 
 //
 exports.getCurrSiteMaxWidth = req => {
-    const defaultValue = 600
-
     if(req.session.user) {
         return (typeof req.session.user.site_width === 'undefined')
-            ? defaultValue
+            ? config.defaultSiteWidth
             : req.session.user.site_width
     }
     else {
         const cSettings = module.exports.getCookieSettings(req)
 
         if(typeof cSettings.site_width === 'undefined') {
-            return defaultValue
+            return config.defaultSiteWidth
         }
         else if(cSettings.site_width === '') {
             return null
@@ -224,10 +222,10 @@ exports.getCurrSiteMaxWidth = req => {
             const siteWidthInt = parseInt(cSettings.site_width)
 
             if(isNaN(siteWidthInt)) {
-                return defaultValue
+                return config.defaultSiteWidth
             }
-            else if(siteWidthInt < 500 || siteWidthInt > 1000) {
-                return defaultValue
+            else if(siteWidthInt < config.minSiteWidth || siteWidthInt > config.maxSiteWidth) {
+                return config.defaultSiteWidth
             }
             else {
                 return siteWidthInt
@@ -325,7 +323,7 @@ exports.getCookieSettings = req => {
         post_mode: config.defaultVisitorViewMode,
         post_layout: config.defaultPostLayout,
         posts_per_page: config.defaultPostsPerPage,
-        site_width: 600,
+        site_width: config.defaultSiteWidth,
     }
 
     if(typeof settingsC == 'undefined') {

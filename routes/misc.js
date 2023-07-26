@@ -30,7 +30,10 @@ router.route('/manual')
             {
                 html_title: 'Manual',
                 user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                default_site_width: config.defaultSiteWidth,
+                min_site_width: config.minSiteWidth,
+                max_site_width: config.maxSiteWidth,
             })
     })
 

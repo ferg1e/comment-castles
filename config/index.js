@@ -22,6 +22,11 @@ exports.defaultVisitorViewMode = 'following-only'
 exports.defaultPostLayout = 'double-line'
 
 //
+exports.defaultSiteWidth = 600
+exports.minSiteWidth = 500
+exports.maxSiteWidth = 1500
+
+//
 exports.defaultPostsPerPage = 20
 exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
