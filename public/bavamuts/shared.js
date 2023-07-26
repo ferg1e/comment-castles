@@ -32,6 +32,8 @@ function reply(cpid, isTargetLink) {
     let cForm = document.createElement('div')
     currForm = cForm
     let cTextarea = document.createElement('textarea')
+    cTextarea.rows = 10
+    cTextarea.cols = 36
     let cButton = document.createElement('input')
     cButton.type = 'button'
     cButton.value = 'Send'
