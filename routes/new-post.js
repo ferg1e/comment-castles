@@ -78,14 +78,14 @@ const post = async(req, res) => {
     }
 
     //
-    const publicPostId = await db.createPost(
+    const newPost = await db.createPost(
         req.session.user.user_id,
         wsCompressedTitle,
         req.body.text_content,
         req.body.link,
         trimTags)
 
-    return res.redirect('/p/' + publicPostId)
+    return res.redirect('/p/' + newPost.post_id)
 }
 
 //

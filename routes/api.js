@@ -218,7 +218,7 @@ router.post(
         }
 
         //
-        const publicPostId = await db.createPost(
+        const newPost = await db.createPost(
             oauthData.user.user_id,
             wsCompressedTitle,
             text_content,
@@ -226,9 +226,7 @@ router.post(
             trimTags)
 
         //
-        return res.json({
-            post_id: publicPostId,
-        })
+        return res.json(newPost)
     }
 )
 

@@ -224,7 +224,7 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
     }
 
     //
-    const {rows} = await query(`
+    const {rows:[row]} = await query(`
         insert into tpost
             (public_id, user_id, title, text_content, link,
             domain_name_id)
@@ -232,16 +232,25 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
             ($1, $2, $3, $4, $5,
             $6)
         returning
-            post_id`,
+            post_id, title, text_content, link, created_on`,
         [newPublicPostId, userId, title, finalTextContent, finalLink,
         domainNameId]
     )
 
     //
-    await module.exports.createPostTags(trimTags, rows[0].post_id)
+    await module.exports.createPostTags(trimTags, row.post_id)
 
     //
-    return newPublicPostId
+    return {
+        post_id: newPublicPostId,
+        title: row.title,
+        link: row.link,
+        post_text: row.text_content,
+        post_time: row.created_on,
+        //by: v.username,
+        //num_comments: v.num_comments,
+        groups: trimTags,
+    }
 }
 
 exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort, pageSize) => {
