@@ -34,6 +34,9 @@ router.route('/manual')
                 default_site_width: config.defaultSiteWidth,
                 min_site_width: config.minSiteWidth,
                 max_site_width: config.maxSiteWidth,
+                default_ppp: config.defaultPostsPerPage,
+                min_ppp: config.minPostsPerPage,
+                max_ppp: config.maxPostsPerPage,
             })
     })
 
