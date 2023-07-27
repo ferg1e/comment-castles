@@ -870,7 +870,7 @@ exports.createPostComment = async (postId, userId, content) => {
         values
             ($1, $2, $3, $4, $5)
         returning
-            public_id`,
+            public_id, text_content, created_on`,
         [postId, userId, content,
             postId + '.' + myMisc.numToOrderedAlpha(nextPathInt),
             nanoid(nanoidAlphabet, nanoidLen)])
@@ -909,6 +909,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
         returning
             public_id,
             text_content,
+            created_on as created_on_raw,
             to_char(
                 timezone($6, created_on),
                 'Mon FMDD, YYYY FMHH12:MIam') created_on`,

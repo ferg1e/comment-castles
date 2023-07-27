@@ -555,7 +555,7 @@ router.post(
             }
 
             //
-            const {rows:data1} = await db.createPostComment(
+            const {rows:[newComment]} = await db.createPostComment(
                 row.post_id,
                 oauthData.user.user_id,
                 compressedComment)
@@ -564,10 +564,10 @@ router.post(
             await db.incPostNumComments(row.post_id)
 
             //
-            const publicCommentId = data1[0].public_id
-            
             return res.json({
-                comment_id: publicCommentId,
+                comment_id: newComment.public_id,
+                comment_text: newComment.text_content,
+                comment_time: newComment.created_on,
             })
         }
         else {
@@ -601,7 +601,7 @@ router.post(
             }
 
             //
-            const {rows:data1} = await db.createCommentComment(
+            const {rows:[newComment]} = await db.createCommentComment(
                 row.post_id,
                 oauthData.user.user_id,
                 compressedComment,
@@ -612,10 +612,10 @@ router.post(
             await db.incPostNumComments(row.post_id)
 
             //
-            const publicCommentId = data1[0].public_id
-            
             return res.json({
-                comment_id: publicCommentId,
+                comment_id: newComment.public_id,
+                comment_text: newComment.text_content,
+                comment_time: newComment.created_on_raw,
             })
         }
     }
