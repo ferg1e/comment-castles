@@ -32,6 +32,9 @@ exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
 
 //
+exports.defaultTwoBgColor = 'e7e5df'
+
+//
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
 
 //generated with scripts/gen-config-time-zones.js

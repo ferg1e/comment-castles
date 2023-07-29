@@ -61,6 +61,7 @@ router.route('/')
                 currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
                 postLayout: myMisc.getCurrPostLayout(req),
+                twoBgColorForm: myMisc.getTwoBgColor(req),
                 postsPerPage: myMisc.getCurrPostsPerPage(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: myMisc.getCurrSiteMaxWidth(req),
@@ -125,6 +126,9 @@ router.route('/')
         const {rows:avaEyes} = await db.getAvailableEyes()
         const currEyes = req.body.eyes
 
+        //remove # char
+        const sTwoBgColorBite = req.body.two_bg_color.substring(1)
+
         //
         if(errors.length) {
             res.render(
@@ -139,6 +143,7 @@ router.route('/')
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
+                    twoBgColorForm: sTwoBgColorBite,
                     postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
@@ -167,11 +172,13 @@ router.route('/')
                     siteWidthNulled,
                     eyesValue,
                     req.body.post_layout,
-                    postsPerPageInt)
+                    postsPerPageInt,
+                    sTwoBgColorBite)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.post_layout = req.body.post_layout
+                req.session.user.two_bg_color = sTwoBgColorBite
                 req.session.user.posts_per_page = postsPerPageInt
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
@@ -185,6 +192,7 @@ router.route('/')
                     eyes: req.body.eyes,
                     post_mode: req.body.post_mode,
                     post_layout: req.body.post_layout,
+                    two_bg_color: sTwoBgColorBite,
                     posts_per_page: postsPerPageInt,
                     site_width: siteWidthEmptied,
                 }
@@ -195,6 +203,10 @@ router.route('/')
                     {maxAge: cookieMaxAge})
             }
 
+            //
+            req.app.locals.twoBgColor = sTwoBgColorBite
+
+            //
             res.render(
                 'my-settings',
                 {
@@ -208,6 +220,7 @@ router.route('/')
                     currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
+                    twoBgColorForm: sTwoBgColorBite,
                     postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,

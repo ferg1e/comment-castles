@@ -47,6 +47,7 @@ router.post(
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
                         post_layout: rows[0].post_layout,
+                        two_bg_color: rows[0].two_bg_color,
                         posts_per_page: rows[0].posts_per_page,
                         comment_reply_mode: rows[0].comment_reply_mode,
                         site_width: rows[0].site_width,
