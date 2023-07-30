@@ -136,3 +136,4 @@ alter table tuser add column post_layout post_layout not null default 'double-li
 --
 alter table tuser add column posts_per_page smallint default 20;
 alter table tuser add column two_bg_color char(6) default 'e7e5df';
+alter table tuser add column one_bg_color char(6) default 'fefefe';

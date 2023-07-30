@@ -160,6 +160,22 @@ exports.getCurrPostLayout = req => {
 }
 
 //
+exports.getOneBgColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.one_bg_color === 'undefined')
+            ? config.defaultOneBgColor
+            : req.session.user.one_bg_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.one_bg_color === 'undefined')
+            ? config.defaultOneBgColor
+            : cSettings.one_bg_color
+    }
+}
+
+//
 exports.getTwoBgColor = req => {
     if(req.session.user) {
         return (typeof req.session.user.two_bg_color === 'undefined')
@@ -338,6 +354,7 @@ exports.getCookieSettings = req => {
         eyes: config.eyesDefaultUsername,
         post_mode: config.defaultVisitorViewMode,
         post_layout: config.defaultPostLayout,
+        one_bg_color: config.defaultOneBgColor,
         two_bg_color: config.defaultTwoBgColor,
         posts_per_page: config.defaultPostsPerPage,
         site_width: config.defaultSiteWidth,
