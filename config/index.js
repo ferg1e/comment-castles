@@ -10,8 +10,8 @@ exports.contactEmail = "commentcastles@proton.me"
 
 exports.siteBaseUrl = "https://www.commentcastles.org"
 exports.apiBaseUrl = `${module.exports.siteBaseUrl}/api/v1`
-exports.jsDir = '/bavamuts'
-exports.cssDir = '/cillmit99b'
+exports.jsDir = '/js'
+exports.cssDir = '/css'
 
 /*
 Default view mode for someone not logged in.
