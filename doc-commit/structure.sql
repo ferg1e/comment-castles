@@ -91,6 +91,18 @@ CREATE TYPE public.group_viewing_mode AS ENUM (
 ALTER TYPE public.group_viewing_mode OWNER TO postgres;
 
 --
+-- Name: post_layout; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.post_layout AS ENUM (
+    'single-line',
+    'double-line'
+);
+
+
+ALTER TYPE public.post_layout OWNER TO postgres;
+
+--
 -- Name: post_mode; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -637,7 +649,11 @@ CREATE TABLE public.tuser (
     eyes integer,
     comment_reply_mode public.comment_reply_mode DEFAULT 'quick'::public.comment_reply_mode NOT NULL,
     site_width smallint DEFAULT 600,
-    public_id character varying(32) DEFAULT ''::character varying NOT NULL
+    public_id character varying(32) DEFAULT ''::character varying NOT NULL,
+    post_layout public.post_layout DEFAULT 'double-line'::public.post_layout NOT NULL,
+    posts_per_page smallint DEFAULT 20,
+    two_bg_color character(6) DEFAULT 'e7e5df'::bpchar,
+    one_bg_color character(6) DEFAULT 'fefefe'::bpchar
 );
 
 
