@@ -23,6 +23,8 @@ app.locals.defaultUsername = config.eyesDefaultUsername
 app.locals.commentsPerPage = config.commentsPerPage
 app.locals.siteBaseUrl = config.siteBaseUrl
 app.locals.apiBaseUrl = config.apiBaseUrl
+app.locals.jsDir = config.jsDir
+app.locals.cssDir = config.cssDir
 
 //
 app.set('view engine', 'pug')

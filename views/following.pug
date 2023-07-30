@@ -1,7 +1,7 @@
 extends layout
 
 append head
-    link(rel='stylesheet', href='/cillmit99b/following.css')
+    link(rel='stylesheet', href=`${cssDir}/following.css`)
 
 mixin unfollowLink(username, publicId)
     a(href=`/following?unfollow=${publicId}` class="unfollow" title=`unfollow ${username}`) -
