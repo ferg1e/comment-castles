@@ -28,12 +28,12 @@ router.route('*')
     .get(sharedAllHandler)
     .post(sharedAllHandler)
 
-router.route('/manual')
+router.route('/help')
     .get((req, res) => {
         res.render(
             'instruction-manual',
             {
-                html_title: 'Manual',
+                html_title: 'Help',
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 default_site_width: config.defaultSiteWidth,

@@ -7,7 +7,7 @@ Features:
 * OAuth 2 REST API
 * public and private groups
 * inbox for comments you receive
-* [instruction manual](https://www.commentcastles.org/manual)
+* [help page](https://www.commentcastles.org/help)
 
 ## Install
 
