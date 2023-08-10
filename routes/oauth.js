@@ -5,6 +5,7 @@ const Response = require('oauth2-server').Response
 const db = require('../db')
 const myMisc = require('../misc.js')
 const config = require('../config')
+const crypto = require('crypto')
 
 const router = express.Router()
 const authorizeHtmlTitle = "Authorize App"
@@ -60,12 +61,57 @@ router.route('/authorize')
         }
 
         //
+        const cc = req.query.code_challenge
+        const method = req.query.code_challenge_method
+        const isCodeChallenge = typeof cc != 'undefined'
+        const isCodeChallengeMethod = typeof method != 'undefined'
+
+        if(!isCodeChallenge || !isCodeChallengeMethod) {
+            return res.send(`PKCE value(s) missing in URL`)
+        }
+
+        //
+        const isValidCcMethod = method == 'plain' || method == 'S256'
+
+        if(!isValidCcMethod) {
+            return res.send(`invalid code challenge method in URL`)
+        }
+
+        //
+        const isPlain = method == 'plain'
+        let isValidCc = false
+
+        if(isPlain) {
+            //check for 43 character code verifier
+            const ccRegex = /^[-_\.~A-Z0-9]{43}$/i
+            isValidCc = ccRegex.test(cc)
+        }
+        else {
+            //check for 43 character sha256 base64 url encoded code verifier
+            const ccRegex = /^[-_A-Z0-9]{43}$/i
+            isValidCc = ccRegex.test(cc)
+        }
+
+        if(!isValidCc) {
+            return res.send(`invalid PKCE code challenge`)
+        }
+
+        //
         const request = new Request(req);
         const response = new Response(res);
         const options = {
             authenticateHandler: {
                 handle: (req, res) => {
-                    return req.session.user
+
+                    //get a copy of the user session
+                    const user = JSON.parse(JSON.stringify(req.session.user));
+
+                    //hijack user obj for PKCE values that saveAuthorizationCode needs
+                    user.code_challenge = cc
+                    user.code_challenge_method = method
+
+                    //
+                    return user
                 }
             }
         }
@@ -83,6 +129,67 @@ router.route('/authorize')
 //
 router.route('/token')
     .post(async (req, res) => {
+
+        /*
+        --start PKCE check--
+        only emit PKCE errors here
+        because oauth.token() after will
+        handle the rest.
+        */
+        const clientId = req.body.client_id
+        const redirectUri = req.body.redirect_uri
+        const authCode = req.body.code
+        const isReadyForPkceCheck =
+            typeof clientId != 'undefined' &&
+            typeof redirectUri != 'undefined' &&
+            typeof authCode != 'undefined'
+
+        if(isReadyForPkceCheck) {
+            const {rows:[dbAuthCode]} = await db.getAuthCode(authCode)
+
+            //
+            if(dbAuthCode) {
+                const isRecordMatch = dbAuthCode.public_client_id == clientId &&
+                    dbAuthCode.redirect_uri == redirectUri
+                
+                //
+                if(isRecordMatch) {
+                    const codeVerifier = req.body.code_verifier
+
+                    //
+                    if(typeof codeVerifier == 'undefined') {
+                        return res.status(400).json({
+                            errors: ['no code_verifier in body'],
+                        })
+                    }
+
+                    //
+                    let isGoodPkce = false
+
+                    if(dbAuthCode.cc_method == 'plain') {
+                        isGoodPkce = dbAuthCode.code_challenge == codeVerifier
+                    }
+                    else {
+                        const nowHash = crypto
+                            .createHash('sha256')
+                            .update(codeVerifier)
+                            .digest('base64')
+                            .replace(/=/g, '')
+                            .replace(/\+/g, '-')
+                            .replace(/\//g, '_')
+
+                        isGoodPkce = dbAuthCode.code_challenge == nowHash
+                    }
+
+                    if(!isGoodPkce) {
+                        return res.status(400).json({
+                            errors: ['invalid PKCE code verifier'],
+                        })
+                    }
+                }
+            }
+        }
+        //--end PKCE check--
 
         //
         const request = new Request(req);

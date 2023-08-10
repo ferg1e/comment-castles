@@ -1659,13 +1659,13 @@ exports.updateClient = (clientId, appName, redirectUri) => {
 }
 
 //oauth authorization codes
-exports.createAuthCode = (clientId, userId, code, redirectUri, expires) => {
+exports.createAuthCode = (clientId, userId, code, redirectUri, expires, codeChallenge, codeChallengeMethod) => {
     return query(`
         insert into toauthauthcode
-            (client_id, logged_in_user_id, code, redirect_uri, expires_on)
+            (client_id, logged_in_user_id, code, redirect_uri, expires_on, code_challenge, cc_method)
         values
-            ($1, $2, $3, $4, $5::timestamptz)`,
-        [clientId, userId, code, redirectUri, expires])
+            ($1, $2, $3, $4, $5::timestamptz, $6, $7)`,
+        [clientId, userId, code, redirectUri, expires, codeChallenge, codeChallengeMethod])
 }
 
 //
@@ -1675,6 +1675,8 @@ exports.getAuthCode = (code) => {
             ac.redirect_uri,
             ac.expires_on,
             ac.logged_in_user_id,
+            ac.cc_method,
+            ac.code_challenge,
             c.public_client_id
         from
             toauthauthcode ac

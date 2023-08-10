@@ -25,7 +25,9 @@ module.exports = {
             user.user_id,
             code.authorizationCode,
             code.redirectUri,
-            code.expiresAt)
+            code.expiresAt,
+            user.code_challenge,
+            user.code_challenge_method)
 
         //
         return {
