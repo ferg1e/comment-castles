@@ -328,10 +328,13 @@ block content
         #[b Step 2:] In the app you're building, make the login button display this page in the browser:
     
     p.
-        #[em #{siteBaseUrl}/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz]
+        #[em #{siteBaseUrl}/oauth/authorize?client_id=xxx&state=yyy&response_type=code&redirect_uri=zzz&code_challenge=aaa&code_challenge_method=bbb]
     
     p.
-        Replace xxx with your client ID, replace yyy with a state value (it can be anything), and fill in zzz with your redirect URI (it must match the redirect URI from step 1).
+        Replace xxx with your client ID, replace yyy with a state value (it can be anything), and fill in zzz with your redirect URI (it must match the redirect URI from step 1). Replace aaa with either a code verifier or the hash of a code verifier. bbb should be "plain" if you only pass a plain code verifier, and bbb should be "S256" if you pass a hashed code verifier.
+
+    p.
+        A code verifier is a random 43 character string made up of a-z, A-Z, 0-9, "_", "-", "." and "~". To hash the code verifier you first take the SHA256 hash and then you base64-URL-encode the value. You know your hash algorithm is correct if "waffle" yields the value "X6tfQ9Cy-XUm59qsseQv_ReOIGfFmgA20NmEo77Cifs".
     
     p.
         When a user visits the above URL they have to click a confirm button.
@@ -340,10 +343,10 @@ block content
         #[b Step 3:] When a user clicks the confirm button they will be redirected to your redirect URI with a state variable and a code variable in the URL. The code variable is an authorization code. The app you're building now requests POST /oauth/token. Here is the request in PowerShell: 
     
     p.
-        #[em Invoke-WebRequest -Uri #{siteBaseUrl}/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz'}]
+        #[em Invoke-WebRequest -Uri #{siteBaseUrl}/oauth/token -Method POST -Body @{client_id='xxx';grant_type='authorization_code';code='yyy';redirect_uri='zzz';code_verifier='aaa'}]
     
     p.
-        Replace xxx with your client ID, replace yyy with the authorization code that was in the URL, and use your redirect URI for zzz. If successful, the above URL request will return JSON that contains an access token.
+        Replace xxx with your client ID, replace yyy with the authorization code that was in the URL, and use your redirect URI for zzz. Replace aaa with the code verifier that you generated in step 2. If successful, the above URL request will return JSON that contains an access token.
 
     p.
         #[b Step 4:] Now you can pass the access token to API calls and it will be as if a user is logged in. For example, in PowerShell:
