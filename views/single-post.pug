@@ -17,10 +17,10 @@ block content
 
         if post.is_visible
             if post.link === null
-                h3
+                h1
                     a(href=`/p/${post.public_id}`)=post.title
             else
-                h3
+                h1
                     a(href=post.link)=post.title
                     | 
                     span.domname1 (#{post.domain_name})

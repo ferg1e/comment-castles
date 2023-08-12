@@ -89,10 +89,17 @@ body {
   display: inline;
 }
 
-.the-post h3 {
+.the-post h1 {
   margin: 0 0 2px 0;
   margin: 0 0 .125rem 0;
   padding: 0;
+}
+
+.the-post h1 a {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .the-post .the-post-content,
@@ -256,7 +263,7 @@ h1 {
   margin: 0 0 1rem 0;
 }
 
-h1 a {
+.in-h1-url {
   font-size: 16px;
   font-size: 1rem;
   font-weight: normal;
