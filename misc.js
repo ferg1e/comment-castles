@@ -368,3 +368,15 @@ exports.getCookieSettings = req => {
     const settings = JSON.parse(settingsC)
     return settings
 }
+
+//
+exports.renderMessage = (req, res, title, message) => {
+    return res.render(
+        'message',
+        {
+            html_title: title,
+            message: message,
+            user: req.session.user,
+            max_width: module.exports.getCurrSiteMaxWidth(req)
+        })
+}

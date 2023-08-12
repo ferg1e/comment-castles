@@ -33,14 +33,8 @@ router.route('/authorize')
 
         //
         if(rows.length == 0) {
-            return res.render(
-                'message',
-                {
-                    html_title: authorizeHtmlTitle,
-                    message: "Unknown client ID.",
-                    user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
+            return myMisc.renderMessage(req, res, authorizeHtmlTitle,
+                "Unknown client ID.")
         }
 
         //
@@ -67,14 +61,16 @@ router.route('/authorize')
         const isCodeChallengeMethod = typeof method != 'undefined'
 
         if(!isCodeChallenge || !isCodeChallengeMethod) {
-            return res.send(`PKCE value(s) missing in URL`)
+            return myMisc.renderMessage(req, res, authorizeHtmlTitle,
+                `PKCE value(s) missing in URL`)
         }
 
         //
         const isValidCcMethod = method == 'plain' || method == 'S256'
 
         if(!isValidCcMethod) {
-            return res.send(`invalid code challenge method in URL`)
+            return myMisc.renderMessage(req, res, authorizeHtmlTitle,
+                `invalid code challenge method in URL`)
         }
 
         //
@@ -93,7 +89,8 @@ router.route('/authorize')
         }
 
         if(!isValidCc) {
-            return res.send(`invalid PKCE code challenge`)
+            return myMisc.renderMessage(req, res, authorizeHtmlTitle,
+                `invalid PKCE code challenge`)
         }
 
         //
@@ -122,7 +119,8 @@ router.route('/authorize')
                 return res.redirect(response.headers.location)
             })
             .catch((error) => {
-                return res.send(error)
+                return myMisc.renderMessage(req, res, authorizeHtmlTitle,
+                    `The following error ocurred: ${error.message}`)
             })
     })
 
@@ -208,7 +206,9 @@ router.route('/token')
                 return res.send(response.body)
             })
             .catch((error) => {
-                return res.send(error)
+                return res.status(400).json({
+                    errors: [`the following error ocurred: ${error.message}`],
+                })
             })
     })
 
