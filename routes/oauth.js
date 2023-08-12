@@ -203,7 +203,7 @@ router.route('/token')
             .then((token) => {
                 res.set(response.headers)
                 res.status(response.status)
-                return res.send(response.body)
+                return res.json(response.body)
             })
             .catch((error) => {
                 return res.status(400).json({
