@@ -102,35 +102,31 @@ exports.getAvailableEyes = () => {
     )
 }
 
-exports.getCurrEyesId = async req => {
+exports.getCurrEyesId = req => {
+
+    //
     if(req.session.user) {
         return req.session.user.eyes
             ? req.session.user.eyes
             : req.session.user.user_id
     }
-    else {
-        const cSettings = myMisc.getCookieSettings(req)
-        let username = config.eyesDefaultUsername
 
-        if(typeof cSettings.eyes !== 'undefined') {
-            if(cSettings.eyes === '') {
-                return -1
-            }
-            else {
-                username = cSettings.eyes
-            }
-        }
+    //
+    const cSettings = myMisc.getCookieSettings(req)
+    const eyes = cSettings.eyes
 
-        //
-        const {rows} = await module.exports.getUserWithUsername(username)
-
-        if(rows.length && rows[0].is_eyes) {
-            return rows[0].user_id
-        }
-        else {
-            return -1
-        }
+    //if no value, then use default user id
+    if(typeof eyes == 'undefined') {
+        return config.eyesDefaultUserId
     }
+
+    //if match default username, then user default user id
+    if(eyes == config.eyesDefaultUsername) {
+        return config.eyesDefaultUserId
+    }
+
+    //otherwise use a nonexistent user id
+    return -1
 }
 
 exports.getUserWithUserId = (userId) => {
