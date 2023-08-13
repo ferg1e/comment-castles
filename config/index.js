@@ -3,6 +3,9 @@
 // otherwise grammar may end up wrong on the site
 exports.eyesDefaultUsername = "stink"
 
+//user id of eyesDefaultUsername
+exports.eyesDefaultUserId = 1
+
 //
 exports.commentsPerPage = 200
 exports.siteName = "Comment Castles"

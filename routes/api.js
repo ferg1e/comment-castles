@@ -42,7 +42,7 @@ router.get(
         const userId = oauthData ? oauthData.user.user_id : -1
         const filterUserId = oauthData
             ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : 1
+            : config.eyesDefaultUserId
 
         const sort = myMisc.getPostSort(req)
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
@@ -96,7 +96,7 @@ router.get(
         const userId = oauthData ? oauthData.user.user_id : -1
         const filterUserId = oauthData
             ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : 1
+            : config.eyesDefaultUserId
 
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
@@ -389,7 +389,7 @@ router.get(
         const userId = oauthData ? oauthData.user.user_id : -1
         const filterUserId = oauthData
             ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : 1
+            : config.eyesDefaultUserId
 
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
