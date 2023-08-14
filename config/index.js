@@ -1,7 +1,7 @@
 
 // you should choose a default username who's possessive is "'s",
 // otherwise grammar may end up wrong on the site
-exports.eyesDefaultUsername = "stink"
+exports.eyesDefaultUsername = "admin"
 
 //user id of eyesDefaultUsername
 exports.eyesDefaultUserId = 1

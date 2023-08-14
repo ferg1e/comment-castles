@@ -46,7 +46,7 @@ router.route('/')
 
         //
         const rows = config.timeZones
-        const {rows:avaEyes} = await db.getAvailableEyes()
+        const avaEyes = db.getAvailableEyes()
         const currEyes = await getCurrEyes(req)
 
         res.render(
@@ -124,7 +124,7 @@ router.route('/')
 
         //
         const rows2 = config.timeZones
-        const {rows:avaEyes} = await db.getAvailableEyes()
+        const avaEyes = db.getAvailableEyes()
         const currEyes = req.body.eyes
 
         //remove # char

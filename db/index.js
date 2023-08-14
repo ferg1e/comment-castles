@@ -89,17 +89,9 @@ exports.getUserWithPublicId = (publicId) => {
 }
 
 exports.getAvailableEyes = () => {
-    return query(`
-        select
-            username
-        from
-            tuser
-        where
-            is_eyes
-        order by
-            lower(username)`,
-        []
-    )
+    return [
+        {username: config.eyesDefaultUsername},
+    ]
 }
 
 exports.getCurrEyesId = req => {
