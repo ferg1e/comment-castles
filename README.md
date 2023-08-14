@@ -75,7 +75,7 @@ module.exports = {
 }
 ```
 
-There must exist a user with a `user_id` of `1` and a `username` of `stink`. These two values are currently hardcoded into the application and serve as the default user whitelist. So after an instance of this application is launched, you should immediately sign up as the user `stink`. Also set `is_eyes` to `true` for `stink` in the `tuser` database table.
+There must exist a user with a `user_id` of `1` and a `username` of `admin`. These two values serve as the default user whitelist and you can change them in `config/index.js` via `eyesDefaultUsername` and `eyesDefaultUserId`. So, after an instance of this application is launched, you should immediately sign up as the user `admin` (or whatever you are using for `eyesDefaultUsername`).
 
 On the [API page](https://www.peachesnstink.com/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
