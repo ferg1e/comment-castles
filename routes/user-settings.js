@@ -80,10 +80,8 @@ router.route('/')
 
         //
         if(req.body.eyes !== "") {
-            const {rows:eyesLookup} = await db.getUserWithUsername(req.body.eyes)
-
-            if(eyesLookup.length && eyesLookup[0].is_eyes) {
-                eyesValue = eyesLookup[0].user_id
+            if(req.body.eyes == config.eyesDefaultUsername) {
+                eyesValue = config.eyesDefaultUserId
             }
             else {
                 eyesOkay = false
