@@ -77,13 +77,13 @@ module.exports = {
 
 There must exist a user with a `user_id` of `1` and a `username` of `admin`. These two values serve as the default user whitelist and you can change them in `config/index.js` via `eyesDefaultUsername` and `eyesDefaultUserId`. So, after an instance of this application is launched, you should immediately sign up as the user `admin` (or whatever you are using for `eyesDefaultUsername`).
 
-On the [API page](https://www.peachesnstink.com/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
+On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
 ## Update
 When you deploy new commits to your instance of this app that is already running, make sure to also execute any new commands that are in `doc-commit/since-github.sql`.
 
-If you deployed your instance before commit [46d52bff7765b250317ee297d570800447cb4afa](https://github.com/ferg1e/peaches-n-stink/commit/46d52bff7765b250317ee297d570800447cb4afa), then you need to run `scripts/gen-user-public-ids.js` in order to generate public IDs for users that are already in the database.
+If you deployed your instance before commit [46d52bff7765b250317ee297d570800447cb4afa](https://github.com/ferg1e/comment-castles/commit/46d52bff7765b250317ee297d570800447cb4afa), then you need to run `scripts/gen-user-public-ids.js` in order to generate public IDs for users that are already in the database.
 
-If you deployed your instance before commit [c88bb90499aa616cd4f1d2b777d21e9a90d470c4](https://github.com/ferg1e/peaches-n-stink/commit/c88bb90499aa616cd4f1d2b777d21e9a90d470c4), then you need to run `scripts/populate-domain-names.js`.
+If you deployed your instance before commit [c88bb90499aa616cd4f1d2b777d21e9a90d470c4](https://github.com/ferg1e/comment-castles/commit/c88bb90499aa616cd4f1d2b777d21e9a90d470c4), then you need to run `scripts/populate-domain-names.js`.
 
-If you deployed your instance before commit [90b98831eeb5785391b371cf46712f1a0b4a0e47](https://github.com/ferg1e/peaches-n-stink/commit/90b98831eeb5785391b371cf46712f1a0b4a0e47), then you need to run `scripts/set-last-comment-times.js`.
+If you deployed your instance before commit [90b98831eeb5785391b371cf46712f1a0b4a0e47](https://github.com/ferg1e/comment-castles/commit/90b98831eeb5785391b371cf46712f1a0b4a0e47), then you need to run `scripts/set-last-comment-times.js`.
