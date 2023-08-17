@@ -4,7 +4,7 @@ Comment Castles is an internet forum project. Users write posts and nested comme
 
 Features:
 
-* OAuth 2 REST API
+* OAuth 2 API
 * public and private groups
 * inbox for comments you receive
 * [help page](https://www.commentcastles.org/help)
