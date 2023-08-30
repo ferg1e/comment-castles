@@ -67,7 +67,8 @@ router.get(
                 title: v.is_visible ? v.title : false,
                 link: v.is_visible ? v.link : false,
                 post_time: v.created_on_raw,
-                by: v.username,
+                author_username: v.username,
+                author_user_id: v.user_public_id,
                 num_comments: v.num_comments,
                 groups: v.is_visible ? v.tags : false
             })
@@ -156,7 +157,8 @@ router.get(
                 comments2.push({
                     comment_text: c.is_visible ? c.text_content : false,
                     indent_level: dotCount - 1,
-                    by: c.username,
+                    author_username: c.username,
+                    author_user_id: c.user_public_id,
                     comment_time: c.created_on_raw,
                     comment_id: c.public_id
                 })
@@ -167,7 +169,8 @@ router.get(
                 link: rows[0].is_visible ? rows[0].link : false,
                 post_text: rows[0].is_visible ? rows[0].text_content : false,
                 post_time: rows[0].created_on_raw,
-                by: rows[0].username,
+                author_username: rows[0].username,
+                author_user_id: rows[0].user_public_id,
                 comments: comments2,
                 groups: rows[0].is_visible ? rows[0].tags : false
             }
@@ -450,7 +453,8 @@ router.get(
                 comments2.push({
                     comment_text: c.is_visible ? c.text_content : false,
                     indent_level: dotCount - rootDotCount - 1,
-                    by: c.username,
+                    author_username: c.username,
+                    author_user_id: c.user_public_id,
                     comment_time: c.created_on_raw,
                     comment_id: c.public_id
                 })
@@ -459,7 +463,8 @@ router.get(
             let r = {
                 comment_text: rows[0].is_visible ? rows[0].text_content : false,
                 comment_time: rows[0].created_on_raw,
-                by: rows[0].username,
+                author_username: rows[0].username,
+                author_user_id: rows[0].user_public_id,
                 comments: comments2
             }
 
