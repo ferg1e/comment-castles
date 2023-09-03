@@ -1,0 +1,11 @@
+form #profile {
+    width: 370px;
+    height: 200px;
+}
+
+/**/
+@media(max-width: 480px) {
+    form #profile {
+        width: 90%;
+    }
+}

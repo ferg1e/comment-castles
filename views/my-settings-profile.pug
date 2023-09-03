@@ -1,0 +1,23 @@
+extends my-settings-top
+
+block head
+    link(rel='stylesheet', href=`${cssDir}/my-settings-sensitive.css`)
+    link(rel='stylesheet', href=`${cssDir}/my-settings-profile.css`)
+
+block content2
+
+    if success
+        ul.usuccess1
+            li=success
+
+    if errors.length
+        ul.uerror1
+            each error in errors
+                li #{error.msg}
+
+    form(method="post")
+        div
+            label(for="profile") Profile
+            textarea(name="profile" id="profile")=profile
+        div
+            input(type="submit" value="Save")

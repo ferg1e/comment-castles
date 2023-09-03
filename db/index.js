@@ -125,7 +125,8 @@ exports.getUserWithUserId = (userId) => {
     return query(`
         select
             username,
-            password
+            password,
+            profile_blurb
         from
             tuser
         where
@@ -185,6 +186,20 @@ exports.updateUserUsername = (userId, username) => {
         where
             user_id = $2`,
         [username, userId])
+}
+
+//
+exports.updateUserProfile = (userId, profile) => {
+    const finalProfile = profile.trim() === '' ? null : profile
+
+    return query(`
+        update
+            tuser
+        set
+            profile_blurb = $1
+        where
+            user_id = $2`,
+        [finalProfile, userId])
 }
 
 //

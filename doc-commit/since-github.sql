@@ -142,3 +142,6 @@ alter table tuser add column one_bg_color char(6) default 'fefefe';
 create type cc_method as enum('plain', 'S256');
 alter table toauthauthcode add column cc_method cc_method not null default 'S256';
 alter table toauthauthcode add column code_challenge char(43) not null default '';
+
+--
+alter table tuser add column profile_blurb text default null;
