@@ -10,7 +10,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
             div.cheader
                 span(class="cby") by
                 | 
-                span(class="cuser") #{pComment.username}
+                a(class="cuser" href=`/u/${pComment.user_public_id}`)=pComment.username
 
                 if !pUser || (pComment.user_id != pUser.user_id)
                     | 
@@ -47,7 +47,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
         else
             span(class="cby2") by
             | 
-            span(class="cuser2") #{pComment.username}
+            a(class="cuser2" href=`/u/${pComment.user_public_id}`)=pComment.username
 
             if !pUser || (pComment.user_id != pUser.user_id)
                 | 

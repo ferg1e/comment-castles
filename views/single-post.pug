@@ -26,7 +26,8 @@ block content
                     span.domname1 (#{post.domain_name})
 
             div
-                span(class="puser") by #{post.username}
+                |by 
+                a(class="puser" href=`/u/${post.user_public_id}`)=post.username
                 | 
 
                 if !user || (post.user_id != user.user_id)
@@ -60,7 +61,9 @@ block content
                 div.the-post-content
                     +bbCodes(post.text_content)
         else
-            span(class="puser2") by #{post.username}
+            span(class="pby2") by
+            | 
+            a(class="puser2" href=`/u/${post.user_public_id}`)=post.username
             | 
 
             if !user || (post.user_id != user.user_id)

@@ -21,7 +21,7 @@ block content
         if comment.is_visible
             span(class="cby") by
             | 
-            span(class="cuser") #{comment.username}
+            a(class="cuser" href=`/u/${comment.user_public_id}`)=comment.username
 
             if !user || (comment.user_id != user.user_id)
                 | 
@@ -48,7 +48,7 @@ block content
         else
             span(class="cby2") by
             | 
-            span(class="cuser2") #{comment.username}
+            a(class="cuser2" href=`/u/${comment.user_public_id}`)=comment.username
 
             if !user || (comment.user_id != user.user_id)
                 | 

@@ -56,7 +56,8 @@ mixin singleLinePost(p)
         +postTitle(p)
 
         | 
-        span(class="puser") by #{p.username}
+        |by 
+        a(class="puser" href=`/u/${p.user_public_id}`)=p.username
 
         +postFollowBut(p)
 
@@ -73,7 +74,8 @@ mixin multiLinePost(p)
         +postTitle(p)
 
         div.pinfo1
-            span(class="puser") by #{p.username}
+            |by 
+            a(class="puser" href=`/u/${p.user_public_id}`)=p.username
 
             +postFollowBut(p)
 
@@ -131,7 +133,9 @@ block content
                         +multiLinePost(post)
                 else
                     div
-                        span(class="puser2") by #{post.username}
+                        span(class="pby2") by
+                        | 
+                        a(class="puser2" href=`/u/${post.user_public_id}`)=post.username
                         | 
 
                         if !user || (post.user_id != user.user_id)

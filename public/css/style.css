@@ -171,9 +171,18 @@ body {
   border-radius: 2px;
 }
 
-.puser2, .pdate2, .pcount2, .cuser2,
+.puser {
+  color: #232323;
+  text-decoration: none;
+}
+
+.puser2, .pdate2, .pby2, .pcount2, .cuser2,
 .cdate2, .cby2, .clinks2-single a, .clinks2 a {
   color: #b2b2b2;
+}
+
+.puser2, .cuser2 {
+  text-decoration: none;
 }
 
 .clinks2 a {
@@ -189,6 +198,7 @@ body {
 
 .cuser {
   color: #5f5f64;
+  text-decoration: none;
 }
 
 .cdate, .cby {
