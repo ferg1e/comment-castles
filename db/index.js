@@ -79,7 +79,8 @@ exports.getUserWithPublicId = (publicId) => {
             is_eyes,
             eyes,
             comment_reply_mode,
-            site_width
+            site_width,
+            profile_blurb
         from
             tuser
         where

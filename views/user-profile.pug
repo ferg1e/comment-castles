@@ -1,5 +1,10 @@
 extends layout
 
+include bbCodes.pug
+
 block content
     h1=username
-    div=profile_text
+
+    if profile_text !== null
+        div
+            +bbCodes(profile_text)
