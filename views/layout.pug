@@ -67,7 +67,14 @@ html
                 a(href="/help") help
               li
                 a(href="/logout") log out
-              li #{user.username}
+
+              //- if user never logged out, public_id may not be set
+              if typeof user.public_id == 'undefined'
+                li=user.username
+              else
+                li
+                  a(href=`/u/${user.public_id}`)=user.username
+
             else
               li
                 a(href="/sign-up") sign up

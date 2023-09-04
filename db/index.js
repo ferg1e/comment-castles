@@ -47,6 +47,7 @@ exports.getUserWithUsername = (username) => {
     return query(`
         select
             user_id,
+            public_id,
             username,
             password,
             time_zone,

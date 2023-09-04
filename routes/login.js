@@ -43,6 +43,7 @@ router.post(
                 if(await argon2.verify(rows[0].password, req.body.password)) {
                     req.session.user = {
                         user_id: rows[0].user_id,
+                        public_id: rows[0].public_id,
                         username: rows[0].username,
                         time_zone: rows[0].time_zone,
                         post_mode: rows[0].post_mode,
