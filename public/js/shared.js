@@ -70,9 +70,11 @@ function reply(cpid, isTargetLink) {
                     bySpan0.className = 'cby'
                     bySpan0.innerHTML = 'by'
 
-                    const bySpan = document.createElement('span')
-                    bySpan.className = 'cuser'
-                    bySpan.innerHTML = data.by
+                    const authorLink = document.createElement('a')
+                    const authorLinkText = document.createTextNode(data.by)
+                    authorLink.className = 'cuser'
+                    authorLink.appendChild(authorLinkText)
+                    authorLink.href = '/u/' + data.user_public_id
 
                     const dateSpan = document.createElement('span')
                     dateSpan.className = 'cdate'
@@ -82,7 +84,7 @@ function reply(cpid, isTargetLink) {
                     headerElem.className = 'cheader'
                     headerElem.appendChild(bySpan0)
                     headerElem.appendChild(document.createTextNode(' '))
-                    headerElem.appendChild(bySpan)
+                    headerElem.appendChild(authorLink)
                     headerElem.appendChild(space1)
                     headerElem.appendChild(dateSpan)
 

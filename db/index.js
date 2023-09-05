@@ -128,7 +128,8 @@ exports.getUserWithUserId = (userId) => {
         select
             username,
             password,
-            profile_blurb
+            profile_blurb,
+            public_id
         from
             tuser
         where

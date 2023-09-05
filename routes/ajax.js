@@ -50,6 +50,20 @@ router.post(
                     data1[0].by = req.session.user.username
 
                     //
+                    const sPublicId = req.session.user.public_id
+
+                    // this user public_id may not be set on the session if
+                    // they've been logged in for a long time, so get it from the db
+                    // if it's not there
+                    if(typeof sPublicId == 'undefined') {
+                        const {rows:[xRow]} = await db.getUserWithUserId(req.session.user.user_id)
+                        data1[0].user_public_id = xRow.public_id
+                    }
+                    else {
+                        data1[0].user_public_id = sPublicId
+                    }
+
+                    //
                     const bbCodesOnly = pug.compileFile('views/bbCodesOnly.pug')
                     data1[0].text_content = bbCodesOnly({text: data1[0].text_content})
 
