@@ -178,27 +178,16 @@ block content
         |in the site navigation (if you're logged in).
 
     h2#settings Settings
+    p.
+        You can access the #[a(href="/settings") general settings] in the main site navigation.
+        You can use the general settings even if you're logged out.
+        Additional settings for logged in users are at #[a(href="/settings/username") username], #[a(href="/settings/profile") profile], #[a(href="/settings/groups") groups] and #[a(href="/settings/app-ids") app IDs].
+        Username is for changing your username, and profile is for editing your profile blurb.
+        The instructions for groups can be found in the #[a(href="/help#private-groups") private groups] section.
+        App IDs are for developers and the instructions can be found in step 1 of the #[a(href="/api#api-user-authentication") user authentication] section of the #[a(href="/api") API documentation].
+
     p
-        |You can access the 
-        a(href="/settings") settings
-        | 
-        |in the site navigation. 
-        |You can use the settings even if you're logged out. 
-        |If you are logged in, then there are three additional settings pages for 
-        a(href="/settings/username") username
-        |, 
-        a(href="/settings/groups") groups
-        | 
-        | and 
-        a(href="/settings/app-ids") app IDs
-        |. Instructions for groups settings can be found in the 
-        a(href="/help#private-groups") private groups
-        | 
-        |section. 
-        |Instructions for the app ID settings can be found in step 1 of the user authentication section of the 
-        a(href="/api") API documentation
-        |. 
-        |The available settings are:
+        |The following are the #[a(href="/settings") general settings]:
         ul.list1
             li
                 b Time Zone
@@ -243,13 +232,6 @@ block content
             li
                 b Secondary Background Color
                 |: this is the background color for the secondary background that doesn't contain any content.
-            li
-                b Username
-                |: You can use this setting to change your username. 
-                |This is only for logged in users. 
-                |This setting has 
-                a(href="/settings/username") its own page
-                |.
 
     h2#editing Editing
     p
