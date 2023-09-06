@@ -23,7 +23,7 @@ block content
     div
         each f in followees
             | 
-            |#{f.username}
+            a(class="fuser" href=`/u/${f.public_id}`)=f.username
             | 
             +unfollowLink(f.username, f.public_id)
             |,
