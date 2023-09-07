@@ -177,7 +177,8 @@ body {
 }
 
 .puser2, .pdate2, .pby2, .pcount2, .cuser2,
-.cdate2, .cby2, .clinks2-single a, .clinks2 a {
+.cdate2, .cby2, .clinks2-single a, .clinks2 a,
+.puser3 {
   color: #b2b2b2;
 }
 

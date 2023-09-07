@@ -1,10 +1,35 @@
 extends layout
 
+mixin followLink(username, publicId)
+    - const goto = encodeURIComponent(`/u/${publicId}`)
+    a(href=`/following?follow=${publicId}&goto=${goto}` class="follow" title=`follow ${username}`) +
+
+mixin unfollowLink(username, publicId)
+    - const goto = encodeURIComponent(`/u/${publicId}`)
+    a(href=`/following?unfollow=${publicId}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
+
+mixin followButton()
+    if !is_self
+        if is_follow
+            +unfollowLink(username, user_public_id)
+        else
+            +followLink(username, user_public_id)
+
 include bbCodes.pug
 
 block content
-    h1=username
+    if is_visible
+        h1
+            =username
+            | 
+            +followButton()
 
-    if profile_text !== null
-        div
-            +bbCodes(profile_text)
+        if profile_text !== null
+            div
+                +bbCodes(profile_text)
+
+    else
+        h1
+            span.puser3=username
+            | 
+            +followButton()
