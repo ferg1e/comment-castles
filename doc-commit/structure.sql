@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.15 (Ubuntu 12.15-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.15 (Ubuntu 12.15-0ubuntu0.20.04.1)
+-- Dumped from database version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -29,6 +29,18 @@ CREATE EXTENSION IF NOT EXISTS ltree WITH SCHEMA public;
 
 COMMENT ON EXTENSION ltree IS 'data type for hierarchical tree-like structures';
 
+
+--
+-- Name: cc_method; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.cc_method AS ENUM (
+    'plain',
+    'S256'
+);
+
+
+ALTER TYPE public.cc_method OWNER TO postgres;
 
 --
 -- Name: comment_mode; Type: TYPE; Schema: public; Owner: postgres
@@ -394,7 +406,9 @@ CREATE TABLE public.toauthauthcode (
     logged_in_user_id integer NOT NULL,
     code character varying(40) NOT NULL,
     redirect_uri character varying(256) NOT NULL,
-    expires_on timestamp with time zone NOT NULL
+    expires_on timestamp with time zone NOT NULL,
+    cc_method public.cc_method DEFAULT 'S256'::public.cc_method NOT NULL,
+    code_challenge character(43) DEFAULT ''::bpchar NOT NULL
 );
 
 
@@ -653,7 +667,8 @@ CREATE TABLE public.tuser (
     post_layout public.post_layout DEFAULT 'double-line'::public.post_layout NOT NULL,
     posts_per_page smallint DEFAULT 20,
     two_bg_color character(6) DEFAULT 'e7e5df'::bpchar,
-    one_bg_color character(6) DEFAULT 'fefefe'::bpchar
+    one_bg_color character(6) DEFAULT 'fefefe'::bpchar,
+    profile_blurb text
 );
 
 
