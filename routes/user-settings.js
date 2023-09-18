@@ -63,6 +63,7 @@ router.route('/')
                 postLayout: myMisc.getCurrPostLayout(req),
                 oneBgColorForm: myMisc.getOneBgColor(req),
                 twoBgColorForm: myMisc.getTwoBgColor(req),
+                mainTextColorForm: myMisc.getMainTextColor(req),
                 postsPerPage: myMisc.getCurrPostsPerPage(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: myMisc.getCurrSiteMaxWidth(req),
@@ -128,6 +129,7 @@ router.route('/')
         //remove # char
         const sOneBgColorBite = req.body.one_bg_color.substring(1)
         const sTwoBgColorBite = req.body.two_bg_color.substring(1)
+        const sMainTextColorBite = req.body.main_text_color.substring(1)
 
         //
         if(errors.length) {
@@ -145,6 +147,7 @@ router.route('/')
                     postLayout: req.body.post_layout,
                     oneBgColorForm: sOneBgColorBite,
                     twoBgColorForm: sTwoBgColorBite,
+                    mainTextColorForm: sMainTextColorBite,
                     postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
@@ -175,13 +178,15 @@ router.route('/')
                     req.body.post_layout,
                     postsPerPageInt,
                     sOneBgColorBite,
-                    sTwoBgColorBite)
+                    sTwoBgColorBite,
+                    sMainTextColorBite)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
                 req.session.user.post_layout = req.body.post_layout
                 req.session.user.one_bg_color = sOneBgColorBite
                 req.session.user.two_bg_color = sTwoBgColorBite
+                req.session.user.main_text_color = sMainTextColorBite
                 req.session.user.posts_per_page = postsPerPageInt
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
@@ -197,6 +202,7 @@ router.route('/')
                     post_layout: req.body.post_layout,
                     one_bg_color: sOneBgColorBite,
                     two_bg_color: sTwoBgColorBite,
+                    main_text_color: sMainTextColorBite,
                     posts_per_page: postsPerPageInt,
                     site_width: siteWidthEmptied,
                 }
@@ -210,6 +216,7 @@ router.route('/')
             //
             req.app.locals.oneBgColor = sOneBgColorBite
             req.app.locals.twoBgColor = sTwoBgColorBite
+            req.app.locals.mainTextColor = sMainTextColorBite
 
             //
             res.render(
@@ -227,6 +234,7 @@ router.route('/')
                     postLayout: req.body.post_layout,
                     oneBgColorForm: sOneBgColorBite,
                     twoBgColorForm: sTwoBgColorBite,
+                    mainTextColorForm: sMainTextColorBite,
                     postsPerPage: req.body.posts_per_page,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,

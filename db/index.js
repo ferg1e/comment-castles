@@ -32,6 +32,7 @@ exports.createUser = (username, password) => {
                 post_layout,
                 one_bg_color,
                 two_bg_color,
+                main_text_color,
                 posts_per_page,
                 eyes,
                 comment_reply_mode,
@@ -55,6 +56,7 @@ exports.getUserWithUsername = (username) => {
             post_layout,
             one_bg_color,
             two_bg_color,
+            main_text_color,
             posts_per_page,
             is_eyes,
             eyes,
@@ -148,7 +150,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout, postsPerPage, oneBgColor, twoBgColor) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor) => {
     return query(`
         update
             tuser
@@ -161,10 +163,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             post_layout = $6,
             posts_per_page = $7,
             one_bg_color = $8,
-            two_bg_color = $9
+            two_bg_color = $9,
+            main_text_color = $10
         where
-            user_id = $10`,
-        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, userId])
+            user_id = $11`,
+        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, userId])
 }
 
 //

@@ -192,6 +192,22 @@ exports.getTwoBgColor = req => {
 }
 
 //
+exports.getMainTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.main_text_color === 'undefined')
+            ? config.defaultMainTextColor
+            : req.session.user.main_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.main_text_color === 'undefined')
+            ? config.defaultMainTextColor
+            : cSettings.main_text_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     const defaultValue = 'quick'
 
@@ -356,6 +372,7 @@ exports.getCookieSettings = req => {
         post_layout: config.defaultPostLayout,
         one_bg_color: config.defaultOneBgColor,
         two_bg_color: config.defaultTwoBgColor,
+        main_text_color: config.defaultMainTextColor,
         posts_per_page: config.defaultPostsPerPage,
         site_width: config.defaultSiteWidth,
     }

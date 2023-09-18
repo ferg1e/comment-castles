@@ -3,7 +3,8 @@
 #l_site-width,
 #l_posts-per-page,
 #l_one-bg-color,
-#l_two-bg-color {
+#l_two-bg-color,
+#l_main-text-color {
     display: block;
 }
 

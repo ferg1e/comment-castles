@@ -39,6 +39,7 @@ exports.maxPostsPerPage = 50
 //
 exports.defaultTwoBgColor = 'e7e5df'
 exports.defaultOneBgColor = 'fefefe'
+exports.defaultMainTextColor = '232323'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

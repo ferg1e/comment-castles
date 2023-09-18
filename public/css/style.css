@@ -3,7 +3,6 @@ header, nav, main, footer, section {
 }
 
 body {
-  color: #232323;
   margin-bottom: 48px;
   margin-bottom: 3rem;
 }
@@ -170,7 +169,6 @@ body {
 }
 
 .puser, .fuser {
-  color: #232323;
   text-decoration: none;
 }
 

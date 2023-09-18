@@ -90,6 +90,7 @@ router.post(
                     post_layout: rows[0].post_layout,
                     one_bg_color: rows[0].one_bg_color,
                     two_bg_color: rows[0].two_bg_color,
+                    main_text_color: rows[0].main_text_color,
                     posts_per_page: rows[0].posts_per_page,
                     comment_reply_mode: rows[0].comment_reply_mode,
                     site_width: rows[0].site_width,
