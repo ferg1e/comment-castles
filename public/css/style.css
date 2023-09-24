@@ -80,6 +80,11 @@ body {
   margin-bottom: 1.125rem;
 }
 
+.posts > div:last-child {
+  margin-bottom: 21px;
+  margin-bottom: 1.3125rem;
+}
+
 .mod-posts > div {
   margin-bottom: 12px;
 }
