@@ -50,7 +50,8 @@ router.route('/')
                 is_discover_mode: isDiscoverMode,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 post_layout: myMisc.getCurrPostLayout(req),
-                sort: sort
+                sort: sort,
+                posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
             })
     })
 

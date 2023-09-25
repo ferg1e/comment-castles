@@ -79,7 +79,8 @@ router.get(
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 post_layout: myMisc.getCurrPostLayout(req),
                 page_tag: tag,
-                sort: sort
+                sort: sort,
+                posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
             })
     }
 )

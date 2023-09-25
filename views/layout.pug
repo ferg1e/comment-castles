@@ -45,6 +45,13 @@ html
         color: ##{mainTextColor};
       }
 
+    if posts_vertical_spacing
+      style.
+        .posts > div {
+          margin-bottom: #{posts_vertical_spacing}px;
+          margin-bottom: #{posts_vertical_spacing/16}rem;
+        }
+
   body
     div#body2
       header

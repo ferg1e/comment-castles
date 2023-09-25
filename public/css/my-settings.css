@@ -4,7 +4,8 @@
 #l_posts-per-page,
 #l_one-bg-color,
 #l_two-bg-color,
-#l_main-text-color {
+#l_main-text-color,
+#l_posts-vertical-spacing {
     display: block;
 }
 

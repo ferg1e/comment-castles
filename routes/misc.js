@@ -43,6 +43,9 @@ router.route('/help')
                 default_ppp: config.defaultPostsPerPage,
                 min_ppp: config.minPostsPerPage,
                 max_ppp: config.maxPostsPerPage,
+                default_pvs: config.defaultPostsVerticalSpacing,
+                min_pvs: config.minPostsVerticalSpacing,
+                max_pvs: config.maxPostsVerticalSpacing,
             })
     })
 

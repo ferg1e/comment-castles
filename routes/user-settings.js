@@ -65,6 +65,7 @@ router.route('/')
                 twoBgColorForm: myMisc.getTwoBgColor(req),
                 mainTextColorForm: myMisc.getMainTextColor(req),
                 postsPerPage: myMisc.getCurrPostsPerPage(req),
+                postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
                 commentReplyMode: myMisc.getCurrCommentReplyMode(req),
                 siteWidth: myMisc.getCurrSiteMaxWidth(req),
                 max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -122,6 +123,17 @@ router.route('/')
         }
 
         //
+        const postsVerticalSpacingInt = parseInt(req.body.posts_vertical_spacing)
+        const pvsIsNaN = isNaN(postsVerticalSpacingInt)
+        const pvsOkay = !pvsIsNaN &&
+            postsVerticalSpacingInt >= config.minPostsVerticalSpacing &&
+            postsVerticalSpacingInt <= config.maxPostsVerticalSpacing
+
+        if(!pvsOkay) {
+            errors.push({msg: `posts vertical spacing must be between ${config.minPostsVerticalSpacing}-${config.maxPostsVerticalSpacing}`})
+        }
+
+        //
         const rows2 = config.timeZones
         const avaEyes = db.getAvailableEyes()
         const currEyes = req.body.eyes
@@ -149,6 +161,7 @@ router.route('/')
                     twoBgColorForm: sTwoBgColorBite,
                     mainTextColorForm: sMainTextColorBite,
                     postsPerPage: req.body.posts_per_page,
+                    postsVerticalSpacing: req.body.posts_vertical_spacing,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -179,7 +192,8 @@ router.route('/')
                     postsPerPageInt,
                     sOneBgColorBite,
                     sTwoBgColorBite,
-                    sMainTextColorBite)
+                    sMainTextColorBite,
+                    postsVerticalSpacingInt)
 
                 req.session.user.time_zone = req.body.time_zone
                 req.session.user.post_mode = req.body.post_mode
@@ -188,6 +202,7 @@ router.route('/')
                 req.session.user.two_bg_color = sTwoBgColorBite
                 req.session.user.main_text_color = sMainTextColorBite
                 req.session.user.posts_per_page = postsPerPageInt
+                req.session.user.posts_vertical_spacing = postsVerticalSpacingInt
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
                 req.session.user.eyes = eyesValue
@@ -204,6 +219,7 @@ router.route('/')
                     two_bg_color: sTwoBgColorBite,
                     main_text_color: sMainTextColorBite,
                     posts_per_page: postsPerPageInt,
+                    posts_vertical_spacing: postsVerticalSpacingInt,
                     site_width: siteWidthEmptied,
                 }
 
@@ -236,6 +252,7 @@ router.route('/')
                     twoBgColorForm: sTwoBgColorBite,
                     mainTextColorForm: sMainTextColorBite,
                     postsPerPage: req.body.posts_per_page,
+                    postsVerticalSpacing: req.body.posts_vertical_spacing,
                     commentReplyMode: req.body.comment_reply_mode,
                     siteWidth: req.body.site_width,
                     max_width: siteWidthNulled

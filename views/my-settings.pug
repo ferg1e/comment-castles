@@ -41,6 +41,10 @@ block content2
                 label(for="posts-per-page" id="l_posts-per-page") Posts Per Page
                 input(id="posts-per-page" name="posts_per_page" value=postsPerPage)
 
+            div
+                label(for="posts-vertical-spacing" id="l_posts-vertical-spacing") Post Spacing
+                input(id="posts-vertical-spacing" name="posts_vertical_spacing" value=postsVerticalSpacing)
+
             - const isPostDiscover = postMode == 'discover'
             - const isPostFollow = postMode == 'following-only'
 

@@ -222,6 +222,38 @@ exports.getCurrCommentReplyMode = req => {
 }
 
 //
+exports.getCurrPostsVerticalSpacing = req => {
+
+    //
+    if(req.session.user) {
+        return (typeof req.session.user.posts_vertical_spacing == 'undefined')
+            ? config.defaultPostsVerticalSpacing
+            : req.session.user.posts_vertical_spacing
+    }
+
+    //
+    const cSettings = module.exports.getCookieSettings(req)
+
+    if(typeof cSettings.posts_vertical_spacing == 'undefined') {
+        return config.defaultPostsVerticalSpacing
+    }
+
+    //
+    const postsVerticalSpacingInt = parseInt(cSettings.posts_vertical_spacing)
+
+    if(isNaN(postsVerticalSpacingInt)) {
+        return config.defaultPostsVerticalSpacing
+    }
+
+    if(postsVerticalSpacingInt < config.minPostsVerticalSpacing || postsVerticalSpacingInt > config.maxPostsVerticalSpacing) {
+        return config.defaultPostsVerticalSpacing
+    }
+
+    //
+    return postsVerticalSpacingInt
+}
+
+//
 exports.getCurrPostsPerPage = req => {
     if(req.session.user) {
         return (typeof req.session.user.posts_per_page === 'undefined')
@@ -374,6 +406,7 @@ exports.getCookieSettings = req => {
         two_bg_color: config.defaultTwoBgColor,
         main_text_color: config.defaultMainTextColor,
         posts_per_page: config.defaultPostsPerPage,
+        posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,
     }
 

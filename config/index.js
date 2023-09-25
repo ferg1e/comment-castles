@@ -37,6 +37,11 @@ exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
 
 //
+exports.defaultPostsVerticalSpacing = 18
+exports.minPostsVerticalSpacing = 2
+exports.maxPostsVerticalSpacing = 40
+
+//
 exports.defaultTwoBgColor = 'e7e5df'
 exports.defaultOneBgColor = 'fefefe'
 exports.defaultMainTextColor = '232323'
