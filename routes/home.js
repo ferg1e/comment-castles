@@ -9,7 +9,8 @@ const htmlTitleHome = config.siteName
 //
 router.route('/')
     .get(async (req, res) => {
-        let finalUserId = req.session.user ? req.session.user.user_id : -1
+        let finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+        const isLoggedIn = typeof req.session.user != 'undefined'
 
         //
         let page = 1
@@ -27,7 +28,6 @@ router.route('/')
 
         //
         const isDiscoverMode = myMisc.isDiscover(req)
-        const filterUserId = await db.getCurrEyesId(req)
 
         //
         const {rows} = await db.getPosts(
@@ -35,7 +35,7 @@ router.route('/')
             myMisc.getCurrTimeZone(req),
             page,
             isDiscoverMode,
-            filterUserId,
+            isLoggedIn,
             sort,
             myMisc.getCurrPostsPerPage(req))
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router({mergeParams: true})
 
@@ -8,7 +9,8 @@ router.get(
     '/',
     async (req, res) => {
         const tag = req.params[0]
-        let finalUserId = req.session.user ? req.session.user.user_id : -1
+        let finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+        const isLoggedIn = typeof req.session.user != 'undefined'
 
         //
         let page = 1
@@ -54,7 +56,6 @@ router.get(
 
         //
         const isDiscoverMode = myMisc.isDiscover(req)
-        const filterUserId = await db.getCurrEyesId(req)
 
         //
         const {rows} = await db.getTagPosts(
@@ -63,7 +64,7 @@ router.get(
             page,
             tag,
             isDiscoverMode,
-            filterUserId,
+            isLoggedIn,
             sort,
             myMisc.getCurrPostsPerPage(req))
 

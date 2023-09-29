@@ -271,12 +271,12 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
     }
 }
 
-exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, sort, pageSize) => {
-    const numLeadingPlaceholders = 9
+exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, sort, pageSize) => {
+    const numLeadingPlaceholders = 6
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
 
-    if(userId != -1) {
+    if(isLoggedIn) {
 
         //
         const {rows} = await module.exports.getUserAllPrivateGroupIds(userId)
@@ -293,8 +293,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
 
     const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
 
-    const beforeParams = [timeZone, userId, filterUserId, filterUserId, userId, isDiscoverMode,
-        userId, filterUserId, filterUserId]
+    const beforeParams = [timeZone, userId, userId, isDiscoverMode, userId, userId]
 
     const afterParams = [sort, sort, sort, sort, sort, sort,
         pageSize, (page - 1)*pageSize]
@@ -318,21 +317,14 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
                 when p.domain_name_id is null then null
                 else (select domain_name from tdomainname where domain_name_id = p.domain_name_id)
                 end domain_name,
-            u.user_id = $2 or u.user_id = $3 or
+            u.user_id = $2 or
                 exists(select
                         1
                     from
                         tfollower
                     where
                         followee_user_id = u.user_id and
-                        user_id = $4) is_visible,
-            exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $5) is_follow,
+                        user_id = $3) is_visible,
             array(
                 select
                     t.tag
@@ -348,14 +340,14 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
             tuser u on u.user_id = p.user_id
         where
             not is_removed and
-            ($6 or u.user_id = $7 or u.user_id = $8 or
+            ($4 or u.user_id = $5 or
                 exists(select
                         1
                     from
                         tfollower
                     where
                         followee_user_id = u.user_id and
-                        user_id = $9)) and
+                        user_id = $6)) and
             (array(
                 select
                     pg.private_group_id
@@ -386,12 +378,12 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, filterUserId, 
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filterUserId, sort, pageSize) => {
-    const numLeadingPlaceholders = 10
+exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLoggedIn, sort, pageSize) => {
+    const numLeadingPlaceholders = 7
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
 
-    if(userId != -1) {
+    if(isLoggedIn) {
 
         //
         const {rows} = await module.exports.getUserAllPrivateGroupIds(userId)
@@ -408,8 +400,8 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filter
 
     const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
 
-    const beforeParams = [timeZone, userId, filterUserId, filterUserId, userId, tag,
-        isDiscoverMode, userId, filterUserId, filterUserId]
+    const beforeParams = [timeZone, userId, userId, tag,
+        isDiscoverMode, userId, userId]
 
     const afterParams = [sort, sort, sort, sort, sort, sort,
         pageSize, (page - 1)*pageSize]
@@ -429,21 +421,14 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filter
             p.link,
             p.num_comments,
             dn.domain_name,
-            u.user_id = $2 or u.user_id = $3 or
+            u.user_id = $2 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $4) is_visible,
-            exists(select
-                1
-            from
-                tfollower
-            where
-                followee_user_id = u.user_id and
-                user_id = $5) is_follow,
+                    user_id = $3) is_visible,
             array(
                 select
                     t.tag
@@ -470,17 +455,17 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, filter
                 join
                     tposttag pt on pt.tag_id = t.tag_id
                 where
-                    t.tag = $6 and
+                    t.tag = $4 and
                     pt.post_id = p.post_id
             ) and
-            ($7 or u.user_id = $8 or u.user_id = $9 or
+            ($5 or u.user_id = $6 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $10)) and
+                    user_id = $7)) and
             (array(
                 select
                     pg.private_group_id

@@ -39,10 +39,8 @@ router.get(
             ? (oauthData.user.post_mode == 'discover')
             : (typeof req.query.viewmode !== 'undefined' && req.query.viewmode.toLowerCase() == 'discover')
 
-        const userId = oauthData ? oauthData.user.user_id : -1
-        const filterUserId = oauthData
-            ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : config.eyesDefaultUserId
+        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
+        const isLoggedIn = oauthData ? true : false
 
         const sort = myMisc.getPostSort(req)
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
@@ -52,7 +50,7 @@ router.get(
             timeZone,
             page,
             isDiscoverMode,
-            filterUserId,
+            isLoggedIn,
             sort,
             config.defaultPostsPerPage)
 

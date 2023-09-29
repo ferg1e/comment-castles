@@ -27,7 +27,7 @@ mixin postTitle(p)
 mixin postFollowBut(p)
     if !user || (p.user_id != user.user_id)
         | 
-        if p.is_follow
+        if p.is_visible
             +unfollowLink(p.username, p.user_public_id)
         else
             +followLink(p.username, p.user_public_id)
@@ -139,7 +139,7 @@ block content
                         | 
 
                         if !user || (post.user_id != user.user_id)
-                            if post.is_follow
+                            if post.is_visible
                                 +unfollowLink(post.username, post.user_public_id)
                             else
                                 +followLink(post.username, post.user_public_id)
