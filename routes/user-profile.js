@@ -3,6 +3,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 const router = express.Router({mergeParams: true})
 //const htmlTitleNewPost = 'New Post'
@@ -27,24 +28,17 @@ const get = async (req, res) => {
     }
 
     //
-    const loggedInUserId = req.session.user ? req.session.user.user_id : -1
-    const filterUserId = await db.getCurrEyesId(req)
+    const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
     const targetUserId = dbUser.user_id
-    let isFollow = false
 
     //
-    if(loggedInUserId != -1) {
-        const {rows:[flag]} = await db.getUserFollowee(loggedInUserId, targetUserId)
-        isFollow = typeof flag != 'undefined'
-    }
-
-    //
-    const {rows:[flag2]} = await db.getUserFollowee(filterUserId, targetUserId)
-    const isVisible = loggedInUserId == targetUserId ||
-        filterUserId == targetUserId ||
+    const {rows:[flag2]} = await db.getUserFollowee(finalUserId, targetUserId)
+    const isVisible = finalUserId == targetUserId ||
         typeof flag2 != 'undefined'
 
     //
+    const selfCheckUserId = req.session.user ? req.session.user.user_id : -1
+
     return res.render(
         'user-profile',
         {
@@ -53,9 +47,8 @@ const get = async (req, res) => {
             max_width: myMisc.getCurrSiteMaxWidth(req),
             username: dbUser.username,
             profile_text: dbUser.profile_blurb,
-            is_follow: isFollow,
             is_visible: isVisible,
-            is_self: loggedInUserId == targetUserId,
+            is_self: selfCheckUserId == targetUserId,
             user_public_id: userPublicId,
         }
     )

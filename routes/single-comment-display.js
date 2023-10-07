@@ -9,21 +9,20 @@ const htmlTitleComment = 'Comment #'
 router.route('/')
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
-        const finalUserId = req.session.user ? req.session.user.user_id : -1
-        const filterUserId = await db.getCurrEyesId(req)
+        const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             myMisc.getCurrTimeZone(req),
-            finalUserId,
-            filterUserId)
+            finalUserId)
 
         if(rows.length) {
 
             //
+            const allowedCheckUserId = req.session.user ? req.session.user.user_id : -1
             const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
-                finalUserId)
+                allowedCheckUserId)
 
             if(!isAllowed) {
                 return res.render(
@@ -55,15 +54,13 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
-                filterUserId,
                 page)
 
             //
             const {rows:data2} = await db.getCommentNumComments(
                 rows[0].path,
                 finalUserId,
-                isDiscoverMode,
-                filterUserId)
+                isDiscoverMode)
 
             const numComments = data2[0]['count']
             const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -94,14 +91,12 @@ router.route('/')
         async (req, res) => {
             if(req.session.user) {
                 const commentPublicId = req.params[0]
-                const finalUserId = req.session.user ? req.session.user.user_id : -1
-                const filterUserId = await db.getCurrEyesId(req)
+                const finalUserId = req.session.user.user_id
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
                     myMisc.getCurrTimeZone(req),
-                    finalUserId,
-                    filterUserId)
+                    finalUserId)
 
                 if(rows.length) {
 
@@ -142,15 +137,13 @@ router.route('/')
                             myMisc.getCurrTimeZone(req),
                             finalUserId,
                             isDiscoverMode,
-                            filterUserId,
                             page)
 
                         //
                         const {rows:data2} = await db.getCommentNumComments(
                             rows[0].path,
                             finalUserId,
-                            isDiscoverMode,
-                            filterUserId)
+                            isDiscoverMode)
 
                         const numComments = data2[0]['count']
                         const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -190,8 +183,7 @@ router.route('/')
                         const {rows:data2} = await db.getCommentNumComments(
                             rows[0].path,
                             finalUserId,
-                            isDiscoverMode,
-                            filterUserId)
+                            isDiscoverMode)
 
                         const numComments = data2[0]['count']
                         const pages = Math.ceil(numComments/config.commentsPerPage)

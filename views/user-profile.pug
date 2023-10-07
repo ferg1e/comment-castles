@@ -10,7 +10,7 @@ mixin unfollowLink(username, publicId)
 
 mixin followButton()
     if !is_self
-        if is_follow
+        if is_visible
             +unfollowLink(username, user_public_id)
         else
             +followLink(username, user_public_id)

@@ -11,21 +11,20 @@ const router = express.Router({
 //
 const get = async (req, res) => {
     const postPublicId = req.params[0]
-    const finalUserId = req.session.user ? req.session.user.user_id : -1
-    const filterUserId = await db.getCurrEyesId(req)
+    const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
 
     //
     const {rows:[row]} = await db.getPostWithPublic2(
         postPublicId,
         myMisc.getCurrTimeZone(req),
-        finalUserId,
-        filterUserId)
+        finalUserId)
 
     //
     if(!row) return res.send('not found')
 
     //
-    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, finalUserId)
+    const allowedCheckUserId = req.session.user ? req.session.user.user_id : -1
+    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, allowedCheckUserId)
 
     if(!isAllowed) {
         return res.render('message', {
@@ -55,7 +54,6 @@ const get = async (req, res) => {
         myMisc.getCurrTimeZone(req),
         finalUserId,
         isDiscoverMode,
-        filterUserId,
         page)
 
     const htmlTitle = row.is_visible
@@ -66,8 +64,7 @@ const get = async (req, res) => {
     const {rows:data2} = await db.getPostNumComments(
         row.post_id,
         finalUserId,
-        isDiscoverMode,
-        filterUserId)
+        isDiscoverMode)
 
     const numComments = data2[0]['count']
     const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -95,20 +92,18 @@ const post = async (req, res) => {
 
     //
     const postPublicId = req.params[0]
-    const finalUserId = req.session.user ? req.session.user.user_id : -1
-    const filterUserId = await db.getCurrEyesId(req)
+    const finalUserId = req.session.user.user_id
 
     const {rows:[row]} = await db.getPostWithPublic2(
         postPublicId,
         myMisc.getCurrTimeZone(req),
-        finalUserId,
-        filterUserId)
+        finalUserId)
 
     //
     if(!row) return res.send('not found')
 
     //
-    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, req.session.user.user_id)
+    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, finalUserId)
 
     if(!isAllowed) {
         return res.render('message', {
@@ -142,7 +137,6 @@ const post = async (req, res) => {
             myMisc.getCurrTimeZone(req),
             finalUserId,
             isDiscoverMode,
-            filterUserId,
             page)
 
         const htmlTitle = row.is_visible
@@ -153,8 +147,7 @@ const post = async (req, res) => {
         const {rows:data2} = await db.getPostNumComments(
             row.post_id,
             finalUserId,
-            isDiscoverMode,
-            filterUserId)
+            isDiscoverMode)
 
         const numComments = data2[0]['count']
         const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -187,8 +180,7 @@ const post = async (req, res) => {
     const {rows:data2} = await db.getPostNumComments(
         row.post_id,
         finalUserId,
-        isDiscoverMode,
-        filterUserId)
+        isDiscoverMode)
 
     //
     const numComments = data2[0]['count']

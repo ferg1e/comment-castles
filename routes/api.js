@@ -92,27 +92,23 @@ router.get(
 
         //
         const postPublicId = req.query.postid
-        const userId = oauthData ? oauthData.user.user_id : -1
-        const filterUserId = oauthData
-            ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : config.eyesDefaultUserId
-
+        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
         //
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
             timeZone,
-            userId,
-            filterUserId)
+            userId)
 
         //
         if(rows.length) {
 
             //
+            const allowedCheckUserId = oauthData ? oauthData.user.user_id : -1
             const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
-                userId)
+                allowedCheckUserId)
 
             if(!isAllowed) {
                 return res.status(403).json({
@@ -142,7 +138,6 @@ router.get(
                 timeZone,
                 userId,
                 isDiscoverMode,
-                filterUserId,
                 page)
 
             //
@@ -387,10 +382,7 @@ router.get(
 
         //
         const commentPublicId = req.query.commentid
-        const userId = oauthData ? oauthData.user.user_id : -1
-        const filterUserId = oauthData
-            ? (oauthData.user.eyes ? oauthData.user.eyes : oauthData.user.user_id)
-            : config.eyesDefaultUserId
+        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
 
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
@@ -398,16 +390,16 @@ router.get(
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             timeZone,
-            userId,
-            filterUserId)
+            userId)
 
         //
         if(rows.length) {
 
             //
+            const allowedCheckUserId = oauthData ? oauthData.user.user_id : -1
             const isAllowed = await db.isAllowedToViewPost(
                 rows[0].private_group_ids,
-                userId)
+                allowedCheckUserId)
 
             if(!isAllowed) {
                 return res.status(403).json({
@@ -437,7 +429,6 @@ router.get(
                 timeZone,
                 userId,
                 isDiscoverMode,
-                filterUserId,
                 page)
 
             //
@@ -521,19 +512,13 @@ router.post(
         }
 
         //
-        const filterUserId = oauthData.user.eyes
-            ? oauthData.user.eyes
-            : oauthData.user.user_id
-
-        //
         if(isPostId) {
 
             //
             const {rows:[row]} = await db.getPostWithPublic2(
                 postId,
                 oauthData.user.time_zone,
-                oauthData.user.user_id,
-                filterUserId)
+                oauthData.user.user_id)
 
             //
             if(!row) {
@@ -579,8 +564,7 @@ router.post(
             const {rows:[row]} = await db.getCommentWithPublic2(
                 commentId,
                 oauthData.user.time_zone,
-                oauthData.user.user_id,
-                filterUserId)
+                oauthData.user.user_id)
 
             if(!row) {
                 return res.status(404).json({errors: ['no such comment']})

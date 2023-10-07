@@ -9,7 +9,6 @@ router.route('/')
         if(req.session.user) {
 
             //
-            const filterUserId = await db.getCurrEyesId(req)
             const isDiscoverMode = myMisc.isDiscover(req)
 
             //
@@ -28,7 +27,6 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 req.session.user.user_id,
                 isDiscoverMode,
-                filterUserId,
                 page)
 
             //

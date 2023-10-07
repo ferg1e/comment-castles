@@ -28,13 +28,10 @@ block content
             div
                 |by 
                 a(class="puser" href=`/u/${post.user_public_id}`)=post.username
-                | 
 
                 if !user || (post.user_id != user.user_id)
-                    if post.is_follow
-                        +ucUnfollowLink(post.username, post.user_public_id, followGoto)
-                    else
-                        +ucFollowLink(post.username, post.user_public_id, followGoto)
+                    | 
+                    +ucUnfollowLink(post.username, post.user_public_id, followGoto)
 
                 | 
                 span(class="pdate") on #{post.created_on}
@@ -64,13 +61,10 @@ block content
             span(class="pby2") by
             | 
             a(class="puser2" href=`/u/${post.user_public_id}`)=post.username
-            | 
 
             if !user || (post.user_id != user.user_id)
-                if post.is_follow
-                    +ucUnfollowLink(post.username, post.user_public_id, followGoto)
-                else
-                    +ucFollowLink(post.username, post.user_public_id, followGoto)
+                | 
+                +ucFollowLink(post.username, post.user_public_id, followGoto)
 
             | 
             span(class="pdate2") on #{post.created_on}

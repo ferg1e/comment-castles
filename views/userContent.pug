@@ -14,10 +14,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
 
                 if !pUser || (pComment.user_id != pUser.user_id)
                     | 
-                    if pComment.is_follow
-                        +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
-                    else
-                        +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
+                    +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
 
                 | 
                 span(class="cdate") on #{pComment.created_on}
@@ -51,10 +48,7 @@ mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLin
 
             if !pUser || (pComment.user_id != pUser.user_id)
                 | 
-                if pComment.is_follow
-                    +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
-                else
-                    +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
+                +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
 
             | 
             span(class="cdate2") on #{pComment.created_on}
