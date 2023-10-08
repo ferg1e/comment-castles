@@ -58,7 +58,6 @@ module.exports = {
                     user_id: row.logged_in_user_id,
                     time_zone: row.time_zone,
                     post_mode: row.post_mode,
-                    eyes: row.eyes
                 }
             }
         }

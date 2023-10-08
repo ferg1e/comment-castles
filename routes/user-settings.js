@@ -46,8 +46,6 @@ router.route('/')
 
         //
         const rows = config.timeZones
-        const avaEyes = db.getAvailableEyes()
-        const currEyes = await getCurrEyes(req)
 
         res.render(
             'my-settings',
@@ -57,8 +55,6 @@ router.route('/')
                 user: req.session.user,
                 time_zones: rows,
                 time_zone: myMisc.getCurrTimeZone(req),
-                avaEyes: avaEyes,
-                currEyes: currEyes,
                 postMode: myMisc.getCurrPostMode(req),
                 postLayout: myMisc.getCurrPostLayout(req),
                 oneBgColorForm: myMisc.getOneBgColor(req),
@@ -77,28 +73,10 @@ router.route('/')
         const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
         //
-        let eyesOkay = true
-        let eyesValue = null
-
-        //
-        if(req.body.eyes !== "") {
-            if(req.body.eyes == config.eyesDefaultUsername) {
-                eyesValue = config.eyesDefaultUserId
-            }
-            else {
-                eyesOkay = false
-            }
-        }
-
-        //
         let errors = []
 
         if(!rows.length) {
             errors.push({msg: 'unknown time zone, pick again'})
-        }
-
-        if(!eyesOkay) {
-            errors.push({msg: 'bad following list'})
         }
 
         //
@@ -135,8 +113,6 @@ router.route('/')
 
         //
         const rows2 = config.timeZones
-        const avaEyes = db.getAvailableEyes()
-        const currEyes = req.body.eyes
 
         //remove # char
         const sOneBgColorBite = req.body.one_bg_color.substring(1)
@@ -153,8 +129,6 @@ router.route('/')
                     user: req.session.user,
                     time_zones: rows2,
                     time_zone: req.body.time_zone,
-                    avaEyes: avaEyes,
-                    currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
                     oneBgColorForm: sOneBgColorBite,
@@ -187,7 +161,6 @@ router.route('/')
                     req.body.post_mode,
                     req.body.comment_reply_mode,
                     siteWidthNulled,
-                    eyesValue,
                     req.body.post_layout,
                     postsPerPageInt,
                     sOneBgColorBite,
@@ -205,14 +178,12 @@ router.route('/')
                 req.session.user.posts_vertical_spacing = postsVerticalSpacingInt
                 req.session.user.comment_reply_mode = req.body.comment_reply_mode
                 req.session.user.site_width = siteWidthNulled
-                req.session.user.eyes = eyesValue
             }
             else {
 
                 //
                 const settings = {
                     time_zone: req.body.time_zone,
-                    eyes: req.body.eyes,
                     post_mode: req.body.post_mode,
                     post_layout: req.body.post_layout,
                     one_bg_color: sOneBgColorBite,
@@ -244,8 +215,6 @@ router.route('/')
                     user: req.session.user,
                     time_zones: rows2,
                     time_zone: req.body.time_zone,
-                    avaEyes: avaEyes,
-                    currEyes: currEyes,
                     postMode: req.body.post_mode,
                     postLayout: req.body.post_layout,
                     oneBgColorForm: sOneBgColorBite,
@@ -261,21 +230,3 @@ router.route('/')
     })
 
 module.exports = router
-
-//
-async function getCurrEyes(req) {
-    let eyes = ''
-
-    if(req.session.user && req.session.user.eyes) {
-        const {rows} = await db.getUserWithUserId(req.session.user.eyes)
-        eyes = rows[0].username
-    }
-    else if(!req.session.user) {
-        const cSettings = myMisc.getCookieSettings(req)
-        eyes = typeof cSettings.eyes !== 'undefined'
-            ? cSettings.eyes
-            : config.eyesDefaultUsername
-    }
-
-    return eyes
-}

@@ -95,7 +95,6 @@ router.post(
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
                     comment_reply_mode: rows[0].comment_reply_mode,
                     site_width: rows[0].site_width,
-                    eyes: rows[0].eyes
                 }
 
                 return res.redirect('/')

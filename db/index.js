@@ -35,7 +35,6 @@ exports.createUser = (username, password) => {
                 main_text_color,
                 posts_per_page,
                 posts_vertical_spacing,
-                eyes,
                 comment_reply_mode,
                 site_width`,
             [
@@ -60,8 +59,6 @@ exports.getUserWithUsername = (username) => {
             main_text_color,
             posts_per_page,
             posts_vertical_spacing,
-            is_eyes,
-            eyes,
             comment_reply_mode,
             site_width
         from
@@ -81,8 +78,6 @@ exports.getUserWithPublicId = (publicId) => {
             password,
             time_zone,
             post_mode,
-            is_eyes,
-            eyes,
             comment_reply_mode,
             site_width,
             profile_blurb
@@ -92,39 +87,6 @@ exports.getUserWithPublicId = (publicId) => {
             public_id = $1`,
         [publicId]
     )
-}
-
-exports.getAvailableEyes = () => {
-    return [
-        {username: config.eyesDefaultUsername},
-    ]
-}
-
-exports.getCurrEyesId = req => {
-
-    //
-    if(req.session.user) {
-        return req.session.user.eyes
-            ? req.session.user.eyes
-            : req.session.user.user_id
-    }
-
-    //
-    const cSettings = myMisc.getCookieSettings(req)
-    const eyes = cSettings.eyes
-
-    //if no value, then use default user id
-    if(typeof eyes == 'undefined') {
-        return config.eyesDefaultUserId
-    }
-
-    //if match default username, then user default user id
-    if(eyes == config.eyesDefaultUsername) {
-        return config.eyesDefaultUserId
-    }
-
-    //otherwise use a nonexistent user id
-    return -1
 }
 
 exports.getUserWithUserId = (userId) => {
@@ -152,7 +114,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, eyes, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -160,17 +122,16 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             time_zone = $1,
             post_mode = $2,
             comment_reply_mode = $3,
-            eyes = $4,
-            site_width = $5,
-            post_layout = $6,
-            posts_per_page = $7,
-            one_bg_color = $8,
-            two_bg_color = $9,
-            main_text_color = $10,
-            posts_vertical_spacing = $11
+            site_width = $4,
+            post_layout = $5,
+            posts_per_page = $6,
+            one_bg_color = $7,
+            two_bg_color = $8,
+            main_text_color = $9,
+            posts_vertical_spacing = $10
         where
-            user_id = $12`,
-        [timeZoneName, postMode, commentReplyMode, eyes, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, userId])
+            user_id = $11`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, userId])
 }
 
 //
@@ -1670,8 +1631,7 @@ exports.getAccessToken = (token) => {
             at.logged_in_user_id,
             c.public_client_id,
             u.time_zone,
-            u.post_mode,
-            u.eyes
+            u.post_mode
         from
             toauthaccesstoken at
         join

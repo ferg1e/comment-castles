@@ -149,3 +149,7 @@ alter table tuser add column profile_blurb text default null;
 --
 alter table tuser add column main_text_color char(6) default '232323';
 alter table tuser add column posts_vertical_spacing smallint default 18;
+
+--
+alter table tuser drop column is_eyes;
+alter table tuser drop column eyes;
