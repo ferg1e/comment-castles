@@ -17,8 +17,8 @@ function query(query, params) {
 }
 
 //user
-exports.createUser = (username, password) => {
-    return argon2.hash(password)
+exports.createUser = async (username, password) => {
+    const {rows} = await argon2.hash(password)
         .then(hash => query(`
             insert into tuser
                 (username, password, public_id)
@@ -42,6 +42,24 @@ exports.createUser = (username, password) => {
                 hash,
                 nanoid(nanoidAlphabet, nanoidLen)
             ]))
+
+    // follow users that admin is following
+    // and also follow admin
+    await query(`
+        insert into tfollower
+            (user_id, followee_user_id)
+        (select $1, followee_user_id from tfollower where user_id = $2
+        union
+        select $3::integer, $4::integer)`,
+        [
+            rows[0].user_id,
+            config.eyesDefaultUserId,
+            rows[0].user_id,
+            config.eyesDefaultUserId
+        ])
+
+    //
+    return rows
 }
 
 exports.getUserWithUsername = (username) => {

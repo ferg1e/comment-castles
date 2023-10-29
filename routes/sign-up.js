@@ -61,7 +61,7 @@ router.post(
             const {username, password} = req.body
 
             try {
-                var {rows} = await db.createUser(username, password)
+                var rows = await db.createUser(username, password)
             }
             catch(err) {
                 let errorMessage = (err.constraint == 'username_unique_idx')
