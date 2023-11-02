@@ -5,6 +5,7 @@ exports.eyesDefaultUsername = "admin"
 
 //user id of eyesDefaultUsername
 exports.eyesDefaultUserId = 1
+exports.adminPublicUserId = 'nuj9QJARKnM1bg9bIOL5jA'
 
 //
 exports.commentsPerPage = 200
