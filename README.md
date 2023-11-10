@@ -1,12 +1,12 @@
 # Comment Castles
 
-Comment Castles is an internet forum project. Users write posts and nested comments. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum with whitelist moderation. Users write posts, nested comments and user profiles. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Features:
 
 * OAuth 2 API
 * public and private groups
-* inbox for comments you receive
+* inbox for direct comments you receive
 * [help page](https://www.commentcastles.org/help)
 
 ## Install
