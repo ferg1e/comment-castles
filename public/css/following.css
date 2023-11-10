@@ -5,3 +5,7 @@ form > div {
 form label {
     display: block;
 }
+
+.followees {
+    margin-bottom: 12px;
+}

@@ -20,10 +20,15 @@ block content
         div
             input(type="submit" value="Follow")
 
-    div
+    div.followees
         each f in followees
             | 
             a(class="fuser" href=`/u/${f.public_id}`)=f.username
             | 
             +unfollowLink(f.username, f.public_id)
             |,
+
+    div
+        form(method="post" action="/following")
+            input(type="submit" value="Unfollow All")
+            input(type="hidden" name="uall" value="1")

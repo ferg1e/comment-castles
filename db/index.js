@@ -1254,6 +1254,16 @@ exports.removeFollower = (userId, followeeUserId) => {
         [userId, followeeUserId])
 }
 
+//
+exports.unfollowAll = (userId) => {
+    return query(`
+        delete from
+            tfollower
+        where
+            user_id = $1`,
+        [userId])
+}
+
 //tags
 exports.createTag = (tagName) => {
     return query(`

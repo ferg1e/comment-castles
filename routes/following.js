@@ -132,6 +132,12 @@ const post = async (req, res) => {
     }
 
     //
+    if(req.body.uall === '1') {
+        await db.unfollowAll(req.session.user.user_id)
+        return res.redirect('/following')
+    }
+
+    //
     const errors = []
 
     //
