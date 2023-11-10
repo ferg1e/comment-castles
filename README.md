@@ -1,6 +1,6 @@
 # Comment Castles
 
-Comment Castles is an internet forum with whitelist moderation. Users write posts, nested comments and user profiles. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum that uses whitelist moderation. Users write posts, nested comments and user profiles. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Features:
 
