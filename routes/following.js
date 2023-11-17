@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../misc.js')
+const config = require('../config')
 
 //
 const router = express.Router()
@@ -138,6 +139,13 @@ const post = async (req, res) => {
     }
 
     //
+    if(req.body.call === '1') {
+        await db.unfollowAll(req.session.user.user_id)
+        await db.copyAdminsFollowees(req.session.user.user_id)
+        return res.redirect('/following')
+    }
+
+    //
     const errors = []
 
     //
@@ -206,7 +214,8 @@ async function renderFollowing(req, res, errors, formUsername) {
             user: req.session.user,
             followees: rows,
             formUsername: formUsername,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            admin_username: config.eyesDefaultUsername,
         }
     )
 }

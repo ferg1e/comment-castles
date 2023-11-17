@@ -9,3 +9,7 @@ form label {
 .followees {
     margin-bottom: 12px;
 }
+
+.bform {
+    display: inline;
+}

@@ -43,20 +43,8 @@ exports.createUser = async (username, password) => {
                 nanoid(nanoidAlphabet, nanoidLen)
             ]))
 
-    // follow users that admin is following
-    // and also follow admin
-    await query(`
-        insert into tfollower
-            (user_id, followee_user_id)
-        (select $1, followee_user_id from tfollower where user_id = $2
-        union
-        select $3::integer, $4::integer)`,
-        [
-            rows[0].user_id,
-            config.eyesDefaultUserId,
-            rows[0].user_id,
-            config.eyesDefaultUserId
-        ])
+    //
+    await module.exports.copyAdminsFollowees(rows[0].user_id)
 
     //
     return rows
@@ -1211,6 +1199,23 @@ exports.addFollower = (userId, followeeUserId) => {
         values
             ($1, $2)`,
         [userId, followeeUserId])
+}
+
+// follow users that admin is following
+// and also follow admin
+exports.copyAdminsFollowees = (userId) => {
+    return query(`
+        insert into tfollower
+            (user_id, followee_user_id)
+        (select $1, followee_user_id from tfollower where user_id = $2
+        union
+        select $3::integer, $4::integer)`,
+        [
+            userId,
+            config.eyesDefaultUserId,
+            userId,
+            config.eyesDefaultUserId
+        ])
 }
 
 exports.getUserFollowees = (userId) => {
