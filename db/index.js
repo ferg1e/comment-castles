@@ -1207,12 +1207,13 @@ exports.copyAdminsFollowees = (userId) => {
     return query(`
         insert into tfollower
             (user_id, followee_user_id)
-        (select $1, followee_user_id from tfollower where user_id = $2
+        (select $1, followee_user_id from tfollower where user_id = $2 and followee_user_id != $3
         union
-        select $3::integer, $4::integer)`,
+        select $4::integer, $5::integer)`,
         [
             userId,
             config.eyesDefaultUserId,
+            userId,
             userId,
             config.eyesDefaultUserId
         ])
