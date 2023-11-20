@@ -9,7 +9,7 @@ const htmlTitleSignUp = 'Sign Up'
 
 router.get(
     '/',
-    (req, res) => {
+    async (req, res) => {
         if(req.session.user) {
             res.render(
                 'message',
@@ -22,6 +22,16 @@ router.get(
                 })
         }
         else {
+
+            //
+            const [
+                followUserId,
+                followUsername,
+                unfollowUserId,
+                unfollowUsername,
+                formAction] = await getFollowValues(req)
+
+            //
             res.render(
                 'sign-up',
                 {
@@ -29,7 +39,12 @@ router.get(
                     errors:[],
                     username: "",
                     is_login: "yes",
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req),
+                    follow_user_id: followUserId,
+                    follow_username: followUsername,
+                    unfollow_user_id: unfollowUserId,
+                    unfollow_username: unfollowUsername,
+                    form_action: formAction,
                 })
         }
     }
@@ -44,8 +59,19 @@ router.post(
         .notEmpty().withMessage('Please fill in a password')
         .matches(/^.{9,100}$/),
     async (req, res) => {
+
+        //
         let errors = validationResult(req).array({onlyFirstError:true})
 
+        //
+        const [
+            followUserId,
+            followUsername,
+            unfollowUserId,
+            unfollowUsername,
+            formAction] = await getFollowValues(req)
+
+        //
         if(errors.length) {
             res.render(
                 'sign-up',
@@ -54,7 +80,12 @@ router.post(
                     errors:errors,
                     username: req.body.username,
                     is_login: req.body.is_login,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req),
+                    follow_user_id: followUserId,
+                    follow_username: followUsername,
+                    unfollow_user_id: unfollowUserId,
+                    unfollow_username: unfollowUsername,
+                    form_action: formAction,
                 })
         }
         else {
@@ -76,7 +107,12 @@ router.post(
                         errors:[{msg:errorMessage}],
                         username: req.body.username,
                         is_login: req.body.is_login,
-                        max_width: myMisc.getCurrSiteMaxWidth(req)
+                        max_width: myMisc.getCurrSiteMaxWidth(req),
+                        follow_user_id: followUserId,
+                        follow_username: followUsername,
+                        unfollow_user_id: unfollowUserId,
+                        unfollow_username: unfollowUsername,
+                        form_action: formAction,
                     })
             }
 
@@ -114,3 +150,47 @@ router.post(
 )
 
 module.exports = router
+
+//
+async function getFollowValues(req) {
+
+    //
+    const isFollow = typeof req.query.follow !== 'undefined'
+    const isUnfollow = typeof req.query.unfollow !== 'undefined'
+    let followUserId = null
+    let followUsername = null
+    let unfollowUserId = null
+    let unfollowUsername = null
+    let formAction = '/sign-up'
+
+    //
+    if(isFollow) {
+        const userId = req.query.follow
+        const {rows:[user]} = await db.getUserWithPublicId(userId)
+
+        if(user) {
+            followUserId = userId
+            followUsername = user.username
+            formAction += `?follow=${userId}`
+        }
+    }
+    else if(isUnfollow) {
+        const userId = req.query.unfollow
+        const {rows:[user]} = await db.getUserWithPublicId(userId)
+
+        if(user) {
+            unfollowUserId = userId
+            unfollowUsername = user.username
+            formAction += `?unfollow=${userId}`
+        }
+    }
+
+    //
+    return [
+        followUserId,
+        followUsername,
+        unfollowUserId,
+        unfollowUsername,
+        formAction,
+    ]
+}

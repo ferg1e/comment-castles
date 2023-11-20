@@ -255,7 +255,16 @@ pre {
   margin-bottom: .125rem;
 }
 
-.alert1 a, .alert2 a {
+.alert3 {
+  background: #f8edbd;
+}
+
+.alert3o {
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
+}
+
+.alert1 a, .alert2 a, .alert3 a {
   color: #0000d2;
   text-decoration: none;
 }

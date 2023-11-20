@@ -12,7 +12,18 @@ block content
         ul.uerror1
             each error in errors
                 li #{error.msg}
-    form(method="post")
+
+    if follow_user_id
+        div(class="alert3o")
+            span(class="alert3")
+                |You need to sign up in order to follow #[a(href=`/u/${follow_user_id}`)=follow_username].
+
+    if unfollow_user_id
+        div(class="alert3o")
+            span(class="alert3")
+                |You need to sign up in order to unfollow #[a(href=`/u/${unfollow_user_id}`)=unfollow_username].
+
+    form(method="post" action=form_action)
         div
             label(for="username") Username
             input(name="username" id="username" value=username)

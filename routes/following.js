@@ -10,15 +10,27 @@ const router = express.Router()
 const get = async (req, res) => {
 
     //
-    if(!req.session.user) {
-        return res.redirect('/sign-up')
-    }
-
-    //
     const isFollow = typeof req.query.follow !== 'undefined'
     const isFollowed = typeof req.query.followed !== 'undefined'
     const isUnfollow = typeof req.query.unfollow !== 'undefined'
     const isUnfollowed = typeof req.query.unfollowed !== 'undefined'
+
+    //
+    if(!req.session.user) {
+
+        //
+        if(isFollow) {
+            return res.redirect(`/sign-up?follow=${req.query.follow}`)
+        }
+
+        //
+        if(isUnfollow) {
+            return res.redirect(`/sign-up?unfollow=${req.query.unfollow}`)
+        }
+
+        //
+        return res.send('bail')
+    }
 
     //
     if(isUnfollow) {
