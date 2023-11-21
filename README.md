@@ -2,9 +2,9 @@
 
 Comment Castles is an internet forum that uses whitelist moderation. Users write posts, nested comments and user profiles. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
-Features:
+Other Features:
 
-* OAuth 2 API
+* OAuth 2 JSON API
 * public and private groups
 * inbox for direct comments you receive
 * [help page](https://www.commentcastles.org/help)
@@ -17,7 +17,7 @@ Create a PostgreSQL 11 database and execute all the code in `doc-commit/structur
 
 Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so most versions are probably fine.
 
-Make sure you have Node.js installed. We have only used Node.js v10.
+Make sure you have Node.js installed. Use Node.js v16.14.0 or greater.
 
 Run `npm install` to download all the Node.js dependencies that are listed in `package.json`.
 
