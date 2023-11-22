@@ -29,7 +29,14 @@ const get = async (req, res) => {
         }
 
         //
-        return res.send('bail')
+        return res.render(
+            'message',
+            {
+                html_title: 'Following',
+                message: "<a href=\"/login\">Log in</a> to view the following page.",
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req)
+            })
     }
 
     //
