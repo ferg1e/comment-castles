@@ -657,10 +657,8 @@ CREATE TABLE public.tuser (
     password character varying(255) NOT NULL,
     email character varying(255),
     time_zone character varying(64) DEFAULT 'UTC'::character varying NOT NULL,
-    post_mode public.post_mode DEFAULT 'discover'::public.post_mode NOT NULL,
+    post_mode public.post_mode DEFAULT 'following-only'::public.post_mode NOT NULL,
     comment_mode public.comment_mode DEFAULT 'discover'::public.comment_mode NOT NULL,
-    is_eyes boolean DEFAULT false NOT NULL,
-    eyes integer,
     comment_reply_mode public.comment_reply_mode DEFAULT 'quick'::public.comment_reply_mode NOT NULL,
     site_width smallint DEFAULT 600,
     public_id character varying(32) DEFAULT ''::character varying NOT NULL,
@@ -668,7 +666,9 @@ CREATE TABLE public.tuser (
     posts_per_page smallint DEFAULT 20,
     two_bg_color character(6) DEFAULT 'e7e5df'::bpchar,
     one_bg_color character(6) DEFAULT 'fefefe'::bpchar,
-    profile_blurb text
+    profile_blurb text,
+    main_text_color character(6) DEFAULT '232323'::bpchar,
+    posts_vertical_spacing smallint DEFAULT 18
 );
 
 
