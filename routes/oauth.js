@@ -3,7 +3,7 @@ const OAuth2Server = require('oauth2-server')
 const Request = require('oauth2-server').Request
 const Response = require('oauth2-server').Response
 const db = require('../db')
-const myMisc = require('../misc.js')
+const myMisc = require('../src/util/misc.js')
 const config = require('../config')
 const crypto = require('crypto')
 

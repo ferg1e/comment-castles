@@ -1,6 +1,6 @@
 const argon2 = require('argon2')
 const config = require('../config')
-const myMisc = require('../misc.js')
+const myMisc = require('../src/util/misc.js')
 const {Pool, types} = require('pg')
 const nanoid = require('nanoid/generate')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'

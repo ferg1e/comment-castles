@@ -1,7 +1,7 @@
 const {URL} = require('url')
 const http = require('http')
 const https = require('https')
-const config = require('./config')
+const config = require('../../config')
 
 //
 exports.getCurrTimeZone = (req) => {
