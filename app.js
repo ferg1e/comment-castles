@@ -28,7 +28,7 @@ app.locals.cssDir = config.cssDir
 
 //
 app.set('view engine', 'pug')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, 'src/views'))
 
 //TODO: use more options to increase cookie/session security
 app.use(session({
