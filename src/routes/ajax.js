@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 const pug = require('pug')
 
 //
@@ -66,7 +66,7 @@ const postComment = async (req, res) => {
     }
 
     //
-    const bbCodesOnly = pug.compileFile('views/bbCodesOnly.pug')
+    const bbCodesOnly = pug.compileFile('src/views/bbCodesOnly.pug')
     newComment.text_content = bbCodesOnly({text: newComment.text_content})
 
     //

@@ -1,7 +1,7 @@
 const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i

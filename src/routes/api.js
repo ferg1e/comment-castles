@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 const config = require('../config')
 const pug = require('pug')
 const OAuth2Server = require('oauth2-server')

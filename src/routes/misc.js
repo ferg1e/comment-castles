@@ -1,5 +1,5 @@
 const express = require('express')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 const config = require('../config')
 
 const router = express.Router()

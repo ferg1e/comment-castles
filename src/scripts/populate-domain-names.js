@@ -3,7 +3,7 @@
 require('dotenv').config()
 
 //
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 const db = require('../db')
 
 db.getPostLinks().then(async res => {

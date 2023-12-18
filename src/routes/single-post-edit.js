@@ -1,7 +1,7 @@
 const express = require('express')
 const {body, validationResult} = require('express-validator')
 const db = require('../db')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitleEditPost = 'Edit Post'

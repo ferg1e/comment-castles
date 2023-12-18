@@ -1,7 +1,7 @@
 const config = require('../config')
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../src/util/misc.js')
+const myMisc = require('../util/misc.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitleComment = 'Comment #'
