@@ -13,7 +13,7 @@ Other Features:
 
 Install one of the [tagged releases](https://github.com/ferg1e/comment-castles/releases), preferably the most recent.
 
-Create a PostgreSQL 11 database and execute all the code in `doc-commit/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
+Create a PostgreSQL 11 database and execute all the code in `sql/structure.sql`. This will create all the database tables, triggers, etc. PostgreSQL 11+ is probably fine.
 
 Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so most versions are probably fine.
 
@@ -80,7 +80,7 @@ There must exist a user with a `user_id` of `1` and a `username` of `admin`. The
 On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
 ## Update
-When you deploy new commits to your instance of this app that is already running, make sure to also execute any new commands that are in `doc-commit/since-github.sql`.
+When you deploy new commits to your instance of this app that is already running, make sure to also execute any new commands that are in `sql/migrations.sql`.
 
 If you deployed your instance before commit [46d52bff7765b250317ee297d570800447cb4afa](https://github.com/ferg1e/comment-castles/commit/46d52bff7765b250317ee297d570800447cb4afa), then you need to run `scripts/gen-user-public-ids.js` in order to generate public IDs for users that are already in the database.
 
