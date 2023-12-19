@@ -1,3 +1,5 @@
+--just some useful sql queries that one may want to use
+
 --set num_comments for all posts
 update
     tpost p

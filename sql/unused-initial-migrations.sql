@@ -1,5 +1,6 @@
--- this file may not be completely accurate
--- use the structure dump instead
+--the initial "migrations" code
+--these are no longer useful for migrations
+--but I leave them here as example code
 
 create table tuser (
     user_id serial primary key,
