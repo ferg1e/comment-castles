@@ -9,7 +9,7 @@ const htmlTitleHome = config.siteName
 //
 router.route('/')
     .get(async (req, res) => {
-        let finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+        let finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
         const isLoggedIn = typeof req.session.user != 'undefined'
 
         //

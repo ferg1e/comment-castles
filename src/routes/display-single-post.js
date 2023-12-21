@@ -11,7 +11,7 @@ const router = express.Router({
 //
 const get = async (req, res) => {
     const postPublicId = req.params[0]
-    const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+    const finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
 
     //
     const {rows:[row]} = await db.getPostWithPublic2(

@@ -28,7 +28,7 @@ const get = async (req, res) => {
     }
 
     //
-    const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+    const finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
     const targetUserId = dbUser.user_id
 
     //

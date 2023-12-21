@@ -9,7 +9,7 @@ const htmlTitleComment = 'Comment #'
 router.route('/')
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
-        const finalUserId = req.session.user ? req.session.user.user_id : config.eyesDefaultUserId
+        const finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,

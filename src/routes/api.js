@@ -38,7 +38,7 @@ router.get(
             ? (oauthData.user.post_mode == 'discover')
             : (typeof req.query.viewmode !== 'undefined' && req.query.viewmode.toLowerCase() == 'discover')
 
-        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
+        const userId = oauthData ? oauthData.user.user_id : config.adminUserId
         const isLoggedIn = oauthData ? true : false
 
         const sort = myMisc.getPostSort(req)
@@ -91,7 +91,7 @@ router.get(
 
         //
         const postPublicId = req.query.postid
-        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
+        const userId = oauthData ? oauthData.user.user_id : config.adminUserId
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 
         //
@@ -381,7 +381,7 @@ router.get(
 
         //
         const commentPublicId = req.query.commentid
-        const userId = oauthData ? oauthData.user.user_id : config.eyesDefaultUserId
+        const userId = oauthData ? oauthData.user.user_id : config.adminUserId
 
         const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
 

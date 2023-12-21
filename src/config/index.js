@@ -4,7 +4,7 @@
 exports.adminUsername = "admin"
 
 //user id of adminUsername
-exports.eyesDefaultUserId = 1
+exports.adminUserId = 1
 exports.adminPublicUserId = 'nuj9QJARKnM1bg9bIOL5jA'
 
 //

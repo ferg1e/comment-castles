@@ -1212,10 +1212,10 @@ exports.copyAdminsFollowees = (userId) => {
         select $4::integer, $5::integer)`,
         [
             userId,
-            config.eyesDefaultUserId,
+            config.adminUserId,
             userId,
             userId,
-            config.eyesDefaultUserId
+            config.adminUserId
         ])
 }
 
