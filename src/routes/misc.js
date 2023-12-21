@@ -47,7 +47,7 @@ router.route('/help')
                 min_pvs: config.minPostsVerticalSpacing,
                 max_pvs: config.maxPostsVerticalSpacing,
                 admin_public_user_id: config.adminPublicUserId,
-                admin_username: config.eyesDefaultUsername,
+                admin_username: config.adminUsername,
             })
     })
 
