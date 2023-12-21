@@ -42,7 +42,7 @@ router.get(
         const isLoggedIn = oauthData ? true : false
 
         const sort = myMisc.getPostSort(req)
-        const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
+        const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         const {rows} = await db.getPosts(
             userId,
@@ -92,7 +92,7 @@ router.get(
         //
         const postPublicId = req.query.postid
         const userId = oauthData ? oauthData.user.user_id : config.adminUserId
-        const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
+        const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
         const {rows} = await db.getPostWithPublic2(
@@ -383,7 +383,7 @@ router.get(
         const commentPublicId = req.query.commentid
         const userId = oauthData ? oauthData.user.user_id : config.adminUserId
 
-        const timeZone = oauthData ? oauthData.user.time_zone : 'UTC'
+        const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
         const {rows} = await db.getCommentWithPublic2(

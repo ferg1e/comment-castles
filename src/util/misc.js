@@ -17,7 +17,7 @@ exports.getCurrTimeZone = (req) => {
 
     //
     if(typeof timeZone === 'undefined') {
-        timeZone = 'UTC'
+        timeZone = config.defaultTimeZone
     }
 
     //
@@ -398,7 +398,7 @@ exports.orderedAlphaToNum = oAlpha => {
 exports.getCookieSettings = req => {
     const settingsC = req.cookies.settings
     const defaults = {
-        time_zone: 'UTC',
+        time_zone: config.defaultTimeZone,
         post_mode: config.defaultVisitorViewMode,
         post_layout: config.defaultPostLayout,
         one_bg_color: config.defaultOneBgColor,

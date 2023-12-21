@@ -18,6 +18,8 @@ exports.apiBaseUrl = `${module.exports.siteBaseUrl}/api/v1`
 exports.jsDir = '/js'
 exports.cssDir = '/css'
 
+exports.defaultTimeZone = 'UTC'
+
 /*
 Default view mode for someone not logged in.
 Use 'discover' for discover view mode, and
