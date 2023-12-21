@@ -1,9 +1,10 @@
 
-// you should choose a default username who's possessive is "'s",
-// otherwise grammar may end up wrong on the site
+/*
+These should be set to username, user_id
+and public_id from a single row in the tuser
+database table.
+*/
 exports.adminUsername = "admin"
-
-//user id of adminUsername
 exports.adminUserId = 1
 exports.adminPublicUserId = 'nuj9QJARKnM1bg9bIOL5jA'
 
