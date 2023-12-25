@@ -72,6 +72,26 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
+    if(req.body.defaults === '1') {
+        await updateSettings(
+            req,
+            res,
+            config.defaultTimeZone,
+            config.defaultVisitorViewMode,
+            'quick',
+            config.defaultSiteWidth,
+            config.defaultPostLayout,
+            config.defaultPostsPerPage,
+            config.defaultOneBgColor,
+            config.defaultTwoBgColor,
+            config.defaultMainTextColor,
+            config.defaultPostsVerticalSpacing,
+        )
+
+        return res.redirect('/settings')
+    }
+
+    //
     const {rows} = await db.getTimeZoneWithName(req.body.time_zone)
 
     //
@@ -233,3 +253,65 @@ const post = async (req, res) => {
 router.get('/', get)
 router.post('/', post)
 module.exports = router
+
+//
+async function updateSettings(
+    req,
+    res,
+    timeZone,
+    viewMode,
+    commentReplyMode,
+    siteWidth,
+    postLayout,
+    postsPerPage,
+    primaryBgColor,
+    secondaryBgColor,
+    mainTextColor,
+    postsVerticalSpacing,
+) {
+    if(req.session.user) {
+        await db.updateUser(
+            req.session.user.user_id,
+            timeZone,
+            viewMode,
+            commentReplyMode,
+            siteWidth,
+            postLayout,
+            postsPerPage,
+            primaryBgColor,
+            secondaryBgColor,
+            mainTextColor,
+            postsVerticalSpacing)
+
+        req.session.user.time_zone = timeZone
+        req.session.user.post_mode = viewMode
+        req.session.user.post_layout = postLayout
+        req.session.user.one_bg_color = primaryBgColor
+        req.session.user.two_bg_color = secondaryBgColor
+        req.session.user.main_text_color = mainTextColor
+        req.session.user.posts_per_page = postsPerPage
+        req.session.user.posts_vertical_spacing = postsVerticalSpacing
+        req.session.user.comment_reply_mode = commentReplyMode
+        req.session.user.site_width = siteWidth
+    }
+    else {
+
+        //
+        const settings = {
+            time_zone: timeZone,
+            post_mode: viewMode,
+            post_layout: postLayout,
+            one_bg_color: primaryBgColor,
+            two_bg_color: secondaryBgColor,
+            main_text_color: mainTextColor,
+            posts_per_page: postsPerPage,
+            posts_vertical_spacing: postsVerticalSpacing,
+            site_width: siteWidth,
+        }
+
+        res.cookie(
+            'settings',
+            JSON.stringify(settings),
+            {maxAge: cookieMaxAge})
+    }
+}
