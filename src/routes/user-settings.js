@@ -78,7 +78,7 @@ const post = async (req, res) => {
             res,
             config.defaultTimeZone,
             config.defaultVisitorViewMode,
-            'quick',
+            config.defaultCommentReplyMode,
             config.defaultSiteWidth,
             config.defaultPostLayout,
             config.defaultPostsPerPage,

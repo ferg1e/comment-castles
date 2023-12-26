@@ -209,15 +209,13 @@ exports.getMainTextColor = req => {
 
 //
 exports.getCurrCommentReplyMode = req => {
-    const defaultValue = 'quick'
-
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
-            ? defaultValue
+            ? config.defaultCommentReplyMode
             : req.session.user.comment_reply_mode
     }
     else {
-        return defaultValue
+        return config.defaultCommentReplyMode
     }
 }
 

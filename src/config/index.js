@@ -19,6 +19,7 @@ exports.jsDir = '/js'
 exports.cssDir = '/css'
 
 exports.defaultTimeZone = 'UTC'
+exports.defaultCommentReplyMode = 'quick'
 
 /*
 Default view mode for someone not logged in.
