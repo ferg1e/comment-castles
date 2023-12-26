@@ -131,14 +131,14 @@ exports.validateOauthClient = (appName, redirectUri) => {
 exports.getCurrPostMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.post_mode === 'undefined')
-            ? 'discover'
+            ? config.defaultViewMode
             : req.session.user.post_mode
     }
     else {
         const cSettings = module.exports.getCookieSettings(req)
 
         return (typeof cSettings.post_mode === 'undefined')
-            ? config.defaultVisitorViewMode
+            ? config.defaultViewMode
             : cSettings.post_mode
     }
 }
@@ -397,7 +397,7 @@ exports.getCookieSettings = req => {
     const settingsC = req.cookies.settings
     const defaults = {
         time_zone: config.defaultTimeZone,
-        post_mode: config.defaultVisitorViewMode,
+        post_mode: config.defaultViewMode,
         post_layout: config.defaultPostLayout,
         one_bg_color: config.defaultOneBgColor,
         two_bg_color: config.defaultTwoBgColor,

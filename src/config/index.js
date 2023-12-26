@@ -20,13 +20,7 @@ exports.cssDir = '/css'
 
 exports.defaultTimeZone = 'UTC'
 exports.defaultCommentReplyMode = 'quick'
-
-/*
-Default view mode for someone not logged in.
-Use 'discover' for discover view mode, and
-'following-only' for locked view mode.
-*/
-exports.defaultVisitorViewMode = 'following-only'
+exports.defaultViewMode = 'following-only'
 
 //
 exports.defaultPostLayout = 'double-line'

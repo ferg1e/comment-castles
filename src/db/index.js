@@ -21,9 +21,9 @@ exports.createUser = async (username, password) => {
     const {rows} = await argon2.hash(password)
         .then(hash => query(`
             insert into tuser
-                (username, password, public_id, time_zone, comment_reply_mode)
+                (username, password, public_id, time_zone, comment_reply_mode, post_mode)
             values
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4, $5, $6)
             returning
                 user_id,
                 username,
@@ -43,6 +43,7 @@ exports.createUser = async (username, password) => {
                 nanoid(nanoidAlphabet, nanoidLen),
                 config.defaultTimeZone,
                 config.defaultCommentReplyMode,
+                config.defaultViewMode,
             ]))
 
     //
