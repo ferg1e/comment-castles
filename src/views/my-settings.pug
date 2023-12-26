@@ -107,7 +107,8 @@ block content2
 
             div
                 input(type="submit" value="Save")
+                | 
+                input(type="submit" value="Reset To Defaults" form="fdef")
     div
-        form(method="post" action="/settings")
-            input(type="submit" value="Reset To Defaults")
+        form(method="post" action="/settings" id="fdef")
             input(type="hidden" name="defaults" value="1")
