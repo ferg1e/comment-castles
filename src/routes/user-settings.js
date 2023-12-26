@@ -165,61 +165,25 @@ const post = async (req, res) => {
     }
 
     //
-    const siteWidthEmptied = req.body.site_width === ''
-    ? ''
-    : siteWidthInt
+    await updateSettings(
+        req,
+        res,
+        req.body.time_zone,
+        req.body.post_mode,
+        req.body.comment_reply_mode,
+        req.body.site_width,
+        req.body.post_layout,
+        postsPerPageInt,
+        sOneBgColorBite,
+        sTwoBgColorBite,
+        sMainTextColorBite,
+        postsVerticalSpacingInt,
+    )
 
     //
     const siteWidthNulled = req.body.site_width === ''
         ? null
         : siteWidthInt
-
-    //
-    if(req.session.user) {
-        await db.updateUser(
-            req.session.user.user_id,
-            req.body.time_zone,
-            req.body.post_mode,
-            req.body.comment_reply_mode,
-            siteWidthNulled,
-            req.body.post_layout,
-            postsPerPageInt,
-            sOneBgColorBite,
-            sTwoBgColorBite,
-            sMainTextColorBite,
-            postsVerticalSpacingInt)
-
-        req.session.user.time_zone = req.body.time_zone
-        req.session.user.post_mode = req.body.post_mode
-        req.session.user.post_layout = req.body.post_layout
-        req.session.user.one_bg_color = sOneBgColorBite
-        req.session.user.two_bg_color = sTwoBgColorBite
-        req.session.user.main_text_color = sMainTextColorBite
-        req.session.user.posts_per_page = postsPerPageInt
-        req.session.user.posts_vertical_spacing = postsVerticalSpacingInt
-        req.session.user.comment_reply_mode = req.body.comment_reply_mode
-        req.session.user.site_width = siteWidthNulled
-    }
-    else {
-
-        //
-        const settings = {
-            time_zone: req.body.time_zone,
-            post_mode: req.body.post_mode,
-            post_layout: req.body.post_layout,
-            one_bg_color: sOneBgColorBite,
-            two_bg_color: sTwoBgColorBite,
-            main_text_color: sMainTextColorBite,
-            posts_per_page: postsPerPageInt,
-            posts_vertical_spacing: postsVerticalSpacingInt,
-            site_width: siteWidthEmptied,
-        }
-
-        res.cookie(
-            'settings',
-            JSON.stringify(settings),
-            {maxAge: cookieMaxAge})
-    }
 
     //
     req.app.locals.oneBgColor = sOneBgColorBite
@@ -269,13 +233,25 @@ async function updateSettings(
     mainTextColor,
     postsVerticalSpacing,
 ) {
+
+    //
+    const siteWidthEmptied = siteWidth === ''
+        ? ''
+        : parseInt(siteWidth)
+
+    //
+    const siteWidthNulled = siteWidth === ''
+        ? null
+        : parseInt(siteWidth)
+
+    //
     if(req.session.user) {
         await db.updateUser(
             req.session.user.user_id,
             timeZone,
             viewMode,
             commentReplyMode,
-            siteWidth,
+            siteWidthNulled,
             postLayout,
             postsPerPage,
             primaryBgColor,
@@ -292,7 +268,7 @@ async function updateSettings(
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
-        req.session.user.site_width = siteWidth
+        req.session.user.site_width = siteWidthNulled
     }
     else {
 
@@ -306,7 +282,7 @@ async function updateSettings(
             main_text_color: mainTextColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
-            site_width: siteWidth,
+            site_width: siteWidthEmptied,
         }
 
         res.cookie(
