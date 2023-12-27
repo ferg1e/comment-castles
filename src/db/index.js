@@ -18,12 +18,30 @@ function query(query, params) {
 
 //user
 exports.createUser = async (username, password) => {
+
+    /*
+    Insert all default settings values here instead of relying on
+    SQL column defaults so that we can easily change the defaults
+    one place (ie. in the config file).
+    */
     const {rows} = await argon2.hash(password)
         .then(hash => query(`
-            insert into tuser
-                (username, password, public_id, time_zone, comment_reply_mode, post_mode)
+            insert into tuser (
+                username,
+                password,
+                public_id,
+                time_zone,
+                comment_reply_mode,
+                post_mode,
+                post_layout,
+                site_width,
+                posts_per_page,
+                posts_vertical_spacing,
+                one_bg_color,
+                two_bg_color,
+                main_text_color)
             values
-                ($1, $2, $3, $4, $5, $6)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
             returning
                 user_id,
                 username,
@@ -44,6 +62,13 @@ exports.createUser = async (username, password) => {
                 config.defaultTimeZone,
                 config.defaultCommentReplyMode,
                 config.defaultViewMode,
+                config.defaultPostLayout,
+                config.defaultSiteWidth,
+                config.defaultPostsPerPage,
+                config.defaultPostsVerticalSpacing,
+                config.defaultOneBgColor,
+                config.defaultTwoBgColor,
+                config.defaultMainTextColor,
             ]))
 
     //
