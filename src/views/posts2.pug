@@ -55,19 +55,20 @@ mixin singleLinePost(p)
     div
         +postTitle(p)
 
-        | 
-        |by 
-        a(class="puser" href=`/u/${p.user_public_id}`)=p.username
+        span.pinfo1-single
+            | 
+            |by 
+            a(class="puser" href=`/u/${p.user_public_id}`)=p.username
 
-        +postFollowBut(p)
+            +postFollowBut(p)
 
-        | 
-        span(class="pdate") on #{p.created_on}
+            | 
+            span(class="pdate") on #{p.created_on}
 
-        +postTags(p.tags)
+            +postTags(p.tags)
 
-        | 
-        +postLinks(p)
+            | 
+            +postLinks(p)
 
 mixin multiLinePost(p)
     div

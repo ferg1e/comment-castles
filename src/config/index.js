@@ -24,6 +24,7 @@ exports.defaultViewMode = 'following-only'
 
 //
 exports.defaultPostLayout = 'double-line'
+exports.singleLineCutoff = 1200
 
 //
 exports.defaultSiteWidth = 600
