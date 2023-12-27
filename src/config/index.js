@@ -23,26 +23,26 @@ exports.defaultCommentReplyMode = 'quick'
 exports.defaultViewMode = 'following-only'
 
 //
-exports.defaultPostLayout = 'double-line'
+exports.defaultPostLayout = 'single-line'
 exports.singleLineCutoff = 1200
 
 //
-exports.defaultSiteWidth = 600
+exports.defaultSiteWidth = 1200
 exports.minSiteWidth = 500
 exports.maxSiteWidth = 1500
 
 //
-exports.defaultPostsPerPage = 20
+exports.defaultPostsPerPage = 30
 exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
 
 //
-exports.defaultPostsVerticalSpacing = 18
+exports.defaultPostsVerticalSpacing = 14
 exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
 //
-exports.defaultTwoBgColor = 'e7e5df'
+exports.defaultTwoBgColor = 'b6b09e'
 exports.defaultOneBgColor = 'fefefe'
 exports.defaultMainTextColor = '232323'
 
