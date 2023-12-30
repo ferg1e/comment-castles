@@ -234,7 +234,6 @@ async function renderFollowing(req, res, errors, formUsername) {
             followees: rows,
             formUsername: formUsername,
             max_width: myMisc.getCurrSiteMaxWidth(req),
-            admin_username: config.adminUsername,
         }
     )
 }

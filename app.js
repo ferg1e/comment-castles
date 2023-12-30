@@ -19,7 +19,6 @@ const server = app.listen(process.env.HTTP_PORT)
 
 //
 app.locals.siteName = config.siteName
-app.locals.defaultUsername = config.adminUsername
 app.locals.commentsPerPage = config.commentsPerPage
 app.locals.siteBaseUrl = config.siteBaseUrl
 app.locals.apiBaseUrl = config.apiBaseUrl
