@@ -10,8 +10,6 @@ block content
         li
             a(href="#what") What is #{siteName}?
         li
-            a(href="#whitelist-moderation") Whitelist Moderation
-        li
             a(href="#posts") Posts
         li
             a(href="#comments") Comments
@@ -46,16 +44,9 @@ block content
 
     h2#what What is #{siteName}?
     p
-        |#{siteName} is an internet forum with #[a(href="#whitelist-moderation") whitelist moderation].
-        |Users can write posts, nested comments and a user profile.
-
-    h2#whitelist-moderation Whitelist Moderation
-    p
-        |Everyone, including admins, must view the site through a user whitelist.
-        |You can only see posts, comments and user profiles from users on your whitelist.
-        |Content from users not on your whitelist is either completely hidden or shown as stubs depending on your view mode #[a(href="#settings") setting].
-        |If you're logged out, then you use #[a(href=`/u/${admin_public_user_id}`)=admin_username]'s whitelist.
-        |When you sign up, you obtain a copy of #[a(href=`/u/${admin_public_user_id}`)=admin_username]'s whitelist that you can change via #[a(href="#following") following].
+        |#{siteName} is an internet forum.
+        |Users can write posts, nested comments and a profile.
+        |You must #[a(href="#following") follow] a user in order to see their posts, comments and profile.
 
     h2#posts Posts
     p
@@ -139,8 +130,7 @@ block content
 
     h2#following Following
     p
-        |Following adds users to your whitelist.
-        |You can only see content from users that are on your whitelist.
+        |Following a user reveals their posts, comments and profile.
         |You can follow/unfollow with the +/- button to the right of usernames.
         |On the #[a(href="/following") following page] you can type in a username to follow, unfollow individual users, unfollow all, and copy who #[a(href=`/u/${admin_public_user_id}`)=admin_username] follows.
 
