@@ -1,6 +1,6 @@
 # Comment Castles
 
-Comment Castles is an internet forum that uses whitelist moderation. Users write posts, nested comments and user profiles. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum project. Users write posts, nested comments and profiles. You must follow a user in order to see their content. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Other Features:
 
@@ -75,7 +75,7 @@ module.exports = {
 }
 ```
 
-There must exist a user with a `user_id` of `1` and a `username` of `admin`. These two values serve as the default user whitelist and you can change them in `src/config/index.js` via `adminUsername` and `adminUserId`. So, after an instance of this application is launched, you should immediately sign up as the user `admin` (or whatever you are using for `adminUsername`). Also be sure to set `adminUserPublicId` in `src/config/index.js` (this value should be set to the `public_id` value of the admin that's in the `tuser` database table).
+There must exist a user with a `user_id` of `1` and a `username` of `admin`. These two values serve as the default following list and you can change them in `src/config/index.js` via `adminUsername` and `adminUserId`. So, after an instance of this application is launched, you should immediately sign up as the user `admin` (or whatever you are using for `adminUsername`). Also be sure to set `adminUserPublicId` in `src/config/index.js` (this value should be set to the `public_id` value of the admin that's in the `tuser` database table).
 
 On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
