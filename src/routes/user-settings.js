@@ -62,6 +62,7 @@ const get = async (req, res) => {
             mainTextColorForm: myMisc.getMainTextColor(req),
             postLinkColorForm: myMisc.getPostLinkColor(req),
             postLinkVisitedColorForm: myMisc.getPostLinkVisitedColor(req),
+            groupBgColorForm: myMisc.getGroupBgColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -89,6 +90,7 @@ const post = async (req, res) => {
             config.defaultMainTextColor,
             config.defaultPostLinkColor,
             config.defaultPostLinkVisitedColor,
+            config.defaultGroupBgColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -146,6 +148,7 @@ const post = async (req, res) => {
     const sMainTextColorBite = req.body.main_text_color.substring(1)
     const sPostLinkColorBite = req.body.post_link_color.substring(1)
     const sPostLinkVisitedColorBite = req.body.post_link_visited_color.substring(1)
+    const sGroupBgColorBite = req.body.group_bg_color.substring(1)
 
     //
     if(errors.length) {
@@ -164,6 +167,7 @@ const post = async (req, res) => {
                 mainTextColorForm: sMainTextColorBite,
                 postLinkColorForm: sPostLinkColorBite,
                 postLinkVisitedColorForm: sPostLinkVisitedColorBite,
+                groupBgColorForm: sGroupBgColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -187,6 +191,7 @@ const post = async (req, res) => {
         sMainTextColorBite,
         sPostLinkColorBite,
         sPostLinkVisitedColorBite,
+        sGroupBgColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -201,6 +206,7 @@ const post = async (req, res) => {
     req.app.locals.mainTextColor = sMainTextColorBite
     req.app.locals.postLinkColor = sPostLinkColorBite
     req.app.locals.postLinkVisitedColor = sPostLinkVisitedColorBite
+    req.app.locals.groupBgColor = sGroupBgColorBite
 
     //
     return res.render(
@@ -219,6 +225,7 @@ const post = async (req, res) => {
             mainTextColorForm: sMainTextColorBite,
             postLinkColorForm: sPostLinkColorBite,
             postLinkVisitedColorForm: sPostLinkVisitedColorBite,
+            groupBgColorForm: sGroupBgColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -247,6 +254,7 @@ async function updateSettings(
     mainTextColor,
     postLinkColor,
     postLinkVisitedColor,
+    groupBgColor,
     postsVerticalSpacing,
 ) {
 
@@ -275,6 +283,7 @@ async function updateSettings(
             mainTextColor,
             postLinkColor,
             postLinkVisitedColor,
+            groupBgColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -285,6 +294,7 @@ async function updateSettings(
         req.session.user.main_text_color = mainTextColor
         req.session.user.post_link_color = postLinkColor
         req.session.user.post_link_visited_color = postLinkVisitedColor
+        req.session.user.group_bg_color = groupBgColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -302,6 +312,7 @@ async function updateSettings(
             main_text_color: mainTextColor,
             post_link_color: postLinkColor,
             post_link_visited_color: postLinkVisitedColor,
+            group_bg_color: groupBgColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,

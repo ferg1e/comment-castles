@@ -47,6 +47,7 @@ exports.defaultOneBgColor = 'fefefe'
 exports.defaultMainTextColor = '232323'
 exports.defaultPostLinkColor = '0000ff'
 exports.defaultPostLinkVisitedColor = '551a8b'
+exports.defaultGroupBgColor = 'e6e7dc'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

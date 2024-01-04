@@ -53,6 +53,7 @@ router.post(
                         main_text_color: rows[0].main_text_color,
                         post_link_color: rows[0].post_link_color,
                         post_link_visited_color: rows[0].post_link_visited_color,
+                        group_bg_color: rows[0].group_bg_color,
                         posts_per_page: rows[0].posts_per_page,
                         posts_vertical_spacing: rows[0].posts_vertical_spacing,
                         comment_reply_mode: rows[0].comment_reply_mode,

@@ -41,9 +41,10 @@ exports.createUser = async (username, password) => {
                 two_bg_color,
                 main_text_color,
                 post_link_color,
-                post_link_visited_color)
+                post_link_visited_color,
+                group_bg_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 16)
             returning
                 user_id,
                 username,
@@ -55,6 +56,7 @@ exports.createUser = async (username, password) => {
                 main_text_color,
                 post_link_color,
                 post_link_visited_color,
+                group_bg_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -75,6 +77,7 @@ exports.createUser = async (username, password) => {
                 config.defaultMainTextColor,
                 config.defaultPostLinkColor,
                 config.defaultPostLinkVisitedColor,
+                config.defaultGroupBgColor,
             ]))
 
     //
@@ -99,6 +102,7 @@ exports.getUserWithUsername = (username) => {
             main_text_color,
             post_link_color,
             post_link_visited_color,
+            group_bg_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -156,7 +160,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -172,10 +176,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             main_text_color = $9,
             posts_vertical_spacing = $10,
             post_link_color = $11,
-            post_link_visited_color = $12
+            post_link_visited_color = $12,
+            group_bg_color = $13
         where
-            user_id = $13`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, userId])
+            user_id = $14`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, userId])
 }
 
 //
