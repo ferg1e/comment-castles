@@ -45,6 +45,7 @@ exports.maxPostsVerticalSpacing = 40
 exports.defaultTwoBgColor = 'b6b09e'
 exports.defaultOneBgColor = 'fefefe'
 exports.defaultMainTextColor = '232323'
+exports.defaultPostLinkColor = '0000ff'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

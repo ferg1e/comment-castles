@@ -39,9 +39,10 @@ exports.createUser = async (username, password) => {
                 posts_vertical_spacing,
                 one_bg_color,
                 two_bg_color,
-                main_text_color)
+                main_text_color,
+                post_link_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
             returning
                 user_id,
                 username,
@@ -51,6 +52,7 @@ exports.createUser = async (username, password) => {
                 one_bg_color,
                 two_bg_color,
                 main_text_color,
+                post_link_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -69,6 +71,7 @@ exports.createUser = async (username, password) => {
                 config.defaultOneBgColor,
                 config.defaultTwoBgColor,
                 config.defaultMainTextColor,
+                config.defaultPostLinkColor,
             ]))
 
     //
@@ -91,6 +94,7 @@ exports.getUserWithUsername = (username) => {
             one_bg_color,
             two_bg_color,
             main_text_color,
+            post_link_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -148,7 +152,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -162,10 +166,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             one_bg_color = $7,
             two_bg_color = $8,
             main_text_color = $9,
-            posts_vertical_spacing = $10
+            posts_vertical_spacing = $10,
+            post_link_color = $11
         where
-            user_id = $11`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, userId])
+            user_id = $12`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, userId])
 }
 
 //

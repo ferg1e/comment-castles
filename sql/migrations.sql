@@ -155,3 +155,6 @@ alter table tuser drop column is_eyes;
 alter table tuser drop column eyes;
 
 alter table only tuser alter column post_mode set default 'following-only';
+
+--
+alter table tuser add column post_link_color char(6) not null default '0000ff';

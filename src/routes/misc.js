@@ -20,6 +20,7 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.oneBgColor = myMisc.getOneBgColor(req)
     req.app.locals.twoBgColor = myMisc.getTwoBgColor(req)
     req.app.locals.mainTextColor = myMisc.getMainTextColor(req)
+    req.app.locals.postLinkColor = myMisc.getPostLinkColor(req)
 
     //
     next()

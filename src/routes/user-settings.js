@@ -60,6 +60,7 @@ const get = async (req, res) => {
             oneBgColorForm: myMisc.getOneBgColor(req),
             twoBgColorForm: myMisc.getTwoBgColor(req),
             mainTextColorForm: myMisc.getMainTextColor(req),
+            postLinkColorForm: myMisc.getPostLinkColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -85,6 +86,7 @@ const post = async (req, res) => {
             config.defaultOneBgColor,
             config.defaultTwoBgColor,
             config.defaultMainTextColor,
+            config.defaultPostLinkColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -140,6 +142,7 @@ const post = async (req, res) => {
     const sOneBgColorBite = req.body.one_bg_color.substring(1)
     const sTwoBgColorBite = req.body.two_bg_color.substring(1)
     const sMainTextColorBite = req.body.main_text_color.substring(1)
+    const sPostLinkColorBite = req.body.post_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -156,6 +159,7 @@ const post = async (req, res) => {
                 oneBgColorForm: sOneBgColorBite,
                 twoBgColorForm: sTwoBgColorBite,
                 mainTextColorForm: sMainTextColorBite,
+                postLinkColorForm: sPostLinkColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -177,6 +181,7 @@ const post = async (req, res) => {
         sOneBgColorBite,
         sTwoBgColorBite,
         sMainTextColorBite,
+        sPostLinkColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -189,6 +194,7 @@ const post = async (req, res) => {
     req.app.locals.oneBgColor = sOneBgColorBite
     req.app.locals.twoBgColor = sTwoBgColorBite
     req.app.locals.mainTextColor = sMainTextColorBite
+    req.app.locals.postLinkColor = sPostLinkColorBite
 
     //
     return res.render(
@@ -205,6 +211,7 @@ const post = async (req, res) => {
             oneBgColorForm: sOneBgColorBite,
             twoBgColorForm: sTwoBgColorBite,
             mainTextColorForm: sMainTextColorBite,
+            postLinkColorForm: sPostLinkColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -231,6 +238,7 @@ async function updateSettings(
     primaryBgColor,
     secondaryBgColor,
     mainTextColor,
+    postLinkColor,
     postsVerticalSpacing,
 ) {
 
@@ -257,6 +265,7 @@ async function updateSettings(
             primaryBgColor,
             secondaryBgColor,
             mainTextColor,
+            postLinkColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -265,6 +274,7 @@ async function updateSettings(
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
         req.session.user.main_text_color = mainTextColor
+        req.session.user.post_link_color = postLinkColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -280,6 +290,7 @@ async function updateSettings(
             one_bg_color: primaryBgColor,
             two_bg_color: secondaryBgColor,
             main_text_color: mainTextColor,
+            post_link_color: postLinkColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,
