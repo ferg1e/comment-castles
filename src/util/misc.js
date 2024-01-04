@@ -224,6 +224,22 @@ exports.getPostLinkColor = req => {
 }
 
 //
+exports.getPostLinkVisitedColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.post_link_visited_color === 'undefined')
+            ? config.defaultPostLinkVisitedColor
+            : req.session.user.post_link_visited_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.post_link_visited_color === 'undefined')
+            ? config.defaultPostLinkVisitedColor
+            : cSettings.post_link_visited_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -419,6 +435,7 @@ exports.getCookieSettings = req => {
         two_bg_color: config.defaultTwoBgColor,
         main_text_color: config.defaultMainTextColor,
         post_link_color: config.defaultPostLinkColor,
+        post_link_visited_color: config.defaultPostLinkVisitedColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

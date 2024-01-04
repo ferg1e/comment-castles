@@ -40,9 +40,10 @@ exports.createUser = async (username, password) => {
                 one_bg_color,
                 two_bg_color,
                 main_text_color,
-                post_link_color)
+                post_link_color,
+                post_link_visited_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
             returning
                 user_id,
                 username,
@@ -53,6 +54,7 @@ exports.createUser = async (username, password) => {
                 two_bg_color,
                 main_text_color,
                 post_link_color,
+                post_link_visited_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -72,6 +74,7 @@ exports.createUser = async (username, password) => {
                 config.defaultTwoBgColor,
                 config.defaultMainTextColor,
                 config.defaultPostLinkColor,
+                config.defaultPostLinkVisitedColor,
             ]))
 
     //
@@ -95,6 +98,7 @@ exports.getUserWithUsername = (username) => {
             two_bg_color,
             main_text_color,
             post_link_color,
+            post_link_visited_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -152,7 +156,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -167,10 +171,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             two_bg_color = $8,
             main_text_color = $9,
             posts_vertical_spacing = $10,
-            post_link_color = $11
+            post_link_color = $11,
+            post_link_visited_color = $12
         where
-            user_id = $12`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, userId])
+            user_id = $13`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, userId])
 }
 
 //
