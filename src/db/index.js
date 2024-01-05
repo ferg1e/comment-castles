@@ -43,9 +43,10 @@ exports.createUser = async (username, password) => {
                 post_link_color,
                 post_link_visited_color,
                 group_bg_color,
-                group_text_color)
+                group_text_color,
+                hidden_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
             returning
                 user_id,
                 username,
@@ -59,6 +60,7 @@ exports.createUser = async (username, password) => {
                 post_link_visited_color,
                 group_bg_color,
                 group_text_color,
+                hidden_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -81,6 +83,7 @@ exports.createUser = async (username, password) => {
                 config.defaultPostLinkVisitedColor,
                 config.defaultGroupBgColor,
                 config.defaultGroupTextColor,
+                config.defaultHiddenColor,
             ]))
 
     //
@@ -107,6 +110,7 @@ exports.getUserWithUsername = (username) => {
             post_link_visited_color,
             group_bg_color,
             group_text_color,
+            hidden_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -164,7 +168,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -182,10 +186,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             post_link_color = $11,
             post_link_visited_color = $12,
             group_bg_color = $13,
-            group_text_color = $14
+            group_text_color = $14,
+            hidden_color = $15
         where
-            user_id = $15`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, userId])
+            user_id = $16`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, userId])
 }
 
 //
