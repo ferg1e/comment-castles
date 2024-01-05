@@ -160,3 +160,4 @@ alter table only tuser alter column post_mode set default 'following-only';
 alter table tuser add column post_link_color char(6) not null default '0000ff';
 alter table tuser add column post_link_visited_color char(6) not null default '551a8b';
 alter table tuser add column group_bg_color char(6) not null default 'e6e7dc';
+alter table tuser add column group_text_color char(6) not null default '030303';
