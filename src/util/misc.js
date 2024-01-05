@@ -288,6 +288,22 @@ exports.getHiddenColor = req => {
 }
 
 //
+exports.getDomainNameColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.domain_name_color === 'undefined')
+            ? config.defaultDomainNameColor
+            : req.session.user.domain_name_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.domain_name_color === 'undefined')
+            ? config.defaultDomainNameColor
+            : cSettings.domain_name_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -487,6 +503,7 @@ exports.getCookieSettings = req => {
         group_bg_color: config.defaultGroupBgColor,
         group_text_color: config.defaultGroupTextColor,
         hidden_color: config.hiddenColor,
+        domain_name_color: config.domainNameColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

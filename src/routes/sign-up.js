@@ -132,6 +132,7 @@ router.post(
                     group_bg_color: rows[0].group_bg_color,
                     group_text_color: rows[0].group_text_color,
                     hidden_color: rows[0].hidden_color,
+                    domain_name_color: rows[0].domain_name_color,
                     posts_per_page: rows[0].posts_per_page,
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
                     comment_reply_mode: rows[0].comment_reply_mode,

@@ -50,6 +50,7 @@ exports.defaultPostLinkVisitedColor = '551a8b'
 exports.defaultGroupBgColor = 'e6e7dc'
 exports.defaultGroupTextColor = '030303'
 exports.defaultHiddenColor = 'b2b2b2'
+exports.defaultDomainNameColor = '50794b'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
