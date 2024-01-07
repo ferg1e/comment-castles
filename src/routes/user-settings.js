@@ -66,6 +66,7 @@ const get = async (req, res) => {
             groupTextColorForm: myMisc.getGroupTextColor(req),
             hiddenColorForm: myMisc.getHiddenColor(req),
             domainNameColorForm: myMisc.getDomainNameColor(req),
+            unfollowBgColorForm: myMisc.getUnfollowBgColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -97,6 +98,7 @@ const post = async (req, res) => {
             config.defaultGroupTextColor,
             config.defaultHiddenColor,
             config.defaultDomainNameColor,
+            config.defaultUnfollowBgColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -158,6 +160,7 @@ const post = async (req, res) => {
     const sGroupTextColorBite = req.body.group_text_color.substring(1)
     const sHiddenColorBite = req.body.hidden_color.substring(1)
     const sDomainNameColorBite = req.body.domain_name_color.substring(1)
+    const sUnfollowBgColorBite = req.body.unfollow_bg_color.substring(1)
 
     //
     if(errors.length) {
@@ -180,6 +183,7 @@ const post = async (req, res) => {
                 groupTextColorForm: sGroupTextColorBite,
                 hiddenColorForm: sHiddenColorBite,
                 domainNameColorForm: sDomainNameColorBite,
+                unfollowBgColorForm: sUnfollowBgColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -207,6 +211,7 @@ const post = async (req, res) => {
         sGroupTextColorBite,
         sHiddenColorBite,
         sDomainNameColorBite,
+        sUnfollowBgColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -225,6 +230,7 @@ const post = async (req, res) => {
     req.app.locals.groupTextColor = sGroupTextColorBite
     req.app.locals.hiddenColor = sHiddenColorBite
     req.app.locals.domainNameColor = sDomainNameColorBite
+    req.app.locals.unfollowBgColor = sUnfollowBgColorBite
 
     //
     return res.render(
@@ -247,6 +253,7 @@ const post = async (req, res) => {
             groupTextColorForm: sGroupTextColorBite,
             hiddenColorForm: sHiddenColorBite,
             domainNameColorForm: sDomainNameColorBite,
+            unfollowBgColorForm: sUnfollowBgColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -279,6 +286,7 @@ async function updateSettings(
     groupTextColor,
     hiddenColor,
     domainNameColor,
+    unfollowBgColor,
     postsVerticalSpacing,
 ) {
 
@@ -311,6 +319,7 @@ async function updateSettings(
             groupTextColor,
             hiddenColor,
             domainNameColor,
+            unfollowBgColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -325,6 +334,7 @@ async function updateSettings(
         req.session.user.group_text_color = groupTextColor
         req.session.user.hidden_color = hiddenColor
         req.session.user.domain_name_color = domainNameColor
+        req.session.user.unfollow_bg_color = unfollowBgColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -346,6 +356,7 @@ async function updateSettings(
             group_text_color: groupTextColor,
             hidden_color: hiddenColor,
             domain_name_color: domainNameColor,
+            unfollow_bg_color: unfollowBgColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,

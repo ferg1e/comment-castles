@@ -154,15 +154,10 @@ body {
 }
 
 .unfollow {
-  background: #f3cece;
   text-decoration: none;
   color: black;
   padding: 0 6px;
   border: 1px solid #666666;
-}
-
-.unfollow:hover {
-  background: #e6b6b6;
 }
 
 .tag1 {
