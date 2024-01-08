@@ -134,6 +134,7 @@ router.post(
                     hidden_color: rows[0].hidden_color,
                     domain_name_color: rows[0].domain_name_color,
                     unfollow_bg_color: rows[0].unfollow_bg_color,
+                    unfollow_line_color: rows[0].unfollow_line_color,
                     posts_per_page: rows[0].posts_per_page,
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
                     comment_reply_mode: rows[0].comment_reply_mode,
