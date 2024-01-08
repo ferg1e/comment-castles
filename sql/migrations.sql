@@ -165,3 +165,4 @@ alter table tuser add column hidden_color char(6) not null default 'b2b2b2';
 alter table tuser add column domain_name_color char(6) not null default '50794b';
 alter table tuser add column unfollow_bg_color char(6) not null default 'f3cece';
 alter table tuser add column unfollow_line_color char(6) not null default '000000';
+alter table tuser add column unfollow_text_color char(6) not null default '000000';

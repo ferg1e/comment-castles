@@ -336,6 +336,22 @@ exports.getUnfollowLineColor = req => {
 }
 
 //
+exports.getUnfollowTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.unfollow_text_color === 'undefined')
+            ? config.defaultUnfollowTextColor
+            : req.session.user.unfollow_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.unfollow_text_color === 'undefined')
+            ? config.defaultUnfollowTextColor
+            : cSettings.unfollow_text_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -538,6 +554,7 @@ exports.getCookieSettings = req => {
         domain_name_color: config.defaultDomainNameColor,
         unfollow_bg_color: config.defaultUnfollowBgColor,
         unfollow_line_color: config.defaultUnfollowLineColor,
+        unfollow_text_color: config.defaultUnfollowTextColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

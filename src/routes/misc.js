@@ -28,6 +28,7 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.domainNameColor = myMisc.getDomainNameColor(req)
     req.app.locals.unfollowBgColor = myMisc.getUnfollowBgColor(req)
     req.app.locals.unfollowLineColor = myMisc.getUnfollowLineColor(req)
+    req.app.locals.unfollowTextColor = myMisc.getUnfollowTextColor(req)
 
     //
     next()

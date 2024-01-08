@@ -68,6 +68,7 @@ const get = async (req, res) => {
             domainNameColorForm: myMisc.getDomainNameColor(req),
             unfollowBgColorForm: myMisc.getUnfollowBgColor(req),
             unfollowLineColorForm: myMisc.getUnfollowLineColor(req),
+            unfollowTextColorForm: myMisc.getUnfollowTextColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -101,6 +102,7 @@ const post = async (req, res) => {
             config.defaultDomainNameColor,
             config.defaultUnfollowBgColor,
             config.defaultUnfollowLineColor,
+            config.defaultUnfollowTextColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -164,6 +166,7 @@ const post = async (req, res) => {
     const sDomainNameColorBite = req.body.domain_name_color.substring(1)
     const sUnfollowBgColorBite = req.body.unfollow_bg_color.substring(1)
     const sUnfollowLineColorBite = req.body.unfollow_line_color.substring(1)
+    const sUnfollowTextColorBite = req.body.unfollow_text_color.substring(1)
 
     //
     if(errors.length) {
@@ -188,6 +191,7 @@ const post = async (req, res) => {
                 domainNameColorForm: sDomainNameColorBite,
                 unfollowBgColorForm: sUnfollowBgColorBite,
                 unfollowLineColorForm: sUnfollowLineColorBite,
+                unfollowTextColorForm: sUnfollowTextColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -217,6 +221,7 @@ const post = async (req, res) => {
         sDomainNameColorBite,
         sUnfollowBgColorBite,
         sUnfollowLineColorBite,
+        sUnfollowTextColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -237,6 +242,7 @@ const post = async (req, res) => {
     req.app.locals.domainNameColor = sDomainNameColorBite
     req.app.locals.unfollowBgColor = sUnfollowBgColorBite
     req.app.locals.unfollowLineColor = sUnfollowLineColorBite
+    req.app.locals.unfollowTextColor = sUnfollowTextColorBite
 
     //
     return res.render(
@@ -261,6 +267,7 @@ const post = async (req, res) => {
             domainNameColorForm: sDomainNameColorBite,
             unfollowBgColorForm: sUnfollowBgColorBite,
             unfollowLineColorForm: sUnfollowLineColorBite,
+            unfollowTextColorForm: sUnfollowTextColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -295,6 +302,7 @@ async function updateSettings(
     domainNameColor,
     unfollowBgColor,
     unfollowLineColor,
+    unfollowTextColor,
     postsVerticalSpacing,
 ) {
 
@@ -329,6 +337,7 @@ async function updateSettings(
             domainNameColor,
             unfollowBgColor,
             unfollowLineColor,
+            unfollowTextColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -345,6 +354,7 @@ async function updateSettings(
         req.session.user.domain_name_color = domainNameColor
         req.session.user.unfollow_bg_color = unfollowBgColor
         req.session.user.unfollow_line_color = unfollowLineColor
+        req.session.user.unfollow_text_color = unfollowTextColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -368,6 +378,7 @@ async function updateSettings(
             domain_name_color: domainNameColor,
             unfollow_bg_color: unfollowBgColor,
             unfollow_line_color: unfollowLineColor,
+            unfollow_text_color: unfollowTextColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,

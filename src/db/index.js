@@ -47,9 +47,10 @@ exports.createUser = async (username, password) => {
                 hidden_color,
                 domain_name_color,
                 unfollow_bg_color,
-                unfollow_line_color)
+                unfollow_line_color,
+                unfollow_text_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)
             returning
                 user_id,
                 username,
@@ -67,6 +68,7 @@ exports.createUser = async (username, password) => {
                 domain_name_color,
                 unfollow_bg_color,
                 unfollow_line_color,
+                unfollow_text_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -93,6 +95,7 @@ exports.createUser = async (username, password) => {
                 config.defaultDomainNameColor,
                 config.defaultUnfollowBgColor,
                 config.defaultUnfollowLineColor,
+                config.defaultUnfollowTextColor,
             ]))
 
     //
@@ -123,6 +126,7 @@ exports.getUserWithUsername = (username) => {
             domain_name_color,
             unfollow_bg_color,
             unfollow_line_color,
+            unfollow_text_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -180,7 +184,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -202,10 +206,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             hidden_color = $15,
             domain_name_color = $16,
             unfollow_bg_color = $17,
-            unfollow_line_color = $18
+            unfollow_line_color = $18,
+            unfollow_text_color = $19
         where
-            user_id = $19`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, userId])
+            user_id = $20`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, userId])
 }
 
 //
