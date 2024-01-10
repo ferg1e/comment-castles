@@ -13,6 +13,9 @@
 #l_unfollow-bg-color,
 #l_unfollow-line-color,
 #l_unfollow-text-color,
+#l_follow-bg-color,
+#l_follow-line-color,
+#l_follow-text-color,
 #l_posts-vertical-spacing {
     display: block;
 }

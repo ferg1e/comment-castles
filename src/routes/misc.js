@@ -29,6 +29,9 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.unfollowBgColor = myMisc.getUnfollowBgColor(req)
     req.app.locals.unfollowLineColor = myMisc.getUnfollowLineColor(req)
     req.app.locals.unfollowTextColor = myMisc.getUnfollowTextColor(req)
+    req.app.locals.followBgColor = myMisc.getFollowBgColor(req)
+    req.app.locals.followLineColor = myMisc.getFollowLineColor(req)
+    req.app.locals.followTextColor = myMisc.getFollowTextColor(req)
 
     //
     next()

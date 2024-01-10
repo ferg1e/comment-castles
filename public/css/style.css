@@ -142,15 +142,8 @@ body {
 }
 
 .follow {
-  background: #cbeed1;
   text-decoration: none;
-  color: black;
   padding: 0 4px;
-  border: 1px solid #666666;
-}
-
-.follow:hover {
-  background: #b7e6bf;
 }
 
 .unfollow {

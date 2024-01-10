@@ -352,6 +352,54 @@ exports.getUnfollowTextColor = req => {
 }
 
 //
+exports.getFollowBgColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.follow_bg_color === 'undefined')
+            ? config.defaultFollowBgColor
+            : req.session.user.follow_bg_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.follow_bg_color === 'undefined')
+            ? config.defaultFollowBgColor
+            : cSettings.follow_bg_color
+    }
+}
+
+//
+exports.getFollowLineColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.follow_line_color === 'undefined')
+            ? config.defaultFollowLineColor
+            : req.session.user.follow_line_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.follow_line_color === 'undefined')
+            ? config.defaultFollowLineColor
+            : cSettings.follow_line_color
+    }
+}
+
+//
+exports.getFollowTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.follow_text_color === 'undefined')
+            ? config.defaultFollowTextColor
+            : req.session.user.follow_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.follow_text_color === 'undefined')
+            ? config.defaultFollowTextColor
+            : cSettings.follow_text_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -555,6 +603,9 @@ exports.getCookieSettings = req => {
         unfollow_bg_color: config.defaultUnfollowBgColor,
         unfollow_line_color: config.defaultUnfollowLineColor,
         unfollow_text_color: config.defaultUnfollowTextColor,
+        follow_bg_color: config.defaultFollowBgColor,
+        follow_line_color: config.defaultFollowLineColor,
+        follow_text_color: config.defaultFollowTextColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

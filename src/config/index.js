@@ -54,6 +54,9 @@ exports.defaultDomainNameColor = '50794b'
 exports.defaultUnfollowBgColor = 'f3cece'
 exports.defaultUnfollowLineColor = '666666'
 exports.defaultUnfollowTextColor = '000000'
+exports.defaultFollowBgColor = 'cbeed1'
+exports.defaultFollowLineColor = '666666'
+exports.defaultFollowTextColor = '000000'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

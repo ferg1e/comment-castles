@@ -69,6 +69,9 @@ const get = async (req, res) => {
             unfollowBgColorForm: myMisc.getUnfollowBgColor(req),
             unfollowLineColorForm: myMisc.getUnfollowLineColor(req),
             unfollowTextColorForm: myMisc.getUnfollowTextColor(req),
+            followBgColorForm: myMisc.getFollowBgColor(req),
+            followLineColorForm: myMisc.getFollowLineColor(req),
+            followTextColorForm: myMisc.getFollowTextColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -103,6 +106,9 @@ const post = async (req, res) => {
             config.defaultUnfollowBgColor,
             config.defaultUnfollowLineColor,
             config.defaultUnfollowTextColor,
+            config.defaultFollowBgColor,
+            config.defaultFollowLineColor,
+            config.defaultFollowTextColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -167,6 +173,9 @@ const post = async (req, res) => {
     const sUnfollowBgColorBite = req.body.unfollow_bg_color.substring(1)
     const sUnfollowLineColorBite = req.body.unfollow_line_color.substring(1)
     const sUnfollowTextColorBite = req.body.unfollow_text_color.substring(1)
+    const sFollowBgColorBite = req.body.follow_bg_color.substring(1)
+    const sFollowLineColorBite = req.body.follow_line_color.substring(1)
+    const sFollowTextColorBite = req.body.follow_text_color.substring(1)
 
     //
     if(errors.length) {
@@ -192,6 +201,9 @@ const post = async (req, res) => {
                 unfollowBgColorForm: sUnfollowBgColorBite,
                 unfollowLineColorForm: sUnfollowLineColorBite,
                 unfollowTextColorForm: sUnfollowTextColorBite,
+                followBgColorForm: sfollowBgColorBite,
+                followLineColorForm: sfollowLineColorBite,
+                followTextColorForm: sfollowTextColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -222,6 +234,9 @@ const post = async (req, res) => {
         sUnfollowBgColorBite,
         sUnfollowLineColorBite,
         sUnfollowTextColorBite,
+        sFollowBgColorBite,
+        sFollowLineColorBite,
+        sFollowTextColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -243,6 +258,9 @@ const post = async (req, res) => {
     req.app.locals.unfollowBgColor = sUnfollowBgColorBite
     req.app.locals.unfollowLineColor = sUnfollowLineColorBite
     req.app.locals.unfollowTextColor = sUnfollowTextColorBite
+    req.app.locals.followBgColor = sFollowBgColorBite
+    req.app.locals.followLineColor = sFollowLineColorBite
+    req.app.locals.followTextColor = sFollowTextColorBite
 
     //
     return res.render(
@@ -268,6 +286,9 @@ const post = async (req, res) => {
             unfollowBgColorForm: sUnfollowBgColorBite,
             unfollowLineColorForm: sUnfollowLineColorBite,
             unfollowTextColorForm: sUnfollowTextColorBite,
+            followBgColorForm: sFollowBgColorBite,
+            followLineColorForm: sFollowLineColorBite,
+            followTextColorForm: sFollowTextColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -303,6 +324,9 @@ async function updateSettings(
     unfollowBgColor,
     unfollowLineColor,
     unfollowTextColor,
+    followBgColor,
+    followLineColor,
+    followTextColor,
     postsVerticalSpacing,
 ) {
 
@@ -338,6 +362,9 @@ async function updateSettings(
             unfollowBgColor,
             unfollowLineColor,
             unfollowTextColor,
+            followBgColor,
+            followLineColor,
+            followTextColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -355,6 +382,9 @@ async function updateSettings(
         req.session.user.unfollow_bg_color = unfollowBgColor
         req.session.user.unfollow_line_color = unfollowLineColor
         req.session.user.unfollow_text_color = unfollowTextColor
+        req.session.user.follow_bg_color = followBgColor
+        req.session.user.follow_line_color = followLineColor
+        req.session.user.follow_text_color = followTextColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -379,6 +409,9 @@ async function updateSettings(
             unfollow_bg_color: unfollowBgColor,
             unfollow_line_color: unfollowLineColor,
             unfollow_text_color: unfollowTextColor,
+            follow_bg_color: followBgColor,
+            follow_line_color: followLineColor,
+            follow_text_color: followTextColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,
