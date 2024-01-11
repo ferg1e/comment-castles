@@ -172,10 +172,6 @@ body {
   text-decoration: none;
 }
 
-.plinks a {
-  color: #0000d2;
-}
-
 .cuser {
   color: #5f5f64;
   text-decoration: none;
@@ -203,10 +199,6 @@ body {
   font-size: 14px;
   font-size: .875rem;
   font-weight: bold;
-}
-
-.clinks-single a {
-  color: #0000d2;
 }
 
 .ptitle {
@@ -266,7 +258,6 @@ h1 {
   font-size: 16px;
   font-size: 1rem;
   font-weight: normal;
-  color: #0000d2;
 }
 
 .domname1 {
@@ -285,7 +276,6 @@ h1 {
 }
 
 .sort1 a {
-  color: #0000d2;
   margin-left: 4px;
   margin-left: .25rem;
   text-decoration: none;

@@ -72,6 +72,7 @@ const get = async (req, res) => {
             followBgColorForm: myMisc.getFollowBgColor(req),
             followLineColorForm: myMisc.getFollowLineColor(req),
             followTextColorForm: myMisc.getFollowTextColor(req),
+            mainLinkColorForm: myMisc.getMainLinkColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -109,6 +110,7 @@ const post = async (req, res) => {
             config.defaultFollowBgColor,
             config.defaultFollowLineColor,
             config.defaultFollowTextColor,
+            config.defaultMainLinkColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -176,6 +178,7 @@ const post = async (req, res) => {
     const sFollowBgColorBite = req.body.follow_bg_color.substring(1)
     const sFollowLineColorBite = req.body.follow_line_color.substring(1)
     const sFollowTextColorBite = req.body.follow_text_color.substring(1)
+    const sMainLinkColorBite = req.body.main_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -201,9 +204,10 @@ const post = async (req, res) => {
                 unfollowBgColorForm: sUnfollowBgColorBite,
                 unfollowLineColorForm: sUnfollowLineColorBite,
                 unfollowTextColorForm: sUnfollowTextColorBite,
-                followBgColorForm: sfollowBgColorBite,
-                followLineColorForm: sfollowLineColorBite,
-                followTextColorForm: sfollowTextColorBite,
+                followBgColorForm: sFollowBgColorBite,
+                followLineColorForm: sFollowLineColorBite,
+                followTextColorForm: sFollowTextColorBite,
+                mainLinkColorForm: sMainLinkColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -237,6 +241,7 @@ const post = async (req, res) => {
         sFollowBgColorBite,
         sFollowLineColorBite,
         sFollowTextColorBite,
+        sMainLinkColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -261,6 +266,7 @@ const post = async (req, res) => {
     req.app.locals.followBgColor = sFollowBgColorBite
     req.app.locals.followLineColor = sFollowLineColorBite
     req.app.locals.followTextColor = sFollowTextColorBite
+    req.app.locals.mainLinkColor = sMainLinkColorBite
 
     //
     return res.render(
@@ -289,6 +295,7 @@ const post = async (req, res) => {
             followBgColorForm: sFollowBgColorBite,
             followLineColorForm: sFollowLineColorBite,
             followTextColorForm: sFollowTextColorBite,
+            mainLinkColorForm: sMainLinkColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -327,6 +334,7 @@ async function updateSettings(
     followBgColor,
     followLineColor,
     followTextColor,
+    mainLinkColor,
     postsVerticalSpacing,
 ) {
 
@@ -365,6 +373,7 @@ async function updateSettings(
             followBgColor,
             followLineColor,
             followTextColor,
+            mainLinkColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
@@ -385,6 +394,7 @@ async function updateSettings(
         req.session.user.follow_bg_color = followBgColor
         req.session.user.follow_line_color = followLineColor
         req.session.user.follow_text_color = followTextColor
+        req.session.user.main_link_color = mainLinkColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -412,6 +422,7 @@ async function updateSettings(
             follow_bg_color: followBgColor,
             follow_line_color: followLineColor,
             follow_text_color: followTextColor,
+            main_link_color: mainLinkColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,

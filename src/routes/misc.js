@@ -32,6 +32,7 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.followBgColor = myMisc.getFollowBgColor(req)
     req.app.locals.followLineColor = myMisc.getFollowLineColor(req)
     req.app.locals.followTextColor = myMisc.getFollowTextColor(req)
+    req.app.locals.mainLinkColor = myMisc.getMainLinkColor(req)
 
     //
     next()
