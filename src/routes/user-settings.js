@@ -359,7 +359,7 @@ async function updateSettings(
 
     //
     if(req.session.user) {
-        /*await db.updateUser(
+        await db.updateUser(
             req.session.user.user_id,
             timeZone,
             viewMode,
@@ -384,7 +384,7 @@ async function updateSettings(
             followTextColor,
             mainLinkColor,
             navLinkColor,
-            postsVerticalSpacing)*/
+            postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
         req.session.user.post_mode = viewMode
