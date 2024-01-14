@@ -37,10 +37,6 @@ body {
   margin: .75rem .625rem 0 0;
 }
 
-.main-nav a, .settings-nav a {
-  color: #4b4949;
-}
-
 .main-nav a, .main-footer-nav a, .settings-nav a {
   text-decoration: none;
 }

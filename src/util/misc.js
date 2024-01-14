@@ -416,6 +416,22 @@ exports.getMainLinkColor = req => {
 }
 
 //
+exports.getNavLinkColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.nav_link_color === 'undefined')
+            ? config.defaultNavLinkColor
+            : req.session.user.nav_link_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.nav_link_color === 'undefined')
+            ? config.defaultNavLinkColor
+            : cSettings.nav_link_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -623,6 +639,7 @@ exports.getCookieSettings = req => {
         follow_line_color: config.defaultFollowLineColor,
         follow_text_color: config.defaultFollowTextColor,
         main_link_color: config.defaultMainLinkColor,
+        nav_link_color: config.defaultNavLinkColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

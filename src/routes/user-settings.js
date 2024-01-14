@@ -73,6 +73,7 @@ const get = async (req, res) => {
             followLineColorForm: myMisc.getFollowLineColor(req),
             followTextColorForm: myMisc.getFollowTextColor(req),
             mainLinkColorForm: myMisc.getMainLinkColor(req),
+            navLinkColorForm: myMisc.getNavLinkColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -111,6 +112,7 @@ const post = async (req, res) => {
             config.defaultFollowLineColor,
             config.defaultFollowTextColor,
             config.defaultMainLinkColor,
+            config.defaultNavLinkColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -179,6 +181,7 @@ const post = async (req, res) => {
     const sFollowLineColorBite = req.body.follow_line_color.substring(1)
     const sFollowTextColorBite = req.body.follow_text_color.substring(1)
     const sMainLinkColorBite = req.body.main_link_color.substring(1)
+    const sNavLinkColorBite = req.body.nav_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -208,6 +211,7 @@ const post = async (req, res) => {
                 followLineColorForm: sFollowLineColorBite,
                 followTextColorForm: sFollowTextColorBite,
                 mainLinkColorForm: sMainLinkColorBite,
+                navLinkColorForm: sNavLinkColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -242,6 +246,7 @@ const post = async (req, res) => {
         sFollowLineColorBite,
         sFollowTextColorBite,
         sMainLinkColorBite,
+        sNavLinkColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -267,6 +272,7 @@ const post = async (req, res) => {
     req.app.locals.followLineColor = sFollowLineColorBite
     req.app.locals.followTextColor = sFollowTextColorBite
     req.app.locals.mainLinkColor = sMainLinkColorBite
+    req.app.locals.navLinkColor = sNavLinkColorBite
 
     //
     return res.render(
@@ -296,6 +302,7 @@ const post = async (req, res) => {
             followLineColorForm: sFollowLineColorBite,
             followTextColorForm: sFollowTextColorBite,
             mainLinkColorForm: sMainLinkColorBite,
+            navLinkColorForm: sNavLinkColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -335,8 +342,10 @@ async function updateSettings(
     followLineColor,
     followTextColor,
     mainLinkColor,
+    navLinkColor,
     postsVerticalSpacing,
 ) {
+    console.log(navLinkColor)
 
     //
     const siteWidthEmptied = siteWidth === ''
@@ -350,7 +359,7 @@ async function updateSettings(
 
     //
     if(req.session.user) {
-        await db.updateUser(
+        /*await db.updateUser(
             req.session.user.user_id,
             timeZone,
             viewMode,
@@ -374,7 +383,8 @@ async function updateSettings(
             followLineColor,
             followTextColor,
             mainLinkColor,
-            postsVerticalSpacing)
+            navLinkColor,
+            postsVerticalSpacing)*/
 
         req.session.user.time_zone = timeZone
         req.session.user.post_mode = viewMode
@@ -395,6 +405,7 @@ async function updateSettings(
         req.session.user.follow_line_color = followLineColor
         req.session.user.follow_text_color = followTextColor
         req.session.user.main_link_color = mainLinkColor
+        req.session.user.nav_link_color = navLinkColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -423,6 +434,7 @@ async function updateSettings(
             follow_line_color: followLineColor,
             follow_text_color: followTextColor,
             main_link_color: mainLinkColor,
+            nav_link_color: navLinkColor,
             posts_per_page: postsPerPage,
             posts_vertical_spacing: postsVerticalSpacing,
             site_width: siteWidthEmptied,

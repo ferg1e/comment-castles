@@ -170,3 +170,4 @@ alter table tuser add column follow_bg_color char(6) not null default 'cbeed1';
 alter table tuser add column follow_line_color char(6) not null default '666666';
 alter table tuser add column follow_text_color char(6) not null default '000000';
 alter table tuser add column main_link_color char(6) not null default '0000d2';
+alter table tuser add column nav_link_color char(6) not null default '4b4949';
