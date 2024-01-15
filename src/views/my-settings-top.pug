@@ -3,11 +3,13 @@ extends layout
 block content
     h1 Settings
 
-    if user
-        nav.settings-nav
-            ul
+    nav.settings-nav
+        ul
+            if user
                 li
                     a(href="/settings") general
+                li
+                    a(href="/settings/colors") colors
                 li
                     a(href="/settings/username") username
                 li
@@ -16,5 +18,10 @@ block content
                     a(href="/settings/groups") groups
                 li
                     a(href="/settings/app-ids") app IDs
+            else
+                li
+                    a(href="/settings") general
+                li
+                    a(href="/settings/colors") colors
     div
         block content2

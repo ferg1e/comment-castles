@@ -205,7 +205,6 @@ exports.getUsersWithoutPublicId = () => {
 }
 
 exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, postsVerticalSpacing) => {
-    console.log(navLinkColor)
     return query(`
         update
             tuser
@@ -237,6 +236,34 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
         where
             user_id = $25`,
         [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, userId])
+}
+
+//
+exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor) => {
+    return query(`
+        update
+            tuser
+        set
+            one_bg_color = $1,
+            two_bg_color = $2,
+            main_text_color = $3,
+            post_link_color = $4,
+            post_link_visited_color = $5,
+            group_bg_color = $6,
+            group_text_color = $7,
+            hidden_color = $8,
+            domain_name_color = $9,
+            unfollow_bg_color = $10,
+            unfollow_line_color = $11,
+            unfollow_text_color = $12,
+            follow_bg_color = $13,
+            follow_line_color = $14,
+            follow_text_color = $15,
+            main_link_color = $16,
+            nav_link_color = $17
+        where
+            user_id = $18`,
+        [oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, userId])
 }
 
 //
