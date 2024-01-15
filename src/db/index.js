@@ -204,7 +204,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing) => {
     return query(`
         update
             tuser
@@ -215,27 +215,10 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             site_width = $4,
             post_layout = $5,
             posts_per_page = $6,
-            one_bg_color = $7,
-            two_bg_color = $8,
-            main_text_color = $9,
-            posts_vertical_spacing = $10,
-            post_link_color = $11,
-            post_link_visited_color = $12,
-            group_bg_color = $13,
-            group_text_color = $14,
-            hidden_color = $15,
-            domain_name_color = $16,
-            unfollow_bg_color = $17,
-            unfollow_line_color = $18,
-            unfollow_text_color = $19,
-            follow_bg_color = $20,
-            follow_line_color = $21,
-            follow_text_color = $22,
-            main_link_color = $23,
-            nav_link_color = $24
+            posts_vertical_spacing = $7
         where
-            user_id = $25`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, oneBgColor, twoBgColor, mainTextColor, postsVerticalSpacing, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, userId])
+            user_id = $8`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, userId])
 }
 
 //

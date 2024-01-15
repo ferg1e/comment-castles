@@ -57,23 +57,6 @@ const get = async (req, res) => {
             time_zone: myMisc.getCurrTimeZone(req),
             postMode: myMisc.getCurrPostMode(req),
             postLayout: myMisc.getCurrPostLayout(req),
-            oneBgColorForm: myMisc.getOneBgColor(req),
-            twoBgColorForm: myMisc.getTwoBgColor(req),
-            mainTextColorForm: myMisc.getMainTextColor(req),
-            postLinkColorForm: myMisc.getPostLinkColor(req),
-            postLinkVisitedColorForm: myMisc.getPostLinkVisitedColor(req),
-            groupBgColorForm: myMisc.getGroupBgColor(req),
-            groupTextColorForm: myMisc.getGroupTextColor(req),
-            hiddenColorForm: myMisc.getHiddenColor(req),
-            domainNameColorForm: myMisc.getDomainNameColor(req),
-            unfollowBgColorForm: myMisc.getUnfollowBgColor(req),
-            unfollowLineColorForm: myMisc.getUnfollowLineColor(req),
-            unfollowTextColorForm: myMisc.getUnfollowTextColor(req),
-            followBgColorForm: myMisc.getFollowBgColor(req),
-            followLineColorForm: myMisc.getFollowLineColor(req),
-            followTextColorForm: myMisc.getFollowTextColor(req),
-            mainLinkColorForm: myMisc.getMainLinkColor(req),
-            navLinkColorForm: myMisc.getNavLinkColor(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
@@ -96,23 +79,6 @@ const post = async (req, res) => {
             config.defaultSiteWidth,
             config.defaultPostLayout,
             config.defaultPostsPerPage,
-            config.defaultOneBgColor,
-            config.defaultTwoBgColor,
-            config.defaultMainTextColor,
-            config.defaultPostLinkColor,
-            config.defaultPostLinkVisitedColor,
-            config.defaultGroupBgColor,
-            config.defaultGroupTextColor,
-            config.defaultHiddenColor,
-            config.defaultDomainNameColor,
-            config.defaultUnfollowBgColor,
-            config.defaultUnfollowLineColor,
-            config.defaultUnfollowTextColor,
-            config.defaultFollowBgColor,
-            config.defaultFollowLineColor,
-            config.defaultFollowTextColor,
-            config.defaultMainLinkColor,
-            config.defaultNavLinkColor,
             config.defaultPostsVerticalSpacing,
         )
 
@@ -164,25 +130,6 @@ const post = async (req, res) => {
     //
     const rows2 = config.timeZones
 
-    //remove # char
-    const sOneBgColorBite = req.body.one_bg_color.substring(1)
-    const sTwoBgColorBite = req.body.two_bg_color.substring(1)
-    const sMainTextColorBite = req.body.main_text_color.substring(1)
-    const sPostLinkColorBite = req.body.post_link_color.substring(1)
-    const sPostLinkVisitedColorBite = req.body.post_link_visited_color.substring(1)
-    const sGroupBgColorBite = req.body.group_bg_color.substring(1)
-    const sGroupTextColorBite = req.body.group_text_color.substring(1)
-    const sHiddenColorBite = req.body.hidden_color.substring(1)
-    const sDomainNameColorBite = req.body.domain_name_color.substring(1)
-    const sUnfollowBgColorBite = req.body.unfollow_bg_color.substring(1)
-    const sUnfollowLineColorBite = req.body.unfollow_line_color.substring(1)
-    const sUnfollowTextColorBite = req.body.unfollow_text_color.substring(1)
-    const sFollowBgColorBite = req.body.follow_bg_color.substring(1)
-    const sFollowLineColorBite = req.body.follow_line_color.substring(1)
-    const sFollowTextColorBite = req.body.follow_text_color.substring(1)
-    const sMainLinkColorBite = req.body.main_link_color.substring(1)
-    const sNavLinkColorBite = req.body.nav_link_color.substring(1)
-
     //
     if(errors.length) {
         return res.render(
@@ -195,23 +142,6 @@ const post = async (req, res) => {
                 time_zone: req.body.time_zone,
                 postMode: req.body.post_mode,
                 postLayout: req.body.post_layout,
-                oneBgColorForm: sOneBgColorBite,
-                twoBgColorForm: sTwoBgColorBite,
-                mainTextColorForm: sMainTextColorBite,
-                postLinkColorForm: sPostLinkColorBite,
-                postLinkVisitedColorForm: sPostLinkVisitedColorBite,
-                groupBgColorForm: sGroupBgColorBite,
-                groupTextColorForm: sGroupTextColorBite,
-                hiddenColorForm: sHiddenColorBite,
-                domainNameColorForm: sDomainNameColorBite,
-                unfollowBgColorForm: sUnfollowBgColorBite,
-                unfollowLineColorForm: sUnfollowLineColorBite,
-                unfollowTextColorForm: sUnfollowTextColorBite,
-                followBgColorForm: sFollowBgColorBite,
-                followLineColorForm: sFollowLineColorBite,
-                followTextColorForm: sFollowTextColorBite,
-                mainLinkColorForm: sMainLinkColorBite,
-                navLinkColorForm: sNavLinkColorBite,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
                 commentReplyMode: req.body.comment_reply_mode,
@@ -230,23 +160,6 @@ const post = async (req, res) => {
         req.body.site_width,
         req.body.post_layout,
         postsPerPageInt,
-        sOneBgColorBite,
-        sTwoBgColorBite,
-        sMainTextColorBite,
-        sPostLinkColorBite,
-        sPostLinkVisitedColorBite,
-        sGroupBgColorBite,
-        sGroupTextColorBite,
-        sHiddenColorBite,
-        sDomainNameColorBite,
-        sUnfollowBgColorBite,
-        sUnfollowLineColorBite,
-        sUnfollowTextColorBite,
-        sFollowBgColorBite,
-        sFollowLineColorBite,
-        sFollowTextColorBite,
-        sMainLinkColorBite,
-        sNavLinkColorBite,
         postsVerticalSpacingInt,
     )
 
@@ -254,25 +167,6 @@ const post = async (req, res) => {
     const siteWidthNulled = req.body.site_width === ''
         ? null
         : siteWidthInt
-
-    //
-    req.app.locals.oneBgColor = sOneBgColorBite
-    req.app.locals.twoBgColor = sTwoBgColorBite
-    req.app.locals.mainTextColor = sMainTextColorBite
-    req.app.locals.postLinkColor = sPostLinkColorBite
-    req.app.locals.postLinkVisitedColor = sPostLinkVisitedColorBite
-    req.app.locals.groupBgColor = sGroupBgColorBite
-    req.app.locals.groupTextColor = sGroupTextColorBite
-    req.app.locals.hiddenColor = sHiddenColorBite
-    req.app.locals.domainNameColor = sDomainNameColorBite
-    req.app.locals.unfollowBgColor = sUnfollowBgColorBite
-    req.app.locals.unfollowLineColor = sUnfollowLineColorBite
-    req.app.locals.unfollowTextColor = sUnfollowTextColorBite
-    req.app.locals.followBgColor = sFollowBgColorBite
-    req.app.locals.followLineColor = sFollowLineColorBite
-    req.app.locals.followTextColor = sFollowTextColorBite
-    req.app.locals.mainLinkColor = sMainLinkColorBite
-    req.app.locals.navLinkColor = sNavLinkColorBite
 
     //
     return res.render(
@@ -286,23 +180,6 @@ const post = async (req, res) => {
             time_zone: req.body.time_zone,
             postMode: req.body.post_mode,
             postLayout: req.body.post_layout,
-            oneBgColorForm: sOneBgColorBite,
-            twoBgColorForm: sTwoBgColorBite,
-            mainTextColorForm: sMainTextColorBite,
-            postLinkColorForm: sPostLinkColorBite,
-            postLinkVisitedColorForm: sPostLinkVisitedColorBite,
-            groupBgColorForm: sGroupBgColorBite,
-            groupTextColorForm: sGroupTextColorBite,
-            hiddenColorForm: sHiddenColorBite,
-            domainNameColorForm: sDomainNameColorBite,
-            unfollowBgColorForm: sUnfollowBgColorBite,
-            unfollowLineColorForm: sUnfollowLineColorBite,
-            unfollowTextColorForm: sUnfollowTextColorBite,
-            followBgColorForm: sFollowBgColorBite,
-            followLineColorForm: sFollowLineColorBite,
-            followTextColorForm: sFollowTextColorBite,
-            mainLinkColorForm: sMainLinkColorBite,
-            navLinkColorForm: sNavLinkColorBite,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
             commentReplyMode: req.body.comment_reply_mode,
@@ -326,26 +203,8 @@ async function updateSettings(
     siteWidth,
     postLayout,
     postsPerPage,
-    primaryBgColor,
-    secondaryBgColor,
-    mainTextColor,
-    postLinkColor,
-    postLinkVisitedColor,
-    groupBgColor,
-    groupTextColor,
-    hiddenColor,
-    domainNameColor,
-    unfollowBgColor,
-    unfollowLineColor,
-    unfollowTextColor,
-    followBgColor,
-    followLineColor,
-    followTextColor,
-    mainLinkColor,
-    navLinkColor,
     postsVerticalSpacing,
 ) {
-    console.log(navLinkColor)
 
     //
     const siteWidthEmptied = siteWidth === ''
@@ -367,45 +226,11 @@ async function updateSettings(
             siteWidthNulled,
             postLayout,
             postsPerPage,
-            primaryBgColor,
-            secondaryBgColor,
-            mainTextColor,
-            postLinkColor,
-            postLinkVisitedColor,
-            groupBgColor,
-            groupTextColor,
-            hiddenColor,
-            domainNameColor,
-            unfollowBgColor,
-            unfollowLineColor,
-            unfollowTextColor,
-            followBgColor,
-            followLineColor,
-            followTextColor,
-            mainLinkColor,
-            navLinkColor,
             postsVerticalSpacing)
 
         req.session.user.time_zone = timeZone
         req.session.user.post_mode = viewMode
         req.session.user.post_layout = postLayout
-        req.session.user.one_bg_color = primaryBgColor
-        req.session.user.two_bg_color = secondaryBgColor
-        req.session.user.main_text_color = mainTextColor
-        req.session.user.post_link_color = postLinkColor
-        req.session.user.post_link_visited_color = postLinkVisitedColor
-        req.session.user.group_bg_color = groupBgColor
-        req.session.user.group_text_color = groupTextColor
-        req.session.user.hidden_color = hiddenColor
-        req.session.user.domain_name_color = domainNameColor
-        req.session.user.unfollow_bg_color = unfollowBgColor
-        req.session.user.unfollow_line_color = unfollowLineColor
-        req.session.user.unfollow_text_color = unfollowTextColor
-        req.session.user.follow_bg_color = followBgColor
-        req.session.user.follow_line_color = followLineColor
-        req.session.user.follow_text_color = followTextColor
-        req.session.user.main_link_color = mainLinkColor
-        req.session.user.nav_link_color = navLinkColor
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.comment_reply_mode = commentReplyMode
@@ -413,36 +238,18 @@ async function updateSettings(
     }
     else {
 
-        //
-        const settings = {
-            time_zone: timeZone,
-            post_mode: viewMode,
-            post_layout: postLayout,
-            one_bg_color: primaryBgColor,
-            two_bg_color: secondaryBgColor,
-            main_text_color: mainTextColor,
-            post_link_color: postLinkColor,
-            post_link_visited_color: postLinkVisitedColor,
-            group_bg_color: groupBgColor,
-            group_text_color: groupTextColor,
-            hidden_color: hiddenColor,
-            domain_name_color: domainNameColor,
-            unfollow_bg_color: unfollowBgColor,
-            unfollow_line_color: unfollowLineColor,
-            unfollow_text_color: unfollowTextColor,
-            follow_bg_color: followBgColor,
-            follow_line_color: followLineColor,
-            follow_text_color: followTextColor,
-            main_link_color: mainLinkColor,
-            nav_link_color: navLinkColor,
-            posts_per_page: postsPerPage,
-            posts_vertical_spacing: postsVerticalSpacing,
-            site_width: siteWidthEmptied,
-        }
+        const cSettings = myMisc.getCookieSettings(req)
+
+        cSettings.time_zone = timeZone
+        cSettings.post_mode = viewMode
+        cSettings.post_layout = postLayout
+        cSettings.posts_per_page = postsPerPage
+        cSettings.posts_vertical_spacing = postsVerticalSpacing
+        cSettings.site_width = siteWidthEmptied
 
         res.cookie(
             'settings',
-            JSON.stringify(settings),
+            JSON.stringify(cSettings),
             {maxAge: cookieMaxAge})
     }
 }
