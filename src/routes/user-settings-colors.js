@@ -32,6 +32,7 @@ const get = async (req, res) => {
             followTextColorForm: myMisc.getFollowTextColor(req),
             mainLinkColorForm: myMisc.getMainLinkColor(req),
             navLinkColorForm: myMisc.getNavLinkColor(req),
+            footerLinkColorForm: myMisc.getFooterLinkColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -61,6 +62,7 @@ const post = async (req, res) => {
             config.defaultFollowTextColor,
             config.defaultMainLinkColor,
             config.defaultNavLinkColor,
+            config.defaultFooterLinkColor,
         )
 
         return res.redirect('/settings/colors')
@@ -87,6 +89,7 @@ const post = async (req, res) => {
     const sFollowTextColorBite = req.body.follow_text_color.substring(1)
     const sMainLinkColorBite = req.body.main_link_color.substring(1)
     const sNavLinkColorBite = req.body.nav_link_color.substring(1)
+    const sFooterLinkColorBite = req.body.footer_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -113,6 +116,7 @@ const post = async (req, res) => {
                 followTextColorForm: sFollowTextColorBite,
                 mainLinkColorForm: sMainLinkColorBite,
                 navLinkColorForm: sNavLinkColorBite,
+                footerLinkColorForm: sFooterLinkColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -138,6 +142,7 @@ const post = async (req, res) => {
         sFollowTextColorBite,
         sMainLinkColorBite,
         sNavLinkColorBite,
+        sFooterLinkColorBite,
     )
 
     //
@@ -158,6 +163,7 @@ const post = async (req, res) => {
     req.app.locals.followTextColor = sFollowTextColorBite
     req.app.locals.mainLinkColor = sMainLinkColorBite
     req.app.locals.navLinkColor = sNavLinkColorBite
+    req.app.locals.footerLinkColor = sFooterLinkColorBite
 
     //
     return res.render(
@@ -184,6 +190,7 @@ const post = async (req, res) => {
             followTextColorForm: sFollowTextColorBite,
             mainLinkColorForm: sMainLinkColorBite,
             navLinkColorForm: sNavLinkColorBite,
+            footerLinkColorForm: sFooterLinkColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -214,6 +221,7 @@ async function updateSettings(
     followTextColor,
     mainLinkColor,
     navLinkColor,
+    footerLinkColor,
 ) {
     //
     if(req.session.user) {
@@ -235,7 +243,8 @@ async function updateSettings(
             followLineColor,
             followTextColor,
             mainLinkColor,
-            navLinkColor)
+            navLinkColor,
+            footerLinkColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -254,6 +263,7 @@ async function updateSettings(
         req.session.user.follow_text_color = followTextColor
         req.session.user.main_link_color = mainLinkColor
         req.session.user.nav_link_color = navLinkColor
+        req.session.user.footer_link_color = footerLinkColor
     }
     else {
 
@@ -276,6 +286,7 @@ async function updateSettings(
         cSettings.follow_text_color = followTextColor
         cSettings.main_link_color = mainLinkColor
         cSettings.nav_link_color = navLinkColor
+        cSettings.footer_link_color = footerLinkColor
 
         res.cookie(
             'settings',

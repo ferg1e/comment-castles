@@ -141,6 +141,7 @@ router.post(
                     follow_text_color: rows[0].follow_text_color,
                     main_link_color: rows[0].main_link_color,
                     nav_link_color: rows[0].nav_link_color,
+                    footer_link_color: rows[0].footer_link_color,
                     posts_per_page: rows[0].posts_per_page,
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
                     comment_reply_mode: rows[0].comment_reply_mode,
