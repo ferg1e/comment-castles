@@ -19,6 +19,9 @@
 #l_main-link-color,
 #l_nav-link-color,
 #l_footer-link-color,
+#l_page-bg-color,
+#l_page-line-color,
+#l_page-text-color,
 #l_posts-vertical-spacing {
     display: block;
 }

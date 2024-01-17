@@ -33,6 +33,9 @@ const get = async (req, res) => {
             mainLinkColorForm: myMisc.getMainLinkColor(req),
             navLinkColorForm: myMisc.getNavLinkColor(req),
             footerLinkColorForm: myMisc.getFooterLinkColor(req),
+            pageBgColorForm: myMisc.getPageBgColor(req),
+            pageLineColorForm: myMisc.getPageLineColor(req),
+            pageTextColorForm: myMisc.getPageTextColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -63,6 +66,9 @@ const post = async (req, res) => {
             config.defaultMainLinkColor,
             config.defaultNavLinkColor,
             config.defaultFooterLinkColor,
+            config.defaultPageBgColor,
+            config.defaultPageLineColor,
+            config.defaultPageTextColor,
         )
 
         return res.redirect('/settings/colors')
@@ -90,6 +96,9 @@ const post = async (req, res) => {
     const sMainLinkColorBite = req.body.main_link_color.substring(1)
     const sNavLinkColorBite = req.body.nav_link_color.substring(1)
     const sFooterLinkColorBite = req.body.footer_link_color.substring(1)
+    const sPageBgColorBite = req.body.page_bg_color.substring(1)
+    const sPageLineColorBite = req.body.page_line_color.substring(1)
+    const sPageTextColorBite = req.body.page_text_color.substring(1)
 
     //
     if(errors.length) {
@@ -117,6 +126,9 @@ const post = async (req, res) => {
                 mainLinkColorForm: sMainLinkColorBite,
                 navLinkColorForm: sNavLinkColorBite,
                 footerLinkColorForm: sFooterLinkColorBite,
+                pageBgColorForm: sPageBgColorBite,
+                pageLineColorForm: sPageLineColorBite,
+                pageTextColorForm: sPageTextColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -143,6 +155,9 @@ const post = async (req, res) => {
         sMainLinkColorBite,
         sNavLinkColorBite,
         sFooterLinkColorBite,
+        sPageBgColorBite,
+        sPageLineColorBite,
+        sPageTextColorBite,
     )
 
     //
@@ -164,6 +179,9 @@ const post = async (req, res) => {
     req.app.locals.mainLinkColor = sMainLinkColorBite
     req.app.locals.navLinkColor = sNavLinkColorBite
     req.app.locals.footerLinkColor = sFooterLinkColorBite
+    req.app.locals.pageBgColor = sPageBgColorBite
+    req.app.locals.pageLineColor = sPageLineColorBite
+    req.app.locals.pageTextColor = sPageTextColorBite
 
     //
     return res.render(
@@ -191,6 +209,9 @@ const post = async (req, res) => {
             mainLinkColorForm: sMainLinkColorBite,
             navLinkColorForm: sNavLinkColorBite,
             footerLinkColorForm: sFooterLinkColorBite,
+            pageBgColorForm: sPageBgColorBite,
+            pageLineColorForm: sPageLineColorBite,
+            pageTextColorForm: sPageTextColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -222,6 +243,9 @@ async function updateSettings(
     mainLinkColor,
     navLinkColor,
     footerLinkColor,
+    pageBgColor,
+    pageLineColor,
+    pageTextColor,
 ) {
     //
     if(req.session.user) {
@@ -244,7 +268,10 @@ async function updateSettings(
             followTextColor,
             mainLinkColor,
             navLinkColor,
-            footerLinkColor)
+            footerLinkColor,
+            pageBgColor,
+            pageLineColor,
+            pageTextColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -264,6 +291,9 @@ async function updateSettings(
         req.session.user.main_link_color = mainLinkColor
         req.session.user.nav_link_color = navLinkColor
         req.session.user.footer_link_color = footerLinkColor
+        req.session.user.page_bg_color = pageBgColor
+        req.session.user.page_line_color = pageLineColor
+        req.session.user.page_text_color = pageTextColor
     }
     else {
 
@@ -287,6 +317,9 @@ async function updateSettings(
         cSettings.main_link_color = mainLinkColor
         cSettings.nav_link_color = navLinkColor
         cSettings.footer_link_color = footerLinkColor
+        cSettings.page_bg_color = pageBgColor
+        cSettings.page_line_color = pageLineColor
+        cSettings.page_text_color = pageTextColor
 
         res.cookie(
             'settings',

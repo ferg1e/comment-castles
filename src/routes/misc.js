@@ -35,6 +35,9 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.mainLinkColor = myMisc.getMainLinkColor(req)
     req.app.locals.navLinkColor = myMisc.getNavLinkColor(req)
     req.app.locals.footerLinkColor = myMisc.getFooterLinkColor(req)
+    req.app.locals.pageBgColor = myMisc.getPageBgColor(req)
+    req.app.locals.pageLineColor = myMisc.getPageLineColor(req)
+    req.app.locals.pageTextColor = myMisc.getPageTextColor(req)
 
     //
     next()

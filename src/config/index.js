@@ -60,6 +60,9 @@ exports.defaultFollowTextColor = '000000'
 exports.defaultMainLinkColor = '0000d2'
 exports.defaultNavLinkColor = '4b4949'
 exports.defaultFooterLinkColor = '9b4747'
+exports.defaultPageBgColor = 'ffcc80'
+exports.defaultPageLineColor = '000000'
+exports.defaultPageTextColor = '000000'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

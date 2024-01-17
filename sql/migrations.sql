@@ -172,3 +172,6 @@ alter table tuser add column follow_text_color char(6) not null default '000000'
 alter table tuser add column main_link_color char(6) not null default '0000d2';
 alter table tuser add column nav_link_color char(6) not null default '4b4949';
 alter table tuser add column footer_link_color char(6) not null default '9b4747';
+alter table tuser add column page_bg_color char(6) not null default 'ffcc80';
+alter table tuser add column page_line_color char(6) not null default '000000';
+alter table tuser add column page_text_color char(6) not null default '000000';

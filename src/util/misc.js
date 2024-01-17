@@ -448,6 +448,54 @@ exports.getFooterLinkColor = req => {
 }
 
 //
+exports.getPageBgColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.page_bg_color === 'undefined')
+            ? config.defaultPageBgColor
+            : req.session.user.page_bg_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.page_bg_color === 'undefined')
+            ? config.defaultPageBgColor
+            : cSettings.page_bg_color
+    }
+}
+
+//
+exports.getPageLineColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.page_line_color === 'undefined')
+            ? config.defaultPageLineColor
+            : req.session.user.page_line_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.page_line_color === 'undefined')
+            ? config.defaultPageLineColor
+            : cSettings.page_line_color
+    }
+}
+
+//
+exports.getPageTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.page_text_color === 'undefined')
+            ? config.defaultPageTextColor
+            : req.session.user.page_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.page_text_color === 'undefined')
+            ? config.defaultPageTextColor
+            : cSettings.page_text_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -657,6 +705,9 @@ exports.getCookieSettings = req => {
         main_link_color: config.defaultMainLinkColor,
         nav_link_color: config.defaultNavLinkColor,
         footer_link_color: config.defaultFooterLinkColor,
+        page_bg_color: config.defaultPageBgColor,
+        page_line_color: config.defaultPageLineColor,
+        page_text_color: config.defaultPageTextColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

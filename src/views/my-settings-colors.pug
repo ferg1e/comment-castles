@@ -70,11 +70,20 @@ block content2
             div
                 label(for="footer-link-color" id="l_footer-link-color") Footer Link Color
                 input(id="footer-link-color" name="footer_link_color" value=`#${footerLinkColorForm}` type="color")
+            div
+                label(for="page-bg-color" id="l_page-bg-color") Page Button Background Color
+                input(id="page-bg-color" name="page_bg_color" value=`#${pageBgColorForm}` type="color")
+            div
+                label(for="page-line-color" id="l_page-line-color") Page Button Border Color
+                input(id="page-line-color" name="page_line_color" value=`#${pageLineColorForm}` type="color")
+            div
+                label(for="page-text-color" id="l_page-text-color") Page Button Text Color
+                input(id="page-text-color" name="page_text_color" value=`#${pageTextColorForm}` type="color")
 
             div
                 input(type="submit" value="Save")
                 | 
                 input(type="submit" value="Reset To Defaults" form="fdef")
     div
-        form(method="post" action="/settings" id="fdef")
+        form(method="post" action="/settings/colors" id="fdef")
             input(type="hidden" name="defaults" value="1")
