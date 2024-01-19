@@ -63,6 +63,9 @@ exports.defaultFooterLinkColor = '9b4747'
 exports.defaultPageBgColor = 'ffcc80'
 exports.defaultPageLineColor = '000000'
 exports.defaultPageTextColor = '000000'
+exports.defaultHighBgColor = 'f8edbd'
+exports.defaultHighTextColor = '232323'
+exports.defaultHighLinkColor = '0000d2'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

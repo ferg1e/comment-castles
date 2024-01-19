@@ -22,6 +22,9 @@
 #l_page-bg-color,
 #l_page-line-color,
 #l_page-text-color,
+#l_high-bg-color,
+#l_high-text-color,
+#l_high-link-color,
 #l_posts-vertical-spacing {
     display: block;
 }

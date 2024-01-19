@@ -201,26 +201,14 @@ pre {
   background: #f1f1f1;
 }
 
-.alert1 {
-  background: #f8edbd;
-}
-
 .alert1o {
   margin-top: 16px;
   margin-top: 1rem;
 }
 
-.alert2 {
-  background: #f8edbd;
-}
-
 .alert2o {
   margin-bottom: 2px;
   margin-bottom: .125rem;
-}
-
-.alert3 {
-  background: #f8edbd;
 }
 
 .alert3o {
@@ -229,7 +217,6 @@ pre {
 }
 
 .alert1 a, .alert2 a, .alert3 a {
-  color: #0000d2;
   text-decoration: none;
 }
 

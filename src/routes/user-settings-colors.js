@@ -36,6 +36,9 @@ const get = async (req, res) => {
             pageBgColorForm: myMisc.getPageBgColor(req),
             pageLineColorForm: myMisc.getPageLineColor(req),
             pageTextColorForm: myMisc.getPageTextColor(req),
+            highBgColorForm: myMisc.getHighBgColor(req),
+            highTextColorForm: myMisc.getHighTextColor(req),
+            highLinkColorForm: myMisc.getHighLinkColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -69,6 +72,9 @@ const post = async (req, res) => {
             config.defaultPageBgColor,
             config.defaultPageLineColor,
             config.defaultPageTextColor,
+            config.defaultHighBgColor,
+            config.defaultHighTextColor,
+            config.defaultHighLinkColor,
         )
 
         return res.redirect('/settings/colors')
@@ -99,6 +105,9 @@ const post = async (req, res) => {
     const sPageBgColorBite = req.body.page_bg_color.substring(1)
     const sPageLineColorBite = req.body.page_line_color.substring(1)
     const sPageTextColorBite = req.body.page_text_color.substring(1)
+    const sHighBgColorBite = req.body.high_bg_color.substring(1)
+    const sHighTextColorBite = req.body.high_text_color.substring(1)
+    const sHighLinkColorBite = req.body.high_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -129,6 +138,9 @@ const post = async (req, res) => {
                 pageBgColorForm: sPageBgColorBite,
                 pageLineColorForm: sPageLineColorBite,
                 pageTextColorForm: sPageTextColorBite,
+                highBgColorForm: sHighBgColorBite,
+                highTextColorForm: sHighTextColorBite,
+                highLinkColorForm: sHighLinkColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -158,6 +170,9 @@ const post = async (req, res) => {
         sPageBgColorBite,
         sPageLineColorBite,
         sPageTextColorBite,
+        sHighBgColorBite,
+        sHighTextColorBite,
+        sHighLinkColorBite,
     )
 
     //
@@ -182,6 +197,9 @@ const post = async (req, res) => {
     req.app.locals.pageBgColor = sPageBgColorBite
     req.app.locals.pageLineColor = sPageLineColorBite
     req.app.locals.pageTextColor = sPageTextColorBite
+    req.app.locals.highBgColor = sHighBgColorBite
+    req.app.locals.highTextColor = sHighTextColorBite
+    req.app.locals.highLinkColor = sHighLinkColorBite
 
     //
     return res.render(
@@ -212,6 +230,9 @@ const post = async (req, res) => {
             pageBgColorForm: sPageBgColorBite,
             pageLineColorForm: sPageLineColorBite,
             pageTextColorForm: sPageTextColorBite,
+            highBgColorForm: sHighBgColorBite,
+            highTextColorForm: sHighTextColorBite,
+            highLinkColorForm: sHighLinkColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -246,6 +267,9 @@ async function updateSettings(
     pageBgColor,
     pageLineColor,
     pageTextColor,
+    highBgColor,
+    highTextColor,
+    highLinkColor,
 ) {
     //
     if(req.session.user) {
@@ -271,7 +295,10 @@ async function updateSettings(
             footerLinkColor,
             pageBgColor,
             pageLineColor,
-            pageTextColor)
+            pageTextColor,
+            highBgColor,
+            highTextColor,
+            highLinkColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -294,6 +321,9 @@ async function updateSettings(
         req.session.user.page_bg_color = pageBgColor
         req.session.user.page_line_color = pageLineColor
         req.session.user.page_text_color = pageTextColor
+        req.session.user.high_bg_color = highBgColor
+        req.session.user.high_text_color = highTextColor
+        req.session.user.high_link_color = highLinkColor
     }
     else {
 
@@ -320,6 +350,9 @@ async function updateSettings(
         cSettings.page_bg_color = pageBgColor
         cSettings.page_line_color = pageLineColor
         cSettings.page_text_color = pageTextColor
+        cSettings.high_bg_color = highBgColor
+        cSettings.high_text_color = highTextColor
+        cSettings.high_link_color = highLinkColor
 
         res.cookie(
             'settings',
