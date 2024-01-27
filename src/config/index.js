@@ -66,6 +66,9 @@ exports.defaultPageTextColor = '000000'
 exports.defaultHighBgColor = 'f8edbd'
 exports.defaultHighTextColor = '232323'
 exports.defaultHighLinkColor = '0000d2'
+exports.defaultCommentHeadColor = '9b9292'
+exports.defaultCommentUserColor = '5f5f64'
+exports.defaultCommentFootColor = '994949'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

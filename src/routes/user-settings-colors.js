@@ -39,6 +39,9 @@ const get = async (req, res) => {
             highBgColorForm: myMisc.getHighBgColor(req),
             highTextColorForm: myMisc.getHighTextColor(req),
             highLinkColorForm: myMisc.getHighLinkColor(req),
+            commentHeadColorForm: myMisc.getCommentHeadColor(req),
+            commentUserColorForm: myMisc.getCommentUserColor(req),
+            commentFootColorForm: myMisc.getCommentFootColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -75,6 +78,9 @@ const post = async (req, res) => {
             config.defaultHighBgColor,
             config.defaultHighTextColor,
             config.defaultHighLinkColor,
+            config.defaultCommentHeadColor,
+            config.defaultCommentUserColor,
+            config.defaultCommentFootColor,
         )
 
         return res.redirect('/settings/colors')
@@ -108,6 +114,9 @@ const post = async (req, res) => {
     const sHighBgColorBite = req.body.high_bg_color.substring(1)
     const sHighTextColorBite = req.body.high_text_color.substring(1)
     const sHighLinkColorBite = req.body.high_link_color.substring(1)
+    const sCommentHeadColorBite = req.body.comment_head_color.substring(1)
+    const sCommentUserColorBite = req.body.comment_user_color.substring(1)
+    const sCommentFootColorBite = req.body.comment_foot_color.substring(1)
 
     //
     if(errors.length) {
@@ -141,6 +150,9 @@ const post = async (req, res) => {
                 highBgColorForm: sHighBgColorBite,
                 highTextColorForm: sHighTextColorBite,
                 highLinkColorForm: sHighLinkColorBite,
+                commentHeadColorForm: sCommentHeadColorBite,
+                commentUserColorForm: sCommentUserColorBite,
+                commentFootColorForm: sCommentFootColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -173,6 +185,9 @@ const post = async (req, res) => {
         sHighBgColorBite,
         sHighTextColorBite,
         sHighLinkColorBite,
+        sCommentHeadColorBite,
+        sCommentUserColorBite,
+        sCommentFootColorBite,
     )
 
     //
@@ -200,6 +215,9 @@ const post = async (req, res) => {
     req.app.locals.highBgColor = sHighBgColorBite
     req.app.locals.highTextColor = sHighTextColorBite
     req.app.locals.highLinkColor = sHighLinkColorBite
+    req.app.locals.commentHeadColor = sCommentHeadColorBite
+    req.app.locals.commentUserColor = sCommentUserColorBite
+    req.app.locals.commentFootColor = sCommentFootColorBite
 
     //
     return res.render(
@@ -233,6 +251,9 @@ const post = async (req, res) => {
             highBgColorForm: sHighBgColorBite,
             highTextColorForm: sHighTextColorBite,
             highLinkColorForm: sHighLinkColorBite,
+            commentHeadColorForm: sCommentHeadColorBite,
+            commentUserColorForm: sCommentUserColorBite,
+            commentFootColorForm: sCommentFootColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -270,6 +291,9 @@ async function updateSettings(
     highBgColor,
     highTextColor,
     highLinkColor,
+    commentHeadColor,
+    commentUserColor,
+    commentFootColor,
 ) {
     //
     if(req.session.user) {
@@ -298,7 +322,10 @@ async function updateSettings(
             pageTextColor,
             highBgColor,
             highTextColor,
-            highLinkColor)
+            highLinkColor,
+            commentHeadColor,
+            commentUserColor,
+            commentFootColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -324,6 +351,9 @@ async function updateSettings(
         req.session.user.high_bg_color = highBgColor
         req.session.user.high_text_color = highTextColor
         req.session.user.high_link_color = highLinkColor
+        req.session.user.comment_head_color = commentHeadColor
+        req.session.user.comment_user_color = commentUserColor
+        req.session.user.comment_foot_color = commentFootColor
     }
     else {
 
@@ -353,6 +383,9 @@ async function updateSettings(
         cSettings.high_bg_color = highBgColor
         cSettings.high_text_color = highTextColor
         cSettings.high_link_color = highLinkColor
+        cSettings.comment_head_color = commentHeadColor
+        cSettings.comment_user_color = commentUserColor
+        cSettings.comment_foot_color = commentFootColor
 
         res.cookie(
             'settings',

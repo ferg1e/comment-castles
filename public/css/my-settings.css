@@ -25,6 +25,9 @@
 #l_high-bg-color,
 #l_high-text-color,
 #l_high-link-color,
+#l_comment-head-color,
+#l_comment-user-color,
+#l_comment-foot-color,
 #l_posts-vertical-spacing {
     display: block;
 }

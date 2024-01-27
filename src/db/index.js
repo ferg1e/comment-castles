@@ -60,9 +60,12 @@ exports.createUser = async (username, password) => {
                 page_text_color,
                 high_bg_color,
                 high_text_color,
-                high_link_color)
+                high_link_color,
+                comment_head_color,
+                comment_user_color,
+                comment_foot_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37)
             returning
                 user_id,
                 username,
@@ -93,6 +96,9 @@ exports.createUser = async (username, password) => {
                 high_bg_color,
                 high_text_color,
                 high_link_color,
+                comment_head_color,
+                comment_user_color,
+                comment_foot_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -132,6 +138,9 @@ exports.createUser = async (username, password) => {
                 config.defaultHighBgColor,
                 config.defaultHighTextColor,
                 config.defaultHighLinkColor,
+                config.defaultCommentHeadColor,
+                config.defaultCommentUserColor,
+                config.defaultCommentFootColor,
             ]))
 
     //
@@ -175,6 +184,9 @@ exports.getUserWithUsername = (username) => {
             high_bg_color,
             high_text_color,
             high_link_color,
+            comment_head_color,
+            comment_user_color,
+            comment_foot_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -250,7 +262,7 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
 }
 
 //
-exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, highBgColor, highTextColor, highLinkColor, pageTextColor) => {
+exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor) => {
     return query(`
         update
             tuser
@@ -278,10 +290,13 @@ exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postL
             page_text_color = $21,
             high_bg_color = $22,
             high_text_color = $23,
-            high_link_color = $24
+            high_link_color = $24,
+            comment_head_color = $25,
+            comment_user_color = $26,
+            comment_foot_color = $27
         where
-            user_id = $25`,
-        [oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, userId])
+            user_id = $28`,
+        [oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor, userId])
 }
 
 //

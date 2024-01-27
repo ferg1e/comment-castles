@@ -178,3 +178,6 @@ alter table tuser add column page_text_color char(6) not null default '000000';
 alter table tuser add column high_bg_color char(6) not null default 'f8edbd';
 alter table tuser add column high_text_color char(6) not null default '232323';
 alter table tuser add column high_link_color char(6) not null default '0000d2';
+alter table tuser add column comment_head_color char(6) not null default '9b9292';
+alter table tuser add column comment_user_color char(6) not null default '5f5f64';
+alter table tuser add column comment_foot_color char(6) not null default '994949';

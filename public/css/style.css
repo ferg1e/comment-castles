@@ -162,12 +162,7 @@ body {
 }
 
 .cuser {
-  color: #5f5f64;
   text-decoration: none;
-}
-
-.cdate, .cby {
-  color: #9b9292;
 }
 
 .cheader {
@@ -181,7 +176,6 @@ body {
 }
 
 .clinks a {
-  color: #994949;
   margin-right: 4px;
   margin-right: .25rem;
   text-decoration: none;

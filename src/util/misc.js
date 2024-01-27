@@ -544,6 +544,54 @@ exports.getHighLinkColor = req => {
 }
 
 //
+exports.getCommentHeadColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.comment_head_color === 'undefined')
+            ? config.defaultCommentHeadColor
+            : req.session.user.comment_head_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.comment_head_color === 'undefined')
+            ? config.defaultCommentHeadColor
+            : cSettings.comment_head_color
+    }
+}
+
+//
+exports.getCommentUserColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.comment_user_color === 'undefined')
+            ? config.defaultCommentUserColor
+            : req.session.user.comment_user_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.comment_user_color === 'undefined')
+            ? config.defaultCommentUserColor
+            : cSettings.comment_user_color
+    }
+}
+
+//
+exports.getCommentFootColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.comment_foot_color === 'undefined')
+            ? config.defaultCommentFootColor
+            : req.session.user.comment_foot_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.comment_foot_color === 'undefined')
+            ? config.defaultCommentFootColor
+            : cSettings.comment_foot_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -759,6 +807,9 @@ exports.getCookieSettings = req => {
         high_bg_color: config.defaultHighBgColor,
         high_text_color: config.defaultHighTextColor,
         high_link_color: config.defaultHighLinkColor,
+        comment_head_color: config.defaultCommentHeadColor,
+        comment_user_color: config.defaultCommentUserColor,
+        comment_foot_color: config.defaultCommentFootColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,
