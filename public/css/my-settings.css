@@ -28,6 +28,9 @@
 #l_comment-head-color,
 #l_comment-user-color,
 #l_comment-foot-color,
+#l_pre-bg-color,
+#l_pre-text-color,
+#l_pre-link-color,
 #l_posts-vertical-spacing {
     display: block;
 }

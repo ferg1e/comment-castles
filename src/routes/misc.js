@@ -44,6 +44,9 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.commentHeadColor = myMisc.getCommentHeadColor(req)
     req.app.locals.commentUserColor = myMisc.getCommentUserColor(req)
     req.app.locals.commentFootColor = myMisc.getCommentFootColor(req)
+    req.app.locals.preBgColor = myMisc.getPreBgColor(req)
+    req.app.locals.preTextColor = myMisc.getPreTextColor(req)
+    req.app.locals.preLinkColor = myMisc.getPreLinkColor(req)
 
     //
     next()

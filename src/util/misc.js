@@ -592,6 +592,54 @@ exports.getCommentFootColor = req => {
 }
 
 //
+exports.getPreBgColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.pre_bg_color === 'undefined')
+            ? config.defaultPreBgColor
+            : req.session.user.pre_bg_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.pre_bg_color === 'undefined')
+            ? config.defaultPreBgColor
+            : cSettings.pre_bg_color
+    }
+}
+
+//
+exports.getPreTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.pre_text_color === 'undefined')
+            ? config.defaultPreTextColor
+            : req.session.user.pre_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.pre_text_color === 'undefined')
+            ? config.defaultPreTextColor
+            : cSettings.pre_text_color
+    }
+}
+
+//
+exports.getPreLinkColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.pre_link_color === 'undefined')
+            ? config.defaultPreLinkColor
+            : req.session.user.pre_link_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.pre_link_color === 'undefined')
+            ? config.defaultPreLinkColor
+            : cSettings.pre_link_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -810,6 +858,9 @@ exports.getCookieSettings = req => {
         comment_head_color: config.defaultCommentHeadColor,
         comment_user_color: config.defaultCommentUserColor,
         comment_foot_color: config.defaultCommentFootColor,
+        pre_bg_color: config.defaultPreBgColor,
+        pre_text_color: config.defaultPreTextColor,
+        pre_link_color: config.defaultPreLinkColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

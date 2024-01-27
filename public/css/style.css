@@ -96,11 +96,6 @@ body {
   margin: 8px 0 0 0;
 }
 
-.the-post .the-post-content pre,
-.the-comment .the-comment-content pre {
-  background: #e2e2e2;
-}
-
 .backpost-nav {
   margin: 10px 0;
 }
@@ -192,7 +187,6 @@ body {
 pre {
   margin: 0;
   padding: 0;
-  background: #f1f1f1;
 }
 
 .alert1o {

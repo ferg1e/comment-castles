@@ -42,6 +42,9 @@ const get = async (req, res) => {
             commentHeadColorForm: myMisc.getCommentHeadColor(req),
             commentUserColorForm: myMisc.getCommentUserColor(req),
             commentFootColorForm: myMisc.getCommentFootColor(req),
+            preBgColorForm: myMisc.getPreBgColor(req),
+            preTextColorForm: myMisc.getPreTextColor(req),
+            preLinkColorForm: myMisc.getPreLinkColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -81,6 +84,9 @@ const post = async (req, res) => {
             config.defaultCommentHeadColor,
             config.defaultCommentUserColor,
             config.defaultCommentFootColor,
+            config.defaultPreBgColor,
+            config.defaultPreTextColor,
+            config.defaultPreLinkColor,
         )
 
         return res.redirect('/settings/colors')
@@ -117,6 +123,9 @@ const post = async (req, res) => {
     const sCommentHeadColorBite = req.body.comment_head_color.substring(1)
     const sCommentUserColorBite = req.body.comment_user_color.substring(1)
     const sCommentFootColorBite = req.body.comment_foot_color.substring(1)
+    const sPreBgColorBite = req.body.pre_bg_color.substring(1)
+    const sPreTextColorBite = req.body.pre_text_color.substring(1)
+    const sPreLinkColorBite = req.body.pre_link_color.substring(1)
 
     //
     if(errors.length) {
@@ -153,6 +162,9 @@ const post = async (req, res) => {
                 commentHeadColorForm: sCommentHeadColorBite,
                 commentUserColorForm: sCommentUserColorBite,
                 commentFootColorForm: sCommentFootColorBite,
+                preBgColorForm: sPreBgColorBite,
+                preTextColorForm: sPreTextColorBite,
+                preLinkColorForm: sPreLinkColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -188,6 +200,9 @@ const post = async (req, res) => {
         sCommentHeadColorBite,
         sCommentUserColorBite,
         sCommentFootColorBite,
+        sPreBgColorBite,
+        sPreTextColorBite,
+        sPreLinkColorBite,
     )
 
     //
@@ -218,6 +233,9 @@ const post = async (req, res) => {
     req.app.locals.commentHeadColor = sCommentHeadColorBite
     req.app.locals.commentUserColor = sCommentUserColorBite
     req.app.locals.commentFootColor = sCommentFootColorBite
+    req.app.locals.preBgColor = sPreBgColorBite
+    req.app.locals.preTextColor = sPreTextColorBite
+    req.app.locals.preLinkColor = sPreLinkColorBite
 
     //
     return res.render(
@@ -254,6 +272,9 @@ const post = async (req, res) => {
             commentHeadColorForm: sCommentHeadColorBite,
             commentUserColorForm: sCommentUserColorBite,
             commentFootColorForm: sCommentFootColorBite,
+            preBgColorForm: sPreBgColorBite,
+            preTextColorForm: sPreTextColorBite,
+            preLinkColorForm: sPreLinkColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -294,6 +315,9 @@ async function updateSettings(
     commentHeadColor,
     commentUserColor,
     commentFootColor,
+    preBgColor,
+    preTextColor,
+    preLinkColor,
 ) {
     //
     if(req.session.user) {
@@ -325,7 +349,10 @@ async function updateSettings(
             highLinkColor,
             commentHeadColor,
             commentUserColor,
-            commentFootColor)
+            commentFootColor,
+            preBgColor,
+            preTextColor,
+            preLinkColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -354,6 +381,9 @@ async function updateSettings(
         req.session.user.comment_head_color = commentHeadColor
         req.session.user.comment_user_color = commentUserColor
         req.session.user.comment_foot_color = commentFootColor
+        req.session.user.pre_bg_color = preBgColor
+        req.session.user.pre_text_color = preTextColor
+        req.session.user.pre_link_color = preLinkColor
     }
     else {
 
@@ -386,6 +416,9 @@ async function updateSettings(
         cSettings.comment_head_color = commentHeadColor
         cSettings.comment_user_color = commentUserColor
         cSettings.comment_foot_color = commentFootColor
+        cSettings.pre_bg_color = preBgColor
+        cSettings.pre_text_color = preTextColor
+        cSettings.pre_link_color = preLinkColor
 
         res.cookie(
             'settings',
