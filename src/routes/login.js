@@ -78,6 +78,8 @@ router.post(
                         pre_bg_color: rows[0].pre_bg_color,
                         pre_text_color: rows[0].pre_text_color,
                         pre_link_color: rows[0].pre_link_color,
+                        success_text_color: rows[0].success_text_color,
+                        error_text_color: rows[0].error_text_color,
                         posts_per_page: rows[0].posts_per_page,
                         posts_vertical_spacing: rows[0].posts_vertical_spacing,
                         comment_reply_mode: rows[0].comment_reply_mode,

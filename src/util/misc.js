@@ -640,6 +640,38 @@ exports.getPreLinkColor = req => {
 }
 
 //
+exports.getSuccessTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.success_text_color === 'undefined')
+            ? config.defaultSuccessTextColor
+            : req.session.user.success_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.success_text_color === 'undefined')
+            ? config.defaultSuccessTextColor
+            : cSettings.success_text_color
+    }
+}
+
+//
+exports.getErrorTextColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.error_text_color === 'undefined')
+            ? config.defaultErrorTextColor
+            : req.session.user.error_text_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.error_text_color === 'undefined')
+            ? config.defaultErrorTextColor
+            : cSettings.error_text_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -861,6 +893,8 @@ exports.getCookieSettings = req => {
         pre_bg_color: config.defaultPreBgColor,
         pre_text_color: config.defaultPreTextColor,
         pre_link_color: config.defaultPreLinkColor,
+        success_text_color: config.defaultSuccessTextColor,
+        error_text_color: config.defaultErrorTextColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

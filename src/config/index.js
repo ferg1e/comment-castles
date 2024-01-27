@@ -72,6 +72,8 @@ exports.defaultCommentFootColor = '994949'
 exports.defaultPreBgColor = 'e2e2e2'
 exports.defaultPreTextColor = '232323'
 exports.defaultPreLinkColor = '0000ff'
+exports.defaultSuccessTextColor = '009900'
+exports.defaultErrorTextColor = 'bb0000'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

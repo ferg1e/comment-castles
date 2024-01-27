@@ -66,9 +66,11 @@ exports.createUser = async (username, password) => {
                 comment_foot_color,
                 pre_bg_color,
                 pre_text_color,
-                pre_link_color)
+                pre_link_color,
+                success_text_color,
+                error_text_color)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42)
             returning
                 user_id,
                 username,
@@ -105,6 +107,8 @@ exports.createUser = async (username, password) => {
                 pre_bg_color,
                 pre_text_color,
                 pre_link_color,
+                success_text_color,
+                error_text_color,
                 posts_per_page,
                 posts_vertical_spacing,
                 comment_reply_mode,
@@ -150,6 +154,8 @@ exports.createUser = async (username, password) => {
                 config.defaultPreBgColor,
                 config.defaultPreTextColor,
                 config.defaultPreLinkColor,
+                config.defaultSuccessTextColor,
+                config.defaultErrorTextColor,
             ]))
 
     //
@@ -199,6 +205,8 @@ exports.getUserWithUsername = (username) => {
             pre_bg_color,
             pre_text_color,
             pre_link_color,
+            success_text_color,
+            error_text_color,
             posts_per_page,
             posts_vertical_spacing,
             comment_reply_mode,
@@ -274,7 +282,7 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
 }
 
 //
-exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor, preBgColor, preTextColor, preLinkColor) => {
+exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor, preBgColor, preTextColor, preLinkColor, successTextColor, errorTextColor) => {
     return query(`
         update
             tuser
@@ -308,10 +316,12 @@ exports.updateUserColors = (userId, oneBgColor, twoBgColor, mainTextColor, postL
             comment_foot_color = $27,
             pre_bg_color = $28,
             pre_text_color = $29,
-            pre_link_color = $30
+            pre_link_color = $30,
+            success_text_color = $31,
+            error_text_color = $32
         where
-            user_id = $31`,
-        [oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor, preBgColor, preTextColor, preLinkColor, userId])
+            user_id = $33`,
+        [oneBgColor, twoBgColor, mainTextColor, postLinkColor, postLinkVisitedColor, groupBgColor, groupTextColor, hiddenColor, domainNameColor, unfollowBgColor, unfollowLineColor, unfollowTextColor, followBgColor, followLineColor, followTextColor, mainLinkColor, navLinkColor, footerLinkColor, pageBgColor, pageLineColor, pageTextColor, highBgColor, highTextColor, highLinkColor, commentHeadColor, commentUserColor, commentFootColor, preBgColor, preTextColor, preLinkColor, successTextColor, errorTextColor, userId])
 }
 
 //
