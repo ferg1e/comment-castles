@@ -62,7 +62,6 @@ body {
 }
 
 .comments :target {
-  background: #faf7f1;
   padding: 3px;
   border: 2px solid #ebbc58;
 }
