@@ -161,6 +161,8 @@ function reply(cpid, isTargetLink) {
                     commentLi.removeChild(cForm)
                     currCpid = null
                     currForm = null
+                    document.location.hash = `#${data.public_id}`
+
                 }
                 else {
                     alert('error, please try later')
