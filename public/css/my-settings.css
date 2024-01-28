@@ -33,6 +33,8 @@
 #l_pre-link-color,
 #l_success-text-color,
 #l_error-text-color,
+#l_em-bg-color,
+#l_em-text-color,
 #l_posts-vertical-spacing {
     display: block;
 }

@@ -80,6 +80,8 @@ router.post(
                         pre_link_color: rows[0].pre_link_color,
                         success_text_color: rows[0].success_text_color,
                         error_text_color: rows[0].error_text_color,
+                        em_bg_color: rows[0].em_bg_color,
+                        em_text_color: rows[0].em_text_color,
                         posts_per_page: rows[0].posts_per_page,
                         posts_vertical_spacing: rows[0].posts_vertical_spacing,
                         comment_reply_mode: rows[0].comment_reply_mode,

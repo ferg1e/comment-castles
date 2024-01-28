@@ -74,6 +74,8 @@ exports.defaultPreTextColor = '232323'
 exports.defaultPreLinkColor = '0000ff'
 exports.defaultSuccessTextColor = '009900'
 exports.defaultErrorTextColor = 'bb0000'
+exports.defaultEmBgColor = 'e8e8e8'
+exports.defaultEmTextColor = '232323'
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

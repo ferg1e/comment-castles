@@ -47,6 +47,8 @@ const get = async (req, res) => {
             preLinkColorForm: myMisc.getPreLinkColor(req),
             successTextColorForm: myMisc.getSuccessTextColor(req),
             errorTextColorForm: myMisc.getErrorTextColor(req),
+            emBgColorForm: myMisc.getEmBgColor(req),
+            emTextColorForm: myMisc.getEmTextColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -91,6 +93,8 @@ const post = async (req, res) => {
             config.defaultPreLinkColor,
             config.defaultSuccessTextColor,
             config.defaultErrorTextColor,
+            config.defaultEmBgColor,
+            config.defaultEmTextColor,
         )
 
         return res.redirect('/settings/colors')
@@ -132,6 +136,8 @@ const post = async (req, res) => {
     const sPreLinkColorBite = req.body.pre_link_color.substring(1)
     const sSuccessTextColorBite = req.body.success_text_color.substring(1)
     const sErrorTextColorBite = req.body.error_text_color.substring(1)
+    const sEmBgColorBite = req.body.em_bg_color.substring(1)
+    const sEmTextColorBite = req.body.em_text_color.substring(1)
 
     //
     if(errors.length) {
@@ -173,6 +179,8 @@ const post = async (req, res) => {
                 preLinkColorForm: sPreLinkColorBite,
                 successTextColorForm: sSuccessTextColorBite,
                 errorTextColorForm: sErrorTextColorBite,
+                emBgColorForm: sEmBgColorBite,
+                emTextColorForm: sEmTextColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -213,6 +221,8 @@ const post = async (req, res) => {
         sPreLinkColorBite,
         sSuccessTextColorBite,
         sErrorTextColorBite,
+        sEmBgColorBite,
+        sEmTextColorBite,
     )
 
     //
@@ -248,6 +258,8 @@ const post = async (req, res) => {
     req.app.locals.preLinkColor = sPreLinkColorBite
     req.app.locals.successTextColor = sSuccessTextColorBite
     req.app.locals.errorTextColor = sErrorTextColorBite
+    req.app.locals.emBgColor = sEmBgColorBite
+    req.app.locals.emTextColor = sEmTextColorBite
 
     //
     return res.render(
@@ -289,6 +301,8 @@ const post = async (req, res) => {
             preLinkColorForm: sPreLinkColorBite,
             successTextColorForm: sSuccessTextColorBite,
             errorTextColorForm: sErrorTextColorBite,
+            emBgColorForm: sEmBgColorBite,
+            emTextColorForm: sEmTextColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -334,6 +348,8 @@ async function updateSettings(
     preLinkColor,
     successTextColor,
     errorTextColor,
+    emBgColor,
+    emTextColor,
 ) {
     //
     if(req.session.user) {
@@ -370,7 +386,9 @@ async function updateSettings(
             preTextColor,
             preLinkColor,
             successTextColor,
-            errorTextColor)
+            errorTextColor,
+            emBgColor,
+            emTextColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -404,6 +422,8 @@ async function updateSettings(
         req.session.user.pre_link_color = preLinkColor
         req.session.user.success_text_color = successTextColor
         req.session.user.error_text_color = errorTextColor
+        req.session.user.em_bg_color = emBgColor
+        req.session.user.em_text_color = emTextColor
     }
     else {
 
@@ -441,6 +461,8 @@ async function updateSettings(
         cSettings.pre_link_color = preLinkColor
         cSettings.success_text_color = successTextColor
         cSettings.error_text_color = errorTextColor
+        cSettings.em_bg_color = emBgColor
+        cSettings.em_text_color = emTextColor
 
         res.cookie(
             'settings',

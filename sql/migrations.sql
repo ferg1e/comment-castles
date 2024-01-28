@@ -186,3 +186,5 @@ alter table tuser add column pre_text_color char(6) not null default '232323';
 alter table tuser add column pre_link_color char(6) not null default '0000ff';
 alter table tuser add column success_text_color char(6) not null default '009900';
 alter table tuser add column error_text_color char(6) not null default 'bb0000';
+alter table tuser add column em_bg_color char(6) not null default 'e8e8e8';
+alter table tuser add column em_text_color char(6) not null default '232323';

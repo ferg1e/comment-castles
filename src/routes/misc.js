@@ -49,6 +49,8 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.preLinkColor = myMisc.getPreLinkColor(req)
     req.app.locals.successTextColor = myMisc.getSuccessTextColor(req)
     req.app.locals.errorTextColor = myMisc.getErrorTextColor(req)
+    req.app.locals.emBgColor = myMisc.getEmBgColor(req)
+    req.app.locals.emTextColor = myMisc.getEmTextColor(req)
 
     //
     next()
