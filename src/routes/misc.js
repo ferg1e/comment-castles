@@ -51,6 +51,7 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.errorTextColor = myMisc.getErrorTextColor(req)
     req.app.locals.emBgColor = myMisc.getEmBgColor(req)
     req.app.locals.emTextColor = myMisc.getEmTextColor(req)
+    req.app.locals.contentLinkColor = myMisc.getContentLinkColor(req)
 
     //
     next()
@@ -78,6 +79,7 @@ router.route('/help')
                 min_pvs: config.minPostsVerticalSpacing,
                 max_pvs: config.maxPostsVerticalSpacing,
                 admin_public_user_id: config.adminPublicUserId,
+                main_class: 'main-text'
             })
     })
 
@@ -88,7 +90,8 @@ router.route('/privacy-policy')
             {
                 html_title: 'Privacy Policy',
                 user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                main_class: 'main-text'
             })
     })
 
@@ -100,7 +103,8 @@ router.route('/contact-us')
                 html_title: 'Contact Us',
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
-                contact_email: config.contactEmail
+                contact_email: config.contactEmail,
+                main_class: 'main-text'
             })
     })
 
@@ -111,7 +115,8 @@ router.route('/api')
             {
                 html_title: 'API',
                 user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                main_class: 'main-text'
             })
     })
 

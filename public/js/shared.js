@@ -134,6 +134,7 @@ function reply(cpid, isTargetLink) {
                     footerElem.appendChild(deleteLink)
 
                     const contentSpan = document.createElement('span')
+                    contentSpan.className = 'cmeat'
                     contentSpan.innerHTML = data.text_content
 
                     const topContainer = document.createElement('div')

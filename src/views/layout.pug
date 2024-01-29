@@ -124,7 +124,7 @@ html
         color: ##{preTextColor};
       }
 
-      pre a {
+      .main-text pre a, .the-post-content pre a, .cmeat pre a, .the-comment-content pre a {
         color: ##{preLinkColor};
       }
 
@@ -139,6 +139,10 @@ html
       main em {
         background: ##{emBgColor};
         color: ##{emTextColor};
+      }
+
+      .main-text a, .the-post-content a, .cmeat a, .the-comment-content a {
+        color: ##{contentLinkColor};
       }
 
     if posts_vertical_spacing
@@ -211,7 +215,7 @@ html
                 a(href="/settings") settings
               li
                 a(href="/help") help
-      main
+      main(class=main_class ? main_class : '')
         block content
       footer.main-footer
         nav.main-footer-nav
