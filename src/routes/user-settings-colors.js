@@ -50,6 +50,7 @@ const get = async (req, res) => {
             emBgColorForm: myMisc.getEmBgColor(req),
             emTextColorForm: myMisc.getEmTextColor(req),
             contentLinkColorForm: myMisc.getContentLinkColor(req),
+            commentOutlineColorForm: myMisc.getCommentOutlineColor(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -97,6 +98,7 @@ const post = async (req, res) => {
             config.defaultEmBgColor,
             config.defaultEmTextColor,
             config.defaultContentLinkColor,
+            config.defaultCommentOutlineColor,
         )
 
         return res.redirect('/settings/colors')
@@ -141,6 +143,7 @@ const post = async (req, res) => {
     const sEmBgColorBite = req.body.em_bg_color.substring(1)
     const sEmTextColorBite = req.body.em_text_color.substring(1)
     const sContentLinkColorBite = req.body.content_link_color.substring(1)
+    const sCommentOutlineColorBite = req.body.comment_outline_color.substring(1)
 
     //
     if(errors.length) {
@@ -185,6 +188,7 @@ const post = async (req, res) => {
                 emBgColorForm: sEmBgColorBite,
                 emTextColorForm: sEmTextColorBite,
                 contentLinkColorForm: sContentLinkColorBite,
+                commentOutlineColorForm: sCommentOutlineColorBite,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -228,6 +232,7 @@ const post = async (req, res) => {
         sEmBgColorBite,
         sEmTextColorBite,
         sContentLinkColorBite,
+        sCommentOutlineColorBite,
     )
 
     //
@@ -266,6 +271,7 @@ const post = async (req, res) => {
     req.app.locals.emBgColor = sEmBgColorBite
     req.app.locals.emTextColor = sEmTextColorBite
     req.app.locals.contentLinkColor = sContentLinkColorBite
+    req.app.locals.commentOutlineColor = sCommentOutlineColorBite
 
     //
     return res.render(
@@ -310,6 +316,7 @@ const post = async (req, res) => {
             emBgColorForm: sEmBgColorBite,
             emTextColorForm: sEmTextColorBite,
             contentLinkColorForm: sContentLinkColorBite,
+            commentOutlineColorForm: sCommentOutlineColorBite,
             max_width: myMisc.getCurrSiteMaxWidth(req),
         })
 }
@@ -358,6 +365,7 @@ async function updateSettings(
     emBgColor,
     emTextColor,
     contentLinkColor,
+    commentOutlineColor,
 ) {
     //
     if(req.session.user) {
@@ -397,7 +405,8 @@ async function updateSettings(
             errorTextColor,
             emBgColor,
             emTextColor,
-            contentLinkColor)
+            contentLinkColor,
+            commentOutlineColor)
 
         req.session.user.one_bg_color = primaryBgColor
         req.session.user.two_bg_color = secondaryBgColor
@@ -434,6 +443,7 @@ async function updateSettings(
         req.session.user.em_bg_color = emBgColor
         req.session.user.em_text_color = emTextColor
         req.session.user.content_link_color = contentLinkColor
+        req.session.user.comment_outline_color = commentOutlineColor
     }
     else {
 
@@ -474,6 +484,7 @@ async function updateSettings(
         cSettings.em_bg_color = emBgColor
         cSettings.em_text_color = emTextColor
         cSettings.content_link_color = contentLinkColor
+        cSettings.comment_outline_color = commentOutlineColor
 
         res.cookie(
             'settings',

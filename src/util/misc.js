@@ -720,6 +720,22 @@ exports.getContentLinkColor = req => {
 }
 
 //
+exports.getCommentOutlineColor = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.comment_outline_color === 'undefined')
+            ? config.defaultCommentOutlineColor
+            : req.session.user.comment_outline_color
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.comment_outline_color === 'undefined')
+            ? config.defaultCommentOutlineColor
+            : cSettings.comment_outline_color
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -946,6 +962,7 @@ exports.getCookieSettings = req => {
         em_bg_color: config.defaultEmBgColor,
         em_text_color: config.defaultEmTextColor,
         content_link_color: config.defaultContentLinkColor,
+        comment_outline_color: config.defaultCommentOutlineColor,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         site_width: config.defaultSiteWidth,

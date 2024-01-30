@@ -83,6 +83,7 @@ router.post(
                         em_bg_color: rows[0].em_bg_color,
                         em_text_color: rows[0].em_text_color,
                         content_link_color: rows[0].content_link_color,
+                        comment_outline_color: rows[0].comment_outline_color,
                         posts_per_page: rows[0].posts_per_page,
                         posts_vertical_spacing: rows[0].posts_vertical_spacing,
                         comment_reply_mode: rows[0].comment_reply_mode,

@@ -52,6 +52,7 @@ function sharedAllHandler(req, res, next) {
     req.app.locals.emBgColor = myMisc.getEmBgColor(req)
     req.app.locals.emTextColor = myMisc.getEmTextColor(req)
     req.app.locals.contentLinkColor = myMisc.getContentLinkColor(req)
+    req.app.locals.commentOutlineColor = myMisc.getCommentOutlineColor(req)
 
     //
     next()
