@@ -105,6 +105,52 @@ const post = async (req, res) => {
     }
 
     //
+    if(req.body.dark === '1') {
+        await updateSettings(
+            req,
+            res,
+            '050505',//OneBgColor,
+            '323334',//TwoBgColor,
+            'fcfcfc',//MainTextColor,
+            '8888ff',//PostLinkColor,
+            'ad79dc',//PostLinkVisitedColor,
+            '555657',//GroupBgColor,
+            'ffffdd',//GroupTextColor,
+            '555555',//HiddenColor,
+            'cccccc',//DomainNameColor,
+            'aa0000',//UnfollowBgColor,
+            'aa0000',//UnfollowLineColor,
+            'ffffff',//UnfollowTextColor,
+            '00aa00',//FollowBgColor,
+            '00aa00',//FollowLineColor,
+            'ffffff',//FollowTextColor,
+            'f1f1f1',//MainLinkColor,
+            'e2e2e2',//NavLinkColor,
+            'ffcc00',//FooterLinkColor,
+            '999999',//PageBgColor,
+            'bbbbbb',//PageLineColor,
+            '333333',//PageTextColor,
+            '555555',//HighBgColor,
+            'aaaaaa',//HighTextColor,
+            'ccccff',//HighLinkColor,
+            'bbbbbb',//CommentHeadColor,
+            'cccccc',//CommentUserColor,
+            'bb9999',//CommentFootColor,
+            '454545',//PreBgColor,
+            '998877',//PreTextColor,
+            '8888ff',//PreLinkColor,
+            '66dd66',//SuccessTextColor,
+            'dd6666',//ErrorTextColor,
+            '414243',//EmBgColor,
+            'ccbbaa',//EmTextColor,
+            '8888ff',//ContentLinkColor,
+            'eeeeee',//CommentOutlineColor,
+        )
+
+        return res.redirect('/settings/colors')
+    }
+
+    //
     const errors = []
 
     //remove # char

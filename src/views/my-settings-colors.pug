@@ -129,6 +129,11 @@ block content2
                 input(type="submit" value="Save")
                 | 
                 input(type="submit" value="Reset To Defaults" form="fdef")
+                | 
+                input(type="submit" value="Dark Mode" form="fdark")
     div
         form(method="post" action="/settings/colors" id="fdef")
             input(type="hidden" name="defaults" value="1")
+    div
+        form(method="post" action="/settings/colors" id="fdark")
+            input(type="hidden" name="dark" value="1")
