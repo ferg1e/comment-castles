@@ -5,6 +5,7 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1")
     title=html_title
     link(rel='stylesheet', href=`${cssDir}/style.css`)
+    link(rel='stylesheet', href=`${cssDir}/theme-original.css`)
     link(rel="icon" href="/images/favicon-32.png" sizes="32x32")
     block head
 
@@ -39,115 +40,6 @@ html
         body {
           background: ##{oneBgColor};
         }
-
-    style.
-      body, .puser, .fuser {
-        color: ##{mainTextColor};
-      }
-
-      .ptitle, .ptitle-s {
-        color: ##{postLinkColor};
-      }
-
-      .ptitle:visited, .ptitle-s:visited {
-        color: ##{postLinkVisitedColor};
-      }
-
-      .tag1 {
-        color: ##{groupTextColor};
-        background: ##{groupBgColor};
-      }
-
-      .puser2, .pdate2, .pby2, .pcount2, .cuser2,
-      .cdate2, .cby2, .clinks2-single a, .clinks2 a,
-      .puser3 {
-        color: ##{hiddenColor};
-      }
-
-      .domname1 {
-        color: ##{domainNameColor};
-      }
-
-      .unfollow {
-        background: ##{unfollowBgColor};
-        color: ##{unfollowTextColor};
-        border: 1px solid ##{unfollowLineColor};
-      }
-
-      .follow {
-        background: ##{followBgColor};
-        color: ##{followTextColor};
-        border: 1px solid ##{followLineColor};
-      }
-
-      .plinks a, .clinks-single a, .in-h1-url, .sort1 a {
-        color: ##{mainLinkColor};
-      }
-
-      .main-nav a, .settings-nav a {
-        color: ##{navLinkColor};
-      }
-
-      .main-footer a {
-        color: ##{footerLinkColor};
-      }
-
-      .backpost-nav a, .more {
-        background: ##{pageBgColor};
-        color: ##{pageTextColor};
-        border: 1px solid ##{pageLineColor};
-      }
-
-      .alert1, .alert2, .alert3 {
-        background: ##{highBgColor};
-        color: ##{highTextColor};
-      }
-
-      .alert1 a, .alert2 a, .alert3 a {
-        color: ##{highLinkColor};
-      }
-
-      .cdate, .cby {
-        color: ##{commentHeadColor};
-      }
-
-      .cuser {
-        color: ##{commentUserColor};
-      }
-
-      .clinks a {
-        color: ##{commentFootColor};
-      }
-
-      pre {
-        background: ##{preBgColor};
-        color: ##{preTextColor};
-      }
-
-      .main-text pre a, .the-post-content pre a, .cmeat pre a, .the-comment-content pre a {
-        color: ##{preLinkColor};
-      }
-
-      .uerror1 {
-        color: ##{errorTextColor};
-      }
-
-      .usuccess1 {
-        color: ##{successTextColor};
-      }
-
-      main em {
-        background: ##{emBgColor};
-        color: ##{emTextColor};
-      }
-
-      .main-text a, .the-post-content a, .cmeat a, .the-comment-content a {
-        color: ##{contentLinkColor};
-      }
-
-      .comments :target {
-        border: 2px solid ##{commentOutlineColor};
-      }
 
     if posts_vertical_spacing
       style.

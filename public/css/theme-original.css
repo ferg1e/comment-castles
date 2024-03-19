@@ -1,0 +1,107 @@
+body, .puser, .fuser {
+    color: #232323;
+}
+
+.ptitle, .ptitle-s {
+    color: #0000ff;
+}
+
+.ptitle:visited, .ptitle-s:visited {
+    color: #551a8b;
+}
+
+.tag1 {
+    color: #030303;
+    background: #e6e7dc;
+}
+
+.puser2, .pdate2, .pby2, .pcount2, .cuser2,
+.cdate2, .cby2, .clinks2-single a, .clinks2 a,
+.puser3 {
+    color: #b2b2b2;
+}
+
+.domname1 {
+    color: #50794b;
+}
+
+.unfollow {
+    background: #f3cece;
+    color: #000000;
+    border: 1px solid #666666;
+}
+
+.follow {
+    background: #cbeed1;
+    color: #000000;
+    border: 1px solid #666666;
+}
+
+.plinks a, .clinks-single a, .in-h1-url, .sort1 a {
+    color: #0000d2;
+}
+
+.main-nav a, .settings-nav a {
+    color: #4b4949;
+}
+
+.main-footer a {
+    color: #9b4747;
+}
+
+.backpost-nav a, .more {
+    background: #ffcc80;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+.alert1, .alert2, .alert3 {
+    background: #f8edbd;
+    color: #232323;
+}
+
+.alert1 a, .alert2 a, .alert3 a {
+    color: #0000d2;
+}
+
+.cdate, .cby {
+    color: #9b9292;
+}
+
+.cuser {
+    color: #5f5f64;
+}
+
+.clinks a {
+    color: #994949;
+}
+
+pre {
+    background: #e2e2e2;
+    color: #232323;
+}
+
+.main-text pre a, .the-post-content pre a, .cmeat pre a, .the-comment-content pre a {
+    color: #0000ff;
+}
+
+.uerror1 {
+    color: #bb0000;
+}
+
+.usuccess1 {
+    color: #009900;
+}
+
+main em {
+    background: #e8e8e8;
+    color: #232323;
+}
+
+.main-text a, .the-post-content a, .cmeat a, .the-comment-content a {
+    color: #0000ff;
+}
+
+.comments :target {
+    border: 2px solid #ebbc58;
+}
