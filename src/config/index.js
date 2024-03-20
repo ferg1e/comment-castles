@@ -42,44 +42,6 @@ exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
 //
-exports.defaultTwoBgColor = 'b6b09e'
-exports.defaultOneBgColor = 'fefefe'
-exports.defaultMainTextColor = '232323'
-exports.defaultPostLinkColor = '0000ff'
-exports.defaultPostLinkVisitedColor = '551a8b'
-exports.defaultGroupBgColor = 'e6e7dc'
-exports.defaultGroupTextColor = '030303'
-exports.defaultHiddenColor = 'b2b2b2'
-exports.defaultDomainNameColor = '50794b'
-exports.defaultUnfollowBgColor = 'f3cece'
-exports.defaultUnfollowLineColor = '666666'
-exports.defaultUnfollowTextColor = '000000'
-exports.defaultFollowBgColor = 'cbeed1'
-exports.defaultFollowLineColor = '666666'
-exports.defaultFollowTextColor = '000000'
-exports.defaultMainLinkColor = '0000d2'
-exports.defaultNavLinkColor = '4b4949'
-exports.defaultFooterLinkColor = '9b4747'
-exports.defaultPageBgColor = 'ffcc80'
-exports.defaultPageLineColor = '000000'
-exports.defaultPageTextColor = '000000'
-exports.defaultHighBgColor = 'f8edbd'
-exports.defaultHighTextColor = '232323'
-exports.defaultHighLinkColor = '0000d2'
-exports.defaultCommentHeadColor = '9b9292'
-exports.defaultCommentUserColor = '5f5f64'
-exports.defaultCommentFootColor = '994949'
-exports.defaultPreBgColor = 'e2e2e2'
-exports.defaultPreTextColor = '232323'
-exports.defaultPreLinkColor = '0000ff'
-exports.defaultSuccessTextColor = '009900'
-exports.defaultErrorTextColor = 'bb0000'
-exports.defaultEmBgColor = 'e8e8e8'
-exports.defaultEmTextColor = '232323'
-exports.defaultContentLinkColor = '0000ff'
-exports.defaultCommentOutlineColor = 'ebbc58'
-
-//
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
 
 //generated with scripts/gen-config-time-zones.js
