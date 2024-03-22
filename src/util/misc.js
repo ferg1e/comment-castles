@@ -399,9 +399,11 @@ exports.setTheme = (theme, req) => {
     if(theme == 'original') {
         req.app.locals.oneBgColor = "fefefe"
         req.app.locals.twoBgColor = "b6b09e"
+        req.app.locals.themeCss = `${config.cssDir}/theme-original.css`
     }
     else {
         req.app.locals.oneBgColor = "050505"
         req.app.locals.twoBgColor = "323334"
+        req.app.locals.themeCss = `${config.cssDir}/theme-dark-mode.css`
     }
 }
