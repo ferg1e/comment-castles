@@ -59,6 +59,7 @@ const get = async (req, res) => {
             postLayout: myMisc.getCurrPostLayout(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
+            theme: myMisc.getCurrTheme(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
             siteWidth: myMisc.getCurrSiteMaxWidth(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -80,6 +81,7 @@ const post = async (req, res) => {
             config.defaultPostLayout,
             config.defaultPostsPerPage,
             config.defaultPostsVerticalSpacing,
+            config.defaultTheme,
         )
 
         return res.redirect('/settings')
@@ -144,6 +146,7 @@ const post = async (req, res) => {
                 postLayout: req.body.post_layout,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
+                theme: req.body.theme,
                 commentReplyMode: req.body.comment_reply_mode,
                 siteWidth: req.body.site_width,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -161,7 +164,11 @@ const post = async (req, res) => {
         req.body.post_layout,
         postsPerPageInt,
         postsVerticalSpacingInt,
+        req.body.theme,
     )
+
+    //
+    myMisc.setTheme(req.body.theme, req)
 
     //
     const siteWidthNulled = req.body.site_width === ''
@@ -182,6 +189,7 @@ const post = async (req, res) => {
             postLayout: req.body.post_layout,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
+            theme: req.body.theme,
             commentReplyMode: req.body.comment_reply_mode,
             siteWidth: req.body.site_width,
             max_width: siteWidthNulled
@@ -204,6 +212,7 @@ async function updateSettings(
     postLayout,
     postsPerPage,
     postsVerticalSpacing,
+    theme
 ) {
 
     //
@@ -226,13 +235,15 @@ async function updateSettings(
             siteWidthNulled,
             postLayout,
             postsPerPage,
-            postsVerticalSpacing)
+            postsVerticalSpacing,
+            theme)
 
         req.session.user.time_zone = timeZone
         req.session.user.post_mode = viewMode
         req.session.user.post_layout = postLayout
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
+        req.session.user.theme = theme
         req.session.user.comment_reply_mode = commentReplyMode
         req.session.user.site_width = siteWidthNulled
     }
@@ -245,6 +256,7 @@ async function updateSettings(
         cSettings.post_layout = postLayout
         cSettings.posts_per_page = postsPerPage
         cSettings.posts_vertical_spacing = postsVerticalSpacing
+        cSettings.theme = theme
         cSettings.site_width = siteWidthEmptied
 
         res.cookie(

@@ -126,6 +126,7 @@ router.post(
                     post_layout: rows[0].post_layout,
                     posts_per_page: rows[0].posts_per_page,
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
+                    theme: rows[0].theme,
                     comment_reply_mode: rows[0].comment_reply_mode,
                     site_width: rows[0].site_width,
                 }

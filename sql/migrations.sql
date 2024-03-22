@@ -227,3 +227,6 @@ alter table tuser drop em_bg_color;
 alter table tuser drop em_text_color;
 alter table tuser drop content_link_color;
 alter table tuser drop comment_outline_color;
+
+create type theme as enum('original', 'dark-mode');
+alter table tuser add column theme theme not null default 'original';

@@ -43,6 +43,9 @@ block content2
             - const isPostLayoutSingle = postLayout == 'single-line'
             - const isPostLayoutDouble = postLayout == 'double-line'
 
+            - const isThemeOriginal = theme == 'original'
+            - const isThemeDarkMode = theme == 'dark-mode'
+
             - const isCommentBasic = commentReplyMode == 'basic'
             - const isCommentQuick = commentReplyMode == 'quick'
 
@@ -75,6 +78,19 @@ block content2
                     label(for="post_layout1")
                         b standard
                         |: two line layout for posts
+
+            div Theme
+                div
+                    input(type="radio" name="theme" id="theme0" value="original" checked=isThemeOriginal)
+                    label(for="theme0")
+                        b original
+                        |: original color theme, light mode
+
+                div
+                    input(type="radio" name="theme" id="theme1" value="dark-mode" checked=isThemeDarkMode)
+                    label(for="theme1")
+                        b dark mode
+                        |: color theme with dark colors
 
             if user
                 div Replying to Comments

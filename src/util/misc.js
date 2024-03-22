@@ -160,6 +160,22 @@ exports.getCurrPostLayout = req => {
 }
 
 //
+exports.getCurrTheme = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.theme === 'undefined')
+            ? config.defaultTheme
+            : req.session.user.theme
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.theme === 'undefined')
+            ? config.defaultTheme
+            : cSettings.theme
+    }
+}
+
+//
 exports.getCurrCommentReplyMode = req => {
     if(req.session.user) {
         return (typeof req.session.user.comment_reply_mode === 'undefined')
@@ -353,6 +369,7 @@ exports.getCookieSettings = req => {
         post_layout: config.defaultPostLayout,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
+        theme: config.defaultTheme,
         site_width: config.defaultSiteWidth,
     }
 
@@ -375,4 +392,16 @@ exports.renderMessage = (req, res, title, message) => {
             user: req.session.user,
             max_width: module.exports.getCurrSiteMaxWidth(req)
         })
+}
+
+//
+exports.setTheme = (theme, req) => {
+    if(theme == 'original') {
+        req.app.locals.oneBgColor = "fefefe"
+        req.app.locals.twoBgColor = "b6b09e"
+    }
+    else {
+        req.app.locals.oneBgColor = "050505"
+        req.app.locals.twoBgColor = "323334"
+    }
 }

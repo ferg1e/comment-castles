@@ -17,8 +17,8 @@ function sharedAllHandler(req, res, next) {
     }
 
     //
-    req.app.locals.oneBgColor = "fefefe"
-    req.app.locals.twoBgColor = "b6b09e"
+    const theme = myMisc.getCurrTheme(req)
+    myMisc.setTheme(theme, req)
 
     //
     next()

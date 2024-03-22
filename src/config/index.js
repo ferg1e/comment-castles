@@ -24,6 +24,7 @@ exports.defaultViewMode = 'following-only'
 
 //
 exports.defaultPostLayout = 'single-line'
+exports.defaultTheme = 'original'
 exports.singleLineCutoff = 1200
 
 //

@@ -36,9 +36,10 @@ exports.createUser = async (username, password) => {
                 post_layout,
                 site_width,
                 posts_per_page,
-                posts_vertical_spacing)
+                posts_vertical_spacing,
+                theme)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             returning
                 user_id,
                 username,
@@ -47,6 +48,7 @@ exports.createUser = async (username, password) => {
                 post_layout,
                 posts_per_page,
                 posts_vertical_spacing,
+                theme,
                 comment_reply_mode,
                 site_width`,
             [
@@ -60,6 +62,7 @@ exports.createUser = async (username, password) => {
                 config.defaultSiteWidth,
                 config.defaultPostsPerPage,
                 config.defaultPostsVerticalSpacing,
+                config.defaultTheme,
             ]))
 
     //
@@ -81,6 +84,7 @@ exports.getUserWithUsername = (username) => {
             post_layout,
             posts_per_page,
             posts_vertical_spacing,
+            theme,
             comment_reply_mode,
             site_width
         from
@@ -136,7 +140,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme) => {
     return query(`
         update
             tuser
@@ -147,10 +151,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             site_width = $4,
             post_layout = $5,
             posts_per_page = $6,
-            posts_vertical_spacing = $7
+            posts_vertical_spacing = $7,
+            theme = $8
         where
-            user_id = $8`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, userId])
+            user_id = $9`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, userId])
 }
 
 //
