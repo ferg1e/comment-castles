@@ -1,12 +1,9 @@
 
 /*
-These should be set to username, user_id
-and public_id from a single row in the tuser
-database table.
+a user_id from the tuser database table
+serves as the default following list
 */
-exports.adminUsername = "admin"
 exports.adminUserId = 1
-exports.adminPublicUserId = 'nuj9QJARKnM1bg9bIOL5jA'
 
 //
 exports.commentsPerPage = 200

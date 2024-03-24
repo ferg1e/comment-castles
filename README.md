@@ -75,7 +75,7 @@ module.exports = {
 }
 ```
 
-There must exist a user with a `user_id` of `1` and a `username` of `admin`. These two values serve as the default following list and you can change them in `src/config/index.js` via `adminUsername` and `adminUserId`. So, after an instance of this application is launched, you should immediately sign up as the user `admin` (or whatever you are using for `adminUsername`). Also be sure to set `adminUserPublicId` in `src/config/index.js` (this value should be set to the `public_id` value of the admin that's in the `tuser` database table).
+There must exist a row in the `tuser` database table that has a `user_id` set to `1`. This `user_id` serves as the default following list. So after an instance of this application is launched, you should immediately sign up as this admin user. If you want to use a `user_id` other than `1`, then you can change it in `src/config/index.js` via `adminUserId`.
 
 On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
