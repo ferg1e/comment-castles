@@ -113,3 +113,9 @@ main em {
 .comments :target {
     border: 2px solid #ebbc58;
 }
+
+.cid {
+    background-color: lemonchiffon;
+    border: 1px solid lightgoldenrodyellow;
+    color: #232323;
+}

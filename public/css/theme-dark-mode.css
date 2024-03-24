@@ -114,6 +114,12 @@ main em {
     border: 2px solid #eeeeee;
 }
 
+.cid {
+    background-color: darkolivegreen;
+    border: 1px solid #333333;
+    color: lightgrey;
+}
+
 #username,
 #password,
 #site-width,
