@@ -105,3 +105,23 @@ main em {
 .comments :target {
     border: 2px solid #eeeeee;
 }
+
+#username,
+#password,
+#site-width,
+#posts-per-page,
+#posts-vertical-spacing,
+#title,
+#link,
+#text_content,
+#tags,
+#profile,
+#group,
+#name,
+#ruri {
+    border-color: #777777;
+    border-radius: 2px;
+    border-style: solid;
+    background-color: #050505;
+    color: #fcfcfc;
+}
