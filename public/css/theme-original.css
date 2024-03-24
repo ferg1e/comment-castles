@@ -1,3 +1,11 @@
+.main-logo a #peaches {
+    color: #d1803a;
+}
+  
+.main-logo a #stink {
+    color: #6d4006;
+}
+
 body, .puser, .fuser {
     color: #232323;
 }
