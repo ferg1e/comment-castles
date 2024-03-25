@@ -8,6 +8,7 @@ Other Features:
 * public and private groups
 * inbox for direct comments you receive
 * [help page](https://www.commentcastles.org/help)
+* light mode and dark mode
 
 ## Install
 
