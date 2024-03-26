@@ -2,10 +2,21 @@ const argon2 = require('argon2')
 const config = require('../config')
 const myMisc = require('../util/misc.js')
 const {Pool, types} = require('pg')
-const nanoid = require('nanoid/generate')
+const {customAlphabet} = require('nanoid')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 const nanoidLen = 22
 const oauthClientIdLen = 32
+
+//
+const genId = customAlphabet(
+    nanoidAlphabet,
+    nanoidLen,
+)
+
+const genOauthId = customAlphabet(
+    nanoidAlphabet,
+    oauthClientIdLen,
+)
 
 //returns raw timestamp instead of converting to a js Date obj
 types.setTypeParser(1114, str => str)
@@ -54,7 +65,7 @@ exports.createUser = async (username, password) => {
             [
                 username,
                 hash,
-                nanoid(nanoidAlphabet, nanoidLen),
+                genId(),
                 config.defaultTimeZone,
                 config.defaultCommentReplyMode,
                 config.defaultViewMode,
@@ -207,14 +218,14 @@ exports.genUserPublicId = (userId) => {
             user_id = $2 and
             public_id = ''`,
         [
-            nanoid(nanoidAlphabet, nanoidLen),
+            genId(),
             userId
         ])
 }
 
 //post
 exports.createPost = async (userId, title, textContent, link, trimTags) => {
-    const newPublicPostId = nanoid(nanoidAlphabet, nanoidLen)
+    const newPublicPostId = genId()
     const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
@@ -854,7 +865,7 @@ exports.createPostComment = async (postId, userId, content) => {
             public_id, text_content, created_on`,
         [postId, userId, content,
             postId + '.' + myMisc.numToOrderedAlpha(nextPathInt),
-            nanoid(nanoidAlphabet, nanoidLen)])
+            genId()])
 }
 
 exports.createCommentComment = async (postId, userId, content, parentPath, timeZone) => {
@@ -896,7 +907,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
                 'Mon FMDD, YYYY FMHH12:MIam') created_on`,
         [postId, userId, content,
             parentPath + '.' + myMisc.numToOrderedAlpha(nextPathInt),
-            nanoid(nanoidAlphabet, nanoidLen),
+            genId(),
             timeZone])
 }
 
@@ -1570,7 +1581,7 @@ exports.deleteGroupMember = (privateGroupId, publicUserId) => {
 exports.createClient = (appName, redirectUri, userId) => {
 
     //
-    const publicClientId = nanoid(nanoidAlphabet, oauthClientIdLen)
+    const publicClientId = genOauthId()
 
     //
     return query(`
