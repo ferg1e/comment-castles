@@ -54,6 +54,7 @@ exports.createUser = async (username, password) => {
             returning
                 user_id,
                 username,
+                public_id,
                 time_zone,
                 post_mode,
                 post_layout,
