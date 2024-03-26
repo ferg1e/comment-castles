@@ -6,7 +6,7 @@
     "start": "npx nodemon app.js"
   },
   "dependencies": {
-    "argon2": "^0.25.1",
+    "argon2": "^0.40.1",
     "connect-redis": "^4.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
