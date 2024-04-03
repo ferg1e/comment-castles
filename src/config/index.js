@@ -40,6 +40,10 @@ exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
 //
+exports.defaultDateFormat = 'Mon FMDD, YYYY FMHH12:MIam'
+exports.dateFormat1 = 'FMMM/FMDD/YYYY'
+
+//
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
 
 //generated with scripts/gen-config-time-zones.js

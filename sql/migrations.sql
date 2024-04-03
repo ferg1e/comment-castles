@@ -230,3 +230,5 @@ alter table tuser drop comment_outline_color;
 
 create type theme as enum('original', 'dark-mode');
 alter table tuser add column theme theme not null default 'original';
+
+alter table tuser add column date_format varchar(32) default 'Mon FMDD, YYYY FMHH12:MIam';

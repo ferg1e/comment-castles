@@ -54,6 +54,8 @@ const get = async (req, res) => {
             errors: [],
             user: req.session.user,
             time_zones: rows,
+            defaultDateFormat: config.defaultDateFormat,
+            dateFormat1: config.dateFormat1,
             time_zone: myMisc.getCurrTimeZone(req),
             postMode: myMisc.getCurrPostMode(req),
             postLayout: myMisc.getCurrPostLayout(req),
@@ -62,6 +64,7 @@ const get = async (req, res) => {
             theme: myMisc.getCurrTheme(req),
             commentReplyMode: myMisc.getCurrCommentReplyMode(req),
             siteWidth: myMisc.getCurrSiteMaxWidth(req),
+            dateFormat: myMisc.getCurrDateFormat(req),
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -82,6 +85,7 @@ const post = async (req, res) => {
             config.defaultPostsPerPage,
             config.defaultPostsVerticalSpacing,
             config.defaultTheme,
+            config.defaultDateFormat,
         )
 
         return res.redirect('/settings')
@@ -141,6 +145,8 @@ const post = async (req, res) => {
                 errors: errors,
                 user: req.session.user,
                 time_zones: rows2,
+                defaultDateFormat: config.defaultDateFormat,
+                dateFormat1: config.dateFormat1,
                 time_zone: req.body.time_zone,
                 postMode: req.body.post_mode,
                 postLayout: req.body.post_layout,
@@ -149,6 +155,7 @@ const post = async (req, res) => {
                 theme: req.body.theme,
                 commentReplyMode: req.body.comment_reply_mode,
                 siteWidth: req.body.site_width,
+                dateFormat: req.body.date_format,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
@@ -165,6 +172,7 @@ const post = async (req, res) => {
         postsPerPageInt,
         postsVerticalSpacingInt,
         req.body.theme,
+        req.body.date_format,
     )
 
     //
@@ -184,6 +192,8 @@ const post = async (req, res) => {
             success: 'Settings successfully saved.',
             user: req.session.user,
             time_zones: rows2,
+            defaultDateFormat: config.defaultDateFormat,
+            dateFormat1: config.dateFormat1,
             time_zone: req.body.time_zone,
             postMode: req.body.post_mode,
             postLayout: req.body.post_layout,
@@ -192,6 +202,7 @@ const post = async (req, res) => {
             theme: req.body.theme,
             commentReplyMode: req.body.comment_reply_mode,
             siteWidth: req.body.site_width,
+            dateFormat: req.body.date_format,
             max_width: siteWidthNulled
         })
 }
@@ -212,7 +223,8 @@ async function updateSettings(
     postLayout,
     postsPerPage,
     postsVerticalSpacing,
-    theme
+    theme,
+    dateFormat
 ) {
 
     //
@@ -236,7 +248,8 @@ async function updateSettings(
             postLayout,
             postsPerPage,
             postsVerticalSpacing,
-            theme)
+            theme,
+            dateFormat)
 
         req.session.user.time_zone = timeZone
         req.session.user.post_mode = viewMode
@@ -245,6 +258,7 @@ async function updateSettings(
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
         req.session.user.theme = theme
         req.session.user.comment_reply_mode = commentReplyMode
+        req.session.user.date_format = dateFormat
         req.session.user.site_width = siteWidthNulled
     }
     else {
@@ -258,6 +272,7 @@ async function updateSettings(
         cSettings.posts_vertical_spacing = postsVerticalSpacing
         cSettings.theme = theme
         cSettings.site_width = siteWidthEmptied
+        cSettings.date_format = dateFormat
 
         res.cookie(
             'settings',

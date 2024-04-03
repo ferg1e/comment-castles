@@ -46,6 +46,9 @@ block content2
             - const isThemeOriginal = theme == 'original'
             - const isThemeDarkMode = theme == 'dark-mode'
 
+            - const isDefaultDateFormat = dateFormat == defaultDateFormat
+            - const isDateFormat1 = dateFormat == dateFormat1
+
             - const isCommentBasic = commentReplyMode == 'basic'
             - const isCommentQuick = commentReplyMode == 'quick'
 
@@ -91,6 +94,15 @@ block content2
                     label(for="theme1")
                         b dark mode
                         |: color theme with dark colors
+
+            div Date Format
+                div
+                    input(type="radio" name="date_format" id="date_format0" value=defaultDateFormat checked=isDefaultDateFormat)
+                    label(for="date_format0") Dec 1, 2021 1:00pm
+
+                div
+                    input(type="radio" name="date_format" id="date_format1" value=dateFormat1 checked=isDateFormat1)
+                    label(for="date_format1") 12/1/2021
 
             if user
                 div Replying to Comments

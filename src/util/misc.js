@@ -188,6 +188,22 @@ exports.getCurrCommentReplyMode = req => {
 }
 
 //
+exports.getCurrDateFormat = req => {
+    if(req.session.user) {
+        return (typeof req.session.user.date_format === 'undefined')
+            ? config.defaultDateFormat
+            : req.session.user.date_format
+    }
+    else {
+        const cSettings = module.exports.getCookieSettings(req)
+
+        return (typeof cSettings.date_format === 'undefined')
+            ? config.defaultDateFormat
+            : cSettings.date_format
+    }
+}
+
+//
 exports.getCurrPostsVerticalSpacing = req => {
 
     //
@@ -371,6 +387,7 @@ exports.getCookieSettings = req => {
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,
         theme: config.defaultTheme,
         site_width: config.defaultSiteWidth,
+        date_format: config.defaultDateFormat,
     }
 
     if(typeof settingsC == 'undefined') {

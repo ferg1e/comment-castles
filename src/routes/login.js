@@ -53,6 +53,7 @@ router.post(
                         theme: rows[0].theme,
                         comment_reply_mode: rows[0].comment_reply_mode,
                         site_width: rows[0].site_width,
+                        date_format: rows[0].date_format,
                     }
 
                     //

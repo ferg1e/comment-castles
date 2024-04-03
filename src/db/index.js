@@ -48,9 +48,10 @@ exports.createUser = async (username, password) => {
                 site_width,
                 posts_per_page,
                 posts_vertical_spacing,
-                theme)
+                theme,
+                date_format)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
             returning
                 user_id,
                 username,
@@ -62,7 +63,8 @@ exports.createUser = async (username, password) => {
                 posts_vertical_spacing,
                 theme,
                 comment_reply_mode,
-                site_width`,
+                site_width,
+                date_format`,
             [
                 username,
                 hash,
@@ -75,6 +77,7 @@ exports.createUser = async (username, password) => {
                 config.defaultPostsPerPage,
                 config.defaultPostsVerticalSpacing,
                 config.defaultTheme,
+                config.defaultDateFormat,
             ]))
 
     //
@@ -98,7 +101,8 @@ exports.getUserWithUsername = (username) => {
             posts_vertical_spacing,
             theme,
             comment_reply_mode,
-            site_width
+            site_width,
+            date_format
         from
             tuser
         where
@@ -152,7 +156,7 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme) => {
+exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat) => {
     return query(`
         update
             tuser
@@ -164,10 +168,11 @@ exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidt
             post_layout = $5,
             posts_per_page = $6,
             posts_vertical_spacing = $7,
-            theme = $8
+            theme = $8,
+            date_format = $9
         where
-            user_id = $9`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, userId])
+            user_id = $10`,
+        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat, userId])
 }
 
 //
