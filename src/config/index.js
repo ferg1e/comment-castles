@@ -40,8 +40,15 @@ exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
 //
-exports.defaultDateFormat = 'Mon FMDD, YYYY FMHH12:MIam'
-exports.dateFormat1 = 'FMMM/FMDD/YYYY'
+exports.dateFormat0 = 'Mon FMDD, YYYY FMHH12:MIam'
+exports.dateFormat1 = 'Mon FMDD, YYYY'
+exports.dateFormat2 = 'FMMM/FMDD/YYYY FMHH12:MIam'
+exports.dateFormat3 = 'FMMM/FMDD/YYYY'
+exports.dateFormat4 = 'FMDD/FMMM/YYYY FMHH12:MIam'
+exports.dateFormat5 = 'FMDD/FMMM/YYYY'
+exports.dateFormat6 = 'YYYY-MM-DD FMHH12:MIam'
+exports.dateFormat7 = 'YYYY-MM-DD'
+exports.defaultDateFormat = module.exports.dateFormat0
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i

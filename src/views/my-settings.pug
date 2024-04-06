@@ -46,8 +46,14 @@ block content2
             - const isThemeOriginal = theme == 'original'
             - const isThemeDarkMode = theme == 'dark-mode'
 
-            - const isDefaultDateFormat = dateFormat == defaultDateFormat
+            - const isDateFormat0 = dateFormat == dateFormat0
             - const isDateFormat1 = dateFormat == dateFormat1
+            - const isDateFormat2 = dateFormat == dateFormat2
+            - const isDateFormat3 = dateFormat == dateFormat3
+            - const isDateFormat4 = dateFormat == dateFormat4
+            - const isDateFormat5 = dateFormat == dateFormat5
+            - const isDateFormat6 = dateFormat == dateFormat6
+            - const isDateFormat7 = dateFormat == dateFormat7
 
             - const isCommentBasic = commentReplyMode == 'basic'
             - const isCommentQuick = commentReplyMode == 'quick'
@@ -97,12 +103,36 @@ block content2
 
             div Date Format
                 div
-                    input(type="radio" name="date_format" id="date_format0" value=defaultDateFormat checked=isDefaultDateFormat)
+                    input(type="radio" name="date_format" id="date_format0" value=dateFormat0 checked=isDateFormat0)
                     label(for="date_format0") Dec 1, 2021 1:00pm
 
                 div
                     input(type="radio" name="date_format" id="date_format1" value=dateFormat1 checked=isDateFormat1)
-                    label(for="date_format1") 12/1/2021
+                    label(for="date_format1") Dec 1, 2021
+
+                div
+                    input(type="radio" name="date_format" id="date_format2" value=dateFormat2 checked=isDateFormat2)
+                    label(for="date_format2") 12/1/2021 1:00pm
+
+                div
+                    input(type="radio" name="date_format" id="date_format3" value=dateFormat3 checked=isDateFormat3)
+                    label(for="date_format3") 12/1/2021
+
+                div
+                    input(type="radio" name="date_format" id="date_format4" value=dateFormat4 checked=isDateFormat4)
+                    label(for="date_format4") 1/12/2021 1:00pm
+
+                div
+                    input(type="radio" name="date_format" id="date_format5" value=dateFormat5 checked=isDateFormat5)
+                    label(for="date_format5") 1/12/2021
+
+                div
+                    input(type="radio" name="date_format" id="date_format6" value=dateFormat6 checked=isDateFormat6)
+                    label(for="date_format6") 2021-12-01 1:00pm
+
+                div
+                    input(type="radio" name="date_format" id="date_format7" value=dateFormat7 checked=isDateFormat7)
+                    label(for="date_format7") 2021-12-01
 
             if user
                 div Replying to Comments
