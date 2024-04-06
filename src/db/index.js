@@ -273,8 +273,8 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
     }
 }
 
-exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, sort, pageSize) => {
-    const numLeadingPlaceholders = 6
+exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, sort, pageSize, dateFormat) => {
+    const numLeadingPlaceholders = 7
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
 
@@ -295,7 +295,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, so
 
     const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
 
-    const beforeParams = [timeZone, userId, userId, isDiscoverMode, userId, userId]
+    const beforeParams = [timeZone, dateFormat, userId, userId, isDiscoverMode, userId, userId]
 
     const afterParams = [sort, sort, sort, sort, sort, sort,
         pageSize, (page - 1)*pageSize]
@@ -308,7 +308,7 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, so
             p.title,
             to_char(
                 timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             p.created_on created_on_raw,
             u.username,
             u.user_id,
@@ -319,14 +319,14 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, so
                 when p.domain_name_id is null then null
                 else (select domain_name from tdomainname where domain_name_id = p.domain_name_id)
                 end domain_name,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                         1
                     from
                         tfollower
                     where
                         followee_user_id = u.user_id and
-                        user_id = $3) is_visible,
+                        user_id = $4) is_visible,
             array(
                 select
                     t.tag
@@ -342,14 +342,14 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, so
             tuser u on u.user_id = p.user_id
         where
             not is_removed and
-            ($4 or u.user_id = $5 or
+            ($5 or u.user_id = $6 or
                 exists(select
                         1
                     from
                         tfollower
                     where
                         followee_user_id = u.user_id and
-                        user_id = $6)) and
+                        user_id = $7)) and
             (array(
                 select
                     pg.private_group_id
@@ -380,8 +380,8 @@ exports.getPosts = async (userId, timeZone, page, isDiscoverMode, isLoggedIn, so
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLoggedIn, sort, pageSize) => {
-    const numLeadingPlaceholders = 7
+exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLoggedIn, sort, pageSize, dateFormat) => {
+    const numLeadingPlaceholders = 8
     const allowedPrivateIds = []
     const dynamicPlaceholders = []
 
@@ -402,7 +402,7 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLogg
 
     const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
 
-    const beforeParams = [timeZone, userId, userId, tag,
+    const beforeParams = [timeZone, dateFormat, userId, userId, tag,
         isDiscoverMode, userId, userId]
 
     const afterParams = [sort, sort, sort, sort, sort, sort,
@@ -416,21 +416,21 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLogg
             p.title,
             to_char(
                 timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             u.username,
             u.user_id,
             u.public_id as user_public_id,
             p.link,
             p.num_comments,
             dn.domain_name,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             array(
                 select
                     t.tag
@@ -457,17 +457,17 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isDiscoverMode, isLogg
                 join
                     tposttag pt on pt.tag_id = t.tag_id
                 where
-                    t.tag = $4 and
+                    t.tag = $5 and
                     pt.post_id = p.post_id
             ) and
-            ($5 or u.user_id = $6 or
+            ($6 or u.user_id = $7 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $7)) and
+                    user_id = $8)) and
             (array(
                 select
                     pg.private_group_id
@@ -535,14 +535,14 @@ exports.getPostWithPublic = (publicId) => {
     )
 }
 
-exports.getPostWithPublic2 = (publicId, timeZone, userId) => {
+exports.getPostWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
     return query(`
         select
             p.post_id,
             p.title,
             to_char(
                 timezone($1, p.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             p.created_on created_on_raw,
             p.text_content,
             u.username,
@@ -552,14 +552,14 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId) => {
             p.link,
             p.num_comments,
             dn.domain_name,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             array(
                 select
                     t.tag
@@ -589,9 +589,9 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId) => {
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
-            p.public_id = $4 and
+            p.public_id = $5 and
             not p.is_removed`,
-        [timeZone, userId, userId, publicId]
+        [timeZone, dateFormat, userId, userId, publicId]
     )
 }
 
@@ -874,7 +874,7 @@ exports.createPostComment = async (postId, userId, content) => {
             genId()])
 }
 
-exports.createCommentComment = async (postId, userId, content, parentPath, timeZone) => {
+exports.createCommentComment = async (postId, userId, content, parentPath, timeZone, dateFormat) => {
     const lQuery = parentPath + '.*{1}'
 
     // get next ltree path int based on most recent ltree path
@@ -910,14 +910,15 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
             created_on as created_on_raw,
             to_char(
                 timezone($6, created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on`,
+                $7) created_on`,
         [postId, userId, content,
             parentPath + '.' + myMisc.numToOrderedAlpha(nextPathInt),
             genId(),
-            timeZone])
+            timeZone,
+            dateFormat])
 }
 
-exports.getInboxComments = (timeZone, userId, isDiscoverMode, page) => {
+exports.getInboxComments = (timeZone, userId, isDiscoverMode, page, dateFormat) => {
     const pageSize = 20
 
     return query(`
@@ -929,17 +930,17 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, page) => {
             u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             c.public_id,
             c.is_removed,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible
+                    user_id = $4) is_visible
         from
             tcomment c
         join
@@ -948,28 +949,28 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, page) => {
             tpost p on p.post_id = c.post_id
         where
             (
-                (nlevel(c.path) = 2 and p.user_id = $4) or
-                (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $5)
+                (nlevel(c.path) = 2 and p.user_id = $5) or
+                (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $6)
             ) and
-            ($6 or c.user_id = $7 or
+            ($7 or c.user_id = $8 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = c.user_id and
-                    user_id = $8))
+                    user_id = $9))
         order by
             c.created_on desc
         limit
-            $9
+            $10
         offset
-            $10`,
-        [timeZone, userId, userId, userId, userId,
+            $11`,
+        [timeZone, dateFormat, userId, userId, userId, userId,
             isDiscoverMode, userId, userId, pageSize, (page - 1)*pageSize])
 }
 
-exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, page) => {
+exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, page, dateFormat) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
 
@@ -982,40 +983,40 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, page) => {
             u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             c.created_on created_on_raw,
             c.public_id,
             c.is_removed,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible
+                    user_id = $4) is_visible
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $4 and
-            ($5 or not exists(
+            c.path <@ $5 and
+            ($6 or not exists(
                 select
                     1
                 from
                     tcomment c2
                 where
                     c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $6 and followee_user_id = c2.user_id) and
-                    c2.user_id != $7))
+                    not exists(select 1 from tfollower where user_id = $7 and followee_user_id = c2.user_id) and
+                    c2.user_id != $8))
         order by
             c.path
         limit
-            $8
+            $9
         offset
-            $9`,
-        [timeZone, userId, userId, postId, isDiscoverMode,
+            $10`,
+        [timeZone, dateFormat, userId, userId, postId, isDiscoverMode,
         userId, userId, limit, offset])
 }
 
@@ -1042,7 +1043,7 @@ exports.getPostNumComments = (postId, userId, isDiscoverMode) => {
 }
 
 //
-exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, page) => {
+exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, page, dateFormat) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
 
@@ -1055,41 +1056,41 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, page) => {
             u.public_id as user_public_id,
             to_char(
                 timezone($1, c.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             c.created_on created_on_raw,
             c.public_id,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible
+                    user_id = $4) is_visible
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $4 and
-            not (c.path ~ $5) and
-            ($6 or not exists(
+            c.path <@ $5 and
+            not (c.path ~ $6) and
+            ($7 or not exists(
                 select
                     1
                 from
                     tcomment c2
                 where
                     c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $7 and followee_user_id = c2.user_id) and
-                    c2.user_id != $8 and
-                    not (c2.path @> $9)))
+                    not exists(select 1 from tfollower where user_id = $8 and followee_user_id = c2.user_id) and
+                    c2.user_id != $9 and
+                    not (c2.path @> $10)))
         order by
             c.path
         limit
-            $10
+            $11
         offset
-            $11`,
-        [timeZone, userId, userId, path, path, isDiscoverMode, userId,
+            $12`,
+        [timeZone, dateFormat, userId, userId, path, path, isDiscoverMode, userId,
             userId, path, limit, offset])
 }
 
@@ -1147,13 +1148,13 @@ exports.getCommentWithPublic = (publicId) => {
     )
 }
 
-exports.getCommentWithPublic2 = (publicId, timeZone, userId) => {
+exports.getCommentWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
     return query(`
         select
             c.text_content,
             to_char(
                 timezone($1, c.created_on),
-                'Mon FMDD, YYYY FMHH12:MIam') created_on,
+                $2) created_on,
             c.created_on created_on_raw,
             c.path,
             c.post_id,
@@ -1162,14 +1163,14 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId) => {
             u.user_id,
             u.public_id as user_public_id,
             p.public_id post_public_id,
-            u.user_id = $2 or
+            u.user_id = $3 or
                 exists(select
                     1
                 from
                     tfollower
                 where
                     followee_user_id = u.user_id and
-                    user_id = $3) is_visible,
+                    user_id = $4) is_visible,
             array(
                 select
                     pg.private_group_id
@@ -1190,8 +1191,8 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId) => {
             tpost p on p.post_id = c.post_id
         where
             not p.is_removed and
-            c.public_id = $4`,
-        [timeZone, userId, userId, publicId]
+            c.public_id = $5`,
+        [timeZone, dateFormat, userId, userId, publicId]
     )
 }
 

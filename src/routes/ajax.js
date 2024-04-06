@@ -43,7 +43,8 @@ const postComment = async (req, res) => {
         req.session.user.user_id,
         compressedComment,
         comment.path,
-        myMisc.getCurrTimeZone(req))
+        myMisc.getCurrTimeZone(req),
+        myMisc.getCurrDateFormat(req))
 
     //TODO: make this a postgres trigger
     await db.incPostNumComments(comment.post_id)

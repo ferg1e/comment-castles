@@ -17,7 +17,8 @@ const get = async (req, res) => {
     const {rows:[row]} = await db.getPostWithPublic2(
         postPublicId,
         myMisc.getCurrTimeZone(req),
-        finalUserId)
+        finalUserId,
+        myMisc.getCurrDateFormat(req))
 
     //
     if(!row) return res.send('not found')
@@ -54,7 +55,8 @@ const get = async (req, res) => {
         myMisc.getCurrTimeZone(req),
         finalUserId,
         isDiscoverMode,
-        page)
+        page,
+        myMisc.getCurrDateFormat(req))
 
     const htmlTitle = row.is_visible
         ? row.title
@@ -97,7 +99,8 @@ const post = async (req, res) => {
     const {rows:[row]} = await db.getPostWithPublic2(
         postPublicId,
         myMisc.getCurrTimeZone(req),
-        finalUserId)
+        finalUserId,
+        myMisc.getCurrDateFormat(req))
 
     //
     if(!row) return res.send('not found')
@@ -137,7 +140,8 @@ const post = async (req, res) => {
             myMisc.getCurrTimeZone(req),
             finalUserId,
             isDiscoverMode,
-            page)
+            page,
+            myMisc.getCurrDateFormat(req))
 
         const htmlTitle = row.is_visible
             ? row.title

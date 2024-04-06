@@ -27,7 +27,8 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 req.session.user.user_id,
                 isDiscoverMode,
-                page)
+                page,
+                myMisc.getCurrDateFormat(req))
 
             //
             res.render(

@@ -14,7 +14,8 @@ router.route('/')
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             myMisc.getCurrTimeZone(req),
-            finalUserId)
+            finalUserId,
+            myMisc.getCurrDateFormat(req))
 
         if(rows.length) {
 
@@ -54,7 +55,8 @@ router.route('/')
                 myMisc.getCurrTimeZone(req),
                 finalUserId,
                 isDiscoverMode,
-                page)
+                page,
+                myMisc.getCurrDateFormat(req))
 
             //
             const {rows:data2} = await db.getCommentNumComments(
@@ -96,7 +98,8 @@ router.route('/')
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
                     myMisc.getCurrTimeZone(req),
-                    finalUserId)
+                    finalUserId,
+                    myMisc.getCurrDateFormat(req))
 
                 if(rows.length) {
 
@@ -137,7 +140,8 @@ router.route('/')
                             myMisc.getCurrTimeZone(req),
                             finalUserId,
                             isDiscoverMode,
-                            page)
+                            page,
+                            myMisc.getCurrDateFormat(req))
 
                         //
                         const {rows:data2} = await db.getCommentNumComments(
@@ -174,7 +178,8 @@ router.route('/')
                             req.session.user.user_id,
                             compressedComment,
                             rows[0].path,
-                            config.defaultTimeZone)
+                            config.defaultTimeZone,
+                            config.defaultDateFormat)
 
                         //
                         await db.incPostNumComments(rows[0].post_id)

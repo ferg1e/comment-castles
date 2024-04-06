@@ -66,7 +66,8 @@ router.get(
             isDiscoverMode,
             isLoggedIn,
             sort,
-            myMisc.getCurrPostsPerPage(req))
+            myMisc.getCurrPostsPerPage(req),
+            myMisc.getCurrDateFormat(req))
 
         res.render(
             'posts2',

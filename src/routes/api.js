@@ -51,7 +51,8 @@ router.get(
             isDiscoverMode,
             isLoggedIn,
             sort,
-            config.defaultPostsPerPage)
+            config.defaultPostsPerPage,
+            config.defaultDateFormat)
 
         //
         let rows2 = []
@@ -98,7 +99,8 @@ router.get(
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
             timeZone,
-            userId)
+            userId,
+            config.defaultDateFormat)
 
         //
         if(rows.length) {
@@ -137,7 +139,8 @@ router.get(
                 timeZone,
                 userId,
                 isDiscoverMode,
-                page)
+                page,
+                config.defaultDateFormat)
 
             //
             let comments2 = []
@@ -389,7 +392,8 @@ router.get(
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             timeZone,
-            userId)
+            userId,
+            config.defaultDateFormat)
 
         //
         if(rows.length) {
@@ -428,7 +432,8 @@ router.get(
                 timeZone,
                 userId,
                 isDiscoverMode,
-                page)
+                page,
+                config.defaultDateFormat)
 
             //
             let comments2 = []
@@ -517,7 +522,8 @@ router.post(
             const {rows:[row]} = await db.getPostWithPublic2(
                 postId,
                 oauthData.user.time_zone,
-                oauthData.user.user_id)
+                oauthData.user.user_id,
+                config.defaultDateFormat)
 
             //
             if(!row) {
@@ -563,7 +569,8 @@ router.post(
             const {rows:[row]} = await db.getCommentWithPublic2(
                 commentId,
                 oauthData.user.time_zone,
-                oauthData.user.user_id)
+                oauthData.user.user_id,
+                config.defaultDateFormat)
 
             if(!row) {
                 return res.status(404).json({errors: ['no such comment']})
@@ -592,7 +599,8 @@ router.post(
                 oauthData.user.user_id,
                 compressedComment,
                 row.path,
-                oauthData.user.time_zone)
+                oauthData.user.time_zone,
+                config.defaultDateFormat)
 
             //todo: use trigger
             await db.incPostNumComments(row.post_id)
