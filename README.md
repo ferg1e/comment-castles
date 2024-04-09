@@ -18,7 +18,7 @@ Create a PostgreSQL 11 database and execute all the code in `sql/structure.sql`.
 
 Install Redis. This is only for the session store. Redis versions 2 and 6 worked for us, so most versions are probably fine.
 
-Make sure you have Node.js installed. Use Node.js v16.14.0 or greater.
+Make sure you have Node.js installed. I am using v20.10.0 locally and the live site uses v20.12.1.
 
 Run `npm install` to download all the Node.js dependencies that are listed in `package.json`.
 
