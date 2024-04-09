@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.16 (Ubuntu 12.16-0ubuntu0.20.04.1)
+-- Dumped from database version 12.18 (Ubuntu 12.18-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.18 (Ubuntu 12.18-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -125,6 +125,18 @@ CREATE TYPE public.post_mode AS ENUM (
 
 
 ALTER TYPE public.post_mode OWNER TO postgres;
+
+--
+-- Name: theme; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.theme AS ENUM (
+    'original',
+    'dark-mode'
+);
+
+
+ALTER TYPE public.theme OWNER TO postgres;
 
 --
 -- Name: f_comment_del(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -664,11 +676,10 @@ CREATE TABLE public.tuser (
     public_id character varying(32) DEFAULT ''::character varying NOT NULL,
     post_layout public.post_layout DEFAULT 'double-line'::public.post_layout NOT NULL,
     posts_per_page smallint DEFAULT 20,
-    two_bg_color character(6) DEFAULT 'e7e5df'::bpchar,
-    one_bg_color character(6) DEFAULT 'fefefe'::bpchar,
     profile_blurb text,
-    main_text_color character(6) DEFAULT '232323'::bpchar,
-    posts_vertical_spacing smallint DEFAULT 18
+    posts_vertical_spacing smallint DEFAULT 18,
+    date_format character varying(32) DEFAULT 'Mon FMDD, YYYY FMHH12:MIam'::character varying,
+    theme public.theme DEFAULT 'original'::public.theme NOT NULL
 );
 
 
