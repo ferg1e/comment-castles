@@ -1,21 +1,5 @@
 extends layout
 
-mixin followLink(username, publicId)
-    - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const sortNameValue = (sort !== '') ? `sort=${sort}` : ''
-    - const sortSeparator = (pagePart === '') ? '?' : '&'
-    - const sortPart = (sortNameValue !== '') ? `${sortSeparator}${sortNameValue}` : ''
-    - const goto = encodeURIComponent(`${base_url}${pagePart}${sortPart}`)
-    a(href=`/following?follow=${publicId}&goto=${goto}` class="follow" title=`follow ${username}`) +
-
-mixin unfollowLink(username, publicId)
-    - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const sortNameValue = (sort !== '') ? `sort=${sort}` : ''
-    - const sortSeparator = (pagePart === '') ? '?' : '&'
-    - const sortPart = (sortNameValue !== '') ? `${sortSeparator}${sortNameValue}` : ''
-    - const goto = encodeURIComponent(`${base_url}${pagePart}${sortPart}`)
-    a(href=`/following?unfollow=${publicId}&goto=${goto}` class="unfollow" title=`unfollow ${username}`) -
-
 mixin postTitle(p)
     if p.link === null
         a(class="ptitle" href=`/p/${p.public_id}`) #{p.title}
@@ -23,14 +7,6 @@ mixin postTitle(p)
         a(class="ptitle" href=p.link)= p.title
         | 
         span.domname1 (#{p.domain_name})
-
-mixin postFollowBut(p)
-    if !user || (p.user_id != user.user_id)
-        | 
-        if p.is_visible
-            +unfollowLink(p.username, p.user_public_id)
-        else
-            +followLink(p.username, p.user_public_id)
 
 mixin postTags(lTags)
     if lTags.length
@@ -60,8 +36,6 @@ mixin singleLinePost(p)
             |by 
             a(class="puser" href=`/u/${p.user_public_id}`)=p.username
 
-            +postFollowBut(p)
-
             | 
             span(class="pdate") on #{p.created_on}
 
@@ -78,8 +52,6 @@ mixin multiLinePost(p)
             |by 
             a(class="puser" href=`/u/${p.user_public_id}`)=p.username
 
-            +postFollowBut(p)
-
             | 
             span(class="pdate") on #{p.created_on}
 
@@ -89,27 +61,12 @@ mixin multiLinePost(p)
             +postLinks(p)
 
 block content
-    - const gotoUrl = (sort === '') ? base_url : `${base_url}?sort=${sort}`
-
     if page_tag
         h1
             |r/#{page_tag}
             if user
                 | 
                 a(href=`/new?group=${page_tag}` class="in-h1-url") new post
-
-    if is_discover_mode
-        div(class="alert2o")
-            span(class="alert2")
-                |Showing all posts. 
-                a(href=`/settings?viewmode=locked&goto=${gotoUrl}`) Switch to locked
-                |.
-    else
-        div(class="alert2o")
-            span(class="alert2")
-                |Some posts may be hidden. 
-                a(href=`/settings?viewmode=discover&goto=${gotoUrl}`) Show all
-                |.
 
     div.sort1o
         span.sort1
@@ -127,28 +84,11 @@ block content
         .posts
 
             each post in posts
-                if post.is_visible
-                    if post_layout == 'single-line'
-                        +singleLinePost(post)
-                    else
-                        +multiLinePost(post)
+                if post_layout == 'single-line'
+                    +singleLinePost(post)
                 else
-                    div
-                        span(class="pby2") by
-                        | 
-                        a(class="puser2" href=`/u/${post.user_public_id}`)=post.username
-                        | 
+                    +multiLinePost(post)
 
-                        if !user || (post.user_id != user.user_id)
-                            if post.is_visible
-                                +unfollowLink(post.username, post.user_public_id)
-                            else
-                                +followLink(post.username, post.user_public_id)
-
-                        | 
-                        span(class="pdate2") on #{post.created_on}
-                        | 
-                        a(class="pcount2" href=`/p/${post.public_id}`) comments(#{post.num_comments})
         div
             -
                 let pageUrl = `${base_url}?p=${page + 1}`

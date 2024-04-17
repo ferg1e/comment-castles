@@ -27,14 +27,10 @@ router.route('/')
         const sort = myMisc.getPostSort(req)
 
         //
-        const isDiscoverMode = myMisc.isDiscover(req)
-
-        //
         const {rows} = await db.getPosts(
             finalUserId,
             myMisc.getCurrTimeZone(req),
             page,
-            isDiscoverMode,
             isLoggedIn,
             sort,
             myMisc.getCurrPostsPerPage(req),
@@ -48,7 +44,6 @@ router.route('/')
                 posts: rows,
                 page: page,
                 base_url: '/',
-                is_discover_mode: isDiscoverMode,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 post_layout: myMisc.getCurrPostLayout(req),
                 sort: sort,

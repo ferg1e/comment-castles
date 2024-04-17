@@ -34,10 +34,6 @@ router.get(
         const oauthData = await oauthAuthenticate(req, res)
 
         //
-        const isDiscoverMode = oauthData
-            ? (oauthData.user.post_mode == 'discover')
-            : (typeof req.query.viewmode !== 'undefined' && req.query.viewmode.toLowerCase() == 'discover')
-
         const userId = oauthData ? oauthData.user.user_id : config.adminUserId
         const isLoggedIn = oauthData ? true : false
 
@@ -48,7 +44,6 @@ router.get(
             userId,
             timeZone,
             page,
-            isDiscoverMode,
             isLoggedIn,
             sort,
             config.defaultPostsPerPage,
@@ -62,13 +57,13 @@ router.get(
 
             rows2.push({
                 post_id: v.public_id,
-                title: v.is_visible ? v.title : false,
-                link: v.is_visible ? v.link : false,
+                title: v.title,
+                link: v.link,
                 post_time: v.created_on_raw,
                 author_username: v.username,
                 author_user_id: v.user_public_id,
                 num_comments: v.num_comments,
-                groups: v.is_visible ? v.tags : false
+                groups: v.tags
             })
         }
 
