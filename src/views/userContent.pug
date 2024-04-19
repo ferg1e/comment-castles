@@ -1,69 +1,32 @@
-mixin ucFollowLink(pUsername, pUserPublicId, pGoto)
-    a(href=`/following?follow=${pUserPublicId}&goto=${pGoto}` class="follow" title=`follow ${pUsername}`) +
-
-mixin ucUnfollowLink(pUsername, pUserPublicId, pGoto)
-    a(href=`/following?unfollow=${pUserPublicId}&goto=${pGoto}` class="unfollow" title=`unfollow ${pUsername}`) -
-
-mixin ucListComment(pComment, pUser, pFollowGoto, pCommentReplyMode, isTargetLink)
+mixin ucListComment(pComment, pUser, pCommentReplyMode, isTargetLink)
     div(id=pComment.public_id)
-        if pComment.is_visible
-            div.cheader
-                span(class="cby") by
-                | 
-                a(class="cuser" href=`/u/${pComment.user_public_id}`)=pComment.username
-
-                if !pUser || (pComment.user_id != pUser.user_id)
-                    | 
-                    +ucUnfollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
-
-                | 
-                span(class="cdate") on #{pComment.created_on}
-
-            span.cmeat
-                +bbCodes(pComment.text_content)
-
-            div.clinks
-                a(href=`/c/${pComment.public_id}`) link
-
-                if isTargetLink
-                    | 
-                    a(href=`#${pComment.public_id}`) link#
-
-                if pUser
-                    | 
-                    if pCommentReplyMode == 'quick'
-                        a(onclick=`reply('${pComment.public_id}', ${isTargetLink});return false;` href="#") reply
-                    else
-                        a(href=`/c/${pComment.public_id}#write-comment`) reply
-
-                if pUser && pUser.user_id == pComment.user_id
-                    | 
-                    a(href=`/c/${pComment.public_id}/edit`) edit
-                    | 
-                    a(href=`/c/${pComment.public_id}/delete`) delete
-        else
-            span(class="cby2") by
+        div.cheader
+            span(class="cby") by
             | 
-            a(class="cuser2" href=`/u/${pComment.user_public_id}`)=pComment.username
-
-            if !pUser || (pComment.user_id != pUser.user_id)
-                | 
-                +ucFollowLink(pComment.username, pComment.user_public_id, pFollowGoto)
+            a(class="cuser" href=`/u/${pComment.user_public_id}`)=pComment.username
 
             | 
-            span(class="cdate2") on #{pComment.created_on}
+            span(class="cdate") on #{pComment.created_on}
 
-            | 
-            span.clinks2
-                a(href=`/c/${pComment.public_id}`) link
+        span.cmeat
+            +bbCodes(pComment.text_content)
 
-                if isTargetLink
-                    | 
-                    a(href=`#${pComment.public_id}`) link#
+        div.clinks
+            a(href=`/c/${pComment.public_id}`) link
 
-                if pUser
-                    | 
-                    if pCommentReplyMode == 'quick'
-                        a(onclick=`reply('${pComment.public_id}', ${isTargetLink});return false;` href="#") reply
-                    else
-                        a(href=`/c/${pComment.public_id}#write-comment`) reply
+            if isTargetLink
+                | 
+                a(href=`#${pComment.public_id}`) link#
+
+            if pUser
+                | 
+                if pCommentReplyMode == 'quick'
+                    a(onclick=`reply('${pComment.public_id}', ${isTargetLink});return false;` href="#") reply
+                else
+                    a(href=`/c/${pComment.public_id}#write-comment`) reply
+
+            if pUser && pUser.user_id == pComment.user_id
+                | 
+                a(href=`/c/${pComment.public_id}/edit`) edit
+                | 
+                a(href=`/c/${pComment.public_id}/delete`) delete

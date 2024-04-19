@@ -87,14 +87,12 @@ router.get(
 
         //
         const postPublicId = req.query.postid
-        const userId = oauthData ? oauthData.user.user_id : config.adminUserId
         const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
         const {rows} = await db.getPostWithPublic2(
             postPublicId,
             timeZone,
-            userId,
             config.defaultDateFormat)
 
         //
@@ -113,11 +111,6 @@ router.get(
             }
 
             //
-            const isDiscoverMode = oauthData
-                ? (oauthData.user.post_mode == 'discover')
-                : (typeof req.query.viewmode !== 'undefined' && req.query.viewmode.toLowerCase() == 'discover')
-
-            //
             let page = 1
 
             if(typeof req.query.p !== 'undefined') {
@@ -132,8 +125,6 @@ router.get(
             const{rows:comments} = await db.getPostComments(
                 rows[0].post_id,
                 timeZone,
-                userId,
-                isDiscoverMode,
                 page,
                 config.defaultDateFormat)
 
@@ -145,7 +136,7 @@ router.get(
                 const dotCount = (c.path.match(/\./g)||[]).length
 
                 comments2.push({
-                    comment_text: c.is_visible ? c.text_content : false,
+                    comment_text: c.text_content,
                     indent_level: dotCount - 1,
                     author_username: c.username,
                     author_user_id: c.user_public_id,
@@ -155,14 +146,14 @@ router.get(
             }
             
             let r = {
-                title: rows[0].is_visible ? rows[0].title : false,
-                link: rows[0].is_visible ? rows[0].link : false,
-                post_text: rows[0].is_visible ? rows[0].text_content : false,
+                title: rows[0].title,
+                link: rows[0].link,
+                post_text: rows[0].text_content,
                 post_time: rows[0].created_on_raw,
                 author_username: rows[0].username,
                 author_user_id: rows[0].user_public_id,
                 comments: comments2,
-                groups: rows[0].is_visible ? rows[0].tags : false
+                groups: rows[0].tags
             }
 
             res.json(r)
@@ -517,7 +508,6 @@ router.post(
             const {rows:[row]} = await db.getPostWithPublic2(
                 postId,
                 oauthData.user.time_zone,
-                oauthData.user.user_id,
                 config.defaultDateFormat)
 
             //

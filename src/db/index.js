@@ -502,7 +502,7 @@ exports.getPostWithPublic = (publicId) => {
     )
 }
 
-exports.getPostWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
+exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
     return query(`
         select
             p.post_id,
@@ -519,14 +519,6 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
             p.link,
             p.num_comments,
             dn.domain_name,
-            u.user_id = $3 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $4) is_visible,
             array(
                 select
                     t.tag
@@ -556,9 +548,9 @@ exports.getPostWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
-            p.public_id = $5 and
+            p.public_id = $3 and
             not p.is_removed`,
-        [timeZone, dateFormat, userId, userId, publicId]
+        [timeZone, dateFormat, publicId]
     )
 }
 
@@ -937,7 +929,7 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, page, dateFormat) 
             isDiscoverMode, userId, userId, pageSize, (page - 1)*pageSize])
 }
 
-exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, page, dateFormat) => {
+exports.getPostComments = (postId, timeZone, page, dateFormat) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
 
@@ -953,60 +945,33 @@ exports.getPostComments = (postId, timeZone, userId, isDiscoverMode, page, dateF
                 $2) created_on,
             c.created_on created_on_raw,
             c.public_id,
-            c.is_removed,
-            u.user_id = $3 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $4) is_visible
+            c.is_removed
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $5 and
-            ($6 or not exists(
-                select
-                    1
-                from
-                    tcomment c2
-                where
-                    c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $7 and followee_user_id = c2.user_id) and
-                    c2.user_id != $8))
+            c.path <@ $3
         order by
             c.path
         limit
-            $9
+            $4
         offset
-            $10`,
-        [timeZone, dateFormat, userId, userId, postId, isDiscoverMode,
-        userId, userId, limit, offset])
+            $5`,
+        [timeZone, dateFormat, postId, limit, offset])
 }
 
 // count query for above query
 // their two where clauses need to remain identical
-exports.getPostNumComments = (postId, userId, isDiscoverMode) => {
+exports.getPostNumComments = (postId) => {
     return query(`
         select
             count(1) as count
         from
             tcomment c
         where
-            c.path <@ $1 and
-            ($2 or not exists(
-                select
-                    1
-                from
-                    tcomment c2
-                where
-                    c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $3 and followee_user_id = c2.user_id) and
-                    c2.user_id != $4))`,
-        [postId, isDiscoverMode, userId, userId])
+            c.path <@ $1`,
+        [postId])
 }
 
 //
