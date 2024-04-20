@@ -1122,16 +1122,6 @@ exports.deleteComment = async (path) => {
         [path])
 }
 
-//follower
-exports.addFollower = (userId, followeeUserId) => {
-    return query(`
-        insert into tfollower
-            (user_id, followee_user_id)
-        values
-            ($1, $2)`,
-        [userId, followeeUserId])
-}
-
 // follow users that admin is following
 // and also follow admin
 exports.copyAdminsFollowees = (userId) => {
