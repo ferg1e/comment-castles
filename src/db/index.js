@@ -81,9 +81,6 @@ exports.createUser = async (username, password) => {
             ]))
 
     //
-    await module.exports.copyAdminsFollowees(rows[0].user_id)
-
-    //
     return rows
 }
 
@@ -1120,24 +1117,6 @@ exports.deleteComment = async (path) => {
         where
             path <@ $1`,
         [path])
-}
-
-// follow users that admin is following
-// and also follow admin
-exports.copyAdminsFollowees = (userId) => {
-    return query(`
-        insert into tfollower
-            (user_id, followee_user_id)
-        (select $1, followee_user_id from tfollower where user_id = $2 and followee_user_id != $3
-        union
-        select $4::integer, $5::integer)`,
-        [
-            userId,
-            config.adminUserId,
-            userId,
-            userId,
-            config.adminUserId
-        ])
 }
 
 exports.getUserFollowees = (userId) => {
