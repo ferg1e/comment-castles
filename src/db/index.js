@@ -874,7 +874,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
             dateFormat])
 }
 
-exports.getInboxComments = (timeZone, userId, isDiscoverMode, page, dateFormat) => {
+exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
     const pageSize = 20
 
     return query(`
@@ -888,15 +888,7 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, page, dateFormat) 
                 timezone($1, c.created_on),
                 $2) created_on,
             c.public_id,
-            c.is_removed,
-            u.user_id = $3 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $4) is_visible
+            c.is_removed
         from
             tcomment c
         join
@@ -904,26 +896,16 @@ exports.getInboxComments = (timeZone, userId, isDiscoverMode, page, dateFormat) 
         join
             tpost p on p.post_id = c.post_id
         where
-            (
-                (nlevel(c.path) = 2 and p.user_id = $5) or
-                (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $6)
-            ) and
-            ($7 or c.user_id = $8 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = c.user_id and
-                    user_id = $9))
+            (nlevel(c.path) = 2 and p.user_id = $3) or
+            (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $4)
         order by
             c.created_on desc
         limit
-            $10
+            $5
         offset
-            $11`,
-        [timeZone, dateFormat, userId, userId, userId, userId,
-            isDiscoverMode, userId, userId, pageSize, (page - 1)*pageSize])
+            $6`,
+        [timeZone, dateFormat, userId, userId,
+            pageSize, (page - 1)*pageSize])
 }
 
 exports.getPostComments = (postId, timeZone, page, dateFormat) => {

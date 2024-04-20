@@ -9,9 +9,6 @@ router.route('/')
         if(req.session.user) {
 
             //
-            const isDiscoverMode = myMisc.isDiscover(req)
-
-            //
             let page = 1
 
             if(typeof req.query.p !== 'undefined') {
@@ -26,7 +23,6 @@ router.route('/')
             const{rows:comments} = await db.getInboxComments(
                 myMisc.getCurrTimeZone(req),
                 req.session.user.user_id,
-                isDiscoverMode,
                 page,
                 myMisc.getCurrDateFormat(req))
 
@@ -38,7 +34,6 @@ router.route('/')
                     user: req.session.user,
                     comments: comments,
                     page: page,
-                    is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: myMisc.getCurrSiteMaxWidth(req)
                 }

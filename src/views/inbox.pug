@@ -8,30 +8,14 @@ include bbCodes.pug
 include userContent.pug
 
 block content
-    - const pagePart = page < 2 ? '' : `?p=${page}`
-    - const followGoto = encodeURIComponent(`/inbox${pagePart}`)
-
     h1 Inbox
-
-    if is_discover_mode
-        div
-            span(class="alert1")
-                |Showing all comments. 
-                a(href=`/settings?viewmode=locked&goto=/inbox`) Switch to locked
-                |.
-    else
-        div
-            span(class="alert1")
-                |Some comments may be hidden. 
-                a(href=`/settings?viewmode=discover&goto=/inbox`) Show all
-                |.
 
     if comments.length
         .comments
             ul
                 for c in comments
                     li
-                        +ucListComment(c, user, followGoto, comment_reply_mode, false)
+                        +ucListComment(c, user, comment_reply_mode, false)
         div
             a(class="more" href=`/inbox?p=${page + 1}`) more &gt;
     else
