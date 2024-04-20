@@ -9,12 +9,10 @@ const htmlTitleComment = 'Comment #'
 router.route('/')
     .get(async (req, res) => {
         const commentPublicId = req.params[0]
-        const finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
 
         const {rows} = await db.getCommentWithPublic2(
             commentPublicId,
             myMisc.getCurrTimeZone(req),
-            finalUserId,
             myMisc.getCurrDateFormat(req))
 
         if(rows.length) {
@@ -48,21 +46,14 @@ router.route('/')
             }
 
             //
-            const isDiscoverMode = myMisc.isDiscover(req)
-
             const{rows:comments} = await db.getCommentComments(
                 rows[0].path,
                 myMisc.getCurrTimeZone(req),
-                finalUserId,
-                isDiscoverMode,
                 page,
                 myMisc.getCurrDateFormat(req))
 
             //
-            const {rows:data2} = await db.getCommentNumComments(
-                rows[0].path,
-                finalUserId,
-                isDiscoverMode)
+            const {rows:data2} = await db.getCommentNumComments(rows[0].path)
 
             const numComments = data2[0]['count']
             const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -77,7 +68,6 @@ router.route('/')
                     comment: rows[0],
                     comments: comments,
                     errors: [],
-                    is_discover_mode: isDiscoverMode,
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: myMisc.getCurrSiteMaxWidth(req),
                     page: page,
@@ -93,12 +83,10 @@ router.route('/')
         async (req, res) => {
             if(req.session.user) {
                 const commentPublicId = req.params[0]
-                const finalUserId = req.session.user.user_id
 
                 const {rows} = await db.getCommentWithPublic2(
                     commentPublicId,
                     myMisc.getCurrTimeZone(req),
-                    finalUserId,
                     myMisc.getCurrDateFormat(req))
 
                 if(rows.length) {
@@ -120,7 +108,6 @@ router.route('/')
                     }
 
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
-                    const isDiscoverMode = myMisc.isDiscover(req)
 
                     if(errors.length) {
 
@@ -138,16 +125,11 @@ router.route('/')
                         const{rows:comments} = await db.getCommentComments(
                             rows[0].path,
                             myMisc.getCurrTimeZone(req),
-                            finalUserId,
-                            isDiscoverMode,
                             page,
                             myMisc.getCurrDateFormat(req))
 
                         //
-                        const {rows:data2} = await db.getCommentNumComments(
-                            rows[0].path,
-                            finalUserId,
-                            isDiscoverMode)
+                        const {rows:data2} = await db.getCommentNumComments(rows[0].path)
 
                         const numComments = data2[0]['count']
                         const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -162,7 +144,6 @@ router.route('/')
                                 comment: rows[0],
                                 comments: comments,
                                 errors: errors,
-                                is_discover_mode: isDiscoverMode,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
                                 page,
@@ -185,10 +166,7 @@ router.route('/')
                         await db.incPostNumComments(rows[0].post_id)
 
                         //
-                        const {rows:data2} = await db.getCommentNumComments(
-                            rows[0].path,
-                            finalUserId,
-                            isDiscoverMode)
+                        const {rows:data2} = await db.getCommentNumComments(rows[0].path)
 
                         const numComments = data2[0]['count']
                         const pages = Math.ceil(numComments/config.commentsPerPage)

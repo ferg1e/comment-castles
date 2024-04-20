@@ -975,7 +975,7 @@ exports.getPostNumComments = (postId) => {
 }
 
 //
-exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, page, dateFormat) => {
+exports.getCommentComments = (path, timeZone, page, dateFormat) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
 
@@ -990,47 +990,28 @@ exports.getCommentComments = (path, timeZone, userId, isDiscoverMode, page, date
                 timezone($1, c.created_on),
                 $2) created_on,
             c.created_on created_on_raw,
-            c.public_id,
-            u.user_id = $3 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $4) is_visible
+            c.public_id
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         where
-            c.path <@ $5 and
-            not (c.path ~ $6) and
-            ($7 or not exists(
-                select
-                    1
-                from
-                    tcomment c2
-                where
-                    c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $8 and followee_user_id = c2.user_id) and
-                    c2.user_id != $9 and
-                    not (c2.path @> $10)))
+            c.path <@ $3 and
+            not (c.path ~ $4)
         order by
             c.path
         limit
-            $11
+            $5
         offset
-            $12`,
-        [timeZone, dateFormat, userId, userId, path, path, isDiscoverMode, userId,
-            userId, path, limit, offset])
+            $6`,
+        [timeZone, dateFormat, path, path, limit, offset])
 }
 
 // this is copied from the above query
 // it's the "count only" version of the query
 // ie. it uses the same "where" as above
 // these two where clauses need to stay the same
-exports.getCommentNumComments = (path, userId, isDiscoverMode) => {
+exports.getCommentNumComments = (path) => {
     return query(`
         select
             count(1) as count
@@ -1038,18 +1019,8 @@ exports.getCommentNumComments = (path, userId, isDiscoverMode) => {
             tcomment c
         where
             c.path <@ $1 and
-            not (c.path ~ $2) and
-            ($3 or not exists(
-                select
-                    1
-                from
-                    tcomment c2
-                where
-                    c2.path @> c.path and
-                    not exists(select 1 from tfollower where user_id = $4 and followee_user_id = c2.user_id) and
-                    c2.user_id != $5 and
-                    not (c2.path @> $6)))`,
-        [path, path, isDiscoverMode, userId, userId, path])
+            not (c.path ~ $2)`,
+        [path, path])
 }
 
 exports.getCommentWithPublic = (publicId) => {
@@ -1080,7 +1051,7 @@ exports.getCommentWithPublic = (publicId) => {
     )
 }
 
-exports.getCommentWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
+exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
     return query(`
         select
             c.text_content,
@@ -1095,14 +1066,6 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
             u.user_id,
             u.public_id as user_public_id,
             p.public_id post_public_id,
-            u.user_id = $3 or
-                exists(select
-                    1
-                from
-                    tfollower
-                where
-                    followee_user_id = u.user_id and
-                    user_id = $4) is_visible,
             array(
                 select
                     pg.private_group_id
@@ -1123,8 +1086,8 @@ exports.getCommentWithPublic2 = (publicId, timeZone, userId, dateFormat) => {
             tpost p on p.post_id = c.post_id
         where
             not p.is_removed and
-            c.public_id = $5`,
-        [timeZone, dateFormat, userId, userId, publicId]
+            c.public_id = $3`,
+        [timeZone, dateFormat, publicId]
     )
 }
 
