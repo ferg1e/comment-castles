@@ -1119,57 +1119,6 @@ exports.deleteComment = async (path) => {
         [path])
 }
 
-exports.getUserFollowees = (userId) => {
-    return query(`
-        select
-            u.user_id,
-            u.username,
-            u.public_id
-        from
-            tfollower f
-        join
-            tuser u on u.user_id = f.followee_user_id
-        where
-            f.user_id = $1
-        order by
-            lower(u.username)`,
-        [userId]
-    )
-}
-
-exports.getUserFollowee = (userId, followeeUserId) => {
-    return query(`
-        select
-            1
-        from
-            tfollower f
-        where
-            f.user_id = $1 and
-            f.followee_user_id = $2`,
-        [userId, followeeUserId]
-    )
-}
-
-exports.removeFollower = (userId, followeeUserId) => {
-    return query(`
-        delete from
-            tfollower
-        where
-            user_id = $1 and
-            followee_user_id = $2`,
-        [userId, followeeUserId])
-}
-
-//
-exports.unfollowAll = (userId) => {
-    return query(`
-        delete from
-            tfollower
-        where
-            user_id = $1`,
-        [userId])
-}
-
 //tags
 exports.createTag = (tagName) => {
     return query(`
