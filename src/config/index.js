@@ -17,7 +17,6 @@ exports.cssDir = '/css'
 
 exports.defaultTimeZone = 'UTC'
 exports.defaultCommentReplyMode = 'quick'
-exports.defaultViewMode = 'following-only'
 
 //
 exports.defaultPostLayout = 'single-line'

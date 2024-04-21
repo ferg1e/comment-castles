@@ -24,14 +24,6 @@ router.get(
         else {
 
             //
-            const [
-                followUserId,
-                followUsername,
-                unfollowUserId,
-                unfollowUsername,
-                formAction] = await getFollowValues(req)
-
-            //
             res.render(
                 'sign-up',
                 {
@@ -39,12 +31,7 @@ router.get(
                     errors:[],
                     username: "",
                     is_login: "yes",
-                    max_width: myMisc.getCurrSiteMaxWidth(req),
-                    follow_user_id: followUserId,
-                    follow_username: followUsername,
-                    unfollow_user_id: unfollowUserId,
-                    unfollow_username: unfollowUsername,
-                    form_action: formAction,
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
     }
@@ -64,14 +51,6 @@ router.post(
         let errors = validationResult(req).array({onlyFirstError:true})
 
         //
-        const [
-            followUserId,
-            followUsername,
-            unfollowUserId,
-            unfollowUsername,
-            formAction] = await getFollowValues(req)
-
-        //
         if(errors.length) {
             res.render(
                 'sign-up',
@@ -80,12 +59,7 @@ router.post(
                     errors:errors,
                     username: req.body.username,
                     is_login: req.body.is_login,
-                    max_width: myMisc.getCurrSiteMaxWidth(req),
-                    follow_user_id: followUserId,
-                    follow_username: followUsername,
-                    unfollow_user_id: unfollowUserId,
-                    unfollow_username: unfollowUsername,
-                    form_action: formAction,
+                    max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
         else {
@@ -107,12 +81,7 @@ router.post(
                         errors:[{msg:errorMessage}],
                         username: req.body.username,
                         is_login: req.body.is_login,
-                        max_width: myMisc.getCurrSiteMaxWidth(req),
-                        follow_user_id: followUserId,
-                        follow_username: followUsername,
-                        unfollow_user_id: unfollowUserId,
-                        unfollow_username: unfollowUsername,
-                        form_action: formAction,
+                        max_width: myMisc.getCurrSiteMaxWidth(req)
                     })
             }
 
@@ -122,7 +91,6 @@ router.post(
                     public_id: rows[0].public_id,
                     username: rows[0].username,
                     time_zone: rows[0].time_zone,
-                    post_mode: rows[0].post_mode,
                     post_layout: rows[0].post_layout,
                     posts_per_page: rows[0].posts_per_page,
                     posts_vertical_spacing: rows[0].posts_vertical_spacing,
@@ -149,47 +117,3 @@ router.post(
 )
 
 module.exports = router
-
-//
-async function getFollowValues(req) {
-
-    //
-    const isFollow = typeof req.query.follow !== 'undefined'
-    const isUnfollow = typeof req.query.unfollow !== 'undefined'
-    let followUserId = null
-    let followUsername = null
-    let unfollowUserId = null
-    let unfollowUsername = null
-    let formAction = '/sign-up'
-
-    //
-    if(isFollow) {
-        const userId = req.query.follow
-        const {rows:[user]} = await db.getUserWithPublicId(userId)
-
-        if(user) {
-            followUserId = userId
-            followUsername = user.username
-            formAction += `?follow=${userId}`
-        }
-    }
-    else if(isUnfollow) {
-        const userId = req.query.unfollow
-        const {rows:[user]} = await db.getUserWithPublicId(userId)
-
-        if(user) {
-            unfollowUserId = userId
-            unfollowUsername = user.username
-            formAction += `?unfollow=${userId}`
-        }
-    }
-
-    //
-    return [
-        followUserId,
-        followUsername,
-        unfollowUserId,
-        unfollowUsername,
-        formAction,
-    ]
-}

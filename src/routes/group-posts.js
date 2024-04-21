@@ -55,9 +55,6 @@ router.get(
         const sort = myMisc.getPostSort(req)
 
         //
-        const isDiscoverMode = myMisc.isDiscover(req)
-
-        //
         const {rows} = await db.getTagPosts(
             finalUserId,
             myMisc.getCurrTimeZone(req),

@@ -128,22 +128,6 @@ exports.validateOauthClient = (appName, redirectUri) => {
 }
 
 //
-exports.getCurrPostMode = req => {
-    if(req.session.user) {
-        return (typeof req.session.user.post_mode === 'undefined')
-            ? config.defaultViewMode
-            : req.session.user.post_mode
-    }
-    else {
-        const cSettings = module.exports.getCookieSettings(req)
-
-        return (typeof cSettings.post_mode === 'undefined')
-            ? config.defaultViewMode
-            : cSettings.post_mode
-    }
-}
-
-//
 exports.getCurrPostLayout = req => {
     if(req.session.user) {
         return (typeof req.session.user.post_layout === 'undefined')
@@ -297,13 +281,6 @@ exports.getCurrSiteMaxWidth = req => {
 }
 
 //
-exports.isDiscover = req => {
-    return module.exports.getCurrPostMode(req) !== 'discover'
-        ? 0
-        : 1
-}
-
-//
 exports.getDomainName = link => {
     const myUrl = new URL(link)
     return myUrl.hostname.replace(/^(www\.)/, '')
@@ -381,7 +358,6 @@ exports.getCookieSettings = req => {
     const settingsC = req.cookies.settings
     const defaults = {
         time_zone: config.defaultTimeZone,
-        post_mode: config.defaultViewMode,
         post_layout: config.defaultPostLayout,
         posts_per_page: config.defaultPostsPerPage,
         posts_vertical_spacing: config.defaultPostsVerticalSpacing,

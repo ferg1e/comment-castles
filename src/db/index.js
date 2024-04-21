@@ -43,7 +43,6 @@ exports.createUser = async (username, password) => {
                 public_id,
                 time_zone,
                 comment_reply_mode,
-                post_mode,
                 post_layout,
                 site_width,
                 posts_per_page,
@@ -51,13 +50,12 @@ exports.createUser = async (username, password) => {
                 theme,
                 date_format)
             values
-                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             returning
                 user_id,
                 username,
                 public_id,
                 time_zone,
-                post_mode,
                 post_layout,
                 posts_per_page,
                 posts_vertical_spacing,
@@ -71,7 +69,6 @@ exports.createUser = async (username, password) => {
                 genId(),
                 config.defaultTimeZone,
                 config.defaultCommentReplyMode,
-                config.defaultViewMode,
                 config.defaultPostLayout,
                 config.defaultSiteWidth,
                 config.defaultPostsPerPage,
@@ -92,7 +89,6 @@ exports.getUserWithUsername = (username) => {
             username,
             password,
             time_zone,
-            post_mode,
             post_layout,
             posts_per_page,
             posts_vertical_spacing,
@@ -116,7 +112,6 @@ exports.getUserWithPublicId = (publicId) => {
             username,
             password,
             time_zone,
-            post_mode,
             comment_reply_mode,
             site_width,
             profile_blurb
@@ -1482,8 +1477,7 @@ exports.getAccessToken = (token) => {
             at.expires_on,
             at.logged_in_user_id,
             c.public_client_id,
-            u.time_zone,
-            u.post_mode
+            u.time_zone
         from
             toauthaccesstoken at
         join
