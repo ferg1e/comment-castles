@@ -11,40 +11,6 @@ const cookieMaxAge = 1000*60*60*24*365*10;
 const get = async (req, res) => {
 
     //
-    const isViewMode = typeof req.query.viewmode !== 'undefined'
-
-    if(isViewMode) {
-        const viewMode = req.query.viewmode == 'discover'
-            ? req.query.viewmode
-            : 'following-only'
-
-        //
-        if(req.session.user) {
-            await db.updateUserViewMode(
-                req.session.user.user_id,
-                viewMode)
-
-            req.session.user.post_mode = viewMode
-        }
-        else {
-            const cSettings = myMisc.getCookieSettings(req)
-            cSettings.post_mode = viewMode
-
-            res.cookie(
-                'settings',
-                JSON.stringify(cSettings),
-                {maxAge: cookieMaxAge})
-        }
-
-        //
-        const redirectUrl = (typeof req.query.goto === 'undefined')
-            ? '/settings'
-            : req.query.goto;
-
-        return res.redirect(redirectUrl)
-    }
-
-    //
     const rows = config.timeZones
 
     return res.render(
@@ -63,7 +29,6 @@ const get = async (req, res) => {
             dateFormat6: config.dateFormat6,
             dateFormat7: config.dateFormat7,
             time_zone: myMisc.getCurrTimeZone(req),
-            postMode: myMisc.getCurrPostMode(req),
             postLayout: myMisc.getCurrPostLayout(req),
             postsPerPage: myMisc.getCurrPostsPerPage(req),
             postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
@@ -84,7 +49,6 @@ const post = async (req, res) => {
             req,
             res,
             config.defaultTimeZone,
-            config.defaultViewMode,
             config.defaultCommentReplyMode,
             config.defaultSiteWidth,
             config.defaultPostLayout,
@@ -160,7 +124,6 @@ const post = async (req, res) => {
                 dateFormat6: config.dateFormat6,
                 dateFormat7: config.dateFormat7,
                 time_zone: req.body.time_zone,
-                postMode: req.body.post_mode,
                 postLayout: req.body.post_layout,
                 postsPerPage: req.body.posts_per_page,
                 postsVerticalSpacing: req.body.posts_vertical_spacing,
@@ -177,7 +140,6 @@ const post = async (req, res) => {
         req,
         res,
         req.body.time_zone,
-        req.body.post_mode,
         req.body.comment_reply_mode,
         req.body.site_width,
         req.body.post_layout,
@@ -213,7 +175,6 @@ const post = async (req, res) => {
             dateFormat6: config.dateFormat6,
             dateFormat7: config.dateFormat7,
             time_zone: req.body.time_zone,
-            postMode: req.body.post_mode,
             postLayout: req.body.post_layout,
             postsPerPage: req.body.posts_per_page,
             postsVerticalSpacing: req.body.posts_vertical_spacing,
@@ -235,7 +196,6 @@ async function updateSettings(
     req,
     res,
     timeZone,
-    viewMode,
     commentReplyMode,
     siteWidth,
     postLayout,
@@ -260,7 +220,6 @@ async function updateSettings(
         await db.updateUser(
             req.session.user.user_id,
             timeZone,
-            viewMode,
             commentReplyMode,
             siteWidthNulled,
             postLayout,
@@ -270,7 +229,6 @@ async function updateSettings(
             dateFormat)
 
         req.session.user.time_zone = timeZone
-        req.session.user.post_mode = viewMode
         req.session.user.post_layout = postLayout
         req.session.user.posts_per_page = postsPerPage
         req.session.user.posts_vertical_spacing = postsVerticalSpacing
@@ -284,7 +242,6 @@ async function updateSettings(
         const cSettings = myMisc.getCookieSettings(req)
 
         cSettings.time_zone = timeZone
-        cSettings.post_mode = viewMode
         cSettings.post_layout = postLayout
         cSettings.posts_per_page = postsPerPage
         cSettings.posts_vertical_spacing = postsVerticalSpacing

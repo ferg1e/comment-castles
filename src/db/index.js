@@ -153,35 +153,22 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
-exports.updateUser = (userId, timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat) => {
+exports.updateUser = (userId, timeZoneName, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat) => {
     return query(`
         update
             tuser
         set
             time_zone = $1,
-            post_mode = $2,
-            comment_reply_mode = $3,
-            site_width = $4,
-            post_layout = $5,
-            posts_per_page = $6,
-            posts_vertical_spacing = $7,
-            theme = $8,
-            date_format = $9
+            comment_reply_mode = $2,
+            site_width = $3,
+            post_layout = $4,
+            posts_per_page = $5,
+            posts_vertical_spacing = $6,
+            theme = $7,
+            date_format = $8
         where
-            user_id = $10`,
-        [timeZoneName, postMode, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat, userId])
-}
-
-//
-exports.updateUserViewMode = (userId, postMode) => {
-    return query(`
-        update
-            tuser
-        set
-            post_mode = $1
-        where
-            user_id = $2`,
-        [postMode, userId])
+            user_id = $9`,
+        [timeZoneName, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat, userId])
 }
 
 //
