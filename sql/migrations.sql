@@ -235,3 +235,6 @@ alter table tuser add column date_format varchar(32) default 'Mon FMDD, YYYY FMH
 
 --
 drop table tfollower;
+
+alter table tuser drop post_mode;
+alter table tuser drop comment_mode;
