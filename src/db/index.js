@@ -304,35 +304,7 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (userId, timeZone, page, tag, isLoggedIn, sort, pageSize, dateFormat) => {
-    const numLeadingPlaceholders = 3
-    const allowedPrivateIds = []
-    const dynamicPlaceholders = []
-
-    if(isLoggedIn) {
-
-        //
-        const {rows} = await module.exports.getUserAllPrivateGroupIds(userId)
-
-        for(const i in rows) {
-            allowedPrivateIds.push(rows[i].private_group_id)
-        }
-
-        for(let i = 1; i <= allowedPrivateIds.length; ++i) {
-            const placeholderNum = numLeadingPlaceholders + i
-            dynamicPlaceholders.push(`$${placeholderNum}`)
-        }
-    }
-
-    const pAfter = numLeadingPlaceholders + allowedPrivateIds.length + 1
-
-    const beforeParams = [timeZone, dateFormat, tag]
-
-    const afterParams = [sort, sort, sort, sort, sort, sort,
-        pageSize, (page - 1)*pageSize]
-
-    const finalParams = beforeParams.concat(allowedPrivateIds, afterParams)
-
+exports.getTagPosts = async (timeZone, page, tag, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -374,33 +346,22 @@ exports.getTagPosts = async (userId, timeZone, page, tag, isLoggedIn, sort, page
                 where
                     t.tag = $3 and
                     pt.post_id = p.post_id
-            ) and
-            (array(
-                select
-                    pg.private_group_id
-                from
-                    tprivategroup pg
-                join
-                    ttag t on t.tag = pg.name
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id) <@ Array[${dynamicPlaceholders.join()}]::integer[])
+            )
         order by
-            case when $${pAfter} = '' then p.created_on end desc,
+            case when $4 = '' then p.created_on end desc,
 
-            case when $${pAfter+1} = 'oldest' then p.created_on end asc,
+            case when $5 = 'oldest' then p.created_on end asc,
 
-            case when $${pAfter+2} = 'comments' then p.num_comments end desc,
-            case when $${pAfter+3} = 'comments' then p.created_on end desc,
+            case when $6 = 'comments' then p.num_comments end desc,
+            case when $7 = 'comments' then p.created_on end desc,
 
-            case when $${pAfter+4} = 'last' then p.last_comment end desc nulls last,
-            case when $${pAfter+5} = 'last' then p.created_on end desc
+            case when $8 = 'last' then p.last_comment end desc nulls last,
+            case when $9 = 'last' then p.created_on end desc
         limit
-            $${pAfter+6}
+            $10
         offset
-            $${pAfter+7}`,
-        finalParams
+            $11`,
+        [timeZone, dateFormat, tag, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
     )
 }
 

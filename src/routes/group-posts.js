@@ -9,8 +9,6 @@ router.get(
     '/',
     async (req, res) => {
         const tag = req.params[0]
-        let finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
-        const isLoggedIn = typeof req.session.user != 'undefined'
 
         //
         let page = 1
@@ -56,11 +54,9 @@ router.get(
 
         //
         const {rows} = await db.getTagPosts(
-            finalUserId,
             myMisc.getCurrTimeZone(req),
             page,
             tag,
-            isLoggedIn,
             sort,
             myMisc.getCurrPostsPerPage(req),
             myMisc.getCurrDateFormat(req))
