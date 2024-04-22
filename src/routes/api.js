@@ -94,18 +94,6 @@ router.get(
         if(rows.length) {
 
             //
-            const allowedCheckUserId = oauthData ? oauthData.user.user_id : -1
-            const isAllowed = await db.isAllowedToViewPost(
-                rows[0].private_group_ids,
-                allowedCheckUserId)
-
-            if(!isAllowed) {
-                return res.status(403).json({
-                    errors: ["this post is private and you don't have access"],
-                })
-            }
-
-            //
             let page = 1
 
             if(typeof req.query.p !== 'undefined') {
@@ -273,8 +261,7 @@ router.put(
         const [errors, wsCompressedTitle, trimTags] = await db.validateEditPost(
             fTitle,
             fLink,
-            fTags,
-            row.private_group_names)
+            fTags)
 
         //
         if(errors.length) {
@@ -375,18 +362,6 @@ router.get(
 
         //
         if(rows.length) {
-
-            //
-            const allowedCheckUserId = oauthData ? oauthData.user.user_id : -1
-            const isAllowed = await db.isAllowedToViewPost(
-                rows[0].private_group_ids,
-                allowedCheckUserId)
-
-            if(!isAllowed) {
-                return res.status(403).json({
-                    errors: ["this comment is private and you don't have access"],
-                })
-            }
 
             //
             let page = 1
@@ -501,15 +476,6 @@ router.post(
             }
 
             //
-            const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
-
-            if(!isAllowed) {
-                return res.status(403).json({
-                    errors: ['this post is private and the active user does not have access']
-                })
-            }
-
-            //
             const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
             //
@@ -543,15 +509,6 @@ router.post(
 
             if(!row) {
                 return res.status(404).json({errors: ['no such comment']})
-            }
-
-            //
-            const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, oauthData.user.user_id)
-
-            if(!isAllowed) {
-                return res.status(403).json({
-                    errors: ['this comment is private and the active user does not have access']
-                })
             }
 
             //

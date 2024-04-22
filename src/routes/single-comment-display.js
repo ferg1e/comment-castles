@@ -18,23 +18,6 @@ router.route('/')
         if(rows.length) {
 
             //
-            const allowedCheckUserId = req.session.user ? req.session.user.user_id : -1
-            const isAllowed = await db.isAllowedToViewPost(
-                rows[0].private_group_ids,
-                allowedCheckUserId)
-
-            if(!isAllowed) {
-                return res.render(
-                    'message',
-                    {
-                        html_title: htmlTitleComment + commentPublicId,
-                        message: "This comment is from a private group and you do not have access.",
-                        user: req.session.user,
-                        max_width: myMisc.getCurrSiteMaxWidth(req)
-                    })
-            }
-
-            //
             let page = 1
 
             if(typeof req.query.p !== 'undefined') {
@@ -92,21 +75,6 @@ router.route('/')
                 if(rows.length) {
 
                     //
-                    const isAllowed = await db.isAllowedToViewPost(
-                        rows[0].private_group_ids,
-                        req.session.user.user_id)
-
-                    if(!isAllowed) {
-                        return res.render(
-                            'message',
-                            {
-                                html_title: htmlTitleComment + commentPublicId,
-                                message: "This comment is from a private group and you do not have access.",
-                                user: req.session.user,
-                                max_width: myMisc.getCurrSiteMaxWidth(req)
-                            })
-                    }
-
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
                     if(errors.length) {

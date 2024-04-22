@@ -429,19 +429,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
                     tposttag pt on pt.tag_id = t.tag_id
                 where
                     pt.post_id = p.post_id
-            ) as tags,
-            array(
-                select
-                    pg.private_group_id
-                from
-                    tprivategroup pg
-                join
-                    ttag t on t.tag = pg.name
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as private_group_ids
+            ) as tags
         from
             tpost p
         join
@@ -1140,24 +1128,6 @@ exports.getUserAllPrivateGroupIds = (userId) => {
             gm.user_id = $2`,
         [userId, userId]
     )
-}
-
-exports.isAllowedToViewPost = async (postPrivateIds, userId) => {
-    const privateIds = []
-
-    if(userId != -1) {
-        const {rows:userPrivateGroups} = await module.exports.getUserAllPrivateGroupIds(userId)
-
-        for(const i in userPrivateGroups) {
-            privateIds.push(userPrivateGroups[i].private_group_id)
-        }
-    }
-
-    //check that the post's IDs are a subset of the user's IDs
-    const isAllowed = postPrivateIds.every(v => privateIds.includes(v))
-
-    //
-    return isAllowed
 }
 
 exports.getTag = (tagName) => {

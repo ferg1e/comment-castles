@@ -22,19 +22,6 @@ const get = async (req, res) => {
     if(!row) return res.send('not found')
 
     //
-    const allowedCheckUserId = req.session.user ? req.session.user.user_id : -1
-    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, allowedCheckUserId)
-
-    if(!isAllowed) {
-        return res.render('message', {
-            html_title: 'Post #' + row.public_id,
-            message: "This post is from a private group and you do not have access.",
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
-    }
-
-    //
     let page = 1
 
     if(typeof req.query.p !== 'undefined') {
@@ -90,18 +77,6 @@ const post = async (req, res) => {
 
     //
     if(!row) return res.send('not found')
-
-    //
-    const isAllowed = await db.isAllowedToViewPost(row.private_group_ids, req.session.user.user_id)
-
-    if(!isAllowed) {
-        return res.render('message', {
-            html_title: 'Post #' + row.public_id,
-            message: "This post is from a private group and you do not have access.",
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
-    }
 
     //
     const [compressedComment, errors] = myMisc.processComment(req.body.text_content)

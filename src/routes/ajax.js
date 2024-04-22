@@ -22,15 +22,6 @@ const postComment = async (req, res) => {
     }
 
     //
-    const isAllowed = await db.isAllowedToViewPost(
-        comment.private_group_ids,
-        req.session.user.user_id)
-
-    if(!isAllowed) {
-        return res.json(0)
-    }
-
-    //
     const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
 
     if(errors.length > 0) {
