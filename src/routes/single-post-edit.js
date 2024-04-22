@@ -69,8 +69,7 @@ router.route('/')
         const [errors, wsCompressedTitle, trimTags] = await db.validateEditPost(
             req.body.title,
             req.body.link,
-            req.body.tags,
-            row.private_group_names)
+            req.body.tags)
 
         //
         if(errors.length) {

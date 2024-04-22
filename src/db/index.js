@@ -382,19 +382,7 @@ exports.getPostWithPublic = (publicId) => {
                     tposttag pt on pt.tag_id = t.tag_id
                 where
                     pt.post_id = p.post_id
-            ) as tags,
-            array(
-                select
-                    pg.name
-                from
-                    tprivategroup pg
-                join
-                    ttag t on t.tag = pg.name
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as private_group_names
+            ) as tags
         from
             tpost p
         where
@@ -564,34 +552,12 @@ exports.validateNewPost = async (title, link, group, user_id) => {
     let [trimTags, tagErrors] = myMisc.processPostTags(group)
     errors = errors.concat(tagErrors)
 
-    // check private group permissions
-    if(!errors.length && trimTags.length) {
-        const {rows:privateGroups} = await module.exports.getPrivateGroupsWithNames(trimTags)
-
-        for(let i = 0; i < privateGroups.length; ++i) {
-            const pGroup = privateGroups[i]
-
-            if(user_id == pGroup.created_by) {
-                continue
-            }
-
-            const {rows:gMember} = await module.exports.getGroupMember(
-                pGroup.private_group_id,
-                user_id)
-
-            if(!gMember.length) {
-                errors.push({msg: "You used a private group you don't have access to"})
-                break
-            }
-        }
-    }
-
     //
     return [errors, wsCompressedTitle, trimTags]
 }
 
 //
-exports.validateEditPost = async (title, link, group, existingPrivateGroups) => {
+exports.validateEditPost = async (title, link, group) => {
 
     //
     let errors = []
@@ -615,29 +581,6 @@ exports.validateEditPost = async (title, link, group, existingPrivateGroups) => 
     //
     let [trimTags, tagErrors] = myMisc.processPostTags(group)
     errors = errors.concat(tagErrors)
-
-    // start private group check
-    const editedPrivateGroups = []
-
-    if(trimTags.length) {
-        const {rows:dataGroups} = await module.exports.getPrivateGroupsWithNames(trimTags)
-
-        for(let i = 0; i < dataGroups.length; ++i) {
-            editedPrivateGroups.push(dataGroups[i].name)
-        }
-    }
-
-    //make sure private groups are unchanged
-    //check that the lengths are equal
-    //and check that one is a subset of the other
-    const isPrivateGroupsSame =
-        existingPrivateGroups.length == editedPrivateGroups.length &&
-        existingPrivateGroups.every(v => editedPrivateGroups.includes(v))
-
-    if(!isPrivateGroupsSame) {
-        errors.push({msg: "You cannot edit private groups"})
-    }
-    // end private group check
 
     //
     return [errors, wsCompressedTitle, trimTags]
@@ -901,19 +844,7 @@ exports.getCommentWithPublic = (publicId) => {
             c.post_id,
             c.path,
             c.user_id,
-            c.text_content,
-            array(
-                select
-                    pg.private_group_id
-                from
-                    tprivategroup pg
-                join
-                    ttag t on t.tag = pg.name
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = c.post_id
-            ) as private_group_ids
+            c.text_content
         from
             tcomment c
         where
@@ -936,19 +867,7 @@ exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
             u.username,
             u.user_id,
             u.public_id as user_public_id,
-            p.public_id post_public_id,
-            array(
-                select
-                    pg.private_group_id
-                from
-                    tprivategroup pg
-                join
-                    ttag t on t.tag = pg.name
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as private_group_ids
+            p.public_id post_public_id
         from
             tcomment c
         join
@@ -1035,101 +954,6 @@ exports.createPostTags = async (trimTags, postId) => {
     }
 }
 
-exports.createPrivateGroup = (groupName, userId) => {
-    return query(`
-        insert into tprivategroup
-            (created_by, name)
-        values
-            ($1, $2)`,
-        [userId, groupName])
-}
-
-exports.getPrivateGroupWithName = (groupName) => {
-    return query(`
-        select
-            private_group_id,
-            created_by
-        from
-            tprivategroup
-        where
-            name = lower($1)`,
-        [groupName]
-    )
-}
-
-exports.getPrivateGroupsWithNames = (groupNames) => {
-    const placeholders = []
-
-    for(let i = 1; i <= groupNames.length; ++i) {
-        placeholders.push(`$${i}`)
-    }
-
-    return query(`
-        select
-            private_group_id,
-            created_by,
-            name
-        from
-            tprivategroup
-        where
-            name in(${placeholders.join()})`,
-        groupNames
-    )
-}
-
-exports.getUserCreatedPrivateGroups = (userId) => {
-    return query(`
-        select
-            name
-        from
-            tprivategroup
-        where
-            created_by = $1
-        order by
-            name`,
-        [userId]
-    )
-}
-
-exports.getUserMemberPrivateGroups = (userId) => {
-    return query(`
-        select
-            pg.name
-        from
-            tprivategroup pg
-        join
-            tgroupmember gm on gm.private_group_id = pg.private_group_id
-        where
-            gm.user_id = $1
-        order by
-            pg.name`,
-        [userId]
-    )
-}
-
-exports.getUserAllPrivateGroupIds = (userId) => {
-    return query(`
-        select
-            private_group_id
-        from
-            tprivategroup
-        where
-            created_by = $1
-
-        union
-
-        select
-            pg.private_group_id
-        from
-            tprivategroup pg
-        join
-            tgroupmember gm on gm.private_group_id = pg.private_group_id
-        where
-            gm.user_id = $2`,
-        [userId, userId]
-    )
-}
-
 exports.getTag = (tagName) => {
     return query(`
         select
@@ -1143,53 +967,6 @@ exports.getTag = (tagName) => {
     )
 }
 
-exports.validatePrivateGroup = async (groupName) => {
-
-    // this function is used to process and validate multiple groups
-    // when creating and editing posts, but we can use it for a single
-    // group here as well
-    const [cleanedGroups, groupErrors] = myMisc.processPostTags(groupName)
-
-    //
-    if(groupErrors.length) {
-        return groupErrors
-    }
-
-    //
-    if(!cleanedGroups.length) {
-        return [{msg:"Please enter a group name"}]
-    }
-
-    //
-    const errors = []
-    const cleanedGroupName = cleanedGroups[0]
-
-    //
-    if(cleanedGroupName.substr(0, 2) != 'p-') {
-        errors.push({msg: 'Private group names must start with "p-", e.g. "p-frogs"'})
-    }
-
-    //
-    if(!errors.length) {
-        const {rows:pgroup} = await module.exports.getPrivateGroupWithName(cleanedGroupName)
-
-        if(pgroup.length) {
-            errors.push({msg: 'This private group has already been claimed'})
-        }
-    }
-
-    //
-    if(!errors.length) {
-        const {rows:tagd} = await module.exports.getTag(cleanedGroupName)
-
-        if(tagd.length && tagd[0].num_posts > 0) {
-            errors.push({msg: 'This group already has public posts'})
-        }
-    }
-
-    return errors
-}
-
 exports.deletePostTags = (postId) => {
     return query(`
         delete from
@@ -1197,60 +974,6 @@ exports.deletePostTags = (postId) => {
         where
             post_id = $1`,
         [postId])
-}
-
-//private group member
-exports.createGroupMember = (groupId, userId) => {
-    return query(`
-        insert into tgroupmember
-            (private_group_id, user_id)
-        values
-            ($1, $2)`,
-        [groupId, userId])
-}
-
-exports.getGroupMember = (groupId, userId) => {
-    return query(`
-        select
-            group_member_id
-        from
-            tgroupmember
-        where
-            private_group_id = $1 and
-            user_id = $2`,
-        [groupId, userId]
-    )
-}
-
-exports.getGroupMembers = (groupId) => {
-    return query(`
-        select
-            u.public_id,
-            u.username
-        from
-            tuser u
-        join
-            tgroupmember gm on gm.user_id = u.user_id
-        where
-            gm.private_group_id = $1
-        order by
-            u.username`,
-        [groupId]
-    )
-}
-
-exports.deleteGroupMember = (privateGroupId, publicUserId) => {
-    return query(`
-        delete from
-            tgroupmember gm
-        using
-            tuser u
-        where
-            u.public_id = $1 and
-            gm.private_group_id = $2 and
-            u.user_id = gm.user_id`,
-        [publicUserId, privateGroupId]
-    )
 }
 
 //oauth client
