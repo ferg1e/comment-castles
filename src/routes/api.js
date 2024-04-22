@@ -34,17 +34,12 @@ router.get(
         const oauthData = await oauthAuthenticate(req, res)
 
         //
-        const userId = oauthData ? oauthData.user.user_id : config.adminUserId
-        const isLoggedIn = oauthData ? true : false
-
         const sort = myMisc.getPostSort(req)
         const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         const {rows} = await db.getPosts(
-            userId,
             timeZone,
             page,
-            isLoggedIn,
             sort,
             config.defaultPostsPerPage,
             config.defaultDateFormat)

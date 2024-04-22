@@ -9,9 +9,7 @@ const htmlTitleHome = config.siteName
 //
 router.route('/')
     .get(async (req, res) => {
-        let finalUserId = req.session.user ? req.session.user.user_id : config.adminUserId
-        const isLoggedIn = typeof req.session.user != 'undefined'
-
+        
         //
         let page = 1
 
@@ -28,10 +26,8 @@ router.route('/')
 
         //
         const {rows} = await db.getPosts(
-            finalUserId,
             myMisc.getCurrTimeZone(req),
             page,
-            isLoggedIn,
             sort,
             myMisc.getCurrPostsPerPage(req),
             myMisc.getCurrDateFormat(req))
