@@ -24,15 +24,11 @@ block content
         li
             a(href="#get-comment") GET /comment
         li
-            a(href="#get-follow") GET /follow
-        li
             a(href="#get-post") GET /post
         li
             a(href="#get-posts") GET /posts
         li
             a(href="#post-comment") POST /comment
-        li
-            a(href="#post-follow") POST /follow
         li
             a(href="#post-post") POST /post
         li
@@ -41,8 +37,6 @@ block content
             a(href="#put-post") PUT /post
         li
             a(href="#delete-comment") DELETE /comment
-        li
-            a(href="#delete-follow") DELETE /follow
         li
             a(href="#delete-post") DELETE /post
 
@@ -56,7 +50,6 @@ block content
     ul
         li #[b commentid]: the comment id of the comment you want to get, required
         li #[b p]: page number for subcomment pagination, there are #{commentsPerPage} subcomments per page, the default page number is 1, optional
-        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see view mode in #[a(href="/help#settings") help#settings] for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
 
     h4 Headers
 
@@ -68,21 +61,6 @@ block content
     p
         a(href="/api/v1/comment?commentid=utePeJTWFGjstaQfbVntPn") /comment?commentid=utePeJTWFGjstaQfbVntPn
 
-    h3#get-follow GET /follow
-
-    p.
-        Get all of the users that the logged in user follows.
-
-    h4 Headers
-
-    ul
-        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
-
-    h4 Examples
-
-    p.
-        #[em Invoke-RestMethod -Method GET -Uri "#{apiBaseUrl}/follow" -Headers @{Authorization='Bearer 5e480d66cbd34364629308c086435bc4b0665a2f'}]
-
     h3#get-post GET /post
 
     p.
@@ -93,7 +71,6 @@ block content
     ul
         li #[b postid]: the post id of the post you want to get, required
         li #[b p]: page number for comment pagination, there are #{commentsPerPage} comments per page, the default page number is 1, optional
-        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see view mode in #[a(href="/help#settings") help#settings] for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
 
     h4 Headers
 
@@ -115,7 +92,6 @@ block content
 
     ul
         li #[b p]: page number for post pagination, the default page number is 1, optional
-        li #[b viewmode]: if this is "discover" then the discover view mode is used, otherwise the locked view mode is used, see view mode in #[a(href="/help#settings") help#settings] for more info, if you use an authorization header then the user's view mode is pulled from the database and this param is ignored, optional
         li #[b sort]: this is for post sorting, it can be either #[em newest], #[em oldest], #[em comments] or #[em last], see #[a(href="/help#posts") posts] in help for more info, the default is #[em newest], optional
 
     h4 Headers
@@ -132,16 +108,7 @@ block content
         a(href="/api/v1/posts?p=2") /posts?p=2
 
     p
-        a(href="/api/v1/posts?viewmode=discover") /posts?viewmode=discover
-
-    p
-        a(href="/api/v1/posts?viewmode=discover&p=2") /posts?viewmode=discover&p=2
-
-    p
         a(href="/api/v1/posts?sort=comments") /posts?sort=comments
-
-    p
-        a(href="/api/v1/posts?sort=last&viewmode=discover&p=2") /posts?sort=last&viewmode=discover&p=2
 
     h3#post-comment POST /comment
 
@@ -167,26 +134,6 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/comment" -Headers @{Authorization='Bearer cb1ef3699927c3f293d4b5a116409ecf4b92707f'} -Body @{comment_id='J2nfJKIeeIIF6ScwxJL2F2';text_content='hi!';}]
-
-    h3#post-follow POST /follow
-
-    p.
-        Follow another user.
-
-    h4 Body Params
-
-    ul
-        li #[b user_id]: user id of the user you want to follow, required
-
-    h4 Headers
-
-    ul
-        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
-
-    h4 Examples
-
-    p.
-        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/follow" -Headers @{Authorization='Bearer 0f0276970a297e3bcc20d2981e1844df694377ff'} -Body @{user_id='t4TNrHnQuLNn3CBoX7bRkX'}]
 
     h3#post-post POST /post
 
@@ -275,26 +222,6 @@ block content
 
     p.
         #[em Invoke-RestMethod -Method DELETE -Uri "#{apiBaseUrl}/comment?comment_id=D38yoq7I71oSON8jrxnF9a" -Headers @{Authorization='Bearer 4932ee96e45e154bb8a766f52dbc7ee3a34f1f3a'}]
-
-    h3#delete-follow DELETE /follow
-
-    p.
-        Unfollow another user.
-
-    h4 Query Params
-
-    ul
-        li #[b user_id]: user id of the user you want to unfollow, required
-
-    h4 Headers
-
-    ul
-        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token (see #[a(href="#api-user-authentication") API User Authentication]), required
-
-    h4 Examples
-
-    p.
-        #[em Invoke-RestMethod -Method DELETE -Uri "#{apiBaseUrl}/follow?user_id=f4NX2quPhZQJuxIVByOBRj" -Headers @{Authorization='Bearer 9b9fda40952b048dc1da193e19c087ac81bfcee6'}]
 
     h3#delete-post DELETE /post
 
