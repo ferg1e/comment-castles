@@ -47,7 +47,7 @@ exports.dateFormat4 = 'FMDD/FMMM/YYYY FMHH12:MIam'
 exports.dateFormat5 = 'FMDD/FMMM/YYYY'
 exports.dateFormat6 = 'YYYY-MM-DD FMHH12:MIam'
 exports.dateFormat7 = 'YYYY-MM-DD'
-exports.defaultDateFormat = module.exports.dateFormat0
+exports.defaultDateFormat = module.exports.dateFormat1
 
 //
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
