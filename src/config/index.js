@@ -24,7 +24,7 @@ exports.defaultTheme = 'original'
 exports.singleLineCutoff = 1200
 
 //
-exports.defaultSiteWidth = 1200
+exports.defaultSiteWidth = ''
 exports.minSiteWidth = 500
 exports.maxSiteWidth = 1500
 
