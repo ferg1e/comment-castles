@@ -70,15 +70,13 @@ block content
 
     div.sort1o
         span.sort1
-            |sort:
+            a(class=(sort == '' ? 'curr-sort' : '') href=base_url) newest
             | 
-            a(href=base_url) newest
+            a(class=(sort == 'oldest' ? 'curr-sort' : '') href=`${base_url}?sort=oldest`) oldest
             | 
-            a(href=`${base_url}?sort=oldest`) oldest
+            a(class=(sort == 'comments' ? 'curr-sort' : '') href=`${base_url}?sort=comments`) comments
             | 
-            a(href=`${base_url}?sort=comments`) comments
-            | 
-            a(href=`${base_url}?sort=last`) last comment
+            a(class=(sort == 'last' ? 'curr-sort' : '') href=`${base_url}?sort=last`) last comment
 
     if posts.length
         .posts

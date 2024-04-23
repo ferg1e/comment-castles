@@ -230,7 +230,11 @@ h1 {
 }
 
 .sort1 a {
-  margin-left: 4px;
-  margin-left: .25rem;
+  margin-right: 6px;
+  margin-right: .375rem;
   text-decoration: none;
+}
+
+.curr-sort {
+  font-weight: bold;
 }
