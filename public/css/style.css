@@ -174,25 +174,6 @@ pre {
   padding: 0;
 }
 
-.alert1o {
-  margin-top: 16px;
-  margin-top: 1rem;
-}
-
-.alert2o {
-  margin-bottom: 2px;
-  margin-bottom: .125rem;
-}
-
-.alert3o {
-  margin-bottom: 16px;
-  margin-bottom: 1rem;
-}
-
-.alert1 a, .alert2 a, .alert3 a {
-  text-decoration: none;
-}
-
 #write-comment {
   margin: 16px 0 16px 0;
   margin: 1rem 0 1rem 0;
