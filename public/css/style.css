@@ -135,6 +135,10 @@ body {
   text-decoration: none;
 }
 
+.puser:hover {
+  text-decoration: underline;
+}
+
 .puser2, .cuser2 {
   text-decoration: none;
 }

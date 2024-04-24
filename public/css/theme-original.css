@@ -6,8 +6,12 @@
     color: #6d4006;
 }
 
-body, .puser, .fuser, .sort1 .curr-sort {
+body, .puser:hover, .fuser, .sort1 .curr-sort {
     color: #232323;
+}
+
+.puser {
+    color: #5d5c5c;
 }
 
 .ptitle, .ptitle-s {
