@@ -34,7 +34,7 @@ exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
 
 //
-exports.defaultPostsVerticalSpacing = 14
+exports.defaultPostsVerticalSpacing = 18
 exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
