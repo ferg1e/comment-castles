@@ -67,17 +67,14 @@ function reply(cpid, isTargetLink) {
                     const space4 = document.createTextNode(' ')
 
                     const bySpan0 = document.createElement('span')
-                    bySpan0.className = 'cby'
                     bySpan0.innerHTML = 'by'
 
                     const authorLink = document.createElement('a')
                     const authorLinkText = document.createTextNode(data.by)
-                    authorLink.className = 'cuser'
                     authorLink.appendChild(authorLinkText)
                     authorLink.href = '/u/' + data.user_public_id
 
                     const dateSpan = document.createElement('span')
-                    dateSpan.className = 'cdate'
                     dateSpan.innerText = 'on ' + data.created_on
 
                     const headerElem = document.createElement('div')
