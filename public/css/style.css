@@ -107,20 +107,6 @@ body {
   align-items: center;
 }
 
-.tag1 {
-  text-decoration: none;
-  padding: 0px 1px;
-  border-radius: 2px;
-}
-
-.puser, .fuser {
-  text-decoration: none;
-}
-
-.puser:hover {
-  text-decoration: underline;
-}
-
 .cuser {
   text-decoration: none;
 }
@@ -165,9 +151,17 @@ h1 {
   font-weight: normal;
 }
 
-.pinfo1 {
+.pinfo1-under {
   margin-top: 2px;
   margin-top: .125rem;
+}
+
+.pinfo1 a:hover, .pinfo1-under a:hover {
+  text-decoration: underline;
+}
+
+.pinfo1 a, .pinfo1-under a {
+  text-decoration: none;
 }
 
 .sort1o {

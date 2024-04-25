@@ -6,8 +6,12 @@
     color: #6d4006;
 }
 
-body, .puser, .fuser, .sort1 .curr-sort {
+body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
     color: #232323;
+}
+
+.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a {
+    color: #6c6c69;
 }
 
 .ptitle, .ptitle-s {
@@ -18,16 +22,11 @@ body, .puser, .fuser, .sort1 .curr-sort {
     color: #551a8b;
 }
 
-.tag1 {
-    color: #030303;
-    background: #e6e7dc;
-}
-
 .domname1 {
     color: #50794b;
 }
 
-.plinks a, .clinks-single a, .in-h1-url, .sort1 a {
+.clinks-single a, .in-h1-url, .sort1 a {
     color: #0000d2;
 }
 

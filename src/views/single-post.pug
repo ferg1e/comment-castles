@@ -23,7 +23,7 @@ block content
                 | 
                 span.domname1 (#{post.domain_name})
 
-        div
+        div.pinfo1
             |by 
             a(class="puser" href=`/u/${post.user_public_id}`)=post.username
 
@@ -39,7 +39,7 @@ block content
                     a(href=`/r/${tag}` class="tag1")=tag
 
             | 
-            span.plinks
+            span
                 a(href=`/p/${post.public_id}`) comments(#{post.num_comments})
 
                 if user && post.user_id == user.user_id

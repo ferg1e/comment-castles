@@ -14,10 +14,10 @@ mixin postTags(lTags)
         |to
         each tag in lTags
             | 
-            a(href=`/r/${tag}` class="tag1")=tag
+            a(href=`/r/${tag}`)=tag
 
 mixin postLinks(p)
-    span.plinks
+    span
         a(href=`/p/${p.public_id}`) comments(#{p.num_comments})
 
         if user && user.user_id == p.user_id
@@ -31,13 +31,13 @@ mixin singleLinePost(p)
     div
         +postTitle(p)
 
-        span.pinfo1-single
+        span.pinfo1
             | 
             |by 
-            a(class="puser" href=`/u/${p.user_public_id}`)=p.username
+            a(href=`/u/${p.user_public_id}`)=p.username
 
             | 
-            span(class="pdate") on #{p.created_on}
+            |on #{p.created_on}
 
             +postTags(p.tags)
 
@@ -48,12 +48,12 @@ mixin multiLinePost(p)
     div
         +postTitle(p)
 
-        div.pinfo1
+        div.pinfo1-under
             |by 
-            a(class="puser" href=`/u/${p.user_public_id}`)=p.username
+            a(href=`/u/${p.user_public_id}`)=p.username
 
             | 
-            span(class="pdate") on #{p.created_on}
+            |on #{p.created_on}
 
             +postTags(p.tags)
 
