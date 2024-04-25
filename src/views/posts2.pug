@@ -17,14 +17,13 @@ mixin postTags(lTags)
             a(href=`/r/${tag}`)=tag
 
 mixin postLinks(p)
-    span
-        a(href=`/p/${p.public_id}`) comments(#{p.num_comments})
+    a(href=`/p/${p.public_id}`) comments(#{p.num_comments})
 
-        if user && user.user_id == p.user_id
-            | 
-            a(href=`/p/${p.public_id}/edit`) edit
-            | 
-            a(href=`/p/${p.public_id}/delete`) delete
+    if user && user.user_id == p.user_id
+        | 
+        a(href=`/p/${p.public_id}/edit`) edit
+        | 
+        a(href=`/p/${p.public_id}/delete`) delete
 
 
 mixin singleLinePost(p)
