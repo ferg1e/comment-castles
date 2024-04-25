@@ -178,3 +178,8 @@ h1 {
 .curr-sort {
   font-weight: bold;
 }
+
+.no-comments {
+  margin-top: 16px;
+  margin-top: 1rem;
+}
