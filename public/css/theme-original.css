@@ -6,11 +6,11 @@
     color: #6d4006;
 }
 
-body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
+body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover, .cheader a:hover {
     color: #232323;
 }
 
-.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a {
+.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .cheader, .cheader a {
     color: #6c6c69;
 }
 
@@ -26,7 +26,7 @@ body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
     color: #50794b;
 }
 
-.clinks-single a, .in-h1-url, .sort1 a {
+.in-h1-url, .sort1 a {
     color: #0000d2;
 }
 
@@ -42,14 +42,6 @@ body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
     background: #ffcc80;
     color: #000000;
     border: 1px solid #000000;
-}
-
-.cdate, .cby {
-    color: #9b9292;
-}
-
-.cuser {
-    color: #5f5f64;
 }
 
 .clinks a {

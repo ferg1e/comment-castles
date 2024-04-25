@@ -6,11 +6,11 @@
     color: #ec93da;
 }
 
-body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
+body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover, .cheader a:hover {
     color: #fcfcfc;
 }
 
-.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a {
+.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .cheader, .cheader a {
     color: #d3d3d3;
 }
 
@@ -26,7 +26,7 @@ body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
     color: #cccccc;
 }
 
-.clinks-single a, .in-h1-url, .sort1 a {
+.in-h1-url, .sort1 a {
     color: #f1f1f1;
 }
 
@@ -42,14 +42,6 @@ body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover {
     background: #999999;
     color: #333333;
     border: 1px solid #bbbbbb;
-}
-
-.cdate, .cby {
-    color: #bbbbbb;
-}
-
-.cuser {
-    color: #cccccc;
 }
 
 .clinks a {

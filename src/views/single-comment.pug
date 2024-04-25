@@ -16,17 +16,16 @@ block content
         a(href=`/p/${post_public_id}`) !{'&lt;'} Post
 
     article.the-comment
-
-        if true
-            span(class="cby") by
+        div.cheader
+            |by
             | 
-            a(class="cuser" href=`/u/${comment.user_public_id}`)=comment.username
-
-            | 
-            span(class="cdate") on #{comment.created_on}
+            a(href=`/u/${comment.user_public_id}`)=comment.username
 
             | 
-            span.clinks-single
+            |on #{comment.created_on}
+
+            | 
+            span
                 a(href=`/c/${comment.comment_public_id}`) link
 
                 if user && comment.user_id == user.user_id
@@ -35,8 +34,8 @@ block content
                     | 
                     a(href=`/c/${comment.comment_public_id}/delete`) delete
 
-            div.the-comment-content
-                +bbCodes(comment.text_content)
+        div.the-comment-content
+            +bbCodes(comment.text_content)
 
     if user
         form(method="post" id="write-comment")
