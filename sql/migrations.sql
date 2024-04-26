@@ -238,3 +238,14 @@ drop table tfollower;
 
 alter table tuser drop post_mode;
 alter table tuser drop comment_mode;
+
+--
+create table tsub (
+    sub_id serial primary key,
+    slug varchar(32) not null,
+    lead_mod integer,
+    sub_desc text
+);
+
+insert into tsub (slug, lead_mod) values ('before', 1);
+alter table tpost add column sub_id integer not null default 1;

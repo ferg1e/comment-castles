@@ -23,7 +23,7 @@ const get = async (req, res) => {
     }
 
     //
-    const tags = (typeof req.query.group !== 'undefined')
+    const castle = (typeof req.query.group !== 'undefined')
         ? req.query.group
         : "";
 
@@ -36,7 +36,7 @@ const get = async (req, res) => {
             title: "",
             link: "",
             textContent: "",
-            tags: tags,
+            castle: castle,
             submitLabel: 'Create Post',
             heading: 'New Post',
             max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -52,11 +52,10 @@ const post = async(req, res) => {
     }
 
     //
-    const [errors, wsCompressedTitle, trimTags] = await db.validateNewPost(
+    const [errors, wsCompressedTitle, trimCastle] = await db.validateNewPost(
         req.body.title,
         req.body.link,
-        req.body.tags,
-        req.session.user.user_id)
+        req.body.castle)
 
     //
     if(errors.length) {
@@ -69,7 +68,7 @@ const post = async(req, res) => {
                 title: req.body.title,
                 link: req.body.link,
                 textContent: req.body.text_content,
-                tags: req.body.tags,
+                castle: req.body.castle,
                 submitLabel: 'Create Post',
                 heading: 'New Post',
                 max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -83,7 +82,7 @@ const post = async(req, res) => {
         wsCompressedTitle,
         req.body.text_content,
         req.body.link,
-        trimTags)
+        trimCastle)
 
     return res.redirect('/p/' + newPost.post_id)
 }

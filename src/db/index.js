@@ -209,7 +209,7 @@ exports.genUserPublicId = (userId) => {
 }
 
 //post
-exports.createPost = async (userId, title, textContent, link, trimTags) => {
+exports.createPost = async (userId, title, textContent, link, trimCastle) => {
     const newPublicPostId = genId()
     const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
@@ -223,21 +223,31 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
     }
 
     //
+    let subId = null
+    const {rows:[existingSub]} = await module.exports.getSub(trimCastle)
+
+    if(existingSub) {
+        subId = existingSub.sub_id
+    }
+    else {
+        const {rows:[newSub]} = await module.exports.createSub(trimCastle, userId)
+        subId = newSub.sub_id
+    }
+
+
+    //
     const {rows:[row]} = await query(`
         insert into tpost
             (public_id, user_id, title, text_content, link,
-            domain_name_id)
+            domain_name_id, sub_id)
         values
             ($1, $2, $3, $4, $5,
-            $6)
+            $6, $7)
         returning
             post_id, title, text_content, link, created_on`,
         [newPublicPostId, userId, title, finalTextContent, finalLink,
-        domainNameId]
+        domainNameId, subId]
     )
-
-    //
-    await module.exports.createPostTags(trimTags, row.post_id)
 
     //
     return {
@@ -248,7 +258,7 @@ exports.createPost = async (userId, title, textContent, link, trimTags) => {
         post_time: row.created_on,
         //by: v.username,
         //num_comments: v.num_comments,
-        groups: trimTags,
+        castle: trimCastle,
     }
 }
 
@@ -526,7 +536,7 @@ exports.deleteWholePost = async (postId) => {
 }
 
 //
-exports.validateNewPost = async (title, link, group, user_id) => {
+exports.validateNewPost = async (title, link, castle) => {
 
     //
     let errors = []
@@ -549,11 +559,11 @@ exports.validateNewPost = async (title, link, group, user_id) => {
     }
 
     //
-    let [trimTags, tagErrors] = myMisc.processPostTags(group)
-    errors = errors.concat(tagErrors)
+    const [trimCastle, castleErrors] = myMisc.processPostCastle(castle)
+    errors = errors.concat(castleErrors)
 
     //
-    return [errors, wsCompressedTitle, trimTags]
+    return [errors, wsCompressedTitle, trimCastle]
 }
 
 //
@@ -910,6 +920,32 @@ exports.deleteComment = async (path) => {
         where
             path <@ $1`,
         [path])
+}
+
+//sub
+exports.createSub = (slug, leadModUserId) => {
+    return query(`
+        insert into tsub
+            (slug, lead_mod)
+        values
+            (lower($1), $2)
+        returning
+            sub_id`,
+        [slug, leadModUserId]
+    )
+}
+
+//
+exports.getSub = (slug) => {
+    return query(`
+        select
+            sub_id
+        from
+            tsub
+        where
+            slug = lower($1)`,
+        [slug]
+    )
 }
 
 //tags

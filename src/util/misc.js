@@ -108,6 +108,36 @@ exports.processPostTags = (rTags) => {
 }
 
 //
+exports.processPostCastle = (castle) => {
+    const errors = []
+    const trimCastle = castle.trim().toLowerCase()
+
+    //
+    if(trimCastle === '') {
+        return [
+            trimCastle,
+            [{'msg': 'Please fill in a castle name'}]]
+    }
+
+    //
+    const isMatch = trimCastle.match(/^[0-9a-z-]+$/)
+
+    if(isMatch === null) {
+        errors.push({'msg': 'castle name can only contain numbers, letters and dashes'})
+    }
+
+    const castleLen = trimCastle.length
+    const isLenOkay = castleLen >= 3 && castleLen <= 20
+
+    if(!isLenOkay) {
+        errors.push({'msg': 'castle name must be 3-20 characters'})
+    }
+
+    //
+    return [trimCastle, errors]
+}
+
+//
 exports.validateOauthClient = (appName, redirectUri) => {
     const errors = []
 
