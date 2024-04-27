@@ -287,8 +287,6 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
             tuser u on u.user_id = p.user_id
         join
             tsub s on s.sub_id = p.sub_id
-        where
-            not is_removed
         order by
             case when $3 = '' then p.created_on end desc,
 
@@ -332,7 +330,6 @@ exports.getTagPosts = async (timeZone, page, castle, sort, pageSize, dateFormat)
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
-            not is_removed and
             s.slug = $3
         order by
             case when $4 = '' then p.created_on end desc,
@@ -405,8 +402,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
-            p.public_id = $3 and
-            not p.is_removed`,
+            p.public_id = $3`,
         [timeZone, dateFormat, publicId]
     )
 }
@@ -702,8 +698,7 @@ exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
             to_char(
                 timezone($1, c.created_on),
                 $2) created_on,
-            c.public_id,
-            c.is_removed
+            c.public_id
         from
             tcomment c
         join
@@ -738,8 +733,7 @@ exports.getPostComments = (postId, timeZone, page, dateFormat) => {
                 timezone($1, c.created_on),
                 $2) created_on,
             c.created_on created_on_raw,
-            c.public_id,
-            c.is_removed
+            c.public_id
         from
             tcomment c
         join
@@ -855,7 +849,6 @@ exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
         join
             tpost p on p.post_id = c.post_id
         where
-            not p.is_removed and
             c.public_id = $3`,
         [timeZone, dateFormat, publicId]
     )

@@ -249,3 +249,8 @@ create table tsub (
 
 insert into tsub (slug, lead_mod) values ('before', 1);
 alter table tpost add column sub_id integer not null default 1;
+
+alter table tpost drop is_removed;
+alter table tpost drop removed_on;
+alter table tcomment drop is_removed;
+alter table tcomment drop removed_on;
