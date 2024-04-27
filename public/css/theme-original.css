@@ -6,7 +6,7 @@
     color: #6d4006;
 }
 
-body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover, .cheader a:hover {
+body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover, .cheader a:hover, #curr-castle {
     color: #232323;
 }
 

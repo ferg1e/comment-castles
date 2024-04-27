@@ -7,11 +7,6 @@ body {
   margin-bottom: 3rem;
 }
 
-.main-logo {
-  font-size: 32px;
-  font-size: 2rem;
-}
-
 .main-nav, .settings-nav {
   margin-bottom: 12px;
   margin-bottom: .75rem;
@@ -95,16 +90,36 @@ body {
   text-decoration: none;
 }
 
+.main-logo {
+  display: flex;
+  align-items: center;
+}
+
+.main-logo #peaches, .main-logo #stink {
+  font-size: 32px;
+  font-size: 2rem;
+}
+
+.main-logo #curr-castle {
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.main-logo #curr-castle:hover {
+  text-decoration: underline;
+}
+
 .main-logo img {
   width: 50px;
   height: 50px;
   margin-right: 4px;
+  display: block;
 }
 
 .main-logo a {
   text-decoration: none;
-  display: flex;
-  align-items: center;
 }
 
 .cheader {
