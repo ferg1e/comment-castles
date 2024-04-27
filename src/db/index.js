@@ -70,7 +70,7 @@ exports.createUser = async (username, password) => {
                 config.defaultTimeZone,
                 config.defaultCommentReplyMode,
                 config.defaultPostLayout,
-                config.defaultSiteWidth,
+                config.defaultSiteWidth !== '' ? config.defaultSiteWidth : null,
                 config.defaultPostsPerPage,
                 config.defaultPostsVerticalSpacing,
                 config.defaultTheme,
