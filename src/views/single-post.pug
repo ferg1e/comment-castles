@@ -10,9 +10,6 @@ include bbCodes.pug
 include userContent.pug
 
 block content
-    - const pagePart = (page > 1 ? `?p=${page}` : '')
-    - const followGoto = '/p/' + post.public_id + pagePart
-
     div.the-post
         if post.link === null
             h1
@@ -25,13 +22,13 @@ block content
 
         div.pinfo1
             |by 
-            a(class="puser" href=`/u/${post.user_public_id}`)=post.username
+            a(href=`/u/${post.user_public_id}`)=post.username
 
             | 
-            span(class="pdate") on #{post.created_on}
+            |on #{post.created_on}
 
             | 
-            a(href=`/r/${post.castle}` class="tag1")=post.castle
+            a(href=`/r/${post.castle}`)=post.castle
 
             | 
             span
