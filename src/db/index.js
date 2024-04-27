@@ -357,18 +357,11 @@ exports.getPostWithPublic = (publicId) => {
             p.title,
             p.text_content,
             p.link,
-            array(
-                select
-                    t.tag
-                from
-                    ttag t
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as tags
+            s.slug castle
         from
             tpost p
+        join
+            tsub s on s.sub_id = p.sub_id
         where
             p.public_id = $1`,
         [publicId]
@@ -418,7 +411,7 @@ exports.getPostLinks = () => {
             link is not null`)
 }
 
-exports.updatePost = async (postId, title, textContent, link, trimTags) => {
+exports.updatePost = async (postId, title, textContent, link) => {
     const finalLink = link !== '' ? link : null
     const finalTextContent = textContent.trim() === '' ? null : textContent
 
@@ -442,10 +435,6 @@ exports.updatePost = async (postId, title, textContent, link, trimTags) => {
         where
             post_id = $5`,
         [title, finalLink, finalTextContent, domainNameId, postId])
-
-    //delete and recreate tags
-    await module.exports.deletePostTags(postId)
-    await module.exports.createPostTags(trimTags, postId)
 }
 
 exports.incPostNumComments = (postId) => {
@@ -533,7 +522,7 @@ exports.validateNewPost = async (title, link, castle) => {
 }
 
 //
-exports.validateEditPost = async (title, link, group) => {
+exports.validateEditPost = async (title, link) => {
 
     //
     let errors = []
@@ -555,11 +544,7 @@ exports.validateEditPost = async (title, link, group) => {
     }
 
     //
-    let [trimTags, tagErrors] = myMisc.processPostTags(group)
-    errors = errors.concat(tagErrors)
-
-    //
-    return [errors, wsCompressedTitle, trimTags]
+    return [errors, wsCompressedTitle]
 }
 
 //domain name

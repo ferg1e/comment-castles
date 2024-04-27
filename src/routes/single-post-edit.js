@@ -34,7 +34,7 @@ router.route('/')
                     title: rows[0].title,
                     link: rows[0].link === null ? '' : rows[0].link,
                     textContent: rows[0].text_content,
-                    tags: rows[0].tags.join(', '),
+                    castle: rows[0].castle,
                     submitLabel: 'Edit Post',
                     heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -66,10 +66,9 @@ router.route('/')
         }
 
         //
-        const [errors, wsCompressedTitle, trimTags] = await db.validateEditPost(
+        const [errors, wsCompressedTitle] = await db.validateEditPost(
             req.body.title,
-            req.body.link,
-            req.body.tags)
+            req.body.link)
 
         //
         if(errors.length) {
@@ -82,7 +81,7 @@ router.route('/')
                     title: req.body.title,
                     link: req.body.link,
                     textContent: req.body.text_content,
-                    tags: req.body.tags,
+                    castle: row[0].castle,
                     submitLabel: 'Edit Post',
                     heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -95,8 +94,7 @@ router.route('/')
             row.post_id,
             wsCompressedTitle,
             req.body.text_content,
-            req.body.link,
-            trimTags)
+            req.body.link)
 
         //
         return res.redirect('/p/' + postPublicId)
