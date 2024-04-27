@@ -487,7 +487,6 @@ exports.deletePost = (postId) => {
 exports.deleteWholePost = async (postId) => {
     await module.exports.deletePost(postId)
     await module.exports.deletePostComments(postId)
-    await module.exports.deletePostTags(postId)
 }
 
 //

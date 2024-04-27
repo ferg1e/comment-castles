@@ -253,15 +253,9 @@ router.put(
             : req.body.text_content
 
         //
-        const fTags = typeof req.body.tags === 'undefined'
-            ? row.tags.join(',')
-            : req.body.tags
-
-        //
-        const [errors, wsCompressedTitle, trimTags] = await db.validateEditPost(
+        const [errors, wsCompressedTitle] = await db.validateEditPost(
             fTitle,
-            fLink,
-            fTags)
+            fLink)
 
         //
         if(errors.length) {
@@ -275,8 +269,7 @@ router.put(
             row.post_id,
             wsCompressedTitle,
             fTextContent,
-            fLink,
-            trimTags)
+            fLink)
 
         //
         return res.json({
