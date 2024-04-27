@@ -30,13 +30,8 @@ block content
             | 
             span(class="pdate") on #{post.created_on}
 
-            if post.tags.length
-                | 
-                |to
-
-                each tag in post.tags
-                    | 
-                    a(href=`/r/${tag}` class="tag1")=tag
+            | 
+            a(href=`/r/${post.castle}` class="tag1")=post.castle
 
             | 
             span

@@ -395,20 +395,13 @@ exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
             p.link,
             p.num_comments,
             dn.domain_name,
-            array(
-                select
-                    t.tag
-                from
-                    ttag t
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as tags
+            s.slug castle
         from
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        join
+            tsub s on s.sub_id = p.sub_id
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
