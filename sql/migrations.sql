@@ -254,3 +254,7 @@ alter table tpost drop is_removed;
 alter table tpost drop removed_on;
 alter table tcomment drop is_removed;
 alter table tcomment drop removed_on;
+
+alter table tpost drop num_spam_votes;
+alter table tcomment drop num_spam_votes;
+alter table tuser drop email;
