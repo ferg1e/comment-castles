@@ -280,19 +280,13 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
                 when p.domain_name_id is null then null
                 else (select domain_name from tdomainname where domain_name_id = p.domain_name_id)
                 end domain_name,
-            array(
-                select
-                    t.tag
-                from
-                    ttag t
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id) tags
+            s.slug castle
         from
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        join
+            tsub s on s.sub_id = p.sub_id
         where
             not is_removed
         order by
@@ -314,7 +308,7 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (timeZone, page, tag, sort, pageSize, dateFormat) => {
+exports.getTagPosts = async (timeZone, page, castle, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -328,35 +322,18 @@ exports.getTagPosts = async (timeZone, page, tag, sort, pageSize, dateFormat) =>
             p.link,
             p.num_comments,
             dn.domain_name,
-            array(
-                select
-                    t.tag
-                from
-                    ttag t
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    pt.post_id = p.post_id
-            ) as tags
+            s.slug castle
         from
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        join
+            tsub s on s.sub_id = p.sub_id
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
             not is_removed and
-            exists(
-                select
-                    1
-                from
-                    ttag t
-                join
-                    tposttag pt on pt.tag_id = t.tag_id
-                where
-                    t.tag = $3 and
-                    pt.post_id = p.post_id
-            )
+            s.slug = $3
         order by
             case when $4 = '' then p.created_on end desc,
 
@@ -371,7 +348,7 @@ exports.getTagPosts = async (timeZone, page, tag, sort, pageSize, dateFormat) =>
             $10
         offset
             $11`,
-        [timeZone, dateFormat, tag, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
+        [timeZone, dateFormat, castle, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
     )
 }
 

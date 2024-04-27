@@ -8,14 +8,6 @@ mixin postTitle(p)
         | 
         span.domname1 (#{p.domain_name})
 
-mixin postTags(lTags)
-    if lTags.length
-        | 
-        |to
-        each tag in lTags
-            | 
-            a(href=`/r/${tag}`)=tag
-
 mixin postLinks(p)
     a(href=`/p/${p.public_id}`) comments(#{p.num_comments})
 
@@ -38,7 +30,8 @@ mixin singleLinePost(p)
             | 
             |on #{p.created_on}
 
-            +postTags(p.tags)
+            | 
+            a(href=`/r/${p.castle}`)=p.castle
 
             | 
             +postLinks(p)
@@ -54,7 +47,8 @@ mixin multiLinePost(p)
             | 
             |on #{p.created_on}
 
-            +postTags(p.tags)
+            | 
+            a(href=`/r/${p.castle}`)=p.castle
 
             | 
             +postLinks(p)

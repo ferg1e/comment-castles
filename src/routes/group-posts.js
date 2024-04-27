@@ -8,7 +8,7 @@ const router = express.Router({mergeParams: true})
 router.get(
     '/',
     async (req, res) => {
-        const tag = req.params[0]
+        const castle = req.params[0]
 
         //
         let page = 1
@@ -17,7 +17,7 @@ router.get(
             page = parseInt(req.query.p)
 
             if(isNaN(page)) {
-                return res.redirect(`/r/${tag}`)
+                return res.redirect(`/r/${castle}`)
             }
         }
 
@@ -28,7 +28,7 @@ router.get(
         const {rows} = await db.getTagPosts(
             myMisc.getCurrTimeZone(req),
             page,
-            tag,
+            castle,
             sort,
             myMisc.getCurrPostsPerPage(req),
             myMisc.getCurrDateFormat(req))
@@ -36,14 +36,14 @@ router.get(
         res.render(
             'posts2',
             {
-                html_title: tag,
+                html_title: castle,
                 user: req.session.user,
                 posts: rows,
                 page: page,
-                base_url: `/r/${tag}`,
+                base_url: `/r/${castle}`,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 post_layout: myMisc.getCurrPostLayout(req),
-                page_tag: tag,
+                page_tag: castle,
                 sort: sort,
                 posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
             })
