@@ -54,13 +54,6 @@ mixin multiLinePost(p)
             +postLinks(p)
 
 block content
-    if page_tag
-        h1
-            |r/#{page_tag}
-            if user
-                | 
-                a(href=`/new?group=${page_tag}` class="in-h1-url") new post
-
     div.sort1o
         span.sort1
             a(class=(sort == '' ? 'curr-sort' : '') href=base_url) newest

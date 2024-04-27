@@ -59,7 +59,8 @@ html
                 span#peaches Comment
                 | 
                 span#stink Castles
-            a(href="/r/meta")#curr-castle meta
+            if curr_castle
+              a(href=`/r/${curr_castle}`)#curr-castle=curr_castle
         nav.main-nav
           ul
             li

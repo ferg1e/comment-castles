@@ -43,7 +43,7 @@ router.get(
                 base_url: `/r/${castle}`,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 post_layout: myMisc.getCurrPostLayout(req),
-                page_tag: castle,
+                curr_castle: castle,
                 sort: sort,
                 posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
             })
