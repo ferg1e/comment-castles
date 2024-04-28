@@ -175,11 +175,11 @@ h1 {
   margin-top: .125rem;
 }
 
-.pinfo1 a:hover, .pinfo1-under a:hover {
+.pinfo1 a:hover, .pinfo1-under a:hover, .pinfo-s a:hover {
   text-decoration: underline;
 }
 
-.pinfo1 a, .pinfo1-under a {
+.pinfo1 a, .pinfo1-under a, .pinfo-s a {
   text-decoration: none;
 }
 
