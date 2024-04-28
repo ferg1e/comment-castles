@@ -6,11 +6,11 @@
     color: #6d4006;
 }
 
-body, .fuser, .sort1 .curr-sort, .pinfo1 a:hover, .pinfo1-under a:hover, .cheader a:hover, #curr-castle {
+body, .fuser, .sort1 .curr-sort, .cheader a:hover, #curr-castle, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
     color: #232323;
 }
 
-.pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .cheader, .cheader a {
+.cheader, .cheader a, .pinfo1 a:hover, .pinfo1-under a:hover, .pinfo-s, .pinfo-s a {
     color: #6c6c69;
 }
 
