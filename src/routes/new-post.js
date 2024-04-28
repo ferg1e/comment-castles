@@ -23,8 +23,8 @@ const get = async (req, res) => {
     }
 
     //
-    const castle = (typeof req.query.group !== 'undefined')
-        ? req.query.group
+    const castle = (typeof req.query.castle !== 'undefined')
+        ? req.query.castle
         : "";
 
     return res.render(

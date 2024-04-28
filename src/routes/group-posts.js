@@ -11,6 +11,16 @@ router.get(
         const castle = req.params[0]
 
         //
+        const {rows:[sub]} = await db.getSub(castle)
+
+        //
+        if(!sub) {
+            return myMisc.renderMessage(req, res, sub,
+                `The ${castle} castle does not exist yet. ` +
+                `You can start this castle by <a href="/new?castle=${castle}">posting</a> to it.`)
+        }
+
+        //
         let page = 1
 
         if(typeof req.query.p !== 'undefined') {
