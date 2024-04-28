@@ -80,7 +80,7 @@ router.route('/')
                     title: req.body.title,
                     link: req.body.link,
                     textContent: req.body.text_content,
-                    castle: row[0].castle,
+                    castle: row.castle,
                     submitLabel: 'Edit Post',
                     heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
