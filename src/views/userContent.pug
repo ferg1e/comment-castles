@@ -28,5 +28,7 @@ mixin ucListComment(pComment, pUser, pCommentReplyMode, isTargetLink)
             if pUser && pUser.user_id == pComment.user_id
                 | 
                 a(href=`/c/${pComment.public_id}/edit`) edit
+
+            if pUser && (pUser.user_id == pComment.user_id || pUser.user_id == adminUserId)
                 | 
                 a(href=`/c/${pComment.public_id}/delete`) delete

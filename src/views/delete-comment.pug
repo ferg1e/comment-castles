@@ -7,9 +7,9 @@ block content
     h1 Delete Comment
 
     div
-        |Are you sure you want to delete your comment that starts with "
+        |Are you sure you want to delete the comment that starts with "
         |#{text_content.substring(0, 40)}"? The comment and all its sub comments will be permanently deleted.
 
     form(method="post")
         input(type="hidden" name="sflag" value="cat")
-        input(type="submit" value="Yes, Delete My Comment")
+        input(type="submit" value="Yes, Delete This Comment")
