@@ -23,9 +23,10 @@ block content
             label(for="text_content") Content (optional)
             textarea(name="text_content" id="text_content") #{textContent}
 
-        div
-            label(for="castle") Castle
-            input(name="castle" id="castle" value=`${castle}`)
+        if is_castle
+            div
+                label(for="castle") Castle
+                input(name="castle" id="castle" value=`${castle}`)
 
         div
             input(type="submit" value=submitLabel)

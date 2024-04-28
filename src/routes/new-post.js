@@ -39,6 +39,7 @@ const get = async (req, res) => {
             castle: castle,
             submitLabel: 'Create Post',
             heading: 'New Post',
+            is_castle: true,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         }
     )
@@ -71,6 +72,7 @@ const post = async(req, res) => {
                 castle: req.body.castle,
                 submitLabel: 'Create Post',
                 heading: 'New Post',
+                is_castle: true,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             }
         )
