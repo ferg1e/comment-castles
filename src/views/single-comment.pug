@@ -25,16 +25,15 @@ block content
             |on #{comment.created_on}
 
             | 
-            span
-                a(href=`/c/${comment.comment_public_id}`) link
+            a(href=`/c/${comment.comment_public_id}`) link
 
-                if user && comment.user_id == user.user_id
-                    | 
-                    a(href=`/c/${comment.comment_public_id}/edit`) edit
+            if user && comment.user_id == user.user_id
+                | 
+                a(href=`/c/${comment.comment_public_id}/edit`) edit
 
-                if user && (comment.user_id == user.user_id || adminUserId == user.user_id)
-                    | 
-                    a(href=`/c/${comment.comment_public_id}/delete`) delete
+            if user && (comment.user_id == user.user_id || adminUserId == user.user_id)
+                | 
+                a(href=`/c/${comment.comment_public_id}/delete`) delete
 
         div.the-comment-content
             +bbCodes(comment.text_content)
