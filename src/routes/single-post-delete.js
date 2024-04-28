@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const config = require('../config')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Delete Post'
@@ -23,7 +24,7 @@ router.route('/')
         }
 
         //
-        if(rows[0].user_id != req.session.user.user_id) {
+        if(!(rows[0].user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId)) {
             return res.send('wrong user...')
         }
 
@@ -54,7 +55,7 @@ router.route('/')
         }
 
         //
-        if(rows[0].user_id != req.session.user.user_id) {
+        if(!(rows[0].user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId)) {
             return res.send('wrong user...')
         }
 
