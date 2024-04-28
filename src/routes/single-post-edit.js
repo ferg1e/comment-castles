@@ -1,5 +1,4 @@
 const express = require('express')
-const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
