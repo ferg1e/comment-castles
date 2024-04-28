@@ -115,6 +115,7 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             user: req.session.user,
             post: row,
+            curr_castle: row.castle,
             comments,
             errors,
             comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
