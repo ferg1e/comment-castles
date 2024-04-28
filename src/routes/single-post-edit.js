@@ -34,6 +34,7 @@ router.route('/')
                     link: rows[0].link === null ? '' : rows[0].link,
                     textContent: rows[0].text_content,
                     castle: rows[0].castle,
+                    curr_castle: rows[0].castle,
                     submitLabel: 'Edit Post',
                     heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -80,7 +81,7 @@ router.route('/')
                     title: req.body.title,
                     link: req.body.link,
                     textContent: req.body.text_content,
-                    castle: row.castle,
+                    curr_castle: row.castle,
                     submitLabel: 'Edit Post',
                     heading: 'Edit Post',
                     max_width: myMisc.getCurrSiteMaxWidth(req)
