@@ -802,9 +802,14 @@ exports.getCommentWithPublic = (publicId) => {
             c.post_id,
             c.path,
             c.user_id,
-            c.text_content
+            c.text_content,
+            s.slug castle
         from
             tcomment c
+        join
+            tpost p on p.post_id = c.post_id
+        join
+            tsub s on s.sub_id = p.sub_id
         where
             c.public_id = $1`,
         [publicId]

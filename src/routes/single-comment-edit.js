@@ -31,6 +31,7 @@ router.route('/')
                     user: req.session.user,
                     errors: [],
                     textContent: rows[0].text_content,
+                    curr_castle: rows[0].castle,
                     max_width: myMisc.getCurrSiteMaxWidth(req)
                 })
         }
@@ -67,6 +68,7 @@ router.route('/')
                             user: req.session.user,
                             errors: errors,
                             textContent: "",
+                            curr_castle: rows[0].castle,
                             max_width: myMisc.getCurrSiteMaxWidth(req)
                         })
                 }
