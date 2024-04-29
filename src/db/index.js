@@ -825,13 +825,16 @@ exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
             u.username,
             u.user_id,
             u.public_id as user_public_id,
-            p.public_id post_public_id
+            p.public_id post_public_id,
+            s.slug castle
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         join
             tpost p on p.post_id = c.post_id
+        join
+            tsub s on s.sub_id = p.sub_id
         where
             c.public_id = $3`,
         [timeZone, dateFormat, publicId]

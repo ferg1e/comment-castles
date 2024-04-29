@@ -54,7 +54,8 @@ router.route('/')
                     comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                     max_width: myMisc.getCurrSiteMaxWidth(req),
                     page: page,
-                    total_pages: totalPages
+                    total_pages: totalPages,
+                    curr_castle: rows[0].castle,
                 }
             )
         }
@@ -115,7 +116,8 @@ router.route('/')
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
                                 page,
-                                total_pages: totalPages
+                                total_pages: totalPages,
+                                curr_castle: rows[0].castle,
                             }
                         )
                     }
