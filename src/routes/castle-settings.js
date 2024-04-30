@@ -20,9 +20,7 @@ const get = async (req, res) => {
 
     //
     if(!sub) {
-        return myMisc.renderMessage(req, res, castle,
-            `The ${castle} castle does not exist yet. ` +
-            `You can start this castle by <a href="/new?castle=${castle}">posting</a> to it.`)
+        return myMisc.renderNoSubMessage(req, res, castle)
     }
 
     //
@@ -58,9 +56,7 @@ const post = async(req, res) => {
 
     //
     if(!sub) {
-        return myMisc.renderMessage(req, res, castle,
-            `The ${castle} castle does not exist yet. ` +
-            `You can start this castle by <a href="/new?castle=${castle}">posting</a> to it.`)
+        return myMisc.renderNoSubMessage(req, res, castle)
     }
 
     //
