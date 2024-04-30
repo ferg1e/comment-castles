@@ -15,7 +15,7 @@ router.get(
 
         //
         if(!sub) {
-            return myMisc.renderMessage(req, res, sub,
+            return myMisc.renderMessage(req, res, castle,
                 `The ${castle} castle does not exist yet. ` +
                 `You can start this castle by <a href="/new?castle=${castle}">posting</a> to it.`)
         }

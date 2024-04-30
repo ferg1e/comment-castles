@@ -894,12 +894,29 @@ exports.createSub = (slug, leadModUserId) => {
 exports.getSub = (slug) => {
     return query(`
         select
-            sub_id
+            sub_id,
+            lead_mod,
+            sub_desc
         from
             tsub
         where
             slug = lower($1)`,
         [slug]
+    )
+}
+
+//
+exports.updateSub = (subId, desc) => {
+    const finalDesc = desc.trim() === '' ? null : desc
+
+    return query(`
+        update
+            tsub
+        set
+            sub_desc = $1
+        where
+            sub_id = $2`,
+        [finalDesc, subId]
     )
 }
 

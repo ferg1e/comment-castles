@@ -1,0 +1,24 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href=`${cssDir}/castle-settings.css`)
+
+block content
+    h1 #{curr_castle} Settings
+
+    if success
+        ul.usuccess1
+            li=success
+
+    if errors.length
+        ul.uerror1
+            each error in errors
+                li=error.msg
+
+    form(method="post")
+        div
+            label(for="desc") Description
+            textarea(name="desc" id="desc")=desc
+
+        div
+            input(type="submit" value="Save")

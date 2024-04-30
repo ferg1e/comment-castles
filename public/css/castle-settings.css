@@ -1,0 +1,19 @@
+form > div {
+    margin-bottom: 12px;
+}
+
+form label {
+    display: block;
+}
+
+form #desc {
+    width: 370px;
+    height: 200px;
+}
+
+/**/
+@media(max-width: 480px) {
+    form #desc {
+        width: 90%;
+    }
+}

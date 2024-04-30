@@ -70,6 +70,7 @@ app.use(/^\/c\/([a-z0-9]{22})\/edit$/i, require('./src/routes/single-comment-edi
 app.use(/^\/c\/([a-z0-9]{22})\/delete$/i, require('./src/routes/single-comment-delete'))
 app.use(/^\/u\/([a-z0-9]{22})$/i, require('./src/routes/user-profile'))
 app.use(/^\/r\/([a-z0-9-]{3,20})$/, require('./src/routes/group-posts'))
+app.use(/^\/r\/([a-z0-9-]{3,20})\/settings$/, require('./src/routes/castle-settings'))
 app.use('/inbox/', require('./src/routes/inbox'))
 app.use('/api/v1/', require('./src/routes/api'))
 app.use('/api/ajax/', require('./src/routes/ajax'))
