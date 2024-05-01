@@ -894,11 +894,15 @@ exports.createSub = (slug, leadModUserId) => {
 exports.getSub = (slug) => {
     return query(`
         select
-            sub_id,
-            lead_mod,
-            sub_desc
+            s.sub_id,
+            s.lead_mod,
+            s.sub_desc,
+            u.public_id lead_mod_public_id,
+            u.username lead_mod_username
         from
-            tsub
+            tsub s
+        join
+            tuser u on u.user_id = s.lead_mod
         where
             slug = lower($1)`,
         [slug]

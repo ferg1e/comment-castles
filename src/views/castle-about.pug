@@ -1,0 +1,18 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href=`${cssDir}/castle-about.css`)
+
+include bbCodes.pug
+
+block content
+    h1 About #{curr_castle}
+
+    |Moderator: 
+    a(href=`/u/${lead_mod_public_id}`)=lead_mod_username
+
+    div#description
+        if desc
+            +bbCodes(desc)
+        else
+            |There's no description for this castle/sub.
