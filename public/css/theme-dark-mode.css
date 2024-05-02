@@ -6,7 +6,11 @@
     color: #ec93da;
 }
 
-body, .fuser, .sort1 .curr-sort, .cheader a:hover, #curr-castle, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
+#curr-castle, .main-nav .sub-nav-item {
+    color: #86d688;
+}
+
+body, .fuser, .sort1 .curr-sort, .cheader a:hover, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
     color: #fcfcfc;
 }
 

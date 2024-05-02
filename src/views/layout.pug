@@ -94,6 +94,12 @@ html
                 a(href="/settings") settings
               li
                 a(href="/help") help
+
+            if curr_castle
+              li
+                a(href=`/r/${curr_castle}/about` class="sub-nav-item") about
+              li
+                a(href=`/r/${curr_castle}/settings` class="sub-nav-item") settings
       main(class=main_class ? main_class : '')
         block content
       footer.main-footer
