@@ -25,6 +25,7 @@ const get = async (req, res) => {
             html_title: `About ${castle}`,
             user: req.session.user,
             desc: sub.sub_desc,
+            lead_mod_user_id: sub.lead_mod,
             lead_mod_public_id: sub.lead_mod_public_id,
             lead_mod_username: sub.lead_mod_username,
             curr_castle: castle,
