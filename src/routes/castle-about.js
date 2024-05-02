@@ -28,7 +28,8 @@ const get = async (req, res) => {
             lead_mod_public_id: sub.lead_mod_public_id,
             lead_mod_username: sub.lead_mod_username,
             curr_castle: castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            main_class: 'main-text'
         }
     )
 }
