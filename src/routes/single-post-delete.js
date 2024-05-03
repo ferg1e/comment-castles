@@ -35,6 +35,7 @@ router.route('/')
                 html_title: htmlTitle,
                 user: req.session.user,
                 title: rows[0].title,
+                lead_mod_user_id: rows[0].lead_mod,
                 curr_castle: rows[0].castle,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
@@ -68,6 +69,7 @@ router.route('/')
                 html_title: htmlTitle,
                 message: "The post and all of its comments (if any) were successfully deleted.",
                 user: req.session.user,
+                lead_mod_user_id: rows[0].lead_mod,
                 curr_castle: rows[0].castle,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })

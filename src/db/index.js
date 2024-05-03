@@ -357,7 +357,8 @@ exports.getPostWithPublic = (publicId) => {
             p.title,
             p.text_content,
             p.link,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tpost p
         join
@@ -385,7 +386,8 @@ exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
             p.link,
             p.num_comments,
             dn.domain_name,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tpost p
         join
@@ -803,7 +805,8 @@ exports.getCommentWithPublic = (publicId) => {
             c.path,
             c.user_id,
             c.text_content,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tcomment c
         join
@@ -831,7 +834,8 @@ exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
             u.user_id,
             u.public_id as user_public_id,
             p.public_id post_public_id,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tcomment c
         join

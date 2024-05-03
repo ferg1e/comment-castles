@@ -36,6 +36,7 @@ const get = async (req, res) => {
             user: req.session.user,
             errors: [],
             desc: sub.sub_desc,
+            lead_mod_user_id: sub.lead_mod,
             curr_castle: castle,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         }
@@ -76,6 +77,7 @@ const post = async(req, res) => {
             success: 'Settings successfully saved.',
             errors: [],
             desc: req.body.desc,
+            lead_mod_user_id: sub.lead_mod,
             curr_castle: castle,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         }

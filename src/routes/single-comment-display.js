@@ -55,6 +55,7 @@ router.route('/')
                     max_width: myMisc.getCurrSiteMaxWidth(req),
                     page: page,
                     total_pages: totalPages,
+                    lead_mod_user_id: rows[0].lead_mod,
                     curr_castle: rows[0].castle,
                 }
             )
@@ -117,6 +118,7 @@ router.route('/')
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
                                 page,
                                 total_pages: totalPages,
+                                lead_mod_user_id: rows[0].lead_mod,
                                 curr_castle: rows[0].castle,
                             }
                         )
