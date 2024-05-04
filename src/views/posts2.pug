@@ -15,7 +15,7 @@ mixin postLinks(p)
         | 
         a(href=`/p/${p.public_id}/edit`) edit
 
-    if user && (user.user_id == p.user_id || user.user_id == adminUserId)
+    if user && (user.user_id == p.user_id || user.user_id == adminUserId || user.user_id == p.lead_mod)
         | 
         a(href=`/p/${p.public_id}/delete`) delete
 

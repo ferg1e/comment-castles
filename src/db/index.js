@@ -280,7 +280,8 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
                 when p.domain_name_id is null then null
                 else (select domain_name from tdomainname where domain_name_id = p.domain_name_id)
                 end domain_name,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tpost p
         join
@@ -320,7 +321,8 @@ exports.getTagPosts = async (timeZone, page, castle, sort, pageSize, dateFormat)
             p.link,
             p.num_comments,
             dn.domain_name,
-            s.slug castle
+            s.slug castle,
+            s.lead_mod
         from
             tpost p
         join
