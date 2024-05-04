@@ -72,21 +72,21 @@ exports.processPostCastle = (castle) => {
     if(trimCastle === '') {
         return [
             trimCastle,
-            [{'msg': 'Please fill in a castle name'}]]
+            [{'msg': 'Please fill in a sub'}]]
     }
 
     //
     const isMatch = trimCastle.match(/^[0-9a-z-]+$/)
 
     if(isMatch === null) {
-        errors.push({'msg': 'castle name can only contain numbers, letters and dashes'})
+        errors.push({'msg': 'sub can only contain numbers, letters and dashes'})
     }
 
     const castleLen = trimCastle.length
     const isLenOkay = castleLen >= 3 && castleLen <= 20
 
     if(!isLenOkay) {
-        errors.push({'msg': 'castle name must be 3-20 characters'})
+        errors.push({'msg': 'sub must be 3-20 characters'})
     }
 
     //
