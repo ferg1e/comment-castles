@@ -24,7 +24,7 @@ router.route('/')
         }
 
         //
-        if(!(rows[0].user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id)) {
+        if(!(rows[0].user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || rows[0].lead_mod == req.session.user.user_id)) {
             return res.send('wrong user...')
         }
 
@@ -57,7 +57,7 @@ router.route('/')
         }
 
         //
-        if(!(rows[0].user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id)) {
+        if(!(rows[0].user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || rows[0].lead_mod == req.session.user.user_id)) {
             return res.send('wrong user...')
         }
 

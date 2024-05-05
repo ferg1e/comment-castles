@@ -10,6 +10,8 @@ include bbCodes.pug
 include userContent.pug
 
 block content
+    - const isSubModLoggedIn = user && (post.lead_mod == user.user_id)
+
     div.the-post
         if post.link === null
             h1
@@ -38,7 +40,7 @@ block content
                 | 
                 a(href=`/p/${post.public_id}/edit`) edit
 
-            if user && (post.user_id == user.user_id || user.user_id == adminUserId)
+            if user && (post.user_id == user.user_id || user.user_id == adminUserId || isSubModLoggedIn)
                 | 
                 a(href=`/p/${post.public_id}/delete`) delete
 
@@ -78,13 +80,13 @@ block content
                         - ++i
 
                     <li>
-                    +ucListComment(comment, user, comment_reply_mode, true)
+                    +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     - isFirst = false
                     - currIndent = commentIndent
                 else 
                     if commentIndent > currIndent
                         <ul><li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
                         - let n = 0
@@ -96,10 +98,10 @@ block content
                             - ++n
                         
                         <li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     else
                         </li><li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     
                     - currIndent = commentIndent
 

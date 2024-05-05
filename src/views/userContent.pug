@@ -1,4 +1,4 @@
-mixin ucListComment(pComment, pUser, pCommentReplyMode, isTargetLink)
+mixin ucListComment(pComment, pUser, pCommentReplyMode, isTargetLink, isSubModLoggedIn)
     div(id=pComment.public_id)
         div.cheader
             |by
@@ -29,6 +29,6 @@ mixin ucListComment(pComment, pUser, pCommentReplyMode, isTargetLink)
                 | 
                 a(href=`/c/${pComment.public_id}/edit`) edit
 
-            if pUser && (pUser.user_id == pComment.user_id || pUser.user_id == adminUserId)
+            if pUser && (pUser.user_id == pComment.user_id || pUser.user_id == adminUserId || isSubModLoggedIn)
                 | 
                 a(href=`/c/${pComment.public_id}/delete`) delete
