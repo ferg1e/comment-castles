@@ -136,7 +136,7 @@ router.get(
                 author_username: rows[0].username,
                 author_user_id: rows[0].user_public_id,
                 comments: comments2,
-                castle: rows[0].castle
+                sub: rows[0].castle
             }
 
             res.json(r)
