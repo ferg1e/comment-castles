@@ -58,7 +58,7 @@ router.get(
                 author_username: v.username,
                 author_user_id: v.user_public_id,
                 num_comments: v.num_comments,
-                groups: v.tags
+                sub: v.castle
             })
         }
 
