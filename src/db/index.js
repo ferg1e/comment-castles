@@ -35,7 +35,7 @@ exports.createUser = async (username, password) => {
     SQL column defaults so that we can easily change the defaults
     one place (ie. in the config file).
     */
-    const {rows} = await argon2.hash(password)
+    return await argon2.hash(password)
         .then(hash => query(`
             insert into tuser (
                 username,
@@ -76,9 +76,6 @@ exports.createUser = async (username, password) => {
                 config.defaultTheme,
                 config.defaultDateFormat,
             ]))
-
-    //
-    return rows
 }
 
 exports.getUserWithUsername = (username) => {

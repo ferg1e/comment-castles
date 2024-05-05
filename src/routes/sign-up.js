@@ -7,35 +7,83 @@ const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
 const htmlTitleSignUp = 'Sign Up'
 
-router.get(
-    '/',
-    async (req, res) => {
-        if(req.session.user) {
-            res.render(
-                'message',
-                {
-                    html_title: htmlTitleSignUp,
-                    message: "You already signed up." +
-                        " If you want to create another account then please <a href=\"/logout\">log out</a>.",
-                    user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
-        else {
+const get = async (req, res) => {
 
-            //
-            res.render(
-                'sign-up',
-                {
-                    html_title: htmlTitleSignUp,
-                    errors:[],
-                    username: "",
-                    is_login: "yes",
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
+    //
+    if(req.session.user) {
+        return myMisc.renderMessage(req, res, htmlTitleSignUp,
+            "You already signed up. If you want to create another account then please <a href=\"/logout\">log out</a>.")
     }
-)
+
+    //
+    return res.render(
+        'sign-up',
+        {
+            html_title: htmlTitleSignUp,
+            errors:[],
+            username: "",
+            is_login: "yes",
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        }
+    )
+}
+
+const post = async(req, res) => {
+
+    //
+    const errors = validationResult(req).array({onlyFirstError:true})
+
+    //
+    if(errors.length > 0) {
+        return res.render(
+            'sign-up',
+            {
+                html_title: htmlTitleSignUp,
+                errors: errors,
+                username: req.body.username,
+                is_login: req.body.is_login,
+                max_width: myMisc.getCurrSiteMaxWidth(req)
+            }
+        )
+    }
+
+    //
+    const {username, password} = req.body
+
+    try {
+        var {rows:[newUser]} = await db.createUser(username, password)
+    }
+    catch(err) {
+        console.log(err)
+        const errorMessage = (err.constraint == 'username_unique_idx')
+            ? `"${username}" already taken`
+            : 'unknown error, please try again'
+        
+        //
+        return res.render(
+            'sign-up',
+            {
+                html_title: htmlTitleSignUp,
+                errors:[{msg:errorMessage}],
+                username: req.body.username,
+                is_login: req.body.is_login,
+                max_width: myMisc.getCurrSiteMaxWidth(req)
+            })
+    }
+
+    //
+    if(req.body.is_login === 'yes') {
+        req.session.user = newUser
+        return res.redirect('/')
+    }
+
+    //
+    return myMisc.renderMessage(req, res, htmlTitleSignUp,
+        "Sign up was successful, you can now <a href=\"/login\">log in</a>.")
+}
+
+//
+router.get('/', get)
 
 router.post(
     '/',
@@ -45,75 +93,6 @@ router.post(
     body('password', 'Password must be 9-100 characters')
         .notEmpty().withMessage('Please fill in a password')
         .matches(/^.{9,100}$/),
-    async (req, res) => {
-
-        //
-        let errors = validationResult(req).array({onlyFirstError:true})
-
-        //
-        if(errors.length) {
-            res.render(
-                'sign-up',
-                {
-                    html_title: htmlTitleSignUp,
-                    errors:errors,
-                    username: req.body.username,
-                    is_login: req.body.is_login,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
-                })
-        }
-        else {
-            const {username, password} = req.body
-
-            try {
-                var rows = await db.createUser(username, password)
-            }
-            catch(err) {
-                let errorMessage = (err.constraint == 'username_unique_idx')
-                    ? `"${username}" already taken`
-                    : 'unknown error, please try again'
-                
-                //
-                return res.render(
-                    'sign-up',
-                    {
-                        html_title: htmlTitleSignUp,
-                        errors:[{msg:errorMessage}],
-                        username: req.body.username,
-                        is_login: req.body.is_login,
-                        max_width: myMisc.getCurrSiteMaxWidth(req)
-                    })
-            }
-
-            if(req.body.is_login === 'yes') {
-                req.session.user = {
-                    user_id: rows[0].user_id,
-                    public_id: rows[0].public_id,
-                    username: rows[0].username,
-                    time_zone: rows[0].time_zone,
-                    post_layout: rows[0].post_layout,
-                    posts_per_page: rows[0].posts_per_page,
-                    posts_vertical_spacing: rows[0].posts_vertical_spacing,
-                    theme: rows[0].theme,
-                    comment_reply_mode: rows[0].comment_reply_mode,
-                    site_width: rows[0].site_width,
-                    date_format: rows[0].date_format,
-                }
-
-                return res.redirect('/')
-            }
-            else {
-                res.render(
-                    'message',
-                    {
-                        html_title: htmlTitleSignUp,
-                        message: "Sign up was successful, you can now <a href=\"/login\">log in</a>.",
-                        user: req.session.user,
-                        max_width: myMisc.getCurrSiteMaxWidth(req)
-                    })
-            }
-        }
-    }
-)
+    post)
 
 module.exports = router
