@@ -10,7 +10,7 @@ include bbCodes.pug
 include userContent.pug
 
 block content
-    - const pagePart = (page > 1 ? `?p=${page}` : '')
+    - const isSubModLoggedIn = user && (user.user_id == lead_mod_user_id)
 
     nav.backpost-nav
         a(href=`/p/${post_public_id}`) !{'&lt;'} Post
@@ -31,7 +31,7 @@ block content
                 | 
                 a(href=`/c/${comment.comment_public_id}/edit`) edit
 
-            if user && (comment.user_id == user.user_id || adminUserId == user.user_id)
+            if user && (comment.user_id == user.user_id || adminUserId == user.user_id || isSubModLoggedIn)
                 | 
                 a(href=`/c/${comment.comment_public_id}/delete`) delete
 
@@ -72,12 +72,12 @@ block content
                         - ++i
 
                     <li>
-                    +ucListComment(comment, user, comment_reply_mode, true)
+                    +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     - isFirst = false
                 else 
                     if commentIndent > currIndent
                         <ul><li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     else if commentIndent < currIndent
                         - let diffIndent = currIndent - commentIndent
                         - let n = 0
@@ -89,10 +89,10 @@ block content
                             - ++n
                         
                         <li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     else
                         </li><li>
-                        +ucListComment(comment, user, comment_reply_mode, true)
+                        +ucListComment(comment, user, comment_reply_mode, true, isSubModLoggedIn)
                     
                     - currIndent = commentIndent
 
