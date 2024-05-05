@@ -15,7 +15,8 @@ block content
             ul
                 for c in comments
                     li
-                        +ucListComment(c, user, comment_reply_mode, false)
+                        - const isSubMod = user.user_id == c.lead_mod
+                        +ucListComment(c, user, comment_reply_mode, false, isSubMod)
         div
             a(class="more" href=`/inbox?p=${page + 1}`) more &gt;
     else

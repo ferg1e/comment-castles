@@ -683,13 +683,16 @@ exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
             to_char(
                 timezone($1, c.created_on),
                 $2) created_on,
-            c.public_id
+            c.public_id,
+            s.lead_mod
         from
             tcomment c
         join
             tuser u on u.user_id = c.user_id
         join
             tpost p on p.post_id = c.post_id
+        join
+            tsub s on s.sub_id = p.sub_id
         where
             (nlevel(c.path) = 2 and p.user_id = $3) or
             (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $4)
