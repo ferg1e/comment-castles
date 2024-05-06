@@ -311,7 +311,10 @@ router.delete(
         }
 
         //
-        if(row.user_id != oauthData.user.user_id) {
+        if(row.user_id != oauthData.user.user_id &&
+            config.adminUserId != oauthData.user.user_id &&
+            row.lead_mod != oauthData.user.user_id)
+        {
             return res.status(403).json({
                 errors: ["wrong user"],
             })
