@@ -158,7 +158,7 @@ router.post(
         const title = (typeof req.body.title === 'undefined') ? '' : req.body.title
         const text_content = (typeof req.body.text_content === 'undefined') ? '' : req.body.text_content
         const link = (typeof req.body.link === 'undefined') ? '' : req.body.link
-        const tags = (typeof req.body.tags === 'undefined') ? '' : req.body.tags
+        const sub = (typeof req.body.sub === 'undefined') ? '' : req.body.sub
 
         //
         const oauthData = await oauthAuthenticate(req, res)
@@ -171,11 +171,10 @@ router.post(
         }
 
         //
-        const [errors, wsCompressedTitle, trimTags] = await db.validateNewPost(
+        const [errors, wsCompressedTitle, trimSub] = await db.validateNewPost(
             title,
             link,
-            tags,
-            oauthData.user.user_id)
+            sub)
 
         //
         if(errors.length) {
@@ -190,7 +189,7 @@ router.post(
             wsCompressedTitle,
             text_content,
             link,
-            trimTags)
+            trimSub)
 
         //
         return res.json(newPost)
