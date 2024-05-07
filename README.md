@@ -1,11 +1,10 @@
 # Comment Castles
 
-Comment Castles is an internet forum project. Users write posts, nested comments and profiles. You must follow a user in order to see their content. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum project. Users write posts, nested comments, user profiles and sub descriptions. Each post must live in a single sub/community. There is a site-wide moderator and each sub has a moderator. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Other Features:
 
 * OAuth 2 JSON API
-* public and private groups
 * inbox for direct comments you receive
 * [help page](https://www.commentcastles.org/help)
 * light mode and dark mode
@@ -76,7 +75,7 @@ module.exports = {
 }
 ```
 
-There must exist a row in the `tuser` database table that has a `user_id` set to `1`. This `user_id` serves as the default following list. So after an instance of this application is launched, you should immediately sign up as this admin user. If you want to use a `user_id` other than `1`, then you can change it in `src/config/index.js` via `adminUserId`.
+`adminUserId` in `src/config/index.js`is the `tuser` database table `user_id` for the site-wide moderator. This user can delete any post or comment.
 
 On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
 
