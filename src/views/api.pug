@@ -146,7 +146,7 @@ block content
         li #[b title]: title of the post, max characters is 160, required
         li #[b link]: URL of the post, optional
         li #[b text_content]: the text body/content of the post, optional
-        li #[b tags]: tags for the post, separate multiple with commas, optional
+        li #[b sub]: sub for the post, required
 
     h4 Headers
 
@@ -156,7 +156,7 @@ block content
     h4 Examples
 
     p.
-        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';tags='news,bread';}]
+        #[em Invoke-RestMethod -Method POST -Uri "#{apiBaseUrl}/post" -Headers @{Authorization='Bearer 50595b011188c5b76378066623f6c4f84d9272e9'} -Body @{title='my title 66bb';link='http://somesite.com';text_content='some content';sub='science';}]
 
     h3#put-comment PUT /comment
 
@@ -191,7 +191,6 @@ block content
         li #[b title]: a new title for the post, optional
         li #[b link]: a new URL for the post, optional
         li #[b text_content]: new text content for the post, optional
-        li #[b tags]: new tags for the post, separate multiple with commas, optional
 
     h4 Headers
 
