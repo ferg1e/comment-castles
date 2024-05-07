@@ -75,9 +75,10 @@ module.exports = {
 }
 ```
 
-`adminUserId` in `src/config/index.js`is the `tuser` database table `user_id` for the site-wide moderator. This user can delete any post or comment.
-
 On the [API page](https://www.commentcastles.org/api), a post ID and comment ID are used in URLs on the page. If you want these links to work, you must create a post and comment and then set their IDs to match the ones used on the page.
+
+## Config
+The configuration file is located at `src/config/index.js`. The `adminUserId` config value indicates the `user_id` of the site moderator. The site moderator can delete any post or comment. This `user_id` is from the `tuser` database table.
 
 ## Update
 When you deploy new commits to your instance of this app that is already running, make sure to also execute any new commands that are in `sql/migrations.sql`.
