@@ -518,6 +518,15 @@ exports.validateNewPost = async (title, link, castle) => {
     errors = errors.concat(castleErrors)
 
     //
+    if(errors.length == 0) {
+        const {rows:[sub]} = await module.exports.getSub(trimCastle)
+
+        if(sub && sub.is_post_locked) {
+            errors.push({msg: 'no new posts allowed for this sub'})
+        }
+    }
+
+    //
     return [errors, wsCompressedTitle, trimCastle]
 }
 
@@ -903,6 +912,7 @@ exports.getSub = (slug) => {
             s.sub_id,
             s.lead_mod,
             s.sub_desc,
+            s.is_post_locked,
             u.public_id lead_mod_public_id,
             u.username lead_mod_username
         from

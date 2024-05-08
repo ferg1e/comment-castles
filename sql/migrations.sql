@@ -258,3 +258,5 @@ alter table tcomment drop removed_on;
 alter table tpost drop num_spam_votes;
 alter table tcomment drop num_spam_votes;
 alter table tuser drop email;
+
+alter table tsub add column is_post_locked boolean not null default false;
