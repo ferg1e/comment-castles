@@ -23,10 +23,14 @@ const get = async (req, res) => {
     }
 
     //
-    const castle = (typeof req.query.castle !== 'undefined')
-        ? req.query.castle
+    const castle = (typeof req.query.sub !== 'undefined')
+        ? req.query.sub
         : "";
 
+    //
+    const {rows:[sub]} = await db.getSub(castle)
+
+    //
     return res.render(
         'new-post2',
         {
@@ -37,6 +41,8 @@ const get = async (req, res) => {
             link: "",
             textContent: "",
             castle: castle,
+            curr_castle: sub ? castle : undefined,
+            lead_mod_user_id: sub ? sub.lead_mod : undefined,
             submitLabel: 'Create Post',
             heading: 'New Post',
             is_castle: true,
@@ -60,6 +66,11 @@ const post = async(req, res) => {
 
     //
     if(errors.length) {
+
+        //
+        const {rows:[sub]} = await db.getSub(trimCastle)
+
+        //
         return res.render(
             'new-post2',
             {
@@ -70,6 +81,8 @@ const post = async(req, res) => {
                 link: req.body.link,
                 textContent: req.body.text_content,
                 castle: req.body.castle,
+                curr_castle: sub ? trimCastle : undefined,
+                lead_mod_user_id: sub ? sub.lead_mod : undefined,
                 submitLabel: 'Create Post',
                 heading: 'New Post',
                 is_castle: true,
