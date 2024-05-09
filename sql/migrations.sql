@@ -260,3 +260,6 @@ alter table tcomment drop num_spam_votes;
 alter table tuser drop email;
 
 alter table tsub add column is_post_locked boolean not null default false;
+
+--
+drop table ttag, tposttag, tgroupmember, tprivategroup;
