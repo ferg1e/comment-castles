@@ -257,10 +257,7 @@ CREATE TABLE public.tcomment (
     user_id integer NOT NULL,
     text_content text NOT NULL,
     created_on timestamp with time zone DEFAULT now() NOT NULL,
-    path public.ltree,
-    is_removed boolean DEFAULT false NOT NULL,
-    num_spam_votes integer DEFAULT 0,
-    removed_on timestamp with time zone
+    path public.ltree
 );
 
 
@@ -298,77 +295,6 @@ ALTER TABLE public.tdomainname_domain_name_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.tdomainname_domain_name_id_seq OWNED BY public.tdomainname.domain_name_id;
-
-
---
--- Name: tfollower; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tfollower (
-    follower_id integer NOT NULL,
-    user_id integer NOT NULL,
-    followee_user_id integer NOT NULL
-);
-
-
-ALTER TABLE public.tfollower OWNER TO postgres;
-
---
--- Name: tfollower_follower_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tfollower_follower_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tfollower_follower_id_seq OWNER TO postgres;
-
---
--- Name: tfollower_follower_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tfollower_follower_id_seq OWNED BY public.tfollower.follower_id;
-
-
---
--- Name: tgroupmember; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tgroupmember (
-    group_member_id integer NOT NULL,
-    private_group_id integer NOT NULL,
-    user_id integer NOT NULL,
-    created_on timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.tgroupmember OWNER TO postgres;
-
---
--- Name: tgroupmember_group_member_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tgroupmember_group_member_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tgroupmember_group_member_id_seq OWNER TO postgres;
-
---
--- Name: tgroupmember_group_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tgroupmember_group_member_id_seq OWNED BY public.tgroupmember.group_member_id;
 
 
 --
@@ -496,13 +422,11 @@ CREATE TABLE public.tpost (
     title character varying(160) NOT NULL,
     text_content text,
     created_on timestamp with time zone DEFAULT now() NOT NULL,
-    is_removed boolean DEFAULT false NOT NULL,
     link character varying(400) DEFAULT NULL::character varying,
     num_comments integer DEFAULT 0,
-    num_spam_votes integer DEFAULT 0,
-    removed_on timestamp with time zone,
     domain_name_id integer,
-    last_comment timestamp with time zone
+    last_comment timestamp with time zone,
+    sub_id integer DEFAULT 1 NOT NULL
 );
 
 
@@ -531,23 +455,25 @@ ALTER SEQUENCE public.tpost_post_id_seq OWNED BY public.tpost.post_id;
 
 
 --
--- Name: tposttag; Type: TABLE; Schema: public; Owner: postgres
+-- Name: tsub; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.tposttag (
-    posttag_id integer NOT NULL,
-    tag_id integer NOT NULL,
-    post_id integer NOT NULL
+CREATE TABLE public.tsub (
+    sub_id integer NOT NULL,
+    slug character varying(32) NOT NULL,
+    lead_mod integer,
+    sub_desc text,
+    is_post_locked boolean DEFAULT false NOT NULL
 );
 
 
-ALTER TABLE public.tposttag OWNER TO postgres;
+ALTER TABLE public.tsub OWNER TO postgres;
 
 --
--- Name: tposttag_posttag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: tsub_sub_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.tposttag_posttag_id_seq
+CREATE SEQUENCE public.tsub_sub_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -556,85 +482,13 @@ CREATE SEQUENCE public.tposttag_posttag_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.tposttag_posttag_id_seq OWNER TO postgres;
+ALTER TABLE public.tsub_sub_id_seq OWNER TO postgres;
 
 --
--- Name: tposttag_posttag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tsub_sub_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.tposttag_posttag_id_seq OWNED BY public.tposttag.posttag_id;
-
-
---
--- Name: tprivategroup; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tprivategroup (
-    private_group_id integer NOT NULL,
-    created_by integer NOT NULL,
-    name character varying(32) NOT NULL,
-    created_on timestamp with time zone DEFAULT now() NOT NULL
-);
-
-
-ALTER TABLE public.tprivategroup OWNER TO postgres;
-
---
--- Name: tprivategroup_private_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tprivategroup_private_group_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tprivategroup_private_group_id_seq OWNER TO postgres;
-
---
--- Name: tprivategroup_private_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tprivategroup_private_group_id_seq OWNED BY public.tprivategroup.private_group_id;
-
-
---
--- Name: ttag; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ttag (
-    tag_id integer NOT NULL,
-    tag character varying(32) NOT NULL,
-    num_posts integer DEFAULT 0 NOT NULL,
-    is_removed boolean DEFAULT false NOT NULL
-);
-
-
-ALTER TABLE public.ttag OWNER TO postgres;
-
---
--- Name: ttag_tag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.ttag_tag_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.ttag_tag_id_seq OWNER TO postgres;
-
---
--- Name: ttag_tag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.ttag_tag_id_seq OWNED BY public.ttag.tag_id;
+ALTER SEQUENCE public.tsub_sub_id_seq OWNED BY public.tsub.sub_id;
 
 
 --
@@ -667,10 +521,7 @@ CREATE TABLE public.tuser (
     user_id integer NOT NULL,
     username character varying(32) NOT NULL,
     password character varying(255) NOT NULL,
-    email character varying(255),
     time_zone character varying(64) DEFAULT 'UTC'::character varying NOT NULL,
-    post_mode public.post_mode DEFAULT 'following-only'::public.post_mode NOT NULL,
-    comment_mode public.comment_mode DEFAULT 'discover'::public.comment_mode NOT NULL,
     comment_reply_mode public.comment_reply_mode DEFAULT 'quick'::public.comment_reply_mode NOT NULL,
     site_width smallint DEFAULT 600,
     public_id character varying(32) DEFAULT ''::character varying NOT NULL,
@@ -722,20 +573,6 @@ ALTER TABLE ONLY public.tdomainname ALTER COLUMN domain_name_id SET DEFAULT next
 
 
 --
--- Name: tfollower follower_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tfollower ALTER COLUMN follower_id SET DEFAULT nextval('public.tfollower_follower_id_seq'::regclass);
-
-
---
--- Name: tgroupmember group_member_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tgroupmember ALTER COLUMN group_member_id SET DEFAULT nextval('public.tgroupmember_group_member_id_seq'::regclass);
-
-
---
 -- Name: toauthaccesstoken accesstoken_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -764,24 +601,10 @@ ALTER TABLE ONLY public.tpost ALTER COLUMN post_id SET DEFAULT nextval('public.t
 
 
 --
--- Name: tposttag posttag_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: tsub sub_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tposttag ALTER COLUMN posttag_id SET DEFAULT nextval('public.tposttag_posttag_id_seq'::regclass);
-
-
---
--- Name: tprivategroup private_group_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tprivategroup ALTER COLUMN private_group_id SET DEFAULT nextval('public.tprivategroup_private_group_id_seq'::regclass);
-
-
---
--- Name: ttag tag_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ttag ALTER COLUMN tag_id SET DEFAULT nextval('public.ttag_tag_id_seq'::regclass);
+ALTER TABLE ONLY public.tsub ALTER COLUMN sub_id SET DEFAULT nextval('public.tsub_sub_id_seq'::regclass);
 
 
 --
@@ -797,22 +620,6 @@ ALTER TABLE ONLY public.tuser ALTER COLUMN user_id SET DEFAULT nextval('public.t
 
 ALTER TABLE ONLY public.tdomainname
     ADD CONSTRAINT tdomainname_pkey PRIMARY KEY (domain_name_id);
-
-
---
--- Name: tfollower tfollower_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tfollower
-    ADD CONSTRAINT tfollower_pkey PRIMARY KEY (follower_id);
-
-
---
--- Name: tgroupmember tgroupmember_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tgroupmember
-    ADD CONSTRAINT tgroupmember_pkey PRIMARY KEY (group_member_id);
 
 
 --
@@ -848,27 +655,11 @@ ALTER TABLE ONLY public.tpost
 
 
 --
--- Name: tposttag tposttag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: tsub tsub_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.tposttag
-    ADD CONSTRAINT tposttag_pkey PRIMARY KEY (posttag_id);
-
-
---
--- Name: tprivategroup tprivategroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tprivategroup
-    ADD CONSTRAINT tprivategroup_pkey PRIMARY KEY (private_group_id);
-
-
---
--- Name: ttag ttag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.ttag
-    ADD CONSTRAINT ttag_pkey PRIMARY KEY (tag_id);
+ALTER TABLE ONLY public.tsub
+    ADD CONSTRAINT tsub_pkey PRIMARY KEY (sub_id);
 
 
 --
@@ -880,40 +671,11 @@ ALTER TABLE ONLY public.tcomment
 
 
 --
--- Name: tuser tuser_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tuser
-    ADD CONSTRAINT tuser_email_key UNIQUE (email);
-
-
---
 -- Name: tuser tuser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.tuser
     ADD CONSTRAINT tuser_pkey PRIMARY KEY (user_id);
-
-
---
--- Name: idx_tposttag_post_id; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX idx_tposttag_post_id ON public.tposttag USING btree (post_id);
-
-
---
--- Name: idx_tprivategroup_name; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX idx_tprivategroup_name ON public.tprivategroup USING btree (name);
-
-
---
--- Name: idx_ttag_tag; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX idx_ttag_tag ON public.ttag USING btree (tag);
 
 
 --
@@ -945,20 +707,6 @@ CREATE TRIGGER post_comment AFTER INSERT ON public.tcomment FOR EACH ROW EXECUTE
 
 
 --
--- Name: tposttag post_tag; Type: TRIGGER; Schema: public; Owner: postgres
---
-
-CREATE TRIGGER post_tag AFTER INSERT ON public.tposttag FOR EACH ROW EXECUTE FUNCTION public.f_post_tag();
-
-
---
--- Name: tposttag post_tag_del; Type: TRIGGER; Schema: public; Owner: postgres
---
-
-CREATE TRIGGER post_tag_del AFTER DELETE ON public.tposttag FOR EACH ROW EXECUTE FUNCTION public.f_post_tag_del();
-
-
---
 -- Name: TABLE tcomment; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -977,34 +725,6 @@ GRANT ALL ON TABLE public.tdomainname TO pns_user;
 --
 
 GRANT ALL ON SEQUENCE public.tdomainname_domain_name_id_seq TO pns_user;
-
-
---
--- Name: TABLE tfollower; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON TABLE public.tfollower TO pns_user;
-
-
---
--- Name: SEQUENCE tfollower_follower_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.tfollower_follower_id_seq TO pns_user;
-
-
---
--- Name: TABLE tgroupmember; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON TABLE public.tgroupmember TO pns_user;
-
-
---
--- Name: SEQUENCE tgroupmember_group_member_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.tgroupmember_group_member_id_seq TO pns_user;
 
 
 --
@@ -1064,45 +784,17 @@ GRANT ALL ON SEQUENCE public.tpost_post_id_seq TO pns_user;
 
 
 --
--- Name: TABLE tposttag; Type: ACL; Schema: public; Owner: postgres
+-- Name: TABLE tsub; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE public.tposttag TO pns_user;
-
-
---
--- Name: SEQUENCE tposttag_posttag_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.tposttag_posttag_id_seq TO pns_user;
+GRANT ALL ON TABLE public.tsub TO pns_user;
 
 
 --
--- Name: TABLE tprivategroup; Type: ACL; Schema: public; Owner: postgres
+-- Name: SEQUENCE tsub_sub_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT ALL ON TABLE public.tprivategroup TO pns_user;
-
-
---
--- Name: SEQUENCE tprivategroup_private_group_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.tprivategroup_private_group_id_seq TO pns_user;
-
-
---
--- Name: TABLE ttag; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON TABLE public.ttag TO pns_user;
-
-
---
--- Name: SEQUENCE ttag_tag_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.ttag_tag_id_seq TO pns_user;
+GRANT ALL ON SEQUENCE public.tsub_sub_id_seq TO pns_user;
 
 
 --
