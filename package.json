@@ -1,6 +1,6 @@
 {
   "name": "comment-castles",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "private": false,
   "scripts": {
     "start": "npx nodemon app.js"
