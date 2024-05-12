@@ -21,7 +21,6 @@ exports.defaultCommentReplyMode = 'quick'
 //
 exports.defaultPostLayout = 'single-line'
 exports.defaultTheme = 'original'
-exports.singleLineCutoff = 1200
 
 //
 exports.defaultSiteWidth = ''
