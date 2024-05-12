@@ -10,7 +10,7 @@
     color: #86d688;
 }
 
-body, .fuser, .sort1 .curr-sort, .cheader a:hover, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
+body, .sort1 .curr-sort, .cheader a:hover, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
     color: #fcfcfc;
 }
 
@@ -30,7 +30,7 @@ body, .fuser, .sort1 .curr-sort, .cheader a:hover, .pinfo1, .pinfo1-under, .pinf
     color: #cccccc;
 }
 
-.in-h1-url, .sort1 a {
+.sort1 a {
     color: #f1f1f1;
 }
 
