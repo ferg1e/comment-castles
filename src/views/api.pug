@@ -28,6 +28,8 @@ block content
         li
             a(href="#get-posts") GET /posts
         li
+            a(href="#get-sub-posts") GET /sub/posts
+        li
             a(href="#post-comment") POST /comment
         li
             a(href="#post-post") POST /post
@@ -109,6 +111,35 @@ block content
 
     p
         a(href="/api/v1/posts?sort=comments") /posts?sort=comments
+
+    h3#get-sub-posts GET /sub/posts
+
+    p.
+        This returns posts for a certain sub. 
+        The data is paginated at 20 posts per page.
+
+    h4 Query Params
+
+    ul
+        li #[b sub]: the sub, required
+        li #[b p]: page number for post pagination, the default page number is 1, optional
+        li #[b sort]: this is for post sorting, it can be either #[em newest], #[em oldest], #[em comments] or #[em last], see #[a(href="/help#posts") posts] in help for more info, the default is #[em newest], optional
+
+    h4 Headers
+
+    ul
+        li #[b Authorization: Bearer xxx]: replace xxx with an OAuth 2 access token to make this call with a logged in user (see #[a(href="#api-user-authentication") API User Authentication]), optional
+
+    h4 Examples
+
+    p
+        a(href="/api/v1/sub/posts?sub=meta") /sub/posts?sub=meta
+
+    p
+        a(href="/api/v1/sub/posts?sub=meta&p=2") /posts?sub=meta&p=2
+
+    p
+        a(href="/api/v1/sub/posts?sub=meta&sort=comments") /posts?sub=meta&sort=comments
 
     h3#post-comment POST /comment
 
