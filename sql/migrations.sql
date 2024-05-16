@@ -263,3 +263,6 @@ alter table tsub add column is_post_locked boolean not null default false;
 
 --
 drop table ttag, tposttag, tgroupmember, tprivategroup;
+
+--
+alter table tcomment add constraint fk_post foreign key(post_id) references tpost on delete cascade;

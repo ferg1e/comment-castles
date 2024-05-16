@@ -394,7 +394,7 @@ router.delete(
         }
 
         //
-        db.deleteWholePost(row.post_id)
+        db.deletePost(row.post_id)
 
         //
         return res.json({

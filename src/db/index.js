@@ -483,11 +483,8 @@ exports.deletePost = (postId) => {
         where
             post_id = $1`,
         [postId])
-}
 
-exports.deleteWholePost = async (postId) => {
-    await module.exports.deletePost(postId)
-    await module.exports.deletePostComments(postId)
+    //post comments also delete via FK
 }
 
 //
@@ -870,15 +867,6 @@ exports.updateComment = (commentId, textContent) => {
         where
             comment_id = $2`,
         [textContent, commentId])
-}
-
-exports.deletePostComments = (postId) => {
-    return query(`
-        delete from
-            tcomment
-        where
-            post_id = $1`,
-        [postId])
 }
 
 exports.deleteComment = async (path) => {
