@@ -268,10 +268,10 @@ drop table ttag, tposttag, tgroupmember, tprivategroup;
 alter table tcomment add constraint fk_post foreign key(post_id) references tpost on delete cascade;
 
 --
-create table tdirectmessage {
+create table tdirectmessage (
     dm_id serial primary key,
     from_user_id integer not null references tuser,
     to_user_id integer not null references tuser,
     dmessage text not null,
     created_on timestamp with time zone not null default now()
-};
+);

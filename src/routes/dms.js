@@ -36,7 +36,47 @@ const post = async(req, res) => {
     }
 
     //
-    return res.send('post')
+    let errors = []
+
+    //
+    if(req.body.to === '') {
+        errors.push('Please fill in a to username')
+    }
+    else {
+        var {rows:[toUser]} = await db.getUserWithUsername(req.body.to)
+
+        if(!toUser) {
+            errors.push('No user with that username')
+        }
+    }
+
+    //
+    const [compressedMessage, messageErrors] = myMisc.processDm(req.body.message)
+    errors = errors.concat(messageErrors)
+
+    //
+    if(errors.length > 0) {
+        return res.render(
+            'dms',
+            {
+                html_title: htmlTitle,
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                errors: errors,
+                message: req.body.message,
+                to: req.body.to,
+            }
+        )
+    }
+
+    //
+    await db.createDm(
+        req.session.user.user_id,
+        toUser.user_id,
+        compressedMessage)
+
+    //
+    return res.send('dm created')
 }
 
 //

@@ -2,3 +2,19 @@ extends layout
 
 block content
     h1 Direct Messages
+
+    if errors && errors.length
+            ul.uerror1
+                each error in errors
+                    li #{error}
+    form(method="post")
+        div
+            label(for="to") To
+            input(name="to" id="to" value=to)
+
+        div
+            label(for="message") Message
+            textarea(name="message" id="message")=message
+
+        div
+            input(type="submit" value="Send")

@@ -1056,6 +1056,16 @@ exports.getAccessToken = (token) => {
         [token])
 }
 
+//dms
+exports.createDm = (fromUserId, toUserId, message) => {
+    return query(`
+        insert into tdirectmessage
+            (from_user_id, to_user_id, dmessage)
+        values
+            ($1, $2, $3)`,
+        [fromUserId, toUserId, message])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
