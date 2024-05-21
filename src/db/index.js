@@ -1066,6 +1066,37 @@ exports.createDm = (fromUserId, toUserId, message) => {
         [fromUserId, toUserId, message])
 }
 
+//
+exports.getDmedUsers = (loggedInUser) => {
+    return query(`
+        select
+            case
+                when fu.user_id = $1 then tu.username
+                else fu.username
+            end dmed_username,
+
+            case
+                when fu.user_id = $2 then tu.public_id
+                else fu.public_id
+            end dmed_user_public_id,
+
+            max(dm.created_on) most_recent
+        from
+            tdirectmessage dm
+        join
+            tuser fu on fu.user_id = dm.from_user_id
+        join
+            tuser tu on tu.user_id = dm.to_user_id
+        where
+            dm.from_user_id = $3 or
+            dm.to_user_id = $4
+        group by
+            dmed_user_public_id, dmed_username
+        order by
+            most_recent`,
+        [loggedInUser, loggedInUser, loggedInUser, loggedInUser])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

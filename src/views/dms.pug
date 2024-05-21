@@ -18,3 +18,11 @@ block content
 
         div
             input(type="submit" value="Send")
+
+    div
+        each dmu in dmed_users
+            div
+                a(href=`/dms/${dmu.dmed_user_public_id}`)=dmu.dmed_username
+                | 
+                |last on 
+                =dmu.most_recent

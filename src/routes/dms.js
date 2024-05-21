@@ -17,12 +17,16 @@ const get = async (req, res) => {
     }
 
     //
+    const {rows:dmedUsers} = await db.getDmedUsers(req.session.user.user_id)
+
+    //
     return res.render(
         'dms',
         {
             html_title: htmlTitle,
             user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            dmed_users: dmedUsers,
         }
     )
 }
@@ -56,12 +60,18 @@ const post = async(req, res) => {
 
     //
     if(errors.length > 0) {
+
+        //
+        const {rows:dmedUsers} = await db.getDmedUsers(req.session.user.user_id)
+
+        //
         return res.render(
             'dms',
             {
                 html_title: htmlTitle,
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
+                dmed_users: dmedUsers,
                 errors: errors,
                 message: req.body.message,
                 to: req.body.to,
