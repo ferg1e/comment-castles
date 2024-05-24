@@ -1067,7 +1067,7 @@ exports.createDm = (fromUserId, toUserId, message) => {
 }
 
 //
-exports.getDmedUsers = (loggedInUser) => {
+exports.getDmedUsers = (loggedInUser, timeZone, dateFormat) => {
     return query(`
         select
             case
@@ -1080,7 +1080,9 @@ exports.getDmedUsers = (loggedInUser) => {
                 else fu.public_id
             end dmed_user_public_id,
 
-            max(dm.created_on) most_recent
+            to_char(
+                timezone($3, max(dm.created_on)),
+                $4) most_recent
         from
             tdirectmessage dm
         join
@@ -1088,13 +1090,13 @@ exports.getDmedUsers = (loggedInUser) => {
         join
             tuser tu on tu.user_id = dm.to_user_id
         where
-            dm.from_user_id = $3 or
-            dm.to_user_id = $4
+            dm.from_user_id = $5 or
+            dm.to_user_id = $6
         group by
             dmed_user_public_id, dmed_username
         order by
             most_recent`,
-        [loggedInUser, loggedInUser, loggedInUser, loggedInUser])
+        [loggedInUser, loggedInUser, timeZone, dateFormat, loggedInUser, loggedInUser])
 }
 
 //

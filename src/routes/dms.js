@@ -17,7 +17,10 @@ const get = async (req, res) => {
     }
 
     //
-    const {rows:dmedUsers} = await db.getDmedUsers(req.session.user.user_id)
+    const {rows:dmedUsers} = await db.getDmedUsers(
+        req.session.user.user_id,
+        myMisc.getCurrTimeZone(req),
+        myMisc.getCurrDateFormat(req))
 
     //
     return res.render(
@@ -62,7 +65,10 @@ const post = async(req, res) => {
     if(errors.length > 0) {
 
         //
-        const {rows:dmedUsers} = await db.getDmedUsers(req.session.user.user_id)
+        const {rows:dmedUsers} = await db.getDmedUsers(
+            req.session.user.user_id,
+            myMisc.getCurrTimeZone(req),
+            myMisc.getCurrDateFormat(req))
 
         //
         return res.render(
