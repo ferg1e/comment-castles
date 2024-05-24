@@ -73,6 +73,7 @@ app.use(/^\/r\/([a-z0-9-]{3,20})\/settings$/, require('./src/routes/castle-setti
 app.use(/^\/r\/([a-z0-9-]{3,20})\/about$/, require('./src/routes/castle-about'))
 app.use('/inbox/', require('./src/routes/inbox'))
 app.use('/dms/', require('./src/routes/dms'))
+app.use(/^\/dms\/([a-z0-9]{22})$/i, require('./src/routes/dms-pair'))
 app.use('/api/v1/', require('./src/routes/api'))
 app.use('/api/ajax/', require('./src/routes/ajax'))
 app.use('/oauth/', require('./src/routes/oauth'))

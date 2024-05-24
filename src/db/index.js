@@ -1097,6 +1097,25 @@ exports.getDmedUsers = (loggedInUser) => {
         [loggedInUser, loggedInUser, loggedInUser, loggedInUser])
 }
 
+//
+exports.getPairDms = (loggedInUserId, otherUserId) => {
+    return query(`
+        select
+            dm.dmessage,
+            dm.created_on,
+            fu.username from_username
+        from
+            tdirectmessage dm
+        join
+            tuser fu on fu.user_id = dm.from_user_id
+        where
+            (dm.from_user_id = $1 and dm.to_user_id = $2) or
+            (dm.from_user_id = $3 and dm.to_user_id = $4)
+        order by
+            dm.created_on desc`,
+        [loggedInUserId, otherUserId, otherUserId, loggedInUserId])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`

@@ -1,0 +1,43 @@
+extends layout
+
+include bbCodes.pug
+
+mixin drawDm(theDm)
+    div
+        div.dm-header
+            |by
+            | 
+            =theDm.from_username
+
+            | 
+            |on #{theDm.created_on}
+
+        span.dm-meat
+            +bbCodes(theDm.dmessage)
+
+block content
+    h1 blah blah
+
+    if errors && errors.length
+        ul.uerror1
+            each error in errors
+                li #{error}
+
+    form(method="post")
+        div
+            label(for="message") Message
+            textarea(name="message" id="message")=message
+
+        div
+            input(type="submit" value="Send")
+
+    if dms.length
+        .dms
+            ul
+                for d in dms
+                    li
+                        +drawDm(d)
+        div
+            a(class="more" href=`#`) more &gt;
+    else
+        div.no-dms no DMs yet
