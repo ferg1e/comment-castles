@@ -13,9 +13,9 @@ const redis = require('redis')
 const config = require('./src/config')
 
 //
-const redisClient = redis.createClient(process.env.REDIS_PORT)
+const redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST)
 const app = express()
-const server = app.listen(process.env.HTTP_PORT)
+const server = app.listen(process.env.HTTP_PORT, () => console.log(`Server listening on port ${process.env.HTTP_PORT}`));
 
 //
 app.locals.siteName = config.siteName
@@ -37,7 +37,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new redisStore({ host: "localhost", port: process.env.REDIS_PORT, client: redisClient })
+    store: new redisStore({ host: process.env.REDIS_HOST, port: process.env.REDIS_PORT, client: redisClient })
     })
 )
 

@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  api:
+    restart: on-failure
+    build: ./
+    command: ['/app/dev-bin/wait.sh', 'db:5432', '--', 'npm', 'start']
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file: ./.env
+  db:
+    image: postgres:14.8
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: mydb
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./sql/structure.sql:/docker-entrypoint-initdb.d/init.sql
+  redis:
+      image: redis:7.2-alpine
+      restart: on-failure
+      ports:
+        - '6379:6379'

@@ -43,7 +43,7 @@ PGUSER=postgres
 PGDATABASE=mydb
 PGPASSWORD=123abc
 PGPORT=5432
-HTTP_PORT=80
+HTTP_PORT=3000
 REDIS_PORT=6379
 IS_PROD=1
 SESSION_NAME=mysesh
@@ -64,7 +64,7 @@ module.exports = {
             PGDATABASE: "mydb",
             PGPASSWORD: "123abc",
             PGPORT: 5432,
-            HTTP_PORT: 80,
+            HTTP_PORT: 3000,
             REDIS_PORT: 6379,
             IS_PROD: 1,
             SESSION_NAME: "mysesh",
