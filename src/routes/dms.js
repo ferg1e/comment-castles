@@ -92,7 +92,7 @@ const post = async(req, res) => {
         compressedMessage)
 
     //
-    return res.send('dm created')
+    return res.redirect(`/dms/${toUser.public_id}`)
 }
 
 //
