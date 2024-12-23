@@ -43,8 +43,55 @@ const get = async (req, res) => {
 //
 const post = async(req, res) => {
 
-    return res.send('post')
+    //
+    if(!req.session.user) {
+        return res.send('blocked')
+    }
 
+    //
+    const userPublicId = req.params[0]
+    const {rows:[dbUser]} = await db.getUserWithPublicId(userPublicId)
+
+    //
+    if(!dbUser) {
+        return res.send('invalid id')
+    }
+
+    //
+    let errors = []
+
+    //
+    const [compressedMessage, messageErrors] = myMisc.processDm(req.body.message)
+    errors = errors.concat(messageErrors)
+
+    //
+    if(errors.length > 0) {
+
+        //
+        const {rows:dms} = await db.getPairDms(req.session.user.user_id, dbUser.user_id)
+
+        //
+        return res.render(
+            'dms-pair',
+            {
+                html_title: '???',
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                dms: dms,
+                errors: errors,
+                message: req.body.message
+            }
+        )
+    }
+
+    //
+    await db.createDm(
+        req.session.user.user_id,
+        dbUser.user_id,
+        compressedMessage)
+
+    //
+    return res.redirect(`/dms/${userPublicId}`)
 }
 
 //
