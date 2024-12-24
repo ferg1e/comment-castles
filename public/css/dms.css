@@ -1,0 +1,23 @@
+form > div {
+    margin-bottom: 12px;
+}
+
+form label {
+    display: block;
+}
+
+form #message {
+    width: 370px;
+    height: 160px;
+}
+
+form #to {
+    width: 370px;
+}
+
+/**/
+@media(max-width: 480px) {
+    form #to, form #message {
+        width: 90%;
+    }
+}
