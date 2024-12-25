@@ -1,0 +1,19 @@
+form > div {
+    margin-bottom: 12px;
+}
+
+form label {
+    display: block;
+}
+
+form #message {
+    width: 370px;
+    height: 160px;
+}
+
+/**/
+@media(max-width: 480px) {
+    form #message {
+        width: 90%;
+    }
+}

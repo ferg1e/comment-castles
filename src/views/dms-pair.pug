@@ -1,5 +1,8 @@
 extends layout
 
+append head
+    link(rel='stylesheet', href=`${cssDir}/dms-pair.css`)
+
 include bbCodes.pug
 
 mixin drawDm(theDm)
