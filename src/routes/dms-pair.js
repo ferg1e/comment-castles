@@ -32,7 +32,7 @@ const get = async (req, res) => {
     return res.render(
         'dms-pair',
         {
-            html_title: '???',
+            html_title: `DMs (${dbUser.username})`,
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             dms: dms,
@@ -74,7 +74,7 @@ const post = async(req, res) => {
         return res.render(
             'dms-pair',
             {
-                html_title: '???',
+                html_title: `DMs (${dbUser.username})`,
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 dms: dms,
