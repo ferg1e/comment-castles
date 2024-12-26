@@ -26,7 +26,11 @@ const get = async (req, res) => {
     }
 
     //
-    const {rows:dms} = await db.getPairDms(req.session.user.user_id, dbUser.user_id)
+    const {rows:dms} = await db.getPairDms(
+        req.session.user.user_id,
+        dbUser.user_id,
+        myMisc.getCurrTimeZone(req),
+        myMisc.getCurrDateFormat(req))
 
     //
     return res.render(
@@ -69,7 +73,11 @@ const post = async(req, res) => {
     if(errors.length > 0) {
 
         //
-        const {rows:dms} = await db.getPairDms(req.session.user.user_id, dbUser.user_id)
+        const {rows:dms} = await db.getPairDms(
+            req.session.user.user_id,
+            dbUser.user_id,
+            myMisc.getCurrTimeZone(req),
+            myMisc.getCurrDateFormat(req))
 
         //
         return res.render(

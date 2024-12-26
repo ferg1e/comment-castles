@@ -1100,22 +1100,24 @@ exports.getDmedUsers = (loggedInUser, timeZone, dateFormat) => {
 }
 
 //
-exports.getPairDms = (loggedInUserId, otherUserId) => {
+exports.getPairDms = (loggedInUserId, otherUserId, timeZone, dateFormat) => {
     return query(`
         select
             dm.dmessage,
-            dm.created_on,
+            to_char(
+                timezone($1, dm.created_on),
+                $2) created_on,
             fu.username from_username
         from
             tdirectmessage dm
         join
             tuser fu on fu.user_id = dm.from_user_id
         where
-            (dm.from_user_id = $1 and dm.to_user_id = $2) or
-            (dm.from_user_id = $3 and dm.to_user_id = $4)
+            (dm.from_user_id = $3 and dm.to_user_id = $4) or
+            (dm.from_user_id = $5 and dm.to_user_id = $6)
         order by
             dm.created_on desc`,
-        [loggedInUserId, otherUserId, otherUserId, loggedInUserId])
+        [timeZone, dateFormat, loggedInUserId, otherUserId, otherUserId, loggedInUserId])
 }
 
 //misc
