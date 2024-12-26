@@ -36,6 +36,7 @@ const get = async (req, res) => {
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             dms: dms,
+            pair_username: dbUser.username,
         }
     )
 }
@@ -78,6 +79,7 @@ const post = async(req, res) => {
                 user: req.session.user,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
                 dms: dms,
+                pair_username: dbUser.username,
                 errors: errors,
                 message: req.body.message
             }
