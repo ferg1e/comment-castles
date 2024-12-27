@@ -10,7 +10,7 @@ mixin drawDm(theDm)
         div.dm-header
             |by
             | 
-            =theDm.from_username
+            a(href=`/u/${theDm.from_public_id}`)=theDm.from_username
 
             | 
             |on #{theDm.created_on}
