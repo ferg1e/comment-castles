@@ -51,7 +51,7 @@ body {
   padding-left: 1.125rem;
 }
 
-.comments li {
+.comments li, .dms li {
   margin-top: 18px;
   margin-top: 1.125rem;
 }
@@ -122,16 +122,16 @@ body {
   text-decoration: none;
 }
 
-.cheader {
+.cheader, .dm-header {
   margin-bottom: 2px;
   margin-bottom: .125rem;
 }
 
-.cheader a {
+.cheader a, .dm-header a {
   text-decoration: none;
 }
 
-.cheader a:hover {
+.cheader a:hover, .dm-header a:hover {
   text-decoration: underline;
 }
 

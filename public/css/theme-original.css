@@ -10,11 +10,11 @@
     color: #b8098f;
 }
 
-body, .sort1 .curr-sort, .cheader a:hover, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
+body, .sort1 .curr-sort, .cheader a:hover, .dm-header a:hover, .pinfo1, .pinfo1-under, .pinfo1 a, .pinfo1-under a, .pinfo-s a:hover {
     color: #232323;
 }
 
-.cheader, .cheader a, .pinfo1 a:hover, .pinfo1-under a:hover, .pinfo-s, .pinfo-s a {
+.cheader, .cheader a, .dm-header, .dm-header a, .pinfo1 a:hover, .pinfo1-under a:hover, .pinfo-s, .pinfo-s a {
     color: #6c6c69;
 }
 
@@ -57,7 +57,7 @@ pre {
     color: #232323;
 }
 
-.main-text pre a, .the-post-content pre a, .cmeat pre a, .the-comment-content pre a {
+.main-text pre a, .the-post-content pre a, .cmeat pre a, .dm-meat pre a, .the-comment-content pre a {
     color: #0000ff;
 }
 
@@ -74,7 +74,7 @@ main em {
     color: #232323;
 }
 
-.main-text a, .the-post-content a, .cmeat a, .the-comment-content a {
+.main-text a, .the-post-content a, .cmeat a, .dm-meat a, .the-comment-content a {
     color: #0000ff;
 }
 
