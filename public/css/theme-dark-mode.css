@@ -100,7 +100,9 @@ main em {
 #profile,
 #castle,
 #name,
-#ruri {
+#ruri,
+#to,
+#message {
     border-color: #777777;
     border-radius: 2px;
     border-style: solid;
