@@ -46,7 +46,8 @@ router.route('/')
                     html_title: 'Inbox',
                     message: "<a href=\"/login\">Log in</a> to view your inbox.",
                     user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req)
+                    max_width: myMisc.getCurrSiteMaxWidth(req),
+                    main_class: 'main-text'
                 })
         }
     })

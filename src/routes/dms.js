@@ -13,7 +13,8 @@ const get = async (req, res) => {
     //
     if(!req.session.user) {
         return myMisc.renderMessage(req, res, htmlTitle,
-            "<a href=\"/login\">Log in</a> to view your direct messages.")
+            "<a href=\"/login\">Log in</a> to view your direct messages.",
+            "main-text")
     }
 
     //

@@ -12,7 +12,8 @@ const get = async (req, res) => {
     //
     if(req.session.user) {
         return myMisc.renderMessage(req, res, htmlTitleSignUp,
-            "You already signed up. If you want to create another account then please <a href=\"/logout\">log out</a>.")
+            "You already signed up. If you want to create another account then please <a href=\"/logout\">log out</a>.",
+            "main-text")
     }
 
     //
@@ -79,7 +80,8 @@ const post = async(req, res) => {
 
     //
     return myMisc.renderMessage(req, res, htmlTitleSignUp,
-        "Sign up was successful, you can now <a href=\"/login\">log in</a>.")
+        "Sign up was successful, you can now <a href=\"/login\">log in</a>.",
+        "main-text")
 }
 
 //

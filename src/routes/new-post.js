@@ -17,7 +17,8 @@ const get = async (req, res) => {
                 html_title: htmlTitleNewPost,
                 message: "Please <a href=\"/login\">log in</a> to create a post.",
                 user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                main_class: 'main-text'
             }
         )
     }

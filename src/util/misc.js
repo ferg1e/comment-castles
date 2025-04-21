@@ -380,14 +380,15 @@ exports.getCookieSettings = req => {
 }
 
 //
-exports.renderMessage = (req, res, title, message) => {
+exports.renderMessage = (req, res, title, message, mainClass = '') => {
     return res.render(
         'message',
         {
             html_title: title,
             message: message,
             user: req.session.user,
-            max_width: module.exports.getCurrSiteMaxWidth(req)
+            max_width: module.exports.getCurrSiteMaxWidth(req),
+            main_class: mainClass
         })
 }
 
@@ -395,7 +396,8 @@ exports.renderMessage = (req, res, title, message) => {
 exports.renderNoSubMessage = (req, res, subName) => {
     return module.exports.renderMessage(req, res, subName,
         `The ${subName} castle does not exist yet. ` +
-        `You can start this castle by <a href="/new?castle=${subName}">posting</a> to it.`)
+        `You can start this castle by <a href="/new?castle=${subName}">posting</a> to it.`,
+        "main-text")
 }
 
 //
