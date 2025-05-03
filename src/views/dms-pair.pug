@@ -15,6 +15,12 @@ mixin drawDm(theDm)
             | 
             |on #{theDm.created_on}
 
+            if theDm.from_user_id == user.user_id
+                | 
+                a(href="#") edit
+                | 
+                a(href="#") delete
+
         span.dm-meat
             +bbCodes(theDm.dmessage)
 

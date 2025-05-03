@@ -1108,7 +1108,8 @@ exports.getPairDms = (loggedInUserId, otherUserId, timeZone, dateFormat) => {
                 timezone($1, dm.created_on),
                 $2) created_on,
             fu.username from_username,
-            fu.public_id from_public_id
+            fu.public_id from_public_id,
+            fu.user_id from_user_id
         from
             tdirectmessage dm
         join
