@@ -275,3 +275,5 @@ create table tdirectmessage (
     dmessage text not null,
     created_on timestamp with time zone not null default now()
 );
+
+alter table tdirectmessage add column public_id varchar(32) not null default '';

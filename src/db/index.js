@@ -1060,10 +1060,10 @@ exports.getAccessToken = (token) => {
 exports.createDm = (fromUserId, toUserId, message) => {
     return query(`
         insert into tdirectmessage
-            (from_user_id, to_user_id, dmessage)
+            (from_user_id, to_user_id, dmessage, public_id)
         values
-            ($1, $2, $3)`,
-        [fromUserId, toUserId, message])
+            ($1, $2, $3, $4)`,
+        [fromUserId, toUserId, message, genId()])
 }
 
 //
