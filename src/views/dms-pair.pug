@@ -19,7 +19,7 @@ mixin drawDm(theDm)
                 | 
                 a(href="#") edit
                 | 
-                a(href="#") delete
+                a(href=`/dm/${theDm.dm_public_id}/delete`) delete
 
         span.dm-meat
             +bbCodes(theDm.dmessage)

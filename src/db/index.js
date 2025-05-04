@@ -1104,6 +1104,7 @@ exports.getPairDms = (loggedInUserId, otherUserId, timeZone, dateFormat) => {
     return query(`
         select
             dm.dmessage,
+            dm.public_id dm_public_id,
             to_char(
                 timezone($1, dm.created_on),
                 $2) created_on,
@@ -1120,6 +1121,31 @@ exports.getPairDms = (loggedInUserId, otherUserId, timeZone, dateFormat) => {
         order by
             dm.created_on desc`,
         [timeZone, dateFormat, loggedInUserId, otherUserId, otherUserId, loggedInUserId])
+}
+
+//
+exports.getDmWithPublic = (publicId) => {
+    return query(`
+        select
+            dm.dm_id,
+            dm.from_user_id,
+            dm.dmessage
+        from
+            tdirectmessage dm
+        where
+            dm.public_id = $1`,
+        [publicId]
+    )
+}
+
+//
+exports.deleteDm = (dmId) => {
+    return query(`
+        delete from
+            tdirectmessage
+        where
+            dm_id = $1`,
+        [dmId])
 }
 
 //misc

@@ -1,0 +1,15 @@
+extends layout
+
+append head
+    link(rel='stylesheet', href=`${cssDir}/delete-comment.css`)
+
+block content
+    h1 Delete DM
+
+    div
+        |Are you sure you want to delete the DM that starts with 
+        |"#{message.substring(0, 40)}"?
+
+    form(method="post")
+        input(type="hidden" name="sflag" value="cat")
+        input(type="submit" value="Yes, Delete This DM")
