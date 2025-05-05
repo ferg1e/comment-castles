@@ -27,6 +27,9 @@ const get = async (req, res) => {
     }
 
     //
+    await db.deleteDmCount(dbUser.user_id, req.session.user.user_id)
+
+    //
     const {rows:dms} = await db.getPairDms(
         req.session.user.user_id,
         dbUser.user_id,

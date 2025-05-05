@@ -277,3 +277,30 @@ create table tdirectmessage (
 );
 
 alter table tdirectmessage add column public_id varchar(32) not null default '';
+
+create table tdmcount (
+    from_user_id integer not null references tuser,
+    to_user_id integer not null references tuser,
+    count integer not null,
+    unique(from_user_id, to_user_id)
+);
+
+CREATE OR REPLACE FUNCTION f_dm_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    insert into tdmcount
+        (from_user_id, to_user_id, count)
+    values
+        (new.from_user_id, new.to_user_id, 1)
+    on conflict
+        (from_user_id, to_user_id)
+    do update set
+        count = excluded.count + 1;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
+
+create trigger dm_insert
+    after insert
+    on tdirectmessage
+    for each row
+    execute procedure f_dm_insert();

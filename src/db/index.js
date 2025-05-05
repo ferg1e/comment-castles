@@ -1161,6 +1161,16 @@ exports.deleteDm = (dmId) => {
         [dmId])
 }
 
+//dm counts
+exports.deleteDmCount = (fromUserId, toUserId) => {
+    return query(`
+        delete from
+            tdmcount
+        where
+            from_user_id = $1 and to_user_id = $2`,
+        [fromUserId, toUserId])
+}
+
 //misc
 exports.getTimeZoneWithName = (timeZoneName) => {
     return query(`
