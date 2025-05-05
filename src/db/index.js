@@ -1128,6 +1128,7 @@ exports.getDmWithPublic = (publicId) => {
     return query(`
         select
             dm.dm_id,
+            dm.to_user_id,
             dm.from_user_id,
             dm.dmessage
         from
@@ -1136,6 +1137,18 @@ exports.getDmWithPublic = (publicId) => {
             dm.public_id = $1`,
         [publicId]
     )
+}
+
+//
+exports.updateDm = (dmId, message) => {
+    return query(`
+        update
+            tdirectmessage
+        set
+            dmessage = $1
+        where
+            dm_id = $2`,
+        [message, dmId])
 }
 
 //

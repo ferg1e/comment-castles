@@ -17,7 +17,7 @@ mixin drawDm(theDm)
 
             if theDm.from_user_id == user.user_id
                 | 
-                a(href="#") edit
+                a(href=`/dm/${theDm.dm_public_id}/edit`) edit
                 | 
                 a(href=`/dm/${theDm.dm_public_id}/delete`) delete
 
