@@ -29,6 +29,17 @@ const get = async (req, res) => {
     //
     await db.deleteDmCount(dbUser.user_id, req.session.user.user_id)
 
+    /*
+    We need to recompute the unread DMs total here because of
+    the above deletion. This total is initially computed on every
+    page load in sharedAllHandler(). So maybe we can have that initial
+    computation not run if it's this page ... so that this db call
+    doesn't have to run twice on this page. For now I'm just going
+    to have it run twice on this page.
+    */
+    const {rows:[rowTotal]} = await db.getUserDmCountTotal(req.session.user.user_id)
+    req.app.locals.dmTotal = rowTotal.total
+
     //
     const {rows:dms} = await db.getPairDms(
         req.session.user.user_id,

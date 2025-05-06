@@ -1162,6 +1162,19 @@ exports.deleteDm = (dmId) => {
 }
 
 //dm counts
+exports.getUserDmCountTotal = (userId) => {
+    return query(`
+        select
+            sum(count) total
+        from
+            tdmcount
+        where
+            to_user_id = $1`,
+        [userId]
+    )
+}
+
+//
 exports.deleteDmCount = (fromUserId, toUserId) => {
     return query(`
         delete from

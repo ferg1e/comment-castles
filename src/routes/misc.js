@@ -1,11 +1,12 @@
 const express = require('express')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
+const db = require('../db')
 
 const router = express.Router()
 
 // every request
-function sharedAllHandler(req, res, next) {
+async function sharedAllHandler(req, res, next) {
 
     //todo: probably want to put this no www redirect in nginx/apache
     if(parseInt(process.env.IS_PROD) === 1) {
@@ -19,6 +20,12 @@ function sharedAllHandler(req, res, next) {
     //
     const theme = myMisc.getCurrTheme(req)
     myMisc.setTheme(theme, req)
+
+    //
+    if(req.session.user) {
+        const {rows:[row]} = await db.getUserDmCountTotal(req.session.user.user_id)
+        req.app.locals.dmTotal = row.total
+    }
 
     //
     next()

@@ -71,8 +71,14 @@ html
                 a(href="/new") new post
               li
                 a(href="/inbox") inbox
-              li
-                a(href="/dms") DMs
+
+              if dmTotal > 0
+                li
+                  a(href="/dms") DMs(#{dmTotal})
+              else
+                li
+                  a(href="/dms") DMs
+
               li
                 a(href="/settings") settings
               li
