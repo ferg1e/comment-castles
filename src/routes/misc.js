@@ -7,7 +7,7 @@ const router = express.Router()
 // every request
 function sharedAllHandler(req, res, next) {
 
-    //
+    //todo: probably want to put this no www redirect in nginx/apache
     if(parseInt(process.env.IS_PROD) === 1) {
         let host = req.headers.host;
 
