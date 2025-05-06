@@ -304,3 +304,18 @@ create trigger dm_insert
     on tdirectmessage
     for each row
     execute procedure f_dm_insert();
+
+--need to replace this function to fix a bug
+CREATE OR REPLACE FUNCTION f_dm_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    insert into tdmcount
+        (from_user_id, to_user_id, count)
+    values
+        (new.from_user_id, new.to_user_id, 1)
+    on conflict
+        (from_user_id, to_user_id)
+    do update set
+        count = tdmcount.count + 1;
+  return null;
+END; $$ LANGUAGE 'plpgsql';
