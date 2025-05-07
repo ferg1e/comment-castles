@@ -1070,33 +1070,47 @@ exports.createDm = (fromUserId, toUserId, message) => {
 exports.getDmedUsers = (loggedInUser, timeZone, dateFormat) => {
     return query(`
         select
-            case
-                when fu.user_id = $1 then tu.username
-                else fu.username
-            end dmed_username,
-
-            case
-                when fu.user_id = $2 then tu.public_id
-                else fu.public_id
-            end dmed_user_public_id,
-
+            dmu.dmed_username,
+            dmu.dmed_user_public_id,
             to_char(
-                timezone($3, max(dm.created_on)),
-                $4) most_recent
+                timezone($1, dmu.most_recent),
+                $2) most_recent,
+            coalesce(dmc.count, 0) dm_count
         from
-            tdirectmessage dm
-        join
-            tuser fu on fu.user_id = dm.from_user_id
-        join
-            tuser tu on tu.user_id = dm.to_user_id
-        where
-            dm.from_user_id = $5 or
-            dm.to_user_id = $6
-        group by
-            dmed_user_public_id, dmed_username
+            (select
+                case
+                    when fu.user_id = $3 then tu.username
+                    else fu.username
+                end dmed_username,
+
+                case
+                    when fu.user_id = $4 then tu.public_id
+                    else fu.public_id
+                end dmed_user_public_id,
+                
+                case
+                    when fu.user_id = $5 then tu.user_id
+                    else fu.user_id
+                end dmed_user_id,
+
+                max(dm.created_on) most_recent
+            from
+                tdirectmessage dm
+            join
+                tuser fu on fu.user_id = dm.from_user_id
+            join
+                tuser tu on tu.user_id = dm.to_user_id
+            where
+                dm.from_user_id = $6 or
+                dm.to_user_id = $7
+            group by
+                dmed_user_public_id, dmed_username, dmed_user_id) dmu
+        left join
+            tdmcount dmc on dmc.to_user_id = $8 and dmc.from_user_id = dmu.dmed_user_id
         order by
-            most_recent`,
-        [loggedInUser, loggedInUser, timeZone, dateFormat, loggedInUser, loggedInUser])
+            dmu.most_recent desc`,
+        [timeZone, dateFormat, loggedInUser, loggedInUser,
+            loggedInUser, loggedInUser, loggedInUser, loggedInUser])
 }
 
 //
