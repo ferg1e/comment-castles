@@ -201,3 +201,7 @@ h1 {
   font-size: 18px;
   font-size: 1.125rem;
 }
+
+.dm-unread {
+  font-weight: bold;
+}

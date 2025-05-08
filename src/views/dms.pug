@@ -24,8 +24,13 @@ block content
 
     div
         each dmu in dmed_users
-            div
-                a(href=`/dms/${dmu.dmed_user_public_id}`)=dmu.dmed_username
+            - const isUnread = dmu.dm_count > 0
+
+            div(class=isUnread ? 'dm-unread' : '')
+                a(href=`/dms/${dmu.dmed_user_public_id}`)
+                    =dmu.dmed_username
+                    if(isUnread)
+                        |#{'(' + dmu.dm_count + ')'}
                 | 
                 |last on 
                 =dmu.most_recent
