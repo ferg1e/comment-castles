@@ -16,6 +16,8 @@ block content
         li
             a(href="#user-profiles") User Profiles
         li
+            a(href="#direct-messages") Direct Messages
+        li
             a(href="#inbox") Inbox
         li
             a(href="#formatting") Formatting
@@ -45,7 +47,7 @@ block content
     h2#what What is #{siteName}?
     p
         |#{siteName} is an internet forum.
-        |Users write posts, nested comments, user profiles and sub descriptions.
+        |Users write posts, nested comments, direct messages, user profiles and sub descriptions.
         |Each post must be assigned to a sub.
 
     h2#posts Posts
@@ -73,6 +75,15 @@ block content
         User profile pages display the username and a profile blurb if the user has filled it in. 
         Users can edit their profile on the #[a(href="/settings/profile") profile settings] page.
 
+    h2#direct-messages Direct Messages
+    p.
+        Users can send direct messages to other users. 
+        These messages are private between the two users. 
+        Use #[a(href="/dms") DMs] in the site header to go to the direct messages page. 
+        On this page you can send DMs and see a list of users you have DMed with. 
+        An unread DMs count will show in the site header and 
+        next to individual users on the DMs page.
+
     h2#inbox Inbox
     p
         |The 
@@ -82,7 +93,7 @@ block content
 
     h2#formatting Formatting
     p
-        |These are the available formatting rules for posts, comments, user profiles and sub descriptions:
+        |These are the available formatting rules for posts, comments, direct messages, user profiles and sub descriptions:
         ul.list1
             li
                 |All newlines are automatically preserved.
@@ -184,15 +195,15 @@ block content
 
     h2#editing Editing
     p
-        |You can edit your posts and comments anytime you want. 
-        |For posts, the edit link is to the right of the comment count. 
+        |You can edit your posts, comments and direct messages anytime you want. 
+        |For posts and direct messages, the edit link is on the far right of the header above the post or direct message. 
         |And for comments the edit link is to the right of the permalink and reply links.
 
     h2#deleting Deleting
     p
-        |You can delete your posts and comments at anytime. 
-        |The delete link for posts and comments is to the right of the edit link. 
-        |Post and comment deletion is permanent and the data is actually deleted from the database. 
+        |You can delete your posts, comments and direct messages at anytime. 
+        |The delete link for posts, comments and direct messages is to the right of the edit link. 
+        |Post, comment and direct message deletion is permanent and the data is actually deleted from the database. 
         |When you delete a post or comment, then all of its comments will also be permanently deleted.
 
     h2#fonts Fonts
