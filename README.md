@@ -1,6 +1,6 @@
 # Comment Castles
 
-Comment Castles is an internet forum project. Users write posts, nested comments, user profiles and sub descriptions. Each post is assigned to a sub. There is a site-wide moderator and each sub has a moderator. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum project. Users can write posts, nested comments, direct messages, user profiles and sub descriptions. Each post is assigned to a sub. There is a site-wide moderator and each sub has a moderator. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Other Features:
 
