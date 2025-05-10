@@ -28,12 +28,12 @@ exports.minSiteWidth = 500
 exports.maxSiteWidth = 1500
 
 //
-exports.defaultPostsPerPage = 30
+exports.defaultPostsPerPage = 20
 exports.minPostsPerPage = 5
 exports.maxPostsPerPage = 50
 
 //
-exports.defaultPostsVerticalSpacing = 18
+exports.defaultPostsVerticalSpacing = 8
 exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
