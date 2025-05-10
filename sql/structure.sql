@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.18 (Ubuntu 12.18-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.18 (Ubuntu 12.18-0ubuntu0.20.04.1)
+-- Dumped from database version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.2)
+-- Dumped by pg_dump version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.2)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -179,6 +179,28 @@ END; $$;
 ALTER FUNCTION public.f_comment_spam_vote() OWNER TO postgres;
 
 --
+-- Name: f_dm_insert(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.f_dm_insert() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    insert into tdmcount
+        (from_user_id, to_user_id, count)
+    values
+        (new.from_user_id, new.to_user_id, 1)
+    on conflict
+        (from_user_id, to_user_id)
+    do update set
+        count = tdmcount.count + 1;
+  return null;
+END; $$;
+
+
+ALTER FUNCTION public.f_dm_insert() OWNER TO postgres;
+
+--
 -- Name: f_post_comment(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -262,6 +284,57 @@ CREATE TABLE public.tcomment (
 
 
 ALTER TABLE public.tcomment OWNER TO postgres;
+
+--
+-- Name: tdirectmessage; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tdirectmessage (
+    dm_id integer NOT NULL,
+    from_user_id integer NOT NULL,
+    to_user_id integer NOT NULL,
+    dmessage text NOT NULL,
+    created_on timestamp with time zone DEFAULT now() NOT NULL,
+    public_id character varying(32) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE public.tdirectmessage OWNER TO postgres;
+
+--
+-- Name: tdirectmessage_dm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.tdirectmessage_dm_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tdirectmessage_dm_id_seq OWNER TO postgres;
+
+--
+-- Name: tdirectmessage_dm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.tdirectmessage_dm_id_seq OWNED BY public.tdirectmessage.dm_id;
+
+
+--
+-- Name: tdmcount; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tdmcount (
+    from_user_id integer NOT NULL,
+    to_user_id integer NOT NULL,
+    count integer NOT NULL
+);
+
+
+ALTER TABLE public.tdmcount OWNER TO postgres;
 
 --
 -- Name: tdomainname; Type: TABLE; Schema: public; Owner: postgres
@@ -566,6 +639,13 @@ ALTER TABLE ONLY public.tcomment ALTER COLUMN comment_id SET DEFAULT nextval('pu
 
 
 --
+-- Name: tdirectmessage dm_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdirectmessage ALTER COLUMN dm_id SET DEFAULT nextval('public.tdirectmessage_dm_id_seq'::regclass);
+
+
+--
 -- Name: tdomainname domain_name_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -612,6 +692,22 @@ ALTER TABLE ONLY public.tsub ALTER COLUMN sub_id SET DEFAULT nextval('public.tsu
 --
 
 ALTER TABLE ONLY public.tuser ALTER COLUMN user_id SET DEFAULT nextval('public.tuser_user_id_seq'::regclass);
+
+
+--
+-- Name: tdirectmessage tdirectmessage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdirectmessage
+    ADD CONSTRAINT tdirectmessage_pkey PRIMARY KEY (dm_id);
+
+
+--
+-- Name: tdmcount tdmcount_from_user_id_to_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdmcount
+    ADD CONSTRAINT tdmcount_from_user_id_to_user_id_key UNIQUE (from_user_id, to_user_id);
 
 
 --
@@ -700,6 +796,13 @@ CREATE TRIGGER comment_del AFTER DELETE ON public.tcomment FOR EACH ROW EXECUTE 
 
 
 --
+-- Name: tdirectmessage dm_insert; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER dm_insert AFTER INSERT ON public.tdirectmessage FOR EACH ROW EXECUTE FUNCTION public.f_dm_insert();
+
+
+--
 -- Name: tcomment post_comment; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -707,10 +810,71 @@ CREATE TRIGGER post_comment AFTER INSERT ON public.tcomment FOR EACH ROW EXECUTE
 
 
 --
+-- Name: tcomment fk_post; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tcomment
+    ADD CONSTRAINT fk_post FOREIGN KEY (post_id) REFERENCES public.tpost(post_id) ON DELETE CASCADE;
+
+
+--
+-- Name: tdirectmessage tdirectmessage_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdirectmessage
+    ADD CONSTRAINT tdirectmessage_from_user_id_fkey FOREIGN KEY (from_user_id) REFERENCES public.tuser(user_id);
+
+
+--
+-- Name: tdirectmessage tdirectmessage_to_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdirectmessage
+    ADD CONSTRAINT tdirectmessage_to_user_id_fkey FOREIGN KEY (to_user_id) REFERENCES public.tuser(user_id);
+
+
+--
+-- Name: tdmcount tdmcount_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdmcount
+    ADD CONSTRAINT tdmcount_from_user_id_fkey FOREIGN KEY (from_user_id) REFERENCES public.tuser(user_id);
+
+
+--
+-- Name: tdmcount tdmcount_to_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tdmcount
+    ADD CONSTRAINT tdmcount_to_user_id_fkey FOREIGN KEY (to_user_id) REFERENCES public.tuser(user_id);
+
+
+--
 -- Name: TABLE tcomment; Type: ACL; Schema: public; Owner: postgres
 --
 
 GRANT ALL ON TABLE public.tcomment TO pns_user;
+
+
+--
+-- Name: TABLE tdirectmessage; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tdirectmessage TO pns_user;
+
+
+--
+-- Name: SEQUENCE tdirectmessage_dm_id_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.tdirectmessage_dm_id_seq TO pns_user;
+
+
+--
+-- Name: TABLE tdmcount; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON TABLE public.tdmcount TO pns_user;
 
 
 --
