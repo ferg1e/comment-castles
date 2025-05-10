@@ -1,7 +1,7 @@
 
 /*
 a user_id from the tuser database table
-serves as the default following list
+serves as the sitewide moderator
 */
 exports.adminUserId = 1
 
