@@ -7,6 +7,14 @@ body {
   margin-bottom: 3rem;
 }
 
+main em {
+    font-style: normal;
+}
+
+main i em {
+    font-style: italic;
+}
+
 .main-nav, .settings-nav {
   margin-bottom: 12px;
   margin-bottom: .75rem;
