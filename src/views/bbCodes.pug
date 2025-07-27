@@ -3,6 +3,40 @@ mixin bbCodes(text)
         text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
         //
+        const bbtags = {
+            'b' : 'b',
+            'i' : 'i',
+            'u' : 'u',
+            '`' : 'em',
+            's' : 's',
+        }
+
+        //
+        text = text.replace(
+            /([bius`]+)\[([^\[\]]*)\]/ig,
+            function(all, modifiers, inner) {
+
+                //
+                modifiers = modifiers.toLowerCase()
+
+                //
+                let start = ''
+                let end = ''
+
+                for(const i in bbtags) {
+                    if(modifiers.includes(i)) {
+                        const v = bbtags[i]
+ 
+                        start = start + `<${v}>`
+                        end = `</${v}>` + end
+                    }
+                }
+
+                return start + inner + end
+            }
+        )
+
+        //
         const urlRegex = /\[([^\[\]]*)\]((https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
         text = text.replace(
