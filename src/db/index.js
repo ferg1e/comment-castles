@@ -190,6 +190,20 @@ exports.updateUserProfile = (userId, profile) => {
 }
 
 //
+exports.updateUserPassword = async (userId, password) => {
+    const hash = await argon2.hash(password)
+
+    return query(`
+        update
+            tuser
+        set
+            password = $1
+        where
+            user_id = $2`,
+        [hash, userId])
+}
+
+//
 exports.genUserPublicId = (userId) => {
     return query(`
         update
