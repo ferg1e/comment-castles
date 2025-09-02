@@ -319,3 +319,6 @@ BEGIN
         count = tdmcount.count + 1;
   return null;
 END; $$ LANGUAGE 'plpgsql';
+
+--
+alter table tpost alter column sub_id drop not null;
