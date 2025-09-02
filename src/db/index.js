@@ -235,16 +235,18 @@ exports.createPost = async (userId, title, textContent, link, trimCastle) => {
 
     //
     let subId = null
-    const {rows:[existingSub]} = await module.exports.getSub(trimCastle)
 
-    if(existingSub) {
-        subId = existingSub.sub_id
-    }
-    else {
-        const {rows:[newSub]} = await module.exports.createSub(trimCastle, userId)
-        subId = newSub.sub_id
-    }
+    if(trimCastle !== '') {
+        const {rows:[existingSub]} = await module.exports.getSub(trimCastle)
 
+        if(existingSub) {
+            subId = existingSub.sub_id
+        }
+        else {
+            const {rows:[newSub]} = await module.exports.createSub(trimCastle, userId)
+            subId = newSub.sub_id
+        }
+    }
 
     //
     const {rows:[row]} = await query(`

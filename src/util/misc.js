@@ -86,11 +86,12 @@ exports.processPostCastle = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()
 
-    //
+    //if blank it's no sub,
+    //so just return without errors
     if(trimCastle === '') {
         return [
             trimCastle,
-            [{'msg': 'Please fill in a sub'}]]
+            []]
     }
 
     //
