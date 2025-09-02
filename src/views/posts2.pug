@@ -32,9 +32,10 @@ mixin singleLinePost(p)
             | 
             |on #{p.created_on}
 
-            | 
-            |to 
-            a(href=`/r/${p.castle}`)=p.castle
+            if p.castle
+                | 
+                |to 
+                a(href=`/r/${p.castle}`)=p.castle
 
             | 
             +postLinks(p)
@@ -50,9 +51,10 @@ mixin multiLinePost(p)
             | 
             |on #{p.created_on}
 
-            | 
-            |to 
-            a(href=`/r/${p.castle}`)=p.castle
+            if p.castle
+                | 
+                |to 
+                a(href=`/r/${p.castle}`)=p.castle
 
             | 
             +postLinks(p)

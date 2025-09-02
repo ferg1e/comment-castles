@@ -299,7 +299,7 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
             tpost p
         join
             tuser u on u.user_id = p.user_id
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         order by
             case when $3 = '' then p.created_on end desc,
