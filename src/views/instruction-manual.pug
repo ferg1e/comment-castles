@@ -46,9 +46,8 @@ block content
 
     h2#what What is #{siteName}?
     p
-        |#{siteName} is an internet forum.
-        |Users write posts, nested comments, direct messages, user profiles and sub descriptions.
-        |Each post must be assigned to a sub.
+        |#{siteName} is an internet forum with posts and nested comments.
+        |Users can also communicate privately via direct messages.
 
     h2#posts Posts
     p
@@ -56,6 +55,7 @@ block content
         a(href="/new") new post
         | 
         |in the site header to create a post. 
+        |Posts can include a title, link, content body and a sub - only title is required. 
         |The 
         a(href="/") home page
         | 
@@ -143,7 +143,7 @@ block content
 
     h2#subs Subs
     p
-        |When you create a post you assign it to a community called a sub. 
+        |When you create a post you can assign it to a community called a sub (this is optional). 
         |Each sub has its own page with all of its posts. 
         |For example, the 
         a(href="/r/meta") meta
