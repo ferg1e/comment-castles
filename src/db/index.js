@@ -835,7 +835,7 @@ exports.getCommentWithPublic = (publicId) => {
             tcomment c
         join
             tpost p on p.post_id = c.post_id
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         where
             c.public_id = $1`,
