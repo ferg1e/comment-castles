@@ -376,7 +376,7 @@ exports.getPostWithPublic = (publicId) => {
             s.lead_mod
         from
             tpost p
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         where
             p.public_id = $1`,
