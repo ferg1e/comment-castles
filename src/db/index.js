@@ -866,7 +866,7 @@ exports.getCommentWithPublic2 = (publicId, timeZone, dateFormat) => {
             tuser u on u.user_id = c.user_id
         join
             tpost p on p.post_id = c.post_id
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         where
             c.public_id = $3`,
