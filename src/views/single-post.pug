@@ -29,9 +29,10 @@ block content
             | 
             |on #{post.created_on}
 
-            | 
-            |to 
-            a(href=`/r/${post.castle}`)=post.castle
+            if post.castle
+                | 
+                |to 
+                a(href=`/r/${post.castle}`)=post.castle
 
             | 
             a(href=`/p/${post.public_id}`) comments(#{post.num_comments})

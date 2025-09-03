@@ -407,7 +407,7 @@ exports.getPostWithPublic2 = (publicId, timeZone, dateFormat) => {
             tpost p
         join
             tuser u on u.user_id = p.user_id
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
