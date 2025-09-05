@@ -322,3 +322,13 @@ END; $$ LANGUAGE 'plpgsql';
 
 --
 alter table tpost alter column sub_id drop not null;
+
+create table thashtag (
+    hashtag_id serial primary key,
+    hashtag varchar(20) not null
+);
+
+create table tposthashtag (
+    hashtag_id integer not null references thashtag,
+    post_id integer not null references tpost
+);
