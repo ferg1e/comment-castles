@@ -416,3 +416,12 @@ exports.setTheme = (theme, req) => {
         req.app.locals.themeLogo = '/images/logo-dm.png'
     }
 }
+
+exports.extractHashtags = (text) => {
+    const regexp = /(#[0-9a-z-]+)/gi
+    const matches = [...text.matchAll(regexp)]
+
+    return matches
+        .map(v => v[0].substring(1).toLowerCase())
+        .filter(v => v.length >= 3 && v.length <= 20)
+}
