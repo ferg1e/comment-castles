@@ -109,7 +109,7 @@ router.get(
         const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
-        const {rows} = await db.getTagPosts(
+        const {rows} = await db.getSubPosts(
             timeZone,
             page,
             urlSub,

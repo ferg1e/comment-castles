@@ -320,7 +320,7 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getTagPosts = async (timeZone, page, castle, sort, pageSize, dateFormat) => {
+exports.getSubPosts = async (timeZone, page, castle, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,

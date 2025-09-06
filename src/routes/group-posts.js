@@ -33,7 +33,7 @@ router.get(
         const sort = myMisc.getPostSort(req)
 
         //
-        const {rows} = await db.getTagPosts(
+        const {rows} = await db.getSubPosts(
             myMisc.getCurrTimeZone(req),
             page,
             castle,
