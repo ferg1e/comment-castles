@@ -332,3 +332,11 @@ create table tposthashtag (
     hashtag_id integer not null references thashtag,
     post_id integer not null references tpost
 );
+
+alter table tposthashtag drop constraint tposthashtag_post_id_fkey;
+
+alter table tposthashtag
+    add constraint tposthashtag_post_id_fkey
+    foreign key (post_id)
+    references tpost(post_id)
+    on delete cascade;
