@@ -455,6 +455,10 @@ exports.updatePost = async (postId, title, textContent, link) => {
         where
             post_id = $5`,
         [title, finalLink, finalTextContent, domainNameId, postId])
+
+    // clear and recreate hashtags
+    await module.exports.deletePostHashtags(postId)
+    await module.exports.createPostHashtags(postId, title, textContent)
 }
 
 exports.incPostNumComments = (postId) => {
@@ -1009,6 +1013,16 @@ exports.getHashtag = (hashtag) => {
             hashtag = lower($1)`,
         [hashtag]
     )
+}
+
+//
+exports.deletePostHashtags = (postId) => {
+    return query(`
+        delete from
+            tposthashtag
+        where
+            post_id = $1`,
+        [postId])
 }
 
 //oauth client
