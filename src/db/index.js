@@ -263,6 +263,9 @@ exports.createPost = async (userId, title, textContent, link, trimCastle) => {
     )
 
     //
+    await module.exports.createPostHashtags(row.post_id, title, textContent)
+
+    //
     return {
         post_id: newPublicPostId,
         title: row.title,
@@ -941,6 +944,70 @@ exports.updateSub = (subId, desc) => {
         where
             sub_id = $2`,
         [finalDesc, subId]
+    )
+}
+
+//hashtag
+exports.createHashtag = (hashtag) => {
+    return query(`
+        insert into thashtag
+            (hashtag)
+        values
+            (lower($1))
+        returning
+            hashtag_id`,
+        [hashtag])
+}
+
+//
+exports.createPostHashtag = (hashtagId, postId) => {
+    return query(`
+        insert into tposthashtag
+            (hashtag_id, post_id)
+        values
+            ($1, $2)`,
+        [hashtagId, postId])
+}
+
+//
+exports.createPostHashtags = async (postId, title, textContent) => {
+
+    //
+    const titleHashtags = myMisc.extractHashtags(title)
+    const contentHashtags = myMisc.extractHashtags(textContent)
+    const allUniqueHashtags = [...new Set([...titleHashtags, ...contentHashtags])]
+
+    //
+    const hashtagIds = []
+
+    for(let i = 0; i < allUniqueHashtags.length; ++i) {
+        const {rows:tagd} = await module.exports.getHashtag(allUniqueHashtags[i])
+
+        if(tagd.length) {
+            hashtagIds.push(tagd[0].hashtag_id)
+        }
+        else {
+            const {rows:tagInsert} = await module.exports.createHashtag(allUniqueHashtags[i])
+            hashtagIds.push(tagInsert[0].hashtag_id)
+        }
+    }
+
+    //
+    for(let i = 0; i < hashtagIds.length; ++i) {
+        await module.exports.createPostHashtag(hashtagIds[i], postId)
+    }
+}
+
+//
+exports.getHashtag = (hashtag) => {
+    return query(`
+        select
+            hashtag_id
+        from
+            thashtag
+        where
+            hashtag = lower($1)`,
+        [hashtag]
     )
 }
 
