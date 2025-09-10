@@ -367,6 +367,61 @@ exports.getSubPosts = async (timeZone, page, castle, sort, pageSize, dateFormat)
     )
 }
 
+//
+exports.getHashtagPosts = async (timeZone, page, hashtag, sort, pageSize, dateFormat) => {
+    return query(`
+        select
+            p.public_id,
+            p.title,
+            to_char(
+                timezone($1, p.created_on),
+                $2) created_on,
+            u.username,
+            u.user_id,
+            u.public_id as user_public_id,
+            p.link,
+            p.num_comments,
+            dn.domain_name,
+            s.slug castle,
+            s.lead_mod
+        from
+            tpost p
+        join
+            tuser u on u.user_id = p.user_id
+        left join
+            tsub s on s.sub_id = p.sub_id
+        left join
+            tdomainname dn on dn.domain_name_id = p.domain_name_id
+        where
+            exists(
+                select
+                    1
+                from
+                    thashtag t
+                join
+                    tposthashtag pt on pt.hashtag_id = t.hashtag_id
+                where
+                    t.hashtag = $3 and
+                    pt.post_id = p.post_id
+            )
+        order by
+            case when $4 = '' then p.created_on end desc,
+
+            case when $5 = 'oldest' then p.created_on end asc,
+
+            case when $6 = 'comments' then p.num_comments end desc,
+            case when $7 = 'comments' then p.created_on end desc,
+
+            case when $8 = 'last' then p.last_comment end desc nulls last,
+            case when $9 = 'last' then p.created_on end desc
+        limit
+            $10
+        offset
+            $11`,
+        [timeZone, dateFormat, hashtag, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
+    )
+}
+
 exports.getPostWithPublic = (publicId) => {
     return query(`
         select
