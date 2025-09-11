@@ -36,6 +36,7 @@ router.get(
             'posts2',
             {
                 html_title: `#${hashtag}`,
+                page_title: `#${hashtag}`,
                 user: req.session.user,
                 posts: rows,
                 page: page,

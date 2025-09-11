@@ -60,6 +60,9 @@ mixin multiLinePost(p)
             +postLinks(p)
 
 block content
+    if page_title
+        h1=page_title
+
     div.sort1o
         span.sort1
             a(class=(sort == '' ? 'curr-sort' : '') href=base_url) newest
