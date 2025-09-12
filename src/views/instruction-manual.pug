@@ -24,6 +24,8 @@ block content
         li
             a(href="#subs") Subs
         li
+            a(href="#hashtags") Hashtags
+        li
             a(href="#user-settings") User Settings
         li
             a(href="#sub-settings") Sub Settings
@@ -47,6 +49,7 @@ block content
     h2#what What is #{siteName}?
     p
         |#{siteName} is an internet forum with posts and nested comments.
+        |Both subs (communities) and hashtags are available for posts.
         |Users can also communicate privately via direct messages.
 
     h2#posts Posts
@@ -56,12 +59,14 @@ block content
         | 
         |in the site header to create a post. 
         |Posts can include a title, link, content body and a sub - only title is required. 
+        |The post title and content body accept hashtags.
         |The 
         a(href="/") home page
         | 
         |displays all posts from all users.
         |You can sort posts by #[a(href="/") newest], #[a(href="/?sort=oldest") oldest], #[a(href="/?sort=comments") most comments] and #[a(href="/?sort=last") most recent comment].
-        |These sorting options are at the top of the #[a(href="/") home page] and at the top of subs.
+        |These sorting options are at the top of the #[a(href="/") home page], at the top of subs 
+        |and at the top of hashtag pages.
 
     h2#comments Comments
     p
@@ -150,6 +155,16 @@ block content
         | 
         |sub. 
         |The sub name and about link show in the site header when you are inside a sub.
+
+    h2#hashtags Hashtags
+    p
+        |The post title and content body can contain hashtags.
+        |A hashtag is the hash character followed by a tag, for example 
+        em #hello
+        |. There is a page for each hashtag that lists all the posts that contain that hashtag.
+        |For example,  
+        a(href="/t/hello") #hello
+        |.
 
     h2#user-settings User Settings
     p.
