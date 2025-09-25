@@ -25,6 +25,7 @@ app.locals.apiBaseUrl = config.apiBaseUrl
 app.locals.jsDir = config.jsDir
 app.locals.cssDir = config.cssDir
 app.locals.adminUserId = config.adminUserId
+app.locals.hashtagsRegex = config.hashtagsRegex
 
 //
 app.set('view engine', 'pug')

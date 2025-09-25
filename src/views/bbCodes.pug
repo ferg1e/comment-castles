@@ -3,6 +3,16 @@ mixin bbCodes(text)
         text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
         //
+        text = text.replace(
+            hashtagsRegex,
+            function(ht) {
+                const tag = ht.substring(1).toLocaleLowerCase()
+                const aElem = `<a href="/t/${tag}">${ht}</a>`
+                return aElem
+            }
+        )
+
+        //
         const bbtags = {
             'b' : 'b',
             'i' : 'i',
