@@ -1,6 +1,6 @@
 # Comment Castles
 
-Comment Castles is an internet forum project with posts and nested comments. Posts can be assigned to a sub/community but this is optional (ie. posts can be subless). Users can also communicate privately using direct messages. There is a site-wide moderator and each sub has a moderator. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
+Comment Castles is an internet forum project with posts and nested comments. Posts can be assigned to a sub/community and use hashtags. Subs and hashtags are optional. Users can also communicate privately using direct messages. There is a site-wide moderator and each sub has a moderator. There is an instance running at [commentcastles.org](https://www.commentcastles.org)!
 
 Other Features:
 
