@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.2)
--- Dumped by pg_dump version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.2)
+-- Dumped from database version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.4)
+-- Dumped by pg_dump version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.4)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -371,6 +371,40 @@ ALTER SEQUENCE public.tdomainname_domain_name_id_seq OWNED BY public.tdomainname
 
 
 --
+-- Name: thashtag; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.thashtag (
+    hashtag_id integer NOT NULL,
+    hashtag character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.thashtag OWNER TO postgres;
+
+--
+-- Name: thashtag_hashtag_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.thashtag_hashtag_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.thashtag_hashtag_id_seq OWNER TO postgres;
+
+--
+-- Name: thashtag_hashtag_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.thashtag_hashtag_id_seq OWNED BY public.thashtag.hashtag_id;
+
+
+--
 -- Name: toauthaccesstoken; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -499,7 +533,7 @@ CREATE TABLE public.tpost (
     num_comments integer DEFAULT 0,
     domain_name_id integer,
     last_comment timestamp with time zone,
-    sub_id integer DEFAULT 1 NOT NULL
+    sub_id integer DEFAULT 1
 );
 
 
@@ -526,6 +560,18 @@ ALTER TABLE public.tpost_post_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.tpost_post_id_seq OWNED BY public.tpost.post_id;
 
+
+--
+-- Name: tposthashtag; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tposthashtag (
+    hashtag_id integer NOT NULL,
+    post_id integer NOT NULL
+);
+
+
+ALTER TABLE public.tposthashtag OWNER TO postgres;
 
 --
 -- Name: tsub; Type: TABLE; Schema: public; Owner: postgres
@@ -653,6 +699,13 @@ ALTER TABLE ONLY public.tdomainname ALTER COLUMN domain_name_id SET DEFAULT next
 
 
 --
+-- Name: thashtag hashtag_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thashtag ALTER COLUMN hashtag_id SET DEFAULT nextval('public.thashtag_hashtag_id_seq'::regclass);
+
+
+--
 -- Name: toauthaccesstoken accesstoken_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -716,6 +769,14 @@ ALTER TABLE ONLY public.tdmcount
 
 ALTER TABLE ONLY public.tdomainname
     ADD CONSTRAINT tdomainname_pkey PRIMARY KEY (domain_name_id);
+
+
+--
+-- Name: thashtag thashtag_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.thashtag
+    ADD CONSTRAINT thashtag_pkey PRIMARY KEY (hashtag_id);
 
 
 --
@@ -847,6 +908,22 @@ ALTER TABLE ONLY public.tdmcount
 
 ALTER TABLE ONLY public.tdmcount
     ADD CONSTRAINT tdmcount_to_user_id_fkey FOREIGN KEY (to_user_id) REFERENCES public.tuser(user_id);
+
+
+--
+-- Name: tposthashtag tposthashtag_hashtag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tposthashtag
+    ADD CONSTRAINT tposthashtag_hashtag_id_fkey FOREIGN KEY (hashtag_id) REFERENCES public.thashtag(hashtag_id);
+
+
+--
+-- Name: tposthashtag tposthashtag_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tposthashtag
+    ADD CONSTRAINT tposthashtag_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.tpost(post_id) ON DELETE CASCADE;
 
 
 --
