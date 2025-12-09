@@ -158,67 +158,65 @@ router.get(
         const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
-        const {rows} = await db.getPostWithPublic2(
+        const {rows:[post]} = await db.getPostWithPublic2(
             postPublicId,
             timeZone,
             config.defaultDateFormat)
 
         //
-        if(rows.length) {
-
-            //
-            let page = 1
-
-            if(typeof req.query.p !== 'undefined') {
-                page = parseInt(req.query.p)
-
-                if(isNaN(page)) {
-                    page = 1
-                }
-            }
-
-            //
-            const{rows:comments} = await db.getPostComments(
-                rows[0].post_id,
-                timeZone,
-                page,
-                config.defaultDateFormat)
-
-            //
-            let comments2 = []
-
-            for(const i in comments) {
-                const c = comments[i]
-                const dotCount = (c.path.match(/\./g)||[]).length
-
-                comments2.push({
-                    comment_text: c.text_content,
-                    indent_level: dotCount - 1,
-                    author_username: c.username,
-                    author_user_id: c.user_public_id,
-                    comment_time: c.created_on_raw,
-                    comment_id: c.public_id
-                })
-            }
-            
-            let r = {
-                title: rows[0].title,
-                link: rows[0].link,
-                post_text: rows[0].text_content,
-                post_time: rows[0].created_on_raw,
-                author_username: rows[0].username,
-                author_user_id: rows[0].user_public_id,
-                comments: comments2,
-                sub: rows[0].castle
-            }
-
-            res.json(r)
-        }
-        else {
+        if(!post) {
             return res.status(404).json({
                 errors: ["no post with that postid"],
             })
         }
+
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                page = 1
+            }
+        }
+
+        //
+        const{rows:comments} = await db.getPostComments(
+            post.post_id,
+            timeZone,
+            page,
+            config.defaultDateFormat)
+
+        //
+        let comments2 = []
+
+        for(const i in comments) {
+            const c = comments[i]
+            const dotCount = (c.path.match(/\./g)||[]).length
+
+            comments2.push({
+                comment_text: c.text_content,
+                indent_level: dotCount - 1,
+                author_username: c.username,
+                author_user_id: c.user_public_id,
+                comment_time: c.created_on_raw,
+                comment_id: c.public_id
+            })
+        }
+        
+        let r = {
+            title: post.title,
+            link: post.link,
+            post_text: post.text_content,
+            post_time: post.created_on_raw,
+            author_username: post.username,
+            author_user_id: post.user_public_id,
+            comments: comments2,
+            sub: post.castle
+        }
+
+        res.json(r)
     }
 )
 
