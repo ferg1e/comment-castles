@@ -421,13 +421,13 @@ router.get(
         const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
         //
-        const {rows} = await db.getCommentWithPublic2(
+        const {rows:[comment]} = await db.getCommentWithPublic2(
             commentPublicId,
             timeZone,
             config.defaultDateFormat)
 
         //
-        if(rows.length) {
+        if(comment) {
 
             //
             let page = 1
@@ -442,14 +442,14 @@ router.get(
 
             //
             const{rows:comments} = await db.getCommentComments(
-                rows[0].path,
+                comment.path,
                 timeZone,
                 page,
                 config.defaultDateFormat)
 
             //
             let comments2 = []
-            const rootDotCount = (rows[0].path.match(/\./g)||[]).length
+            const rootDotCount = (comment.path.match(/\./g)||[]).length
 
             for(const i in comments) {
                 const c = comments[i]
@@ -466,10 +466,10 @@ router.get(
             }
             
             let r = {
-                comment_text: rows[0].text_content,
-                comment_time: rows[0].created_on_raw,
-                author_username: rows[0].username,
-                author_user_id: rows[0].user_public_id,
+                comment_text: comment.text_content,
+                comment_time: comment.created_on_raw,
+                author_username: comment.username,
+                author_user_id: comment.user_public_id,
                 comments: comments2
             }
 
