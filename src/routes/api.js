@@ -427,59 +427,57 @@ router.get(
             config.defaultDateFormat)
 
         //
-        if(comment) {
-
-            //
-            let page = 1
-
-            if(typeof req.query.p !== 'undefined') {
-                page = parseInt(req.query.p)
-
-                if(isNaN(page)) {
-                    page = 1
-                }
-            }
-
-            //
-            const{rows:comments} = await db.getCommentComments(
-                comment.path,
-                timeZone,
-                page,
-                config.defaultDateFormat)
-
-            //
-            let comments2 = []
-            const rootDotCount = (comment.path.match(/\./g)||[]).length
-
-            for(const i in comments) {
-                const c = comments[i]
-                const dotCount = (c.path.match(/\./g)||[]).length
-
-                comments2.push({
-                    comment_text: c.text_content,
-                    indent_level: dotCount - rootDotCount - 1,
-                    author_username: c.username,
-                    author_user_id: c.user_public_id,
-                    comment_time: c.created_on_raw,
-                    comment_id: c.public_id
-                })
-            }
-            
-            let r = {
-                comment_text: comment.text_content,
-                comment_time: comment.created_on_raw,
-                author_username: comment.username,
-                author_user_id: comment.user_public_id,
-                comments: comments2
-            }
-
-            res.json(r)
-        }
-        else {
+        if(!comment) {
             return res.status(404).json({
                 errors: ["no comment with that commentid"],
             })
         }
+
+        //
+        let page = 1
+
+        if(typeof req.query.p !== 'undefined') {
+            page = parseInt(req.query.p)
+
+            if(isNaN(page)) {
+                page = 1
+            }
+        }
+
+        //
+        const{rows:comments} = await db.getCommentComments(
+            comment.path,
+            timeZone,
+            page,
+            config.defaultDateFormat)
+
+        //
+        let comments2 = []
+        const rootDotCount = (comment.path.match(/\./g)||[]).length
+
+        for(const i in comments) {
+            const c = comments[i]
+            const dotCount = (c.path.match(/\./g)||[]).length
+
+            comments2.push({
+                comment_text: c.text_content,
+                indent_level: dotCount - rootDotCount - 1,
+                author_username: c.username,
+                author_user_id: c.user_public_id,
+                comment_time: c.created_on_raw,
+                comment_id: c.public_id
+            })
+        }
+        
+        let r = {
+            comment_text: comment.text_content,
+            comment_time: comment.created_on_raw,
+            author_username: comment.username,
+            author_user_id: comment.user_public_id,
+            comments: comments2
+        }
+
+        res.json(r)
     }
 )
 
