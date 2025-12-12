@@ -516,17 +516,6 @@ exports.updatePost = async (postId, title, textContent, link) => {
     await module.exports.createPostHashtags(postId, title, textContent)
 }
 
-exports.incPostNumComments = (postId) => {
-    return query(`
-        update
-            tpost
-        set
-            num_comments = num_comments +1
-        where
-            post_id = $1`,
-        [postId])
-}
-
 exports.updatePostDomainNameId = (postId, domainNameId) => {
     return query(`
         update

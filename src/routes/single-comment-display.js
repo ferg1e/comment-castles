@@ -135,9 +135,6 @@ router.route('/')
                             config.defaultDateFormat)
 
                         //
-                        await db.incPostNumComments(rows[0].post_id)
-
-                        //
                         const {rows:data2} = await db.getCommentNumComments(rows[0].path)
 
                         const numComments = data2[0]['count']

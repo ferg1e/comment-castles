@@ -37,9 +37,6 @@ const postComment = async (req, res) => {
         myMisc.getCurrTimeZone(req),
         myMisc.getCurrDateFormat(req))
 
-    //TODO: make this a postgres trigger
-    await db.incPostNumComments(comment.post_id)
-
     //
     newComment.by = req.session.user.username
 

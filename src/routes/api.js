@@ -553,9 +553,6 @@ router.post(
                 oauthData.user.user_id,
                 compressedComment)
 
-            //todo: use a postgres trigger for this
-            await db.incPostNumComments(row.post_id)
-
             //
             return res.json({
                 comment_id: newComment.public_id,
@@ -591,9 +588,6 @@ router.post(
                 row.path,
                 oauthData.user.time_zone,
                 config.defaultDateFormat)
-
-            //todo: use trigger
-            await db.incPostNumComments(row.post_id)
 
             //
             return res.json({

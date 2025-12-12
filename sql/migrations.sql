@@ -340,3 +340,17 @@ alter table tposthashtag
     foreign key (post_id)
     references tpost(post_id)
     on delete cascade;
+
+-- add num_comments increment to this trigger function
+CREATE OR REPLACE FUNCTION f_post_comment()
+RETURNS TRIGGER AS $$
+BEGIN
+  update
+    tpost
+  set
+    num_comments = num_comments + 1,
+    last_comment = new.created_on
+  where
+    post_id = new.post_id;
+  return null;
+END; $$ LANGUAGE 'plpgsql';

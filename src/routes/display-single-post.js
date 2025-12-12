@@ -134,9 +134,6 @@ const post = async (req, res) => {
         compressedComment)
 
     //
-    await db.incPostNumComments(row.post_id)
-
-    //
     const {rows:data2} = await db.getPostNumComments(row.post_id)
 
     //
