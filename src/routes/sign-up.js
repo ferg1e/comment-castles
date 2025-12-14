@@ -1,10 +1,8 @@
 const express = require('express')
-const {body, validationResult} = require('express-validator')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router()
-const regexUsername = /^[a-z0-9-]{4,16}$/i
 const htmlTitleSignUp = 'Sign Up'
 
 const get = async (req, res) => {
@@ -32,7 +30,7 @@ const get = async (req, res) => {
 const post = async(req, res) => {
 
     //
-    const errors = validationResult(req).array({onlyFirstError:true})
+    const errors = myMisc.validateSignUp(req.body.username, req.body.password)
 
     //
     if(errors.length > 0) {
@@ -86,15 +84,5 @@ const post = async(req, res) => {
 
 //
 router.get('/', get)
-
-router.post(
-    '/',
-    body('username', 'Username must be 4-16 characters (letters, numbers and dashes only)')
-        .notEmpty().withMessage('Please fill in a username')
-        .matches(regexUsername),
-    body('password', 'Password must be 9-100 characters')
-        .notEmpty().withMessage('Please fill in a password')
-        .matches(/^.{9,100}$/),
-    post)
-
+router.post('/', post)
 module.exports = router
