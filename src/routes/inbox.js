@@ -6,41 +6,10 @@ const router = express.Router()
 
 //
 const get = async (req, res) => {
-    if(req.session.user) {
 
-        //
-        let page = 1
-
-        if(typeof req.query.p !== 'undefined') {
-            page = parseInt(req.query.p)
-
-            if(isNaN(page)) {
-                return res.redirect('/inbox')
-            }
-        }
-
-        //
-        const{rows:comments} = await db.getInboxComments(
-            myMisc.getCurrTimeZone(req),
-            req.session.user.user_id,
-            page,
-            myMisc.getCurrDateFormat(req))
-
-        //
-        res.render(
-            'inbox',
-            {
-                html_title: 'Inbox',
-                user: req.session.user,
-                comments: comments,
-                page: page,
-                comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            }
-        )
-    }
-    else {
-        res.render(
+    //
+    if(!req.session.user) {
+        return res.render(
             'message',
             {
                 html_title: 'Inbox',
@@ -50,6 +19,37 @@ const get = async (req, res) => {
                 main_class: 'main-text'
             })
     }
+
+    //
+    let page = 1
+
+    if(typeof req.query.p !== 'undefined') {
+        page = parseInt(req.query.p)
+
+        if(isNaN(page)) {
+            return res.redirect('/inbox')
+        }
+    }
+
+    //
+    const{rows:comments} = await db.getInboxComments(
+        myMisc.getCurrTimeZone(req),
+        req.session.user.user_id,
+        page,
+        myMisc.getCurrDateFormat(req))
+
+    //
+    res.render(
+        'inbox',
+        {
+            html_title: 'Inbox',
+            user: req.session.user,
+            comments: comments,
+            page: page,
+            comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        }
+    )
 }
 
 //
