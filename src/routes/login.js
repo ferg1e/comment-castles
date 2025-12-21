@@ -9,7 +9,7 @@ const htmlTitleLogin = 'Log In'
 //
 const get = (req, res) => {
     if(req.session.user) {
-        res.render(
+        return res.render(
             'message',
             {
                 html_title: htmlTitleLogin,
@@ -19,15 +19,15 @@ const get = (req, res) => {
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
-    else {
-        res.render(
-            'login',
-            {
-                html_title: htmlTitleLogin,
-                errors:[],
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
-    }
+
+    //
+    return res.render(
+        'login',
+        {
+            html_title: htmlTitleLogin,
+            errors:[],
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
 }
 
 //
