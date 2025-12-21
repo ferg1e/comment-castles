@@ -38,19 +38,8 @@ const post = async (req, res) => {
     if(rows.length) {
         try {
             if(await argon2.verify(rows[0].password, req.body.password)) {
-                req.session.user = {
-                    user_id: rows[0].user_id,
-                    public_id: rows[0].public_id,
-                    username: rows[0].username,
-                    time_zone: rows[0].time_zone,
-                    post_layout: rows[0].post_layout,
-                    posts_per_page: rows[0].posts_per_page,
-                    posts_vertical_spacing: rows[0].posts_vertical_spacing,
-                    theme: rows[0].theme,
-                    comment_reply_mode: rows[0].comment_reply_mode,
-                    site_width: rows[0].site_width,
-                    date_format: rows[0].date_format,
-                }
+                req.session.user = rows[0]
+                delete req.session.user.password
 
                 //
                 const redirectUrl = (typeof req.query.rurl === 'undefined')
