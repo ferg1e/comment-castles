@@ -33,12 +33,12 @@ const get = (req, res) => {
 //
 const post = async (req, res) => {
     let errors = []
-    const {rows} = await db.getUserWithUsername(req.body.username)
+    const {rows:[dbUser]} = await db.getUserWithUsername(req.body.username)
 
-    if(rows.length) {
+    if(dbUser) {
         try {
-            if(await argon2.verify(rows[0].password, req.body.password)) {
-                req.session.user = rows[0]
+            if(await argon2.verify(dbUser.password, req.body.password)) {
+                req.session.user = dbUser
                 delete req.session.user.password
 
                 //
