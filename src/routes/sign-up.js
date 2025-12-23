@@ -27,7 +27,7 @@ const get = async (req, res) => {
     )
 }
 
-const post = async(req, res) => {
+const post = async (req, res) => {
 
     //
     const errors = myMisc.validateSignUp(req.body.username, req.body.password)
