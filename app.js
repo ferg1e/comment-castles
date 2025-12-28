@@ -54,6 +54,7 @@ app.use(cookieParser())
 //
 app.use('/', require('./src/routes/misc'))
 app.use('/', require('./src/routes/home'))
+app.use('/subs/', require('./src/routes/subs'))
 app.use('/settings/', require('./src/routes/user-settings'))
 app.use('/settings/username/', require('./src/routes/user-settings-username'))
 app.use('/settings/password/', require('./src/routes/user-settings-password'))
