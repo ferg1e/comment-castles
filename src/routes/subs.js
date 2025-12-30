@@ -20,7 +20,15 @@ const get = async (req, res) => {
         }
     }
 
-    return myMisc.renderMessage(req, res, htmlTitle, 'subs list goes here')
+    //
+    const {rows:subs} = await db.getAllSubs()
+
+    res.render('subs', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        subs: subs,
+    })
 }
 
 //

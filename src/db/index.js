@@ -981,6 +981,19 @@ exports.getSub = (slug) => {
 }
 
 //
+exports.getAllSubs = () => {
+    return query(`
+        select
+            slug,
+            sub_desc
+        from
+            tsub
+        order by
+            slug`
+    )
+}
+
+//
 exports.updateSub = (subId, desc) => {
     const finalDesc = desc.trim() === '' ? null : desc
 

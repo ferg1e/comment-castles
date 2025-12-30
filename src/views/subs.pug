@@ -1,0 +1,11 @@
+extends layout
+
+include bbCodes.pug
+
+block content
+    h1 Subs List
+
+    each sub in subs
+        div
+            div=sub.slug
+            div=sub.sub_desc
