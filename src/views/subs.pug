@@ -7,5 +7,5 @@ block content
 
     each sub in subs
         div
-            div=sub.slug
+            a(href=`/r/${sub.slug}`)=sub.slug
             div=sub.sub_desc
