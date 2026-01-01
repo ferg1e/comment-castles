@@ -11,4 +11,5 @@ block content
     each sub in subs
         div
             a(href=`/r/${sub.slug}`)=sub.slug
-            div=sub.sub_desc
+            div
+                +bbCodes(sub.sub_desc)
