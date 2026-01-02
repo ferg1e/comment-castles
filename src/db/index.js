@@ -981,7 +981,10 @@ exports.getSub = (slug) => {
 }
 
 //
-exports.getAllSubs = () => {
+exports.getAllSubs = (page) => {
+    const limit = config.subsPerPage
+    const offset = (page - 1)*config.subsPerPage
+
     return query(`
         select
             slug,
@@ -989,7 +992,12 @@ exports.getAllSubs = () => {
         from
             tsub
         order by
-            slug`
+            slug
+        limit
+            $1
+        offset
+            $2`,
+        [limit, offset]
     )
 }
 

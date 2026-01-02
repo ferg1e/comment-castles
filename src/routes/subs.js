@@ -21,7 +21,7 @@ const get = async (req, res) => {
     }
 
     //
-    const {rows:subs} = await db.getAllSubs()
+    const {rows:subs} = await db.getAllSubs(page)
 
     res.render('subs', {
         html_title: htmlTitle,
