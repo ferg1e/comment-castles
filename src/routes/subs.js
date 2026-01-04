@@ -10,6 +10,10 @@ const htmlTitle = 'Subs List'
 const get = async (req, res) => {
 
     //
+    const {rows:[{count:subsCount}]} = await db.getAllSubsCount()
+    const numPages = Math.ceil(subsCount/config.subsPerPage);
+
+    //
     let page = 1
 
     if(typeof req.query.p !== 'undefined') {
@@ -29,6 +33,7 @@ const get = async (req, res) => {
         max_width: myMisc.getCurrSiteMaxWidth(req),
         subs: subs,
         page: page,
+        num_pages: numPages,
         main_class: 'main-text'
     })
 }

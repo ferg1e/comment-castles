@@ -1002,6 +1002,16 @@ exports.getAllSubs = (page) => {
 }
 
 //
+exports.getAllSubsCount = () => {
+    return query(`
+        select
+            count(1) as count
+        from
+            tsub`
+    )
+}
+
+//
 exports.updateSub = (subId, desc) => {
     const finalDesc = desc.trim() === '' ? null : desc
 

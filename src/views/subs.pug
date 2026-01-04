@@ -14,5 +14,6 @@ block content
             div
                 +bbCodes(sub.sub_desc)
 
-    div
-        a(class="more" href=`/subs?p=${page + 1}`) more &gt;
+    if page < num_pages
+        div
+            a(class="more" href=`/subs?p=${page + 1}`) more &gt;
