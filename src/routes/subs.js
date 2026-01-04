@@ -28,6 +28,7 @@ const get = async (req, res) => {
         user: req.session.user,
         max_width: myMisc.getCurrSiteMaxWidth(req),
         subs: subs,
+        page: page,
         main_class: 'main-text'
     })
 }

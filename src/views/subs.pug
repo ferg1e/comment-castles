@@ -13,3 +13,6 @@ block content
             a(href=`/r/${sub.slug}`)=sub.slug
             div
                 +bbCodes(sub.sub_desc)
+
+    div
+        a(class="more" href=`/subs?p=${page + 1}`) more &gt;
