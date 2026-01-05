@@ -17,4 +17,4 @@ order by
     p.post_id;
 
 -- clear/truncate all tables and reset "autoincrement"
-truncate tfollower, tpost, tposttag, ttag, tcomment, tuser, tdomainname, tgroupmember, toauthaccesstoken, toauthauthcode, toauthclient, tprivategroup restart identity;
+truncate tcomment, tdirectmessage, tdmcount, tdomainname, thashtag, toauthaccesstoken, toauthauthcode, toauthclient, tpost, tposthashtag, tsub, tuser restart identity;
