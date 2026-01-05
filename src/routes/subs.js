@@ -11,7 +11,7 @@ const get = async (req, res) => {
 
     //
     const {rows:[{count:subsCount}]} = await db.getAllSubsCount()
-    const numPages = Math.ceil(subsCount/config.subsPerPage);
+    const numPages = Math.ceil(subsCount/config.subsPerPage)
 
     //
     let page = 1
