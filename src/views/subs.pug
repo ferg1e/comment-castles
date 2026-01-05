@@ -10,6 +10,8 @@ block content
 
     if num_pages == 0
         span there are no subs
+    else if page > num_pages
+        span there are only #{num_pages} page(s)
     else
         each sub in subs
             div
