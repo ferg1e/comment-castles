@@ -8,12 +8,15 @@ include bbCodes.pug
 block content
     h1 Subs List
 
-    each sub in subs
-        div
-            a(href=`/r/${sub.slug}`)=sub.slug
+    if num_pages == 0
+        span there are no subs
+    else
+        each sub in subs
             div
-                +bbCodes(sub.sub_desc)
+                a(href=`/r/${sub.slug}`)=sub.slug
+                div
+                    +bbCodes(sub.sub_desc)
 
-    if page < num_pages
-        div
-            a(class="more" href=`/subs?p=${page + 1}`) more &gt;
+        if page < num_pages
+            div
+                a(class="more" href=`/subs?p=${page + 1}`) more &gt;
