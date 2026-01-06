@@ -42,7 +42,7 @@ body, .sort1 .curr-sort, .cheader a:hover, .dm-header a:hover, .pinfo1, .pinfo1-
     color: #9b4747;
 }
 
-.backpost-nav a, .more {
+.backpost-nav a, .more, .main-text .more {
     background: #ffcc80;
     color: #000000;
     border: 1px solid #000000;
