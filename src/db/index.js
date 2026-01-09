@@ -322,6 +322,15 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
     )
 }
 
+//
+exports.getPostsCount = async () => {
+    return query(`
+        select
+            count(1) count
+        from
+            tpost`)
+}
+
 //TODO: very similar to getPosts(), may want to combine
 exports.getSubPosts = async (timeZone, page, castle, sort, pageSize, dateFormat) => {
     return query(`

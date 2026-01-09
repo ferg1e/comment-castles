@@ -10,6 +10,11 @@ const htmlTitleHome = config.siteName
 const getHome = async (req, res) => {
 
     //
+    const postsPerPage = myMisc.getCurrPostsPerPage(req)
+    const {rows:[{count:postsCount}]} = await db.getPostsCount()
+    const numPages = Math.ceil(postsCount/postsPerPage)
+
+    //
     let page = 1
 
     if(typeof req.query.p !== 'undefined') {
@@ -28,7 +33,7 @@ const getHome = async (req, res) => {
         myMisc.getCurrTimeZone(req),
         page,
         sort,
-        myMisc.getCurrPostsPerPage(req),
+        postsPerPage,
         myMisc.getCurrDateFormat(req))
 
     res.render(
@@ -43,6 +48,7 @@ const getHome = async (req, res) => {
             post_layout: myMisc.getCurrPostLayout(req),
             sort: sort,
             posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+            num_pages: numPages
         })
 }
 

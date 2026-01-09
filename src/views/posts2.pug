@@ -73,7 +73,11 @@ block content
             | 
             a(class=(sort == 'last' ? 'curr-sort' : '') href=`${base_url}?sort=last`) last comment
 
-    if posts.length
+    if num_pages == 0
+        span no posts
+    else if page > num_pages
+        span there are only #{num_pages} page(s)
+    else
         .posts
 
             each post in posts
@@ -82,14 +86,13 @@ block content
                 else
                     +multiLinePost(post)
 
-        div
-            -
-                let pageUrl = `${base_url}?p=${page + 1}`
+        if page < num_pages
+            div
+                -
+                    let pageUrl = `${base_url}?p=${page + 1}`
 
-                if(sort !== '') {
-                    pageUrl += `&sort=${sort}`
-                }
+                    if(sort !== '') {
+                        pageUrl += `&sort=${sort}`
+                    }
 
-            a(class="more" href=pageUrl) more &gt;
-    else
-        span no posts
+                a(class="more" href=pageUrl) more &gt;
