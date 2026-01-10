@@ -377,6 +377,18 @@ exports.getSubPosts = async (timeZone, page, castle, sort, pageSize, dateFormat)
 }
 
 //
+exports.getSubPostsCount = (subId) => {
+    return query(`
+        select
+            count(1) count
+        from
+            tpost
+        where
+            sub_id = $1`,
+        [subId])
+}
+
+//
 exports.getHashtagPosts = async (timeZone, page, hashtag, sort, pageSize, dateFormat) => {
     return query(`
         select

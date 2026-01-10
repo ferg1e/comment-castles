@@ -19,6 +19,11 @@ router.get(
         }
 
         //
+        const postsPerPage = myMisc.getCurrPostsPerPage(req)
+        const {rows:[{count:postsCount}]} = await db.getSubPostsCount(sub.sub_id)
+        const numPages = Math.ceil(postsCount/postsPerPage)
+
+        //
         let page = 1
 
         if(typeof req.query.p !== 'undefined') {
@@ -38,7 +43,7 @@ router.get(
             page,
             castle,
             sort,
-            myMisc.getCurrPostsPerPage(req),
+            postsPerPage,
             myMisc.getCurrDateFormat(req))
 
         res.render(
@@ -55,6 +60,7 @@ router.get(
                 curr_castle: castle,
                 sort: sort,
                 posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+                num_pages: numPages
             })
     }
 )
