@@ -21,16 +21,21 @@ router.get(
         }
 
         //
+        const {rows:[dbHashtag]} = await db.getHashtag(hashtag)
         const sort = myMisc.getPostSort(req)
+        let posts = []
 
-        //
-        const {rows} = await db.getHashtagPosts(
-            myMisc.getCurrTimeZone(req),
-            page,
-            hashtag,
-            sort,
-            myMisc.getCurrPostsPerPage(req),
-            myMisc.getCurrDateFormat(req))
+        if(dbHashtag) {
+            const {rows} = await db.getHashtagPosts(
+                myMisc.getCurrTimeZone(req),
+                page,
+                hashtag,
+                sort,
+                myMisc.getCurrPostsPerPage(req),
+                myMisc.getCurrDateFormat(req))
+
+            posts = rows
+        }
 
         res.render(
             'posts2',
@@ -38,7 +43,7 @@ router.get(
                 html_title: `#${hashtag}`,
                 page_title: `#${hashtag}`,
                 user: req.session.user,
-                posts: rows,
+                posts: posts,
                 page: page,
                 base_url: `/t/${hashtag}`,
                 max_width: myMisc.getCurrSiteMaxWidth(req),
