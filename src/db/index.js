@@ -278,7 +278,7 @@ exports.createPost = async (userId, title, textContent, link, trimCastle) => {
     }
 }
 
-exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
+exports.getPosts = (timeZone, page, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -323,7 +323,7 @@ exports.getPosts = async (timeZone, page, sort, pageSize, dateFormat) => {
 }
 
 //
-exports.getPostsCount = async () => {
+exports.getPostsCount = () => {
     return query(`
         select
             count(1) count
@@ -332,7 +332,7 @@ exports.getPostsCount = async () => {
 }
 
 //TODO: very similar to getPosts(), may want to combine
-exports.getSubPosts = async (timeZone, page, castle, sort, pageSize, dateFormat) => {
+exports.getSubPosts = (timeZone, page, castle, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -389,7 +389,7 @@ exports.getSubPostsCount = (subId) => {
 }
 
 //
-exports.getHashtagPosts = async (timeZone, page, hashtag, sort, pageSize, dateFormat) => {
+exports.getHashtagPosts = (timeZone, page, hashtag, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -616,7 +616,7 @@ exports.validateNewPost = async (title, link, castle) => {
 }
 
 //
-exports.validateEditPost = async (title, link) => {
+exports.validateEditPost = (title, link) => {
 
     //
     let errors = []
