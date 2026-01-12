@@ -29,7 +29,7 @@ router.get(
             const {rows} = await db.getHashtagPosts(
                 myMisc.getCurrTimeZone(req),
                 page,
-                hashtag,
+                dbHashtag.hashtag_id,
                 sort,
                 myMisc.getCurrPostsPerPage(req),
                 myMisc.getCurrDateFormat(req))

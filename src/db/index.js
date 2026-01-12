@@ -389,7 +389,7 @@ exports.getSubPostsCount = (subId) => {
 }
 
 //
-exports.getHashtagPosts = (timeZone, page, hashtag, sort, pageSize, dateFormat) => {
+exports.getHashtagPosts = (timeZone, page, hashtagId, sort, pageSize, dateFormat) => {
     return query(`
         select
             p.public_id,
@@ -409,22 +409,14 @@ exports.getHashtagPosts = (timeZone, page, hashtag, sort, pageSize, dateFormat) 
             tpost p
         join
             tuser u on u.user_id = p.user_id
+        join
+            tposthashtag pt on pt.post_id = p.post_id
         left join
             tsub s on s.sub_id = p.sub_id
         left join
             tdomainname dn on dn.domain_name_id = p.domain_name_id
         where
-            exists(
-                select
-                    1
-                from
-                    thashtag t
-                join
-                    tposthashtag pt on pt.hashtag_id = t.hashtag_id
-                where
-                    t.hashtag = $3 and
-                    pt.post_id = p.post_id
-            )
+            pt.hashtag_id = $3
         order by
             case when $4 = '' then p.created_on end desc,
 
@@ -439,7 +431,7 @@ exports.getHashtagPosts = (timeZone, page, hashtag, sort, pageSize, dateFormat) 
             $10
         offset
             $11`,
-        [timeZone, dateFormat, hashtag, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
+        [timeZone, dateFormat, hashtagId, sort, sort, sort, sort, sort, sort, pageSize, (page - 1)*pageSize]
     )
 }
 
