@@ -24,19 +24,29 @@ router.get(
         const {rows:[dbHashtag]} = await db.getHashtag(hashtag)
         const sort = myMisc.getPostSort(req)
         let posts = []
+        let numPages = 0
 
+        //
         if(dbHashtag) {
+
+            //
+            const postsPerPage = 3
+            const {rows:[{count:postsCount}]} = await db.getHashtagPostsCount(dbHashtag.hashtag_id)
+            numPages = Math.ceil(postsCount/postsPerPage)
+
+            //
             const {rows} = await db.getHashtagPosts(
                 myMisc.getCurrTimeZone(req),
                 page,
                 dbHashtag.hashtag_id,
                 sort,
-                myMisc.getCurrPostsPerPage(req),
+                postsPerPage,
                 myMisc.getCurrDateFormat(req))
 
             posts = rows
         }
 
+        //
         res.render(
             'posts2',
             {
@@ -50,6 +60,7 @@ router.get(
                 post_layout: myMisc.getCurrPostLayout(req),
                 sort: sort,
                 posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+                num_pages: numPages
             })
     }
 )

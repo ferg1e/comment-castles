@@ -435,6 +435,20 @@ exports.getHashtagPosts = (timeZone, page, hashtagId, sort, pageSize, dateFormat
     )
 }
 
+exports.getHashtagPostsCount = (hashtagId) => {
+    return query(`
+        select
+            count(1) count
+        from
+            tpost p
+        join
+            tposthashtag pt on pt.post_id = p.post_id
+        where
+            pt.hashtag_id = $1`,
+        [hashtagId]
+    )
+}
+
 exports.getPostWithPublic = (publicId) => {
     return query(`
         select
