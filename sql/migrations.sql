@@ -354,3 +354,5 @@ BEGIN
     post_id = new.post_id;
   return null;
 END; $$ LANGUAGE 'plpgsql';
+
+alter table tcomment add column recipient integer references tuser;
