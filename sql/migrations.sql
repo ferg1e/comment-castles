@@ -356,3 +356,11 @@ BEGIN
 END; $$ LANGUAGE 'plpgsql';
 
 alter table tcomment add column recipient integer references tuser;
+
+update
+    tcomment c
+set
+    recipient = case
+        when nlevel(c.path) = 2 then (select user_id from tpost where post_id = c.post_id)
+        else (select user_id from tcomment where path = subpath(c.path, 0, -1))
+    end
