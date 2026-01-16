@@ -791,7 +791,7 @@ exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
             tuser u on u.user_id = c.user_id
         join
             tpost p on p.post_id = c.post_id
-        join
+        left join
             tsub s on s.sub_id = p.sub_id
         where
             (nlevel(c.path) = 2 and p.user_id = $3) or
