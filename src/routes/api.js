@@ -551,7 +551,8 @@ router.post(
             const {rows:[newComment]} = await db.createPostComment(
                 row.post_id,
                 oauthData.user.user_id,
-                compressedComment)
+                compressedComment,
+                row.user_id)
 
             //
             return res.json({

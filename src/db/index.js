@@ -683,7 +683,7 @@ exports.getDomainNameId = async domainName => {
 }
 
 //comment
-exports.createPostComment = async (postId, userId, content) => {
+exports.createPostComment = async (postId, userId, content, recipientUserId) => {
 
     /*TODO: figure out how to put this postId in
     the query as a query param, currently
@@ -716,14 +716,14 @@ exports.createPostComment = async (postId, userId, content) => {
     //
     return query(`
         insert into tcomment
-            (post_id, user_id, text_content, path, public_id)
+            (post_id, user_id, text_content, path, public_id, recipient)
         values
-            ($1, $2, $3, $4, $5)
+            ($1, $2, $3, $4, $5, $6)
         returning
             public_id, text_content, created_on`,
         [postId, userId, content,
             postId + '.' + myMisc.numToOrderedAlpha(nextPathInt),
-            genId()])
+            genId(), recipientUserId])
 }
 
 exports.createCommentComment = async (postId, userId, content, parentPath, timeZone, dateFormat) => {

@@ -131,7 +131,8 @@ const post = async (req, res) => {
     const {rows:data1} = await db.createPostComment(
         row.post_id,
         req.session.user.user_id,
-        compressedComment)
+        compressedComment,
+        row.user_id)
 
     //
     const {rows:data2} = await db.getPostNumComments(row.post_id)
