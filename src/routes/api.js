@@ -588,7 +588,8 @@ router.post(
                 compressedComment,
                 row.path,
                 oauthData.user.time_zone,
-                config.defaultDateFormat)
+                config.defaultDateFormat,
+                row.user_id)
 
             //
             return res.json({

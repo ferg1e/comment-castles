@@ -132,7 +132,8 @@ router.route('/')
                             compressedComment,
                             rows[0].path,
                             config.defaultTimeZone,
-                            config.defaultDateFormat)
+                            config.defaultDateFormat,
+                            rows[0].user_id)
 
                         //
                         const {rows:data2} = await db.getCommentNumComments(rows[0].path)

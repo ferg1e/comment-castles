@@ -726,7 +726,7 @@ exports.createPostComment = async (postId, userId, content, recipientUserId) => 
             genId(), recipientUserId])
 }
 
-exports.createCommentComment = async (postId, userId, content, parentPath, timeZone, dateFormat) => {
+exports.createCommentComment = async (postId, userId, content, parentPath, timeZone, dateFormat, recipientUserId) => {
     const lQuery = parentPath + '.*{1}'
 
     // get next ltree path int based on most recent ltree path
@@ -753,19 +753,20 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
 
     return query(`
         insert into tcomment
-            (post_id, user_id, text_content, path, public_id)
+            (post_id, user_id, text_content, path, public_id, recipient)
         values
-            ($1, $2, $3, $4, $5)
+            ($1, $2, $3, $4, $5, $6)
         returning
             public_id,
             text_content,
             created_on as created_on_raw,
             to_char(
-                timezone($6, created_on),
-                $7) created_on`,
+                timezone($7, created_on),
+                $8) created_on`,
         [postId, userId, content,
             parentPath + '.' + myMisc.numToOrderedAlpha(nextPathInt),
             genId(),
+            recipientUserId,
             timeZone,
             dateFormat])
 }

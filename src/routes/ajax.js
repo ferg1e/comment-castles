@@ -35,7 +35,8 @@ const postComment = async (req, res) => {
         compressedComment,
         comment.path,
         myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
+        myMisc.getCurrDateFormat(req),
+        comment.user_id)
 
     //
     newComment.by = req.session.user.username
