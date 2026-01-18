@@ -795,15 +795,14 @@ exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
         left join
             tsub s on s.sub_id = p.sub_id
         where
-            (nlevel(c.path) = 2 and p.user_id = $3) or
-            (nlevel(c.path) > 2 and (select user_id from tcomment where path = subpath(c.path, 0, -1)) = $4)
+            c.recipient = $3
         order by
             c.created_on desc
         limit
-            $5
+            $4
         offset
-            $6`,
-        [timeZone, dateFormat, userId, userId,
+            $5`,
+        [timeZone, dateFormat, userId,
             pageSize, (page - 1)*pageSize])
 }
 
