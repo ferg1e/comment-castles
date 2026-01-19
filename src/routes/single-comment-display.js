@@ -67,12 +67,12 @@ router.route('/')
             if(req.session.user) {
                 const commentPublicId = req.params[0]
 
-                const {rows} = await db.getCommentWithPublic2(
+                const {rows:[dbComment]} = await db.getCommentWithPublic2(
                     commentPublicId,
                     myMisc.getCurrTimeZone(req),
                     myMisc.getCurrDateFormat(req))
 
-                if(rows.length) {
+                if(dbComment) {
 
                     //
                     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
@@ -91,13 +91,13 @@ router.route('/')
                         }
 
                         const{rows:comments} = await db.getCommentComments(
-                            rows[0].path,
+                            dbComment.path,
                             myMisc.getCurrTimeZone(req),
                             page,
                             myMisc.getCurrDateFormat(req))
 
                         //
-                        const {rows:data2} = await db.getCommentNumComments(rows[0].path)
+                        const {rows:data2} = await db.getCommentNumComments(dbComment.path)
 
                         const numComments = data2[0]['count']
                         const totalPages = Math.ceil(numComments/config.commentsPerPage)
@@ -108,16 +108,16 @@ router.route('/')
                             {
                                 html_title: htmlTitleComment + commentPublicId,
                                 user: req.session.user,
-                                post_public_id: rows[0].post_public_id,
-                                comment: rows[0],
+                                post_public_id: dbComment.post_public_id,
+                                comment: dbComment,
                                 comments: comments,
                                 errors: errors,
                                 comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
                                 max_width: myMisc.getCurrSiteMaxWidth(req),
                                 page,
                                 total_pages: totalPages,
-                                lead_mod_user_id: rows[0].lead_mod,
-                                curr_castle: rows[0].castle,
+                                lead_mod_user_id: dbComment.lead_mod,
+                                curr_castle: dbComment.castle,
                             }
                         )
                     }
@@ -125,16 +125,16 @@ router.route('/')
 
                         //
                         const {rows:data1} = await db.createCommentComment(
-                            rows[0].post_id,
+                            dbComment.post_id,
                             req.session.user.user_id,
                             compressedComment,
-                            rows[0].path,
+                            dbComment.path,
                             config.defaultTimeZone,
                             config.defaultDateFormat,
-                            rows[0].user_id)
+                            dbComment.user_id)
 
                         //
-                        const {rows:data2} = await db.getCommentNumComments(rows[0].path)
+                        const {rows:data2} = await db.getCommentNumComments(dbComment.path)
 
                         const numComments = data2[0]['count']
                         const pages = Math.ceil(numComments/config.commentsPerPage)
