@@ -140,9 +140,7 @@ const post = async (req, res) => {
         dbComment.user_id)
 
     //
-    const {rows:data2} = await db.getCommentNumComments(dbComment.path)
-
-    const numComments = data2[0]['count']
+    const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
     const pages = Math.ceil(numComments/config.commentsPerPage)
     const redirectUrl = (pages > 1)
         ? `/c/${commentPublicId}?p=${pages}#${data1[0].public_id}`
