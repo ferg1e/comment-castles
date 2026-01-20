@@ -110,7 +110,7 @@ const post = async (req, res) => {
         const totalPages = Math.ceil(numComments/config.commentsPerPage)
 
         //
-        res.render(
+        return res.render(
             'single-comment',
             {
                 html_title: htmlTitleComment + commentPublicId,
@@ -128,29 +128,27 @@ const post = async (req, res) => {
             }
         )
     }
-    else {
+    
+    //
+    const {rows:data1} = await db.createCommentComment(
+        dbComment.post_id,
+        req.session.user.user_id,
+        compressedComment,
+        dbComment.path,
+        config.defaultTimeZone,
+        config.defaultDateFormat,
+        dbComment.user_id)
 
-        //
-        const {rows:data1} = await db.createCommentComment(
-            dbComment.post_id,
-            req.session.user.user_id,
-            compressedComment,
-            dbComment.path,
-            config.defaultTimeZone,
-            config.defaultDateFormat,
-            dbComment.user_id)
+    //
+    const {rows:data2} = await db.getCommentNumComments(dbComment.path)
 
-        //
-        const {rows:data2} = await db.getCommentNumComments(dbComment.path)
+    const numComments = data2[0]['count']
+    const pages = Math.ceil(numComments/config.commentsPerPage)
+    const redirectUrl = (pages > 1)
+        ? `/c/${commentPublicId}?p=${pages}#${data1[0].public_id}`
+        : `/c/${commentPublicId}#${data1[0].public_id}`
 
-        const numComments = data2[0]['count']
-        const pages = Math.ceil(numComments/config.commentsPerPage)
-        const redirectUrl = (pages > 1)
-            ? `/c/${commentPublicId}?p=${pages}#${data1[0].public_id}`
-            : `/c/${commentPublicId}#${data1[0].public_id}`
-
-        return res.redirect(redirectUrl)
-    }
+    return res.redirect(redirectUrl)
 }
 
 //
