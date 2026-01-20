@@ -97,9 +97,7 @@ router.route('/')
                             myMisc.getCurrDateFormat(req))
 
                         //
-                        const {rows:data2} = await db.getCommentNumComments(dbComment.path)
-
-                        const numComments = data2[0]['count']
+                        const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
                         const totalPages = Math.ceil(numComments/config.commentsPerPage)
 
                         //
