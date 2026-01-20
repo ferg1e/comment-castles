@@ -15,52 +15,51 @@ const get = async (req, res) => {
         myMisc.getCurrTimeZone(req),
         myMisc.getCurrDateFormat(req))
 
-    if(dbComment) {
+    //
+    if(!dbComment) {
+        return res.send('not found..')
+    }
 
-        //
-        let page = 1
+    //
+    let page = 1
 
-        if(typeof req.query.p !== 'undefined') {
-            page = parseInt(req.query.p)
+    if(typeof req.query.p !== 'undefined') {
+        page = parseInt(req.query.p)
 
-            if(isNaN(page)) {
-                return res.redirect(`/c/${commentPublicId}`)
-            }
+        if(isNaN(page)) {
+            return res.redirect(`/c/${commentPublicId}`)
         }
-
-        //
-        const{rows:comments} = await db.getCommentComments(
-            dbComment.path,
-            myMisc.getCurrTimeZone(req),
-            page,
-            myMisc.getCurrDateFormat(req))
-
-        //
-        const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
-        const totalPages = Math.ceil(numComments/config.commentsPerPage)
-
-        //
-        res.render(
-            'single-comment',
-            {
-                html_title: htmlTitleComment + commentPublicId,
-                user: req.session.user,
-                post_public_id: dbComment.post_public_id,
-                comment: dbComment,
-                comments: comments,
-                errors: [],
-                comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                page: page,
-                total_pages: totalPages,
-                lead_mod_user_id: dbComment.lead_mod,
-                curr_castle: dbComment.castle,
-            }
-        )
     }
-    else {
-        res.send('not found..')
-    }
+
+    //
+    const{rows:comments} = await db.getCommentComments(
+        dbComment.path,
+        myMisc.getCurrTimeZone(req),
+        page,
+        myMisc.getCurrDateFormat(req))
+
+    //
+    const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
+    const totalPages = Math.ceil(numComments/config.commentsPerPage)
+
+    //
+    res.render(
+        'single-comment',
+        {
+            html_title: htmlTitleComment + commentPublicId,
+            user: req.session.user,
+            post_public_id: dbComment.post_public_id,
+            comment: dbComment,
+            comments: comments,
+            errors: [],
+            comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            page: page,
+            total_pages: totalPages,
+            lead_mod_user_id: dbComment.lead_mod,
+            curr_castle: dbComment.castle,
+        }
+    )
 }
 
 //
