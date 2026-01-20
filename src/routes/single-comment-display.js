@@ -43,7 +43,7 @@ const get = async (req, res) => {
     const totalPages = Math.ceil(numComments/config.commentsPerPage)
 
     //
-    res.render(
+    return res.render(
         'single-comment',
         {
             html_title: htmlTitleComment + commentPublicId,
