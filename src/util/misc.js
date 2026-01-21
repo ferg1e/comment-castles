@@ -448,3 +448,23 @@ exports.extractHashtags = (text) => {
     return matches
         .map(v => v[0].substring(1).toLowerCase())
 }
+
+//
+exports.getPageNum = (req, errorValue = false) => {
+
+    //p = 1 if no p in url
+    if(typeof req.query.p === 'undefined') {
+        return 1
+    }
+
+    const page = parseInt(req.query.p)
+
+    //return error/default value if:
+    //NaN, negative, 0 or 1
+    if(isNaN(page) || page <= 1) {
+        return errorValue
+    }
+
+    //page >= 2
+    return page
+}

@@ -15,14 +15,10 @@ const getHome = async (req, res) => {
     const numPages = Math.ceil(postsCount/postsPerPage)
 
     //
-    let page = 1
+    const page = myMisc.getPageNum(req)
 
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect('/')
-        }
+    if(page === false) {
+        return res.redirect('/')
     }
 
     //
