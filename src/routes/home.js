@@ -10,16 +10,16 @@ const htmlTitleHome = config.siteName
 const getHome = async (req, res) => {
 
     //
-    const postsPerPage = myMisc.getCurrPostsPerPage(req)
-    const {rows:[{count:postsCount}]} = await db.getPostsCount()
-    const numPages = Math.ceil(postsCount/postsPerPage)
-
-    //
     const page = myMisc.getPageNum(req)
 
     if(page === false) {
         return res.redirect('/')
     }
+
+    //
+    const postsPerPage = myMisc.getCurrPostsPerPage(req)
+    const {rows:[{count:postsCount}]} = await db.getPostsCount()
+    const numPages = Math.ceil(postsCount/postsPerPage)
 
     //
     const sort = myMisc.getPostSort(req)
