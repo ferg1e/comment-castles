@@ -32,20 +32,18 @@ const getHome = async (req, res) => {
         postsPerPage,
         myMisc.getCurrDateFormat(req))
 
-    res.render(
-        'posts2',
-        {
-            html_title: htmlTitleHome,
-            user: req.session.user,
-            posts: rows,
-            page: page,
-            base_url: '/',
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            post_layout: myMisc.getCurrPostLayout(req),
-            sort: sort,
-            posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
-            num_pages: numPages
-        })
+    res.render('posts2', {
+        html_title: htmlTitleHome,
+        user: req.session.user,
+        posts: rows,
+        page: page,
+        base_url: '/',
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        post_layout: myMisc.getCurrPostLayout(req),
+        sort: sort,
+        posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+        num_pages: numPages
+    })
 }
 
 //
