@@ -22,6 +22,13 @@ const getHome = async (req, res) => {
     const numPages = Math.ceil(postsCount/postsPerPage)
 
     //
+    if(numPages > 0 && page > numPages) {
+        return res.status(404).render('error404', {
+            message: `There are only ${numPages} pages and you tried to access page ${page} which doesn't exist. <a href="/">Go back to first page</a>.`
+        })
+    }
+
+    //
     const sort = myMisc.getPostSort(req)
 
     //
