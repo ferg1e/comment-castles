@@ -23,7 +23,7 @@ const getHome = async (req, res) => {
 
     //
     if(numPages > 0 && page > numPages) {
-        return res.status(404).render('error404', {
+        return res.status(404).render('http-error-404', {
             message: `There are only ${numPages} pages and you tried to access page ${page} which doesn't exist. <a href="/">Go back to first page</a>.`
         })
     }
