@@ -450,21 +450,31 @@ exports.extractHashtags = (text) => {
 }
 
 //
-exports.getPageNum = (req, errorValue = false) => {
+exports.getPageNum = (req) => {
 
-    //p = 1 if no p in url
+    //
     if(typeof req.query.p === 'undefined') {
         return 1
     }
 
-    const page = parseInt(req.query.p)
+    //
+    const rawPage = req.query.p
+    const intRegex = /^\-?(([1-9]\d*)|0)$/
+    const isInt = intRegex.test(rawPage)
 
-    //return error/default value if:
-    //NaN, negative, 0 or 1
-    if(isNaN(page) || page <= 1) {
-        return errorValue
+    if(!isInt) {
+        throw Error('invalid page: not an integer')
     }
 
-    //page >= 2
-    return page
+    //
+    const intPage = parseInt(rawPage)
+    const isInRange = intPage >= 1 && intPage <= Number.MAX_SAFE_INTEGER
+
+    //
+    if(!isInRange) {
+        throw Error('invalid page: not in range')
+    }
+
+    //
+    return intPage
 }

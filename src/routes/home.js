@@ -10,10 +10,15 @@ const htmlTitleHome = config.siteName
 const getHome = async (req, res) => {
 
     //
-    const page = myMisc.getPageNum(req)
+    let page
 
-    if(page === false) {
-        return res.redirect('/')
+    try {
+        page = myMisc.getPageNum(req)
+    }
+    catch(e) {
+        return res.status(404).render('http-error-404', {
+            message: e.message
+        })
     }
 
     //
