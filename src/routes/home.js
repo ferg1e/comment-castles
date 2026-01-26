@@ -44,7 +44,7 @@ const getHome = async (req, res) => {
         postsPerPage,
         myMisc.getCurrDateFormat(req))
 
-    res.render('posts2', {
+    return res.render('posts2', {
         html_title: htmlTitleHome,
         user: req.session.user,
         posts: rows,
