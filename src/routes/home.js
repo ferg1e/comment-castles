@@ -21,6 +21,11 @@ const getHome = async (req, res) => {
         })
     }
 
+    // if url has ?p=1 then remove it since that's the default
+    if(typeof req.query.p !== 'undefined' && page == 1) {
+        return res.redirect(301, '/')
+    }
+
     //
     const postsPerPage = myMisc.getCurrPostsPerPage(req)
     const {rows:[{count:postsCount}]} = await db.getPostsCount()
