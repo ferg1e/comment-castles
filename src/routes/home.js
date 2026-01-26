@@ -16,7 +16,7 @@ const getHome = async (req, res) => {
         page = myMisc.getPageNum(req)
     }
     catch(e) {
-        return res.status(404).render('http-error-404', {
+        return res.status(400).render('http-error-400', {
             message: e.message
         })
     }
