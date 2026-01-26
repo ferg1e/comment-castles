@@ -7,7 +7,7 @@ const router = express.Router()
 const htmlTitleHome = config.siteName
 
 //
-const getHome = async (req, res) => {
+const get = async (req, res) => {
 
     //
     let page
@@ -64,5 +64,5 @@ const getHome = async (req, res) => {
 }
 
 //
-router.get('/', getHome)
+router.get('/', get)
 module.exports = router
