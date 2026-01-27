@@ -16,7 +16,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'my-settings-username',
         {
             html_title: htmlTitleSettingsUsername,
