@@ -59,7 +59,7 @@ const post = async (req, res) => {
 
     //
     if(errors.length) {
-        res.render('my-settings-username', {
+        return res.render('my-settings-username', {
             html_title: htmlTitleSettingsUsername,
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
@@ -67,22 +67,20 @@ const post = async (req, res) => {
             username: username
         })
     }
-    else {
 
-        //
-        await db.updateUserUsername(req.session.user.user_id, username)
-        req.session.user.username = username
+    //
+    await db.updateUserUsername(req.session.user.user_id, username)
+    req.session.user.username = username
 
-        //
-        res.render('my-settings-username', {
-            html_title: htmlTitleSettingsUsername,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: [],
-            success: 'Username successfully saved',
-            username: username
-        })
-    }
+    //
+    return res.render('my-settings-username', {
+        html_title: htmlTitleSettingsUsername,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: [],
+        success: 'Username successfully saved',
+        username: username
+    })
 }
 
 //
