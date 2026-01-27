@@ -39,13 +39,13 @@ const post = async (req, res) => {
 
     //
     if(!username.match(regexUsername)) {
-        errors.push({msg: "Username must be 4-16 characters(letters, numbers and dashes only)"})
+        errors.push("Username must be 4-16 characters(letters, numbers and dashes only)")
     }
     else {
         const {rows} = await db.getUserWithUsername(username)
 
         if(rows.length && rows[0].user_id != req.session.user.user_id) {
-            errors.push({msg: "username already taken"})
+            errors.push("username already taken")
         }
     }
 
@@ -54,7 +54,7 @@ const post = async (req, res) => {
     const isCorrectPassword = await argon2.verify(rows2[0].password, req.body.password)
 
     if(!isCorrectPassword) {
-        errors.push({msg: "incorrect existing password"})
+        errors.push("incorrect existing password")
     }
 
     //
