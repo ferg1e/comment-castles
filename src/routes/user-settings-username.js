@@ -16,15 +16,13 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'my-settings-username',
-        {
-            html_title: htmlTitleSettingsUsername,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: [],
-            username: req.session.user.username
-        })
+    return res.render('my-settings-username', {
+        html_title: htmlTitleSettingsUsername,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: [],
+        username: req.session.user.username
+    })
 }
 
 //
@@ -58,15 +56,13 @@ const post = async (req, res) => {
 
         //
         if(errors.length) {
-            res.render(
-                'my-settings-username',
-                {
-                    html_title: htmlTitleSettingsUsername,
-                    user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req),
-                    errors: errors,
-                    username: username
-                })
+            res.render('my-settings-username', {
+                html_title: htmlTitleSettingsUsername,
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                errors: errors,
+                username: username
+            })
         }
         else {
 
@@ -75,16 +71,14 @@ const post = async (req, res) => {
             req.session.user.username = username
 
             //
-            res.render(
-                'my-settings-username',
-                {
-                    html_title: htmlTitleSettingsUsername,
-                    user: req.session.user,
-                    max_width: myMisc.getCurrSiteMaxWidth(req),
-                    errors: [],
-                    success: 'Username successfully saved',
-                    username: username
-                })
+            res.render('my-settings-username', {
+                html_title: htmlTitleSettingsUsername,
+                user: req.session.user,
+                max_width: myMisc.getCurrSiteMaxWidth(req),
+                errors: [],
+                success: 'Username successfully saved',
+                username: username
+            })
         }
     }
     else {
