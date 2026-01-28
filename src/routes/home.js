@@ -18,7 +18,7 @@ const get = async (req, res) => {
     catch(e) {
         return res.status(400).render('http-error-400', {
             message: `Invalid pagination page value in URL. ` +
-                `This value must be between 1 and ${Number.MAX_SAFE_INTEGER}. ` +
+                `This value must be an integer between 1 and ${Number.MAX_SAFE_INTEGER}. ` +
                 `<a href="/">Return to page 1.</a>`
         })
     }
