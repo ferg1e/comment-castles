@@ -5,7 +5,7 @@ const myMisc = require('../util/misc.js')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
-const htmlTitleSettingsUsername = 'Settings / Username'
+const htmlTitle = 'Settings / Username'
 
 //
 const get = async (req, res) => {
@@ -17,7 +17,7 @@ const get = async (req, res) => {
 
     //
     return res.render('my-settings-username', {
-        html_title: htmlTitleSettingsUsername,
+        html_title: htmlTitle,
         user: req.session.user,
         max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: [],
@@ -60,7 +60,7 @@ const post = async (req, res) => {
     //
     if(errors.length) {
         return res.render('my-settings-username', {
-            html_title: htmlTitleSettingsUsername,
+            html_title: htmlTitle,
             user: req.session.user,
             max_width: myMisc.getCurrSiteMaxWidth(req),
             errors: errors,
@@ -74,7 +74,7 @@ const post = async (req, res) => {
 
     //
     return res.render('my-settings-username', {
-        html_title: htmlTitleSettingsUsername,
+        html_title: htmlTitle,
         user: req.session.user,
         max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: [],
