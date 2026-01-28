@@ -461,20 +461,18 @@ exports.getPageNum = (req) => {
     const rawPage = req.query.p
     const intRegex = /^\-?(([1-9]\d*)|0)$/
     const isInt = intRegex.test(rawPage)
-    const maxInt = Number.MAX_SAFE_INTEGER
-    const errorMessage = `The page value (p) in the URL must be an integer between 1 and ${maxInt}.`
 
     if(!isInt) {
-        throw Error(errorMessage)
+        throw Error('invalid page value: not an integer')
     }
 
     //
     const intPage = parseInt(rawPage)
-    const isInRange = intPage >= 1 && intPage <= maxInt
+    const isInRange = intPage >= 1 && intPage <= Number.MAX_SAFE_INTEGER
 
     //
     if(!isInRange) {
-        throw Error(errorMessage)
+        throw Error('invalid page value: out of range')
     }
 
     //
