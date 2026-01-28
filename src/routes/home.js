@@ -23,7 +23,7 @@ const get = async (req, res) => {
         })
     }
 
-    // if url has ?p=1 then remove it since that's the default
+    // if p=1 supplied then redirect to no p in URL
     if(typeof req.query.p !== 'undefined' && page == 1) {
         return res.redirect(301, '/')
     }
