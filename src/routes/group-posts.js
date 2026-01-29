@@ -45,22 +45,20 @@ const get = async (req, res) => {
         postsPerPage,
         myMisc.getCurrDateFormat(req))
 
-    return res.render(
-        'posts2',
-        {
-            html_title: castle,
-            user: req.session.user,
-            posts: rows,
-            page: page,
-            base_url: `/r/${castle}`,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            post_layout: myMisc.getCurrPostLayout(req),
-            lead_mod_user_id: sub.lead_mod,
-            curr_castle: castle,
-            sort: sort,
-            posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
-            num_pages: numPages
-        })
+    return res.render('posts2', {
+        html_title: castle,
+        user: req.session.user,
+        posts: rows,
+        page: page,
+        base_url: `/r/${castle}`,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        post_layout: myMisc.getCurrPostLayout(req),
+        lead_mod_user_id: sub.lead_mod,
+        curr_castle: castle,
+        sort: sort,
+        posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+        num_pages: numPages
+    })
 }
 
 //
