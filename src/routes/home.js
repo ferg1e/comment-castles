@@ -4,7 +4,7 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 
 const router = express.Router()
-const htmlTitleHome = config.siteName
+const htmlTitle = config.siteName
 
 //
 const get = async (req, res) => {
@@ -54,7 +54,7 @@ const get = async (req, res) => {
         myMisc.getCurrDateFormat(req))
 
     return res.render('posts2', {
-        html_title: htmlTitleHome,
+        html_title: htmlTitle,
         user: req.session.user,
         posts: rows,
         page: page,
