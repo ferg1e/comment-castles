@@ -45,7 +45,7 @@ const get = async (req, res) => {
         postsPerPage,
         myMisc.getCurrDateFormat(req))
 
-    res.render(
+    return res.render(
         'posts2',
         {
             html_title: castle,
