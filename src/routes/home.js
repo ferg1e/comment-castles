@@ -45,6 +45,11 @@ const get = async (req, res) => {
     //
     const sort = myMisc.getPostSort(req)
 
+    // redirect if unknown sorting value
+    if(typeof req.query.sort !== 'undefined' && sort === '') {
+        return res.redirect('/')
+    }
+
     //
     const {rows} = await db.getPosts(
         myMisc.getCurrTimeZone(req),
