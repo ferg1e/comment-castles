@@ -63,7 +63,7 @@ router.get(
             })
         }
 
-        res.json(rows2)
+        return res.json(rows2)
     }
 )
 
