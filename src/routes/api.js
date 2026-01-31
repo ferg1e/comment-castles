@@ -49,7 +49,7 @@ router.get(
         const rows2 = []
 
         for(const i in rows) {
-            let v = rows[i]
+            const v = rows[i]
 
             rows2.push({
                 post_id: v.public_id,
