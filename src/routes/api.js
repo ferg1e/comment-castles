@@ -46,7 +46,7 @@ router.get(
             config.defaultDateFormat)
 
         //
-        let rows2 = []
+        const rows2 = []
 
         for(const i in rows) {
             let v = rows[i]
