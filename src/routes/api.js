@@ -20,14 +20,15 @@ router.get(
     async (req, res) => {
 
         //
-        let page = 1
+        let page
 
-        if(typeof req.query.p !== 'undefined') {
-            page = parseInt(req.query.p)
-
-            if(isNaN(page)) {
-                page = 1
-            }
+        try {
+            page = myMisc.getPageNum(req)
+        }
+        catch(e) {
+            return res.status(400).json({
+                errors: ['invalid page (p) value'],
+            })
         }
 
         //
