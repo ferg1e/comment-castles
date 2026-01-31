@@ -32,6 +32,18 @@ router.get(
         }
 
         //
+        const postsPerPage = config.defaultPostsPerPage
+        const {rows:[{count:postsCount}]} = await db.getPostsCount()
+        const numPages = Math.ceil(postsCount/postsPerPage)
+
+        //
+        if(numPages > 0 && page > numPages) {
+            return res.status(404).json({
+                errors: ['page (p) value high than number of pages'],
+            })
+        }
+
+        //
         const oauthData = await oauthAuthenticate(req, res)
 
         //
@@ -42,7 +54,7 @@ router.get(
             timeZone,
             page,
             sort,
-            config.defaultPostsPerPage,
+            postsPerPage,
             config.defaultDateFormat)
 
         //
