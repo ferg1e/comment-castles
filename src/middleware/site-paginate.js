@@ -17,7 +17,7 @@ function sitePaginate(req, res, next) {
         })
     }
 
-    // if p=1 supplied then redirect to no p in URL
+    // redirect if p=1 in url
     if(typeof req.query.p !== 'undefined' && page == 1) {
         return res.redirect(301, req.path)
     }
