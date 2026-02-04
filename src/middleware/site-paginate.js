@@ -1,7 +1,7 @@
 const myMisc = require('../util/misc.js')
 
 //
-function sitePaginate(req, res, next) {
+function sitePageValue(req, res, next) {
 
     //
     let page
@@ -28,4 +28,4 @@ function sitePaginate(req, res, next) {
 }
 
 //
-module.exports.sitePaginate = sitePaginate
+module.exports.sitePageValue = sitePageValue
