@@ -2,6 +2,7 @@ const express = require('express')
 const {checkSub} = require('../middleware/check-sub.js')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 
 const router = express.Router({mergeParams: true})
 
@@ -11,22 +12,12 @@ const get = async (req, res) => {
     //
     const subSlug = res.locals.subSlug
     const sub = res.locals.sub
+    const page = res.locals.page
 
     //
     const postsPerPage = myMisc.getCurrPostsPerPage(req)
     const {rows:[{count:postsCount}]} = await db.getSubPostsCount(sub.sub_id)
     const numPages = Math.ceil(postsCount/postsPerPage)
-
-    //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect(`/r/${subSlug}`)
-        }
-    }
 
     //
     const sort = myMisc.getPostSort(req)
@@ -57,5 +48,5 @@ const get = async (req, res) => {
 }
 
 //
-router.get('/', checkSub, get)
+router.get('/', checkSub, sitePageValue, get)
 module.exports = router
