@@ -2,7 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
-const {sitePageValue} = require('../middleware/site-paginate.js')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 
 const router = express.Router()
 const htmlTitle = config.siteName
