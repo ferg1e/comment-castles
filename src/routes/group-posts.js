@@ -20,6 +20,15 @@ const get = async (req, res) => {
     const numPages = Math.ceil(postsCount/postsPerPage)
 
     //
+    if(numPages > 0 && page > numPages) {
+        return res.status(404).render('http-error-404', {
+            message: `There are only ${numPages} pages and ` +
+                `you tried to access page ${page}. ` +
+                `<a href="/r/${subSlug}">Return to page 1</a>.`
+        })
+    }
+
+    //
     const sort = myMisc.getPostSort(req)
 
     //
