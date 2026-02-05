@@ -32,6 +32,11 @@ const get = async (req, res) => {
     const sort = myMisc.getPostSort(req)
 
     //
+    if(typeof req.query.sort !== 'undefined' && sort === '') {
+        return res.redirect(`/r/${subSlug}`)
+    }
+
+    //
     const {rows} = await db.getSubPosts(
         myMisc.getCurrTimeZone(req),
         page,
