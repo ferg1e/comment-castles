@@ -37,7 +37,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'posts2',
         {
             html_title: `#${hashtag}`,
