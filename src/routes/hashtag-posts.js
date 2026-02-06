@@ -37,21 +37,19 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'posts2',
-        {
-            html_title: `#${hashtag}`,
-            page_title: `#${hashtag}`,
-            user: req.session.user,
-            posts: posts,
-            page: page,
-            base_url: `/t/${hashtag}`,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            post_layout: myMisc.getCurrPostLayout(req),
-            sort: sort,
-            posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
-            num_pages: numPages
-        })
+    return res.render('posts2', {
+        html_title: `#${hashtag}`,
+        page_title: `#${hashtag}`,
+        user: req.session.user,
+        posts: posts,
+        page: page,
+        base_url: `/t/${hashtag}`,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        post_layout: myMisc.getCurrPostLayout(req),
+        sort: sort,
+        posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+        num_pages: numPages
+    })
 }
 
 //
