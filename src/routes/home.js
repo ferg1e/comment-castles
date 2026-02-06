@@ -12,6 +12,12 @@ const get = async (req, res) => {
 
     //
     const page = res.locals.page
+    const sort = myMisc.getPostSort(req)
+
+    // unknown sort
+    if(typeof req.query.sort !== 'undefined' && sort === '') {
+        return res.redirect('/')
+    }
 
     //
     const postsPerPage = myMisc.getCurrPostsPerPage(req)
@@ -25,14 +31,6 @@ const get = async (req, res) => {
                 `you tried to access page ${page}. ` +
                 `<a href="/">Return to page 1</a>.`
         })
-    }
-
-    //
-    const sort = myMisc.getPostSort(req)
-
-    // redirect if unknown sorting value
-    if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect('/')
     }
 
     //
