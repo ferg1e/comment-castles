@@ -1,23 +1,14 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 
 const router = express.Router({mergeParams: true})
 
 //
 const get = async (req, res) => {
     const hashtag = req.params[0]
-
-    //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect(`/t/${hashtag}`)
-        }
-    }
+    const page = res.locals.page
 
     //
     const {rows:[dbHashtag]} = await db.getHashtag(hashtag)
@@ -64,5 +55,5 @@ const get = async (req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', sitePageValue, get)
 module.exports = router
