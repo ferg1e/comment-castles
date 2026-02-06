@@ -29,7 +29,7 @@ const get = async (req, res) => {
     if(dbHashtag) {
 
         //
-        const postsPerPage = 3
+        const postsPerPage = myMisc.getCurrPostsPerPage(req)
         const {rows:[{count:postsCount}]} = await db.getHashtagPostsCount(dbHashtag.hashtag_id)
         numPages = Math.ceil(postsCount/postsPerPage)
 
