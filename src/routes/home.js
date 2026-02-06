@@ -13,10 +13,11 @@ const get = async (req, res) => {
     //
     const page = res.locals.page
     const sort = myMisc.getPostSort(req)
+    const baseUrl = '/'
 
     // unknown sort
     if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect('/')
+        return res.redirect(baseUrl)
     }
 
     //
@@ -29,7 +30,7 @@ const get = async (req, res) => {
         return res.status(404).render('http-error-404', {
             message: `There are only ${numPages} pages and ` +
                 `you tried to access page ${page}. ` +
-                `<a href="/">Return to page 1</a>.`
+                `<a href="${baseUrl}">Return to page 1</a>.`
         })
     }
 
@@ -46,7 +47,7 @@ const get = async (req, res) => {
         user: req.session.user,
         posts: rows,
         page: page,
-        base_url: '/',
+        base_url: baseUrl,
         max_width: myMisc.getCurrSiteMaxWidth(req),
         post_layout: myMisc.getCurrPostLayout(req),
         sort: sort,
