@@ -1,6 +1,5 @@
 const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
-const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router({mergeParams: true})
