@@ -7,12 +7,19 @@ const router = express.Router({mergeParams: true})
 
 //
 const get = async (req, res) => {
+
+    //
     const hashtag = req.params[0]
     const page = res.locals.page
+    const sort = myMisc.getPostSort(req)
+
+    // unknown sort
+    if(typeof req.query.sort !== 'undefined' && sort === '') {
+        return res.redirect(`/t/${hashtag}`)
+    }
 
     //
     const {rows:[dbHashtag]} = await db.getHashtag(hashtag)
-    const sort = myMisc.getPostSort(req)
     let posts = []
     let numPages = 0
 
