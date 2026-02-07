@@ -13,6 +13,12 @@ const get = async (req, res) => {
     const subSlug = res.locals.subSlug
     const sub = res.locals.sub
     const page = res.locals.page
+    const sort = myMisc.getPostSort(req)
+
+    // unknown sort
+    if(typeof req.query.sort !== 'undefined' && sort === '') {
+        return res.redirect(`/r/${subSlug}`)
+    }
 
     //
     const postsPerPage = myMisc.getCurrPostsPerPage(req)
@@ -26,14 +32,6 @@ const get = async (req, res) => {
                 `you tried to access page ${page}. ` +
                 `<a href="/r/${subSlug}">Return to page 1</a>.`
         })
-    }
-
-    //
-    const sort = myMisc.getPostSort(req)
-
-    //
-    if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect(`/r/${subSlug}`)
     }
 
     //
