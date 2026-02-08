@@ -419,14 +419,6 @@ exports.renderMessage = (req, res, title, message, mainClass = '') => {
 }
 
 //
-exports.renderNoSubMessage = (req, res, subName) => {
-    return module.exports.renderMessage(req, res, subName,
-        `The ${subName} castle does not exist yet. ` +
-        `You can start this castle by <a href="/new?sub=${subName}">posting</a> to it.`,
-        "main-text")
-}
-
-//
 exports.setTheme = (theme, req) => {
     if(theme == 'original') {
         req.app.locals.oneBgColor = "fefefe"
