@@ -1,5 +1,6 @@
 
 //
+const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
@@ -15,13 +16,8 @@ const get = async (req, res) => {
     }
 
     //
-    const castle = req.params[0]
-    const {rows:[sub]} = await db.getSub(castle)
-
-    //
-    if(!sub) {
-        return myMisc.renderNoSubMessage(req, res, castle)
-    }
+    const subSlug = res.locals.subSlug
+    const sub = res.locals.sub
 
     //
     if(req.session.user.user_id != sub.lead_mod) {
@@ -32,12 +28,12 @@ const get = async (req, res) => {
     return res.render(
         'castle-settings',
         {
-            html_title: `${castle} Settings`,
+            html_title: `${subSlug} Settings`,
             user: req.session.user,
             errors: [],
             desc: sub.sub_desc,
             lead_mod_user_id: sub.lead_mod,
-            curr_castle: castle,
+            curr_castle: subSlug,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         }
     )
@@ -85,6 +81,6 @@ const post = async(req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', checkSub, get)
 router.post('/', post)
 module.exports = router
