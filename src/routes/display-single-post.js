@@ -1,6 +1,7 @@
 const config = require('../config')
 const express = require('express')
 const db = require('../db')
+const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
 
 //
@@ -65,9 +66,6 @@ const get = async (req, res) => {
 
 //
 const post = async (req, res) => {
-
-    // @todo: This should be middleware
-    if(!req.session.user) return res.send('nope...')
 
     //
     const postPublicId = req.params[0]
@@ -149,5 +147,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', get)
-router.post('/', post)
+router.post('/', isUser, post)
 module.exports = router
