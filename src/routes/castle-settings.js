@@ -25,18 +25,15 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'castle-settings',
-        {
-            html_title: `${subSlug} Settings`,
-            user: req.session.user,
-            errors: [],
-            desc: sub.sub_desc,
-            lead_mod_user_id: sub.lead_mod,
-            curr_castle: subSlug,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        }
-    )
+    return res.render('castle-settings', {
+        html_title: `${subSlug} Settings`,
+        user: req.session.user,
+        errors: [],
+        desc: sub.sub_desc,
+        lead_mod_user_id: sub.lead_mod,
+        curr_castle: subSlug,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -60,19 +57,16 @@ const post = async(req, res) => {
     db.updateSub(sub.sub_id, req.body.desc)
 
     //
-    return res.render(
-        'castle-settings',
-        {
-            html_title: `${subSlug} Settings`,
-            user: req.session.user,
-            success: 'Settings successfully saved.',
-            errors: [],
-            desc: req.body.desc,
-            lead_mod_user_id: sub.lead_mod,
-            curr_castle: subSlug,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        }
-    )
+    return res.render('castle-settings', {
+        html_title: `${subSlug} Settings`,
+        user: req.session.user,
+        success: 'Settings successfully saved.',
+        errors: [],
+        desc: req.body.desc,
+        lead_mod_user_id: sub.lead_mod,
+        curr_castle: subSlug,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
