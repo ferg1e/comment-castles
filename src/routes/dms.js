@@ -1,7 +1,6 @@
-
-//
 const express = require('express')
 const db = require('../db')
+const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router()
@@ -9,13 +8,6 @@ const htmlTitle = 'Direct Messages'
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return myMisc.renderMessage(req, res, htmlTitle,
-            "<a href=\"/login\">Log in</a> to view your direct messages.",
-            "main-text")
-    }
 
     //
     const {rows:dmedUsers} = await db.getDmedUsers(
@@ -38,11 +30,6 @@ const get = async (req, res) => {
 
 //
 const post = async(req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('blocked')
-    }
 
     //
     let errors = []
@@ -99,6 +86,6 @@ const post = async(req, res) => {
 }
 
 //
-router.get('/', get)
-router.post('/', post)
+router.get('/', isUser, get)
+router.post('/', isUser, post)
 module.exports = router
