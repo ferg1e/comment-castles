@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 
 const router = express.Router()
 
@@ -9,15 +10,7 @@ const router = express.Router()
 const get = async (req, res) => {
 
     //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect('/inbox')
-        }
-    }
+    const page = res.locals.page
 
     //
     const{rows:comments} = await db.getInboxComments(
@@ -38,5 +31,5 @@ const get = async (req, res) => {
 }
 
 //
-router.get('/', isUser, get)
+router.get('/', isUser, sitePageValue, get)
 module.exports = router
