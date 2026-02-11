@@ -1,18 +1,12 @@
 const express = require('express')
 const db = require('../db')
+const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router()
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return myMisc.renderMessage(req, res, 'Inbox',
-            "<a href=\"/login\">Log in</a> to view your inbox.",
-            "main-text")
-    }
 
     //
     let page = 1
@@ -47,5 +41,5 @@ const get = async (req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', isUser, get)
 module.exports = router
