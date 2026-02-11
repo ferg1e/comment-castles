@@ -27,17 +27,14 @@ const get = async (req, res) => {
         myMisc.getCurrDateFormat(req))
 
     //
-    return res.render(
-        'inbox',
-        {
-            html_title: 'Inbox',
-            user: req.session.user,
-            comments: comments,
-            page: page,
-            comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        }
-    )
+    return res.render('inbox', {
+        html_title: 'Inbox',
+        user: req.session.user,
+        comments: comments,
+        page: page,
+        comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
