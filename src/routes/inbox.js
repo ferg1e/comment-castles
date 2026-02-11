@@ -27,7 +27,7 @@ const get = async (req, res) => {
         myMisc.getCurrDateFormat(req))
 
     //
-    res.render(
+    return res.render(
         'inbox',
         {
             html_title: 'Inbox',
