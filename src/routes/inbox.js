@@ -13,6 +13,10 @@ const get = async (req, res) => {
     const page = res.locals.page
 
     //
+    const {rows:[{count:commentsCount}]} = await db.getInboxCommentsCount(req.session.user.user_id)
+    console.log(commentsCount)
+
+    //
     const{rows:comments} = await db.getInboxComments(
         myMisc.getCurrTimeZone(req),
         req.session.user.user_id,

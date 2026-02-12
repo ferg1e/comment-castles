@@ -806,6 +806,17 @@ exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
             pageSize, (page - 1)*pageSize])
 }
 
+exports.getInboxCommentsCount = userId => {
+    return query(`
+        select
+            count(1) count
+        from
+            tcomment
+        where
+            recipient = $1`,
+        [userId])
+}
+
 exports.getPostComments = (postId, timeZone, page, dateFormat) => {
     const limit = config.commentsPerPage
     const offset = (page - 1)*config.commentsPerPage
