@@ -13,8 +13,18 @@ const get = async (req, res) => {
     const page = res.locals.page
 
     //
+    const commentsPerPage = 20
     const {rows:[{count:commentsCount}]} = await db.getInboxCommentsCount(req.session.user.user_id)
-    console.log(commentsCount)
+    const numPages = Math.ceil(commentsCount/commentsPerPage)
+
+    //
+    if(numPages > 0 && page > numPages) {
+        return res.status(404).render('http-error-404', {
+            message: `There are only ${numPages} pages and ` +
+                `you tried to access page ${page}. ` +
+                `<a href="/inbox">Return to page 1</a>.`
+        })
+    }
 
     //
     const{rows:comments} = await db.getInboxComments(
