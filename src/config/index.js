@@ -7,6 +7,7 @@ exports.adminUserId = 1
 
 //
 exports.commentsPerPage = 200
+exports.inboxCommentsPerPage = 20
 exports.siteName = "Comment Castles"
 exports.contactEmail = "commentcastles@proton.me"
 

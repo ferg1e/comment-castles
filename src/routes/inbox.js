@@ -1,4 +1,5 @@
 const express = require('express')
+const config = require('../config')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
@@ -13,7 +14,7 @@ const get = async (req, res) => {
     const page = res.locals.page
 
     //
-    const commentsPerPage = 20
+    const commentsPerPage = config.inboxCommentsPerPage
     const {rows:[{count:commentsCount}]} = await db.getInboxCommentsCount(req.session.user.user_id)
     const numPages = Math.ceil(commentsCount/commentsPerPage)
 

@@ -772,7 +772,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
 }
 
 exports.getInboxComments = (timeZone, userId, page, dateFormat) => {
-    const pageSize = 20
+    const pageSize = config.inboxCommentsPerPage
 
     return query(`
         select
