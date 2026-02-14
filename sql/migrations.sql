@@ -368,3 +368,27 @@ set
 alter table tcomment alter column recipient set not null;
 
 alter table tuser add column unread_comment_count integer not null default 0;
+
+-- add a 2nd update to this trigger function
+-- that increments the unread comment count of
+-- the recipient of the comment
+CREATE OR REPLACE FUNCTION f_post_comment()
+RETURNS TRIGGER AS $$
+BEGIN
+  update
+    tpost
+  set
+    num_comments = num_comments + 1,
+    last_comment = new.created_on
+  where
+    post_id = new.post_id;
+
+  update
+    tuser
+  set
+    unread_comment_count = unread_comment_count + 1
+  where
+    user_id = new.recipient;
+
+  return null;
+END; $$ LANGUAGE 'plpgsql';
