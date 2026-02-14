@@ -366,3 +366,5 @@ set
     end
 
 alter table tcomment alter column recipient set not null;
+
+alter table tuser add column unread_comment_count integer not null default 0;
