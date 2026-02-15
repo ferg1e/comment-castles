@@ -219,6 +219,18 @@ exports.genUserPublicId = (userId) => {
         ])
 }
 
+//
+exports.zeroUserUnreadComments = (userId) => {
+    return query(`
+        update
+            tuser
+        set
+            unread_comment_count = 0
+        where
+            user_id = $1`,
+        [userId])
+}
+
 //post
 exports.createPost = async (userId, title, textContent, link, trimCastle) => {
     const newPublicPostId = genId()
