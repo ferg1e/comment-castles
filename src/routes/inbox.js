@@ -29,6 +29,7 @@ const get = async (req, res) => {
 
     //
     await db.zeroUserUnreadComments(req.session.user.user_id)
+    res.locals.unreadCommentCount = 0
 
     //
     const{rows:comments} = await db.getInboxComments(
