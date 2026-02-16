@@ -25,6 +25,9 @@ async function sharedAllHandler(req, res, next) {
     if(req.session.user) {
         const {rows:[row]} = await db.getUserDmCountTotal(req.session.user.user_id)
         req.app.locals.dmTotal = row.total
+
+        const unreadCommentCount = await db.getUserUnreadCommentCount(req.session.user.user_id)
+        res.locals.unreadCommentCount = unreadCommentCount
     }
 
     //

@@ -145,6 +145,19 @@ exports.getUsersWithoutPublicId = () => {
             public_id = ''`)
 }
 
+exports.getUserUnreadCommentCount = async (userId) => {
+    const {rows:[{count}]} = await query(`
+        select
+            unread_comment_count count
+        from
+            tuser
+        where
+            user_id = $1`,
+        [userId])
+
+    return count
+}
+
 exports.updateUser = (userId, timeZoneName, commentReplyMode, siteWidth, postLayout, postsPerPage, postsVerticalSpacing, theme, dateFormat) => {
     return query(`
         update
