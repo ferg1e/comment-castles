@@ -69,8 +69,13 @@ html
             if user
               li
                 a(href="/new") new post
-              li
-                a(href="/inbox") inbox
+
+              if unreadCommentCount > 0
+                li
+                  a(href="/inbox") inbox(#{unreadCommentCount})
+              else
+                li
+                  a(href="/inbox") inbox
 
               if dmTotal > 0
                 li
