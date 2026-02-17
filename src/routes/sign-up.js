@@ -53,7 +53,6 @@ const post = async (req, res) => {
         var {rows:[newUser]} = await db.createUser(username, password)
     }
     catch(err) {
-        console.log(err)
         const errorMessage = (err.constraint == 'username_unique_idx')
             ? `"${username}" already taken`
             : 'unknown error, please try again'
