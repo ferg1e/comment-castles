@@ -3,3 +3,4 @@ node_modules
 my-files/
 doc/
 /test*.js
+/test*.mjs
