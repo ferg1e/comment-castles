@@ -38,27 +38,6 @@ router.route('*')
     .get(sharedAllHandler)
     .post(sharedAllHandler)
 
-router.route('/help')
-    .get((req, res) => {
-        res.render(
-            'instruction-manual',
-            {
-                html_title: 'Help',
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                default_site_width: config.defaultSiteWidth,
-                min_site_width: config.minSiteWidth,
-                max_site_width: config.maxSiteWidth,
-                default_ppp: config.defaultPostsPerPage,
-                min_ppp: config.minPostsPerPage,
-                max_ppp: config.maxPostsPerPage,
-                default_pvs: config.defaultPostsVerticalSpacing,
-                min_pvs: config.minPostsVerticalSpacing,
-                max_pvs: config.maxPostsVerticalSpacing,
-                main_class: 'main-text'
-            })
-    })
-
 router.route('/privacy-policy')
     .get((req, res) => {
         res.render(
