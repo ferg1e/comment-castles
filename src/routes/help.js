@@ -4,7 +4,7 @@ const config = require('../config')
 
 //
 const get = (req, res) => {
-    return res.render('instruction-manual', {
+    return res.render('help', {
         html_title: 'Help',
         user: req.session.user,
         max_width: myMisc.getCurrSiteMaxWidth(req),
