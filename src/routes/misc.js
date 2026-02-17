@@ -38,18 +38,6 @@ router.route('*')
     .get(sharedAllHandler)
     .post(sharedAllHandler)
 
-router.route('/privacy-policy')
-    .get((req, res) => {
-        res.render(
-            'privacy-policy',
-            {
-                html_title: 'Privacy Policy',
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                main_class: 'main-text'
-            })
-    })
-
 router.route('/contact-us')
     .get((req, res) => {
         res.render(
