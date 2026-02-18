@@ -38,18 +38,6 @@ router.route('*')
     .get(sharedAllHandler)
     .post(sharedAllHandler)
 
-router.route('/api')
-    .get((req, res) => {
-        res.render(
-            'api',
-            {
-                html_title: 'API',
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                main_class: 'main-text'
-            })
-    })
-
 router.get(
     '/logout',
     (req, res) => {
