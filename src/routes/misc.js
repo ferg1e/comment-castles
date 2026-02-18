@@ -38,19 +38,6 @@ router.route('*')
     .get(sharedAllHandler)
     .post(sharedAllHandler)
 
-router.route('/contact-us')
-    .get((req, res) => {
-        res.render(
-            'contact-us',
-            {
-                html_title: 'Contact Us',
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                contact_email: config.contactEmail,
-                main_class: 'main-text'
-            })
-    })
-
 router.route('/api')
     .get((req, res) => {
         res.render(
