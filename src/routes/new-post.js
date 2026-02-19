@@ -3,25 +3,13 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {isUser} = require('../middleware/is-user.js')
 
 const router = express.Router()
 const htmlTitleNewPost = 'New Post'
 
 //
 const get = async (req, res) => {
-
-    if(!req.session.user) {
-        return res.render(
-            'message',
-            {
-                html_title: htmlTitleNewPost,
-                message: "Please <a href=\"/login\">log in</a> to create a post.",
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                main_class: 'main-text'
-            }
-        )
-    }
 
     //
     const castle = (typeof req.query.sub !== 'undefined')
@@ -54,10 +42,6 @@ const get = async (req, res) => {
 
 //
 const post = async(req, res) => {
-
-    if(!req.session.user) {
-        return res.send('nope...')
-    }
 
     //
     const [errors, wsCompressedTitle, trimCastle] = await db.validateNewPost(
@@ -104,6 +88,6 @@ const post = async(req, res) => {
 }
 
 //
-router.get('/', get)
-router.post('/', post)
+router.get('/', isUser, get)
+router.post('/', isUser, post)
 module.exports = router
