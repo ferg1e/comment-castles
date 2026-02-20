@@ -6,7 +6,7 @@ const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 
 const router = express.Router()
-const htmlTitleNewPost = 'New Post'
+const htmlTitle = 'New Post'
 
 //
 const get = async (req, res) => {
@@ -23,7 +23,7 @@ const get = async (req, res) => {
     return res.render(
         'new-post2',
         {
-            html_title: htmlTitleNewPost,
+            html_title: htmlTitle,
             user: req.session.user,
             errors: [],
             title: "",
@@ -59,7 +59,7 @@ const post = async(req, res) => {
         return res.render(
             'new-post2',
             {
-                html_title: htmlTitleNewPost,
+                html_title: htmlTitle,
                 user: req.session.user,
                 errors: errors,
                 title: req.body.title,
