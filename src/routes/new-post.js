@@ -18,24 +18,21 @@ const get = async (req, res) => {
     const {rows:[sub]} = await db.getSub(castle)
 
     //
-    return res.render(
-        'new-post2',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            errors: [],
-            title: "",
-            link: "",
-            textContent: "",
-            castle: castle,
-            curr_castle: sub ? castle : undefined,
-            lead_mod_user_id: sub ? sub.lead_mod : undefined,
-            submitLabel: 'Create Post',
-            heading: 'New Post',
-            is_castle: true,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        }
-    )
+    return res.render('new-post2', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        errors: [],
+        title: "",
+        link: "",
+        textContent: "",
+        castle: castle,
+        curr_castle: sub ? castle : undefined,
+        lead_mod_user_id: sub ? sub.lead_mod : undefined,
+        submitLabel: 'Create Post',
+        heading: 'New Post',
+        is_castle: true,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -54,24 +51,21 @@ const post = async(req, res) => {
         const {rows:[sub]} = await db.getSub(trimCastle)
 
         //
-        return res.render(
-            'new-post2',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                errors: errors,
-                title: req.body.title,
-                link: req.body.link,
-                textContent: req.body.text_content,
-                castle: req.body.castle,
-                curr_castle: sub ? trimCastle : undefined,
-                lead_mod_user_id: sub ? sub.lead_mod : undefined,
-                submitLabel: 'Create Post',
-                heading: 'New Post',
-                is_castle: true,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            }
-        )
+        return res.render('new-post2', {
+            html_title: htmlTitle,
+            user: req.session.user,
+            errors: errors,
+            title: req.body.title,
+            link: req.body.link,
+            textContent: req.body.text_content,
+            castle: req.body.castle,
+            curr_castle: sub ? trimCastle : undefined,
+            lead_mod_user_id: sub ? sub.lead_mod : undefined,
+            submitLabel: 'Create Post',
+            heading: 'New Post',
+            is_castle: true,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
