@@ -1,5 +1,3 @@
-
-//
 const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
 const db = require('../db')
