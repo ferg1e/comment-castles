@@ -43,10 +43,7 @@ const get = async (req, res) => {
     const htmlTitle = row.title
 
     //
-    const {rows:data2} = await db.getPostNumComments(row.post_id)
-
-    const numComments = data2[0]['count']
-    const totalPages = Math.ceil(numComments/config.commentsPerPage)
+    const totalPages = Math.ceil(row.num_comments/config.commentsPerPage)
 
     //
     res.render('single-post', {
@@ -104,10 +101,7 @@ const post = async (req, res) => {
         const htmlTitle = row.title
 
         //
-        const {rows:data2} = await db.getPostNumComments(row.post_id)
-
-        const numComments = data2[0]['count']
-        const totalPages = Math.ceil(numComments/config.commentsPerPage)
+        const totalPages = Math.ceil(row.num_comments/config.commentsPerPage)
 
         //
         return res.render('single-post', {
