@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
+const {checkPost} = require('../middleware/check-post.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Delete Post'
@@ -15,16 +16,10 @@ const get = async (req, res) => {
     }
 
     //
-    const postPublicId = req.params[0]
-    const {rows} = await db.getPostWithPublic(postPublicId)
+    const post = res.locals.post
 
     //
-    if(!rows.length) {
-        return res.send('unknown post...')
-    }
-
-    //
-    if(!(rows[0].user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || rows[0].lead_mod == req.session.user.user_id)) {
+    if(!(post.user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || post.lead_mod == req.session.user.user_id)) {
         return res.send('wrong user...')
     }
 
@@ -34,9 +29,9 @@ const get = async (req, res) => {
         {
             html_title: htmlTitle,
             user: req.session.user,
-            title: rows[0].title,
-            lead_mod_user_id: rows[0].lead_mod,
-            curr_castle: rows[0].castle,
+            title: post.title,
+            lead_mod_user_id: post.lead_mod,
+            curr_castle: post.castle,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -78,6 +73,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', checkPost, get)
 router.post('/', post)
 module.exports = router
