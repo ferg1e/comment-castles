@@ -45,20 +45,14 @@ const post = async (req, res) => {
     }
 
     //
-    const postPublicId = req.params[0]
-    const {rows} = await db.getPostWithPublic(postPublicId)
+    const post = res.locals.post
 
     //
-    if(!rows.length) {
-        return res.send('unknown post...')
-    }
-
-    //
-    if(!(rows[0].user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || rows[0].lead_mod == req.session.user.user_id)) {
+    if(!(post.user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || post.lead_mod == req.session.user.user_id)) {
         return res.send('wrong user...')
     }
 
-    await db.deletePost(rows[0].post_id)
+    await db.deletePost(post.post_id)
     
     return res.render(
         'message',
@@ -66,13 +60,13 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             message: "The post and all of its comments (if any) were successfully deleted.",
             user: req.session.user,
-            lead_mod_user_id: rows[0].lead_mod,
-            curr_castle: rows[0].castle,
+            lead_mod_user_id: post.lead_mod,
+            curr_castle: post.castle,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
 
 //
 router.get('/', checkPost, get)
-router.post('/', post)
+router.post('/', checkPost, post)
 module.exports = router
