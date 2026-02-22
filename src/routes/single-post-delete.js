@@ -3,17 +3,13 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {checkPost} = require('../middleware/check-post.js')
+const {isUser} = require('../middleware/is-user.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Delete Post'
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('sorry...')
-    }
 
     //
     const post = res.locals.post
@@ -40,11 +36,6 @@ const get = async (req, res) => {
 const post = async (req, res) => {
             
     //
-    if(!req.session.user) {
-        return res.send('nope...')
-    }
-
-    //
     const post = res.locals.post
 
     //
@@ -67,6 +58,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', checkPost, get)
-router.post('/', checkPost, post)
+router.get('/', isUser, checkPost, get)
+router.post('/', isUser, checkPost, post)
 module.exports = router
