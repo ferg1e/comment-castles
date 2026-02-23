@@ -4,6 +4,7 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {checkPost} = require('../middleware/check-post.js')
 const {isUser} = require('../middleware/is-user.js')
+const {canDeletePost} = require('../middleware/can-delete-post.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Delete Post'
@@ -13,11 +14,6 @@ const get = async (req, res) => {
 
     //
     const post = res.locals.post
-
-    //
-    if(!(post.user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || post.lead_mod == req.session.user.user_id)) {
-        return res.send('wrong user...')
-    }
 
     //
     res.render(
@@ -39,12 +35,9 @@ const post = async (req, res) => {
     const post = res.locals.post
 
     //
-    if(!(post.user_id == req.session.user.user_id || req.session.user.user_id == config.adminUserId || post.lead_mod == req.session.user.user_id)) {
-        return res.send('wrong user...')
-    }
-
     await db.deletePost(post.post_id)
-    
+
+    //
     return res.render(
         'message',
         {
@@ -58,6 +51,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', isUser, checkPost, get)
-router.post('/', isUser, checkPost, post)
+router.get('/', isUser, checkPost, canDeletePost, get)
+router.post('/', isUser, checkPost, canDeletePost, post)
 module.exports = router
