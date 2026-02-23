@@ -15,7 +15,7 @@ const get = async (req, res) => {
     const post = res.locals.post
 
     //
-    res.render(
+    return res.render(
         'delete-post',
         {
             html_title: htmlTitle,
