@@ -1,7 +1,6 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
-const config = require('../config')
 const {checkPost} = require('../middleware/check-post.js')
 const {isUser} = require('../middleware/is-user.js')
 const {canDeletePost} = require('../middleware/can-delete-post.js')
