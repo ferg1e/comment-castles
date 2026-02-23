@@ -15,16 +15,14 @@ const get = async (req, res) => {
     const post = res.locals.post
 
     //
-    return res.render(
-        'delete-post',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            title: post.title,
-            lead_mod_user_id: post.lead_mod,
-            curr_castle: post.castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('delete-post', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        title: post.title,
+        lead_mod_user_id: post.lead_mod,
+        curr_castle: post.castle,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -37,16 +35,14 @@ const post = async (req, res) => {
     await db.deletePost(post.post_id)
 
     //
-    return res.render(
-        'message',
-        {
-            html_title: htmlTitle,
-            message: "The post and all of its comments (if any) were successfully deleted.",
-            user: req.session.user,
-            lead_mod_user_id: post.lead_mod,
-            curr_castle: post.castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('message', {
+        html_title: htmlTitle,
+        message: "The post and all of its comments (if any) were successfully deleted.",
+        user: req.session.user,
+        lead_mod_user_id: post.lead_mod,
+        curr_castle: post.castle,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
