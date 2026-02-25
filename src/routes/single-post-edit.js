@@ -48,7 +48,7 @@ const post = async (req, res) => {
     }
 
     //
-    const [errors, wsCompressedTitle] = await db.validateEditPost(
+    const [errors, wsCompressedTitle] = db.validateEditPost(
         req.body.title,
         req.body.link)
 
