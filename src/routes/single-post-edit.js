@@ -19,23 +19,20 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'new-post2',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            errors: [],
-            title: post.title,
-            link: post.link === null ? '' : post.link,
-            textContent: post.text_content,
-            castle: post.castle,
-            lead_mod_user_id: post.lead_mod,
-            curr_castle: post.castle,
-            submitLabel: 'Edit Post',
-            heading: 'Edit Post',
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
-    
+    return res.render('new-post2', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        errors: [],
+        title: post.title,
+        link: post.link === null ? '' : post.link,
+        textContent: post.text_content,
+        castle: post.castle,
+        lead_mod_user_id: post.lead_mod,
+        curr_castle: post.castle,
+        submitLabel: 'Edit Post',
+        heading: 'Edit Post',
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -62,22 +59,19 @@ const post = async (req, res) => {
 
     //
     if(errors.length) {
-        return res.render(
-            'new-post2',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                errors: errors,
-                title: req.body.title,
-                link: req.body.link,
-                textContent: req.body.text_content,
-                lead_mod_user_id: row.lead_mod,
-                curr_castle: row.castle,
-                submitLabel: 'Edit Post',
-                heading: 'Edit Post',
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            }
-        )
+        return res.render('new-post2', {
+            html_title: htmlTitle,
+            user: req.session.user,
+            errors: errors,
+            title: req.body.title,
+            link: req.body.link,
+            textContent: req.body.text_content,
+            lead_mod_user_id: row.lead_mod,
+            curr_castle: row.castle,
+            submitLabel: 'Edit Post',
+            heading: 'Edit Post',
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
