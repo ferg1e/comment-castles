@@ -14,6 +14,7 @@ async function checkPost(req, res, next) {
     }
 
     //
+    res.locals.postPublicId = postPublicId
     res.locals.post = post
     next()
 }
