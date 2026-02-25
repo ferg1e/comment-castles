@@ -39,16 +39,11 @@ const get = async (req, res) => {
 const post = async (req, res) => {
         
     //
-    const postPublicId = req.params[0]
-    const {rows:[row]} = await db.getPostWithPublic(postPublicId)
+    const postPublicId = res.locals.postPublicId
+    const post = res.locals.post
 
     //
-    if(!row) {
-        return res.send('unknown post...')
-    }
-
-    //
-    if(row.user_id != req.session.user.user_id) {
+    if(post.user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
@@ -66,8 +61,8 @@ const post = async (req, res) => {
             title: req.body.title,
             link: req.body.link,
             textContent: req.body.text_content,
-            lead_mod_user_id: row.lead_mod,
-            curr_castle: row.castle,
+            lead_mod_user_id: post.lead_mod,
+            curr_castle: post.castle,
             submitLabel: 'Edit Post',
             heading: 'Edit Post',
             max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -76,7 +71,7 @@ const post = async (req, res) => {
 
     //
     await db.updatePost(
-        row.post_id,
+        post.post_id,
         wsCompressedTitle,
         req.body.text_content,
         req.body.link)
@@ -87,5 +82,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', isUser, checkPost, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkPost, post)
 module.exports = router
