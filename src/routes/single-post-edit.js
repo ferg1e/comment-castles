@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
+const {checkPost} = require('../middleware/check-post.js')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Edit Post'
@@ -10,16 +11,10 @@ const htmlTitle = 'Edit Post'
 const get = async (req, res) => {
 
     //
-    const postPublicId = req.params[0]
-    const {rows} = await db.getPostWithPublic(postPublicId)
+    const post = res.locals.post
 
     //
-    if(!rows.length) {
-        return res.send('unknown post...')
-    }
-
-    //
-    if(rows[0].user_id != req.session.user.user_id) {
+    if(post.user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
@@ -30,12 +25,12 @@ const get = async (req, res) => {
             html_title: htmlTitle,
             user: req.session.user,
             errors: [],
-            title: rows[0].title,
-            link: rows[0].link === null ? '' : rows[0].link,
-            textContent: rows[0].text_content,
-            castle: rows[0].castle,
-            lead_mod_user_id: rows[0].lead_mod,
-            curr_castle: rows[0].castle,
+            title: post.title,
+            link: post.link === null ? '' : post.link,
+            textContent: post.text_content,
+            castle: post.castle,
+            lead_mod_user_id: post.lead_mod,
+            curr_castle: post.castle,
             submitLabel: 'Edit Post',
             heading: 'Edit Post',
             max_width: myMisc.getCurrSiteMaxWidth(req)
@@ -97,6 +92,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', isUser, get)
+router.get('/', isUser, checkPost, get)
 router.post('/', isUser, post)
 module.exports = router
