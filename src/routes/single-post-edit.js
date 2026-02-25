@@ -19,7 +19,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'new-post2',
         {
             html_title: htmlTitle,
