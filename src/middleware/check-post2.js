@@ -2,7 +2,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 //
-async function checkPost(req, res, next) {
+async function checkPost2(req, res, next) {
     const postPublicId = req.params[0]
     const {rows:[post]} = await db.getPostWithPublic2(
         postPublicId,
@@ -24,4 +24,4 @@ async function checkPost(req, res, next) {
 }
 
 //
-module.exports.checkPost = checkPost
+module.exports.checkPost2 = checkPost2
