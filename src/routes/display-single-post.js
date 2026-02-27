@@ -2,6 +2,7 @@ const config = require('../config')
 const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 const myMisc = require('../util/misc.js')
 
 //
@@ -23,15 +24,7 @@ const get = async (req, res) => {
     if(!row) return res.send('not found')
 
     //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect(`/p/${postPublicId}`)
-        }
-    }
+    const page = res.locals.page
 
     //
     const {rows:comments} = await db.getPostComments(
@@ -140,6 +133,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', sitePageValue, get)
 router.post('/', isUser, post)
 module.exports = router
