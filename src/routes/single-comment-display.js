@@ -4,7 +4,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router({mergeParams: true})
-const htmlTitleComment = 'Comment #'
+const htmlTitle = 'Comment #'
 
 //
 const get = async (req, res) => {
@@ -46,7 +46,7 @@ const get = async (req, res) => {
     return res.render(
         'single-comment',
         {
-            html_title: htmlTitleComment + commentPublicId,
+            html_title: htmlTitle + commentPublicId,
             user: req.session.user,
             post_public_id: dbComment.post_public_id,
             comment: dbComment,
@@ -113,7 +113,7 @@ const post = async (req, res) => {
         return res.render(
             'single-comment',
             {
-                html_title: htmlTitleComment + commentPublicId,
+                html_title: htmlTitle + commentPublicId,
                 user: req.session.user,
                 post_public_id: dbComment.post_public_id,
                 comment: dbComment,
