@@ -3,6 +3,7 @@ const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
+const {checkPost2} = require('../middleware/check-post2.js')
 const myMisc = require('../util/misc.js')
 
 //
@@ -12,39 +13,30 @@ const router = express.Router({
 
 //
 const get = async (req, res) => {
-    const postPublicId = req.params[0]
-
-    //
-    const {rows:[row]} = await db.getPostWithPublic2(
-        postPublicId,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
-
-    //
-    if(!row) return res.send('not found')
-
+    
     //
     const page = res.locals.page
+    const post = res.locals.post
 
     //
     const {rows:comments} = await db.getPostComments(
-        row.post_id,
+        post.post_id,
         myMisc.getCurrTimeZone(req),
         page,
         myMisc.getCurrDateFormat(req))
 
-    const htmlTitle = row.title
+    const htmlTitle = post.title
 
     //
-    const totalPages = Math.ceil(row.num_comments/config.commentsPerPage)
+    const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
 
     //
     res.render('single-post', {
         html_title: htmlTitle,
         user: req.session.user,
-        post: row,
-        lead_mod_user_id: row.lead_mod,
-        curr_castle: row.castle,
+        post: post,
+        lead_mod_user_id: post.lead_mod,
+        curr_castle: post.castle,
         comments,
         errors: [],
         comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
@@ -133,6 +125,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', sitePageValue, get)
+router.get('/', checkPost2, sitePageValue, get)
 router.post('/', isUser, post)
 module.exports = router
