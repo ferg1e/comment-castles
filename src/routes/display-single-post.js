@@ -19,6 +19,9 @@ const get = async (req, res) => {
     const post = res.locals.post
 
     //
+    const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
+
+    //
     const {rows:comments} = await db.getPostComments(
         post.post_id,
         myMisc.getCurrTimeZone(req),
@@ -26,9 +29,6 @@ const get = async (req, res) => {
         myMisc.getCurrDateFormat(req))
 
     const htmlTitle = post.title
-
-    //
-    const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
 
     //
     res.render('single-post', {
