@@ -39,7 +39,7 @@ const get = async (req, res) => {
     const htmlTitle = post.title
 
     //
-    res.render('single-post', {
+    return res.render('single-post', {
         html_title: htmlTitle,
         user: req.session.user,
         post: post,
