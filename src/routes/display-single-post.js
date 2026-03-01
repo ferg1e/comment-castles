@@ -19,7 +19,7 @@ const get = async (req, res) => {
     const post = res.locals.post
 
     //
-    const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
+    const numPages = Math.ceil(post.num_comments/config.commentsPerPage)
 
     //
     const {rows:comments} = await db.getPostComments(
@@ -42,7 +42,7 @@ const get = async (req, res) => {
         comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
         max_width: myMisc.getCurrSiteMaxWidth(req),
         page,
-        total_pages: totalPages
+        total_pages: numPages
     })
 }
 
