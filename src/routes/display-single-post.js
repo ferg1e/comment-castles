@@ -7,9 +7,7 @@ const {checkPost2} = require('../middleware/check-post2.js')
 const myMisc = require('../util/misc.js')
 
 //
-const router = express.Router({
-    mergeParams: true
-})
+const router = express.Router({mergeParams: true})
 
 //
 const get = async (req, res) => {
