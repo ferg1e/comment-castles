@@ -17,9 +17,19 @@ const get = async (req, res) => {
     //
     const page = res.locals.page
     const post = res.locals.post
+    const postPublicId = res.locals.postPublicId
 
     //
     const numPages = Math.ceil(post.num_comments/config.commentsPerPage)
+
+    //
+    if(numPages > 0 && page > numPages) {
+        return res.status(404).render('http-error-404', {
+            message: `There are only ${numPages} pages and ` +
+                `you tried to access page ${page}. ` +
+                `<a href="/p/${postPublicId}">Return to page 1</a>.`
+        })
+    }
 
     //
     const {rows:comments} = await db.getPostComments(
