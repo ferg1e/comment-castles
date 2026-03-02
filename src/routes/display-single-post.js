@@ -58,15 +58,8 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
-    const postPublicId = req.params[0]
-
-    const {rows:[row]} = await db.getPostWithPublic2(
-        postPublicId,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
-
-    //
-    if(!row) return res.send('not found')
+    const post = res.locals.post
+    const postPublicId = res.locals.postPublicId
 
     //
     const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
@@ -86,23 +79,23 @@ const post = async (req, res) => {
         }
 
         const {rows:comments} = await db.getPostComments(
-            row.post_id,
+            post.post_id,
             myMisc.getCurrTimeZone(req),
             page,
             myMisc.getCurrDateFormat(req))
 
-        const htmlTitle = row.title
+        const htmlTitle = post.title
 
         //
-        const totalPages = Math.ceil(row.num_comments/config.commentsPerPage)
+        const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
 
         //
         return res.render('single-post', {
             html_title: htmlTitle,
             user: req.session.user,
-            post: row,
-            lead_mod_user_id: row.lead_mod,
-            curr_castle: row.castle,
+            post: post,
+            lead_mod_user_id: post.lead_mod,
+            curr_castle: post.castle,
             comments,
             errors,
             comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
@@ -114,13 +107,13 @@ const post = async (req, res) => {
 
     //
     const {rows:data1} = await db.createPostComment(
-        row.post_id,
+        post.post_id,
         req.session.user.user_id,
         compressedComment,
-        row.user_id)
+        post.user_id)
 
     //
-    const {rows:data2} = await db.getPostNumComments(row.post_id)
+    const {rows:data2} = await db.getPostNumComments(post.post_id)
 
     //
     const numComments = data2[0]['count']
@@ -134,5 +127,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', checkPost2, sitePageValue, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkPost2, post)
 module.exports = router
