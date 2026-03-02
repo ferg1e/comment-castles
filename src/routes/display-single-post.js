@@ -36,11 +36,9 @@ const get = async (req, res) => {
         page,
         myMisc.getCurrDateFormat(req))
 
-    const htmlTitle = post.title
-
     //
     return res.render('single-post', {
-        html_title: htmlTitle,
+        html_title: post.title,
         user: req.session.user,
         post: post,
         lead_mod_user_id: post.lead_mod,
@@ -76,14 +74,12 @@ const post = async (req, res) => {
             page,
             myMisc.getCurrDateFormat(req))
 
-        const htmlTitle = post.title
-
         //
         const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
 
         //
         return res.render('single-post', {
-            html_title: htmlTitle,
+            html_title: post.title,
             user: req.session.user,
             post: post,
             lead_mod_user_id: post.lead_mod,
