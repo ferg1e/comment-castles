@@ -68,15 +68,7 @@ const post = async (req, res) => {
     if(errors.length > 0) {
 
         //
-        let page = 1
-
-        if(typeof req.query.p !== 'undefined') {
-            page = parseInt(req.query.p)
-
-            if(isNaN(page)) {
-                return res.redirect(`/p/${postPublicId}`)
-            }
-        }
+        const page = res.locals.page
 
         const {rows:comments} = await db.getPostComments(
             post.post_id,
@@ -127,5 +119,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', checkPost2, sitePageValue, get)
-router.post('/', isUser, checkPost2, post)
+router.post('/', isUser, checkPost2, sitePageValue, post)
 module.exports = router
