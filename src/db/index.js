@@ -148,9 +148,9 @@ exports.getUsersWithoutPublicId = () => {
 exports.getUserUnreadCommentCount = async (userId) => {
     const {rows:[{count}]} = await query(`
         select
-            unread_comment_count count
+            count(1) count
         from
-            tuser
+            tunreadcomment
         where
             user_id = $1`,
         [userId])
