@@ -235,10 +235,8 @@ exports.genUserPublicId = (userId) => {
 //
 exports.zeroUserUnreadComments = (userId) => {
     return query(`
-        update
-            tuser
-        set
-            unread_comment_count = 0
+        delete from
+            tunreadcomment
         where
             user_id = $1`,
         [userId])
