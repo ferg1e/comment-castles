@@ -397,3 +397,24 @@ create table tunreadcomment (
     user_id integer not null references tuser,
     comment_id integer not null references tcomment on delete cascade
 );
+
+--remove update query that increments unread_comment_count
+--add insert that creates row in tunreadcomments table
+CREATE OR REPLACE FUNCTION f_post_comment()
+RETURNS TRIGGER AS $$
+BEGIN
+  update
+    tpost
+  set
+    num_comments = num_comments + 1,
+    last_comment = new.created_on
+  where
+    post_id = new.post_id;
+
+  insert into tunreadcomment
+    (user_id, comment_id)
+  values
+    (new.recipient, new.comment_id);
+
+  return null;
+END; $$ LANGUAGE 'plpgsql';
