@@ -392,3 +392,8 @@ BEGIN
 
   return null;
 END; $$ LANGUAGE 'plpgsql';
+
+create table tunreadcomment (
+    user_id integer not null references tuser,
+    comment_id integer not null references tcomment on delete cascade
+);
