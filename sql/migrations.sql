@@ -418,3 +418,5 @@ BEGIN
 
   return null;
 END; $$ LANGUAGE 'plpgsql';
+
+alter table tuser drop column unread_comment_count;
