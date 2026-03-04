@@ -4,7 +4,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router()
-const htmlTitleLogin = 'Log In'
+const htmlTitle = 'Log In'
 
 //
 const get = (req, res) => {
@@ -12,7 +12,7 @@ const get = (req, res) => {
         return res.render(
             'message',
             {
-                html_title: htmlTitleLogin,
+                html_title: htmlTitle,
                 message: "You're already logged in." +
                     " If you want to log in with a different account then please log out.",
                 user: req.session.user,
@@ -24,7 +24,7 @@ const get = (req, res) => {
     return res.render(
         'login',
         {
-            html_title: htmlTitleLogin,
+            html_title: htmlTitle,
             errors:[],
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
@@ -63,7 +63,7 @@ const post = async (req, res) => {
     res.render(
         'login',
         {
-            html_title: htmlTitleLogin,
+            html_title: htmlTitle,
             errors:errors,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
