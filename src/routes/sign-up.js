@@ -3,13 +3,13 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router()
-const htmlTitleSignUp = 'Sign Up'
+const htmlTitle = 'Sign Up'
 
 const get = async (req, res) => {
 
     //
     if(req.session.user) {
-        return myMisc.renderMessage(req, res, htmlTitleSignUp,
+        return myMisc.renderMessage(req, res, htmlTitle,
             "You already signed up. If you want to create another account then please <a href=\"/logout\">log out</a>.",
             "main-text")
     }
@@ -18,7 +18,7 @@ const get = async (req, res) => {
     return res.render(
         'sign-up',
         {
-            html_title: htmlTitleSignUp,
+            html_title: htmlTitle,
             errors:[],
             username: "",
             is_login: "yes",
@@ -37,7 +37,7 @@ const post = async (req, res) => {
         return res.render(
             'sign-up',
             {
-                html_title: htmlTitleSignUp,
+                html_title: htmlTitle,
                 errors: errors,
                 username: req.body.username,
                 is_login: req.body.is_login,
@@ -61,7 +61,7 @@ const post = async (req, res) => {
         return res.render(
             'sign-up',
             {
-                html_title: htmlTitleSignUp,
+                html_title: htmlTitle,
                 errors:[{msg:errorMessage}],
                 username: req.body.username,
                 is_login: req.body.is_login,
@@ -76,7 +76,7 @@ const post = async (req, res) => {
     }
 
     //
-    return myMisc.renderMessage(req, res, htmlTitleSignUp,
+    return myMisc.renderMessage(req, res, htmlTitle,
         "Sign up was successful, you can now <a href=\"/login\">log in</a>.",
         "main-text")
 }
