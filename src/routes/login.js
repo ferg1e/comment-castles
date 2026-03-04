@@ -8,6 +8,8 @@ const htmlTitle = 'Log In'
 
 //
 const get = (req, res) => {
+
+    //
     if(req.session.user) {
         return res.status(403).render('http-error-403', {
             message: `You cannot log in because ` +
