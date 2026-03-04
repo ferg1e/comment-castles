@@ -15,16 +15,13 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'sign-up',
-        {
-            html_title: htmlTitle,
-            errors:[],
-            username: "",
-            is_login: "yes",
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        }
-    )
+    return res.render('sign-up', {
+        html_title: htmlTitle,
+        errors:[],
+        username: "",
+        is_login: "yes",
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 const post = async (req, res) => {
@@ -34,16 +31,13 @@ const post = async (req, res) => {
 
     //
     if(errors.length > 0) {
-        return res.render(
-            'sign-up',
-            {
-                html_title: htmlTitle,
-                errors: errors,
-                username: req.body.username,
-                is_login: req.body.is_login,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            }
-        )
+        return res.render('sign-up', {
+            html_title: htmlTitle,
+            errors: errors,
+            username: req.body.username,
+            is_login: req.body.is_login,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
@@ -58,15 +52,13 @@ const post = async (req, res) => {
             : 'unknown error, please try again'
         
         //
-        return res.render(
-            'sign-up',
-            {
-                html_title: htmlTitle,
-                errors:[{msg:errorMessage}],
-                username: req.body.username,
-                is_login: req.body.is_login,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
+        return res.render('sign-up', {
+            html_title: htmlTitle,
+            errors:[{msg:errorMessage}],
+            username: req.body.username,
+            is_login: req.body.is_login,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
