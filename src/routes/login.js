@@ -9,15 +9,13 @@ const htmlTitle = 'Log In'
 //
 const get = (req, res) => {
     if(req.session.user) {
-        return res.render(
-            'message',
-            {
-                html_title: htmlTitle,
-                message: "You're already logged in." +
-                    " If you want to log in with a different account then please log out.",
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
+        return res.status(403).render('http-error-403', {
+            message: `You cannot log in because ` +
+                `you are already logged in. ` +
+                `If you want to log in as a different user ` +
+                `then please <a href="/logout">log out</a>. ` +
+                `Or <a href="/">return to the home page</a>.`
+        })
     }
 
     //
