@@ -60,7 +60,7 @@ const post = async (req, res) => {
         errors.push('Invalid username and password')
     }
 
-    res.render(
+    return res.render(
         'login',
         {
             html_title: htmlTitle,
