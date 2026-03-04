@@ -21,13 +21,11 @@ const get = (req, res) => {
     }
 
     //
-    return res.render(
-        'login',
-        {
-            html_title: htmlTitle,
-            errors:[],
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('login', {
+        html_title: htmlTitle,
+        errors:[],
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -60,13 +58,11 @@ const post = async (req, res) => {
         errors.push('Invalid username and password')
     }
 
-    return res.render(
-        'login',
-        {
-            html_title: htmlTitle,
-            errors:errors,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('login', {
+        html_title: htmlTitle,
+        errors:errors,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
