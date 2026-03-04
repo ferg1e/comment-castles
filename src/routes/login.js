@@ -32,7 +32,7 @@ const get = (req, res) => {
 
 //
 const post = async (req, res) => {
-    let errors = []
+    const errors = []
     const {rows:[dbUser]} = await db.getUserWithUsername(req.body.username)
 
     if(dbUser) {
