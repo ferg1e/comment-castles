@@ -3,7 +3,6 @@ const argon2 = require('argon2')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
-const router = express.Router()
 const htmlTitle = 'Log In'
 
 //
@@ -70,6 +69,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', get)
 router.post('/', post)
 module.exports = router
