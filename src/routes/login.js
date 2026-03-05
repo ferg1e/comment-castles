@@ -30,9 +30,12 @@ const get = (req, res) => {
 
 //
 const post = async (req, res) => {
+
+    //
     const errors = []
     const {rows:[dbUser]} = await db.getUserWithUsername(req.body.username)
 
+    //
     if(dbUser) {
         try {
             if(await argon2.verify(dbUser.password, req.body.password)) {
@@ -58,6 +61,7 @@ const post = async (req, res) => {
         errors.push('Invalid username and password')
     }
 
+    //
     return res.render('login', {
         html_title: htmlTitle,
         errors:errors,
