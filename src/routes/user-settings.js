@@ -4,7 +4,7 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 
 const router = express.Router()
-const htmlTitleSettings = 'Settings'
+const htmlTitle = 'Settings'
 const cookieMaxAge = 1000*60*60*24*365*10;
 
 //
@@ -16,7 +16,7 @@ const get = async (req, res) => {
     return res.render(
         'my-settings',
         {
-            html_title: htmlTitleSettings,
+            html_title: htmlTitle,
             errors: [],
             user: req.session.user,
             time_zones: rows,
@@ -111,7 +111,7 @@ const post = async (req, res) => {
         return res.render(
             'my-settings',
             {
-                html_title: htmlTitleSettings,
+                html_title: htmlTitle,
                 errors: errors,
                 user: req.session.user,
                 time_zones: rows2,
@@ -161,7 +161,7 @@ const post = async (req, res) => {
     return res.render(
         'my-settings',
         {
-            html_title: htmlTitleSettings,
+            html_title: htmlTitle,
             errors: [],
             success: 'Settings successfully saved.',
             user: req.session.user,
