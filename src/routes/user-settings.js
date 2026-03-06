@@ -13,31 +13,29 @@ const get = async (req, res) => {
     //
     const rows = config.timeZones
 
-    return res.render(
-        'my-settings',
-        {
-            html_title: htmlTitle,
-            errors: [],
-            user: req.session.user,
-            time_zones: rows,
-            dateFormat0: config.dateFormat0,
-            dateFormat1: config.dateFormat1,
-            dateFormat2: config.dateFormat2,
-            dateFormat3: config.dateFormat3,
-            dateFormat4: config.dateFormat4,
-            dateFormat5: config.dateFormat5,
-            dateFormat6: config.dateFormat6,
-            dateFormat7: config.dateFormat7,
-            time_zone: myMisc.getCurrTimeZone(req),
-            postLayout: myMisc.getCurrPostLayout(req),
-            postsPerPage: myMisc.getCurrPostsPerPage(req),
-            postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
-            theme: myMisc.getCurrTheme(req),
-            commentReplyMode: myMisc.getCurrCommentReplyMode(req),
-            siteWidth: myMisc.getCurrSiteMaxWidth(req),
-            dateFormat: myMisc.getCurrDateFormat(req),
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('my-settings', {
+        html_title: htmlTitle,
+        errors: [],
+        user: req.session.user,
+        time_zones: rows,
+        dateFormat0: config.dateFormat0,
+        dateFormat1: config.dateFormat1,
+        dateFormat2: config.dateFormat2,
+        dateFormat3: config.dateFormat3,
+        dateFormat4: config.dateFormat4,
+        dateFormat5: config.dateFormat5,
+        dateFormat6: config.dateFormat6,
+        dateFormat7: config.dateFormat7,
+        time_zone: myMisc.getCurrTimeZone(req),
+        postLayout: myMisc.getCurrPostLayout(req),
+        postsPerPage: myMisc.getCurrPostsPerPage(req),
+        postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
+        theme: myMisc.getCurrTheme(req),
+        commentReplyMode: myMisc.getCurrCommentReplyMode(req),
+        siteWidth: myMisc.getCurrSiteMaxWidth(req),
+        dateFormat: myMisc.getCurrDateFormat(req),
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -108,31 +106,29 @@ const post = async (req, res) => {
 
     //
     if(errors.length) {
-        return res.render(
-            'my-settings',
-            {
-                html_title: htmlTitle,
-                errors: errors,
-                user: req.session.user,
-                time_zones: rows2,
-                dateFormat0: config.dateFormat0,
-                dateFormat1: config.dateFormat1,
-                dateFormat2: config.dateFormat2,
-                dateFormat3: config.dateFormat3,
-                dateFormat4: config.dateFormat4,
-                dateFormat5: config.dateFormat5,
-                dateFormat6: config.dateFormat6,
-                dateFormat7: config.dateFormat7,
-                time_zone: req.body.time_zone,
-                postLayout: req.body.post_layout,
-                postsPerPage: req.body.posts_per_page,
-                postsVerticalSpacing: req.body.posts_vertical_spacing,
-                theme: req.body.theme,
-                commentReplyMode: req.body.comment_reply_mode,
-                siteWidth: req.body.site_width,
-                dateFormat: req.body.date_format,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
+        return res.render('my-settings', {
+            html_title: htmlTitle,
+            errors: errors,
+            user: req.session.user,
+            time_zones: rows2,
+            dateFormat0: config.dateFormat0,
+            dateFormat1: config.dateFormat1,
+            dateFormat2: config.dateFormat2,
+            dateFormat3: config.dateFormat3,
+            dateFormat4: config.dateFormat4,
+            dateFormat5: config.dateFormat5,
+            dateFormat6: config.dateFormat6,
+            dateFormat7: config.dateFormat7,
+            time_zone: req.body.time_zone,
+            postLayout: req.body.post_layout,
+            postsPerPage: req.body.posts_per_page,
+            postsVerticalSpacing: req.body.posts_vertical_spacing,
+            theme: req.body.theme,
+            commentReplyMode: req.body.comment_reply_mode,
+            siteWidth: req.body.site_width,
+            dateFormat: req.body.date_format,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
@@ -158,32 +154,30 @@ const post = async (req, res) => {
         : siteWidthInt
 
     //
-    return res.render(
-        'my-settings',
-        {
-            html_title: htmlTitle,
-            errors: [],
-            success: 'Settings successfully saved.',
-            user: req.session.user,
-            time_zones: rows2,
-            dateFormat0: config.dateFormat0,
-            dateFormat1: config.dateFormat1,
-            dateFormat2: config.dateFormat2,
-            dateFormat3: config.dateFormat3,
-            dateFormat4: config.dateFormat4,
-            dateFormat5: config.dateFormat5,
-            dateFormat6: config.dateFormat6,
-            dateFormat7: config.dateFormat7,
-            time_zone: req.body.time_zone,
-            postLayout: req.body.post_layout,
-            postsPerPage: req.body.posts_per_page,
-            postsVerticalSpacing: req.body.posts_vertical_spacing,
-            theme: req.body.theme,
-            commentReplyMode: req.body.comment_reply_mode,
-            siteWidth: req.body.site_width,
-            dateFormat: req.body.date_format,
-            max_width: siteWidthNulled
-        })
+    return res.render('my-settings', {
+        html_title: htmlTitle,
+        errors: [],
+        success: 'Settings successfully saved.',
+        user: req.session.user,
+        time_zones: rows2,
+        dateFormat0: config.dateFormat0,
+        dateFormat1: config.dateFormat1,
+        dateFormat2: config.dateFormat2,
+        dateFormat3: config.dateFormat3,
+        dateFormat4: config.dateFormat4,
+        dateFormat5: config.dateFormat5,
+        dateFormat6: config.dateFormat6,
+        dateFormat7: config.dateFormat7,
+        time_zone: req.body.time_zone,
+        postLayout: req.body.post_layout,
+        postsPerPage: req.body.posts_per_page,
+        postsVerticalSpacing: req.body.posts_vertical_spacing,
+        theme: req.body.theme,
+        commentReplyMode: req.body.comment_reply_mode,
+        siteWidth: req.body.site_width,
+        dateFormat: req.body.date_format,
+        max_width: siteWidthNulled
+    })
 }
 
 //
