@@ -3,7 +3,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 
 const router = express.Router({mergeParams: true})
-const htmlTitleEditComment = 'Edit Comment'
+const htmlTitle = 'Edit Comment'
 
 router.route('/')
     .get(async (req, res) => {
@@ -27,7 +27,7 @@ router.route('/')
             res.render(
                 'edit-comment',
                 {
-                    html_title: htmlTitleEditComment,
+                    html_title: htmlTitle,
                     user: req.session.user,
                     errors: [],
                     textContent: rows[0].text_content,
@@ -65,7 +65,7 @@ router.route('/')
                     res.render(
                         'edit-comment',
                         {
-                            html_title: htmlTitleEditComment,
+                            html_title: htmlTitle,
                             user: req.session.user,
                             errors: errors,
                             textContent: "",
