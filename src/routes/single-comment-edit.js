@@ -36,16 +36,11 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
-    const commentPublicId = req.params[0]
-    const {rows} = await db.getCommentWithPublic(commentPublicId)
+    const comment = res.locals.comment
+    const commentPublicId = res.locals.commentPublicId
 
     //
-    if(!rows.length) {
-        return res.send('unknown comment...')
-    }
-
-    //
-    if(rows[0].user_id != req.session.user.user_id) {
+    if(comment.user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
@@ -61,14 +56,14 @@ const post = async (req, res) => {
                 user: req.session.user,
                 errors: errors,
                 textContent: "",
-                lead_mod_user_id: rows[0].lead_mod,
-                curr_castle: rows[0].castle,
+                lead_mod_user_id: comment.lead_mod,
+                curr_castle: comment.castle,
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
     else {
         await db.updateComment(
-            rows[0].comment_id,
+            comment.comment_id,
             compressedComment)
         
         //
@@ -78,5 +73,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', isUser, checkComment, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkComment, post)
 module.exports = router
