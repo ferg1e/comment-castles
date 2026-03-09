@@ -19,7 +19,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'edit-comment',
         {
             html_title: htmlTitle,
@@ -49,7 +49,7 @@ const post = async (req, res) => {
 
     //
     if(errors.length) {
-        res.render(
+        return res.render(
             'edit-comment',
             {
                 html_title: htmlTitle,
