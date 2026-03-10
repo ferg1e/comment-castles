@@ -61,14 +61,14 @@ const post = async (req, res) => {
                 max_width: myMisc.getCurrSiteMaxWidth(req)
             })
     }
-    else {
-        await db.updateComment(
-            comment.comment_id,
-            compressedComment)
-        
-        //
-        return res.redirect('/c/' + commentPublicId)
-    }
+
+    //
+    await db.updateComment(
+        comment.comment_id,
+        compressedComment)
+    
+    //
+    return res.redirect('/c/' + commentPublicId)
 }
 
 //
