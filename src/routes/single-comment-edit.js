@@ -19,17 +19,15 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'edit-comment',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            errors: [],
-            textContent: comment.text_content,
-            lead_mod_user_id: comment.lead_mod,
-            curr_castle: comment.castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('edit-comment', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        errors: [],
+        textContent: comment.text_content,
+        lead_mod_user_id: comment.lead_mod,
+        curr_castle: comment.castle,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -49,17 +47,15 @@ const post = async (req, res) => {
 
     //
     if(errors.length) {
-        return res.render(
-            'edit-comment',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                errors: errors,
-                textContent: "",
-                lead_mod_user_id: comment.lead_mod,
-                curr_castle: comment.castle,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
+        return res.render('edit-comment', {
+            html_title: htmlTitle,
+            user: req.session.user,
+            errors: errors,
+            textContent: "",
+            lead_mod_user_id: comment.lead_mod,
+            curr_castle: comment.castle,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
