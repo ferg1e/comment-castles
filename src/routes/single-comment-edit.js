@@ -4,7 +4,6 @@ const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 const {checkComment} = require('../middleware/check-comment.js')
 
-const router = express.Router({mergeParams: true})
 const htmlTitle = 'Edit Comment'
 
 //
@@ -68,6 +67,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', isUser, checkComment, get)
 router.post('/', isUser, checkComment, post)
 module.exports = router
