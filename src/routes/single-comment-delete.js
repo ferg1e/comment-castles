@@ -4,7 +4,6 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {isUser} = require('../middleware/is-user.js')
 
-const router = express.Router({mergeParams: true})
 const htmlTitle = 'Delete Comment'
 
 //
@@ -69,6 +68,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', isUser, get)
 router.post('/', isUser, post)
 module.exports = router
