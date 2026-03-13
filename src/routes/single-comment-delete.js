@@ -6,6 +6,7 @@ const {isUser} = require('../middleware/is-user.js')
 const {checkComment} = require('../middleware/check-comment.js')
 const {canDeleteComment} = require('../middleware/can-delete-comment.js')
 
+//
 const htmlTitle = 'Delete Comment'
 
 //
@@ -33,7 +34,8 @@ const post = async (req, res) => {
 
     //
     await db.deleteComment(comment.path)
-    
+
+    //
     return res.render('message', {
         html_title: htmlTitle,
         message: "The comment and all of its sub comments (if any) were successfully deleted.",
