@@ -35,20 +35,14 @@ const get = async (req, res) => {
 const post = async (req, res) => {
             
     //
-    const commentPublicId = req.params[0]
-    const {rows} = await db.getCommentWithPublic(commentPublicId)
+    const comment = res.locals.comment
 
     //
-    if(!rows.length) {
-        return res.send('unknown comment...')
-    }
-
-    //
-    if(!(rows[0].user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || rows[0].lead_mod == req.session.user.user_id)) {
+    if(!(comment.user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || comment.lead_mod == req.session.user.user_id)) {
         return res.send('wrong user...')
     }
 
-    await db.deleteComment(rows[0].path)
+    await db.deleteComment(comment.path)
     
     return res.render(
         'message',
@@ -56,8 +50,8 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             message: "The comment and all of its sub comments (if any) were successfully deleted.",
             user: req.session.user,
-            lead_mod_user_id: rows[0].lead_mod,
-            curr_castle: rows[0].castle,
+            lead_mod_user_id: comment.lead_mod,
+            curr_castle: comment.castle,
             max_width: myMisc.getCurrSiteMaxWidth(req)
         })
 }
@@ -65,5 +59,5 @@ const post = async (req, res) => {
 //
 const router = express.Router({mergeParams: true})
 router.get('/', isUser, checkComment, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkComment, post)
 module.exports = router
