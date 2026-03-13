@@ -17,6 +17,15 @@ const get = async (req, res) => {
     const page = res.locals.page
 
     //
+    if(numPages > 0 && page > numPages) {
+        return res.status(404).render('http-error-404', {
+            message: `There are only ${numPages} pages and ` +
+                `you tried to access page ${page}. ` +
+                `<a href="/subs">Return to page 1</a>.`
+        })
+    }
+
+    //
     const {rows:subs} = await db.getAllSubs(page)
 
     return res.render('subs', {
