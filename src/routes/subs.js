@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
+const {sitePageValue} = require('../middleware/site-page-value.js')
 
 const htmlTitle = 'Subs List'
 
@@ -13,15 +14,7 @@ const get = async (req, res) => {
     const numPages = Math.ceil(subsCount/config.subsPerPage)
 
     //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect('/subs')
-        }
-    }
+    const page = res.locals.page
 
     //
     const {rows:subs} = await db.getAllSubs(page)
@@ -39,5 +32,5 @@ const get = async (req, res) => {
 
 //
 const router = express.Router()
-router.get('/', get)
+router.get('/', sitePageValue, get)
 module.exports = router
