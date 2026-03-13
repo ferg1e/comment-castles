@@ -19,7 +19,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'delete-comment',
         {
             html_title: htmlTitle,
