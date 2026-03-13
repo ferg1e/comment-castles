@@ -4,6 +4,7 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {isUser} = require('../middleware/is-user.js')
 const {checkComment} = require('../middleware/check-comment.js')
+const {canDeleteComment} = require('../middleware/can-delete-comment.js')
 
 const htmlTitle = 'Delete Comment'
 
@@ -12,11 +13,6 @@ const get = async (req, res) => {
 
     //
     const comment = res.locals.comment
-
-    //
-    if(!(comment.user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || comment.lead_mod == req.session.user.user_id)) {
-        return res.send('wrong user...')
-    }
 
     //
     return res.render('delete-comment', {
@@ -36,10 +32,6 @@ const post = async (req, res) => {
     const comment = res.locals.comment
 
     //
-    if(!(comment.user_id == req.session.user.user_id || config.adminUserId == req.session.user.user_id || comment.lead_mod == req.session.user.user_id)) {
-        return res.send('wrong user...')
-    }
-
     await db.deleteComment(comment.path)
     
     return res.render('message', {
@@ -54,6 +46,6 @@ const post = async (req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', isUser, checkComment, get)
-router.post('/', isUser, checkComment, post)
+router.get('/', isUser, checkComment, canDeleteComment, get)
+router.post('/', isUser, checkComment, canDeleteComment, post)
 module.exports = router
