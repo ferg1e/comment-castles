@@ -3,7 +3,6 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
 
-const router = express.Router()
 const htmlTitle = 'Subs List'
 
 //
@@ -39,5 +38,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', get)
 module.exports = router
