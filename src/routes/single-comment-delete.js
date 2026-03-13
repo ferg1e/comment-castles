@@ -19,16 +19,14 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'delete-comment',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            text_content: comment.text_content,
-            lead_mod_user_id: comment.lead_mod,
-            curr_castle: comment.castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('delete-comment', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        text_content: comment.text_content,
+        lead_mod_user_id: comment.lead_mod,
+        curr_castle: comment.castle,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -44,16 +42,14 @@ const post = async (req, res) => {
 
     await db.deleteComment(comment.path)
     
-    return res.render(
-        'message',
-        {
-            html_title: htmlTitle,
-            message: "The comment and all of its sub comments (if any) were successfully deleted.",
-            user: req.session.user,
-            lead_mod_user_id: comment.lead_mod,
-            curr_castle: comment.castle,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('message', {
+        html_title: htmlTitle,
+        message: "The comment and all of its sub comments (if any) were successfully deleted.",
+        user: req.session.user,
+        lead_mod_user_id: comment.lead_mod,
+        curr_castle: comment.castle,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
