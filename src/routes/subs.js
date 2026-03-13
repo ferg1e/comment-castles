@@ -26,7 +26,7 @@ const get = async (req, res) => {
     //
     const {rows:subs} = await db.getAllSubs(page)
 
-    res.render('subs', {
+    return res.render('subs', {
         html_title: htmlTitle,
         user: req.session.user,
         max_width: myMisc.getCurrSiteMaxWidth(req),
