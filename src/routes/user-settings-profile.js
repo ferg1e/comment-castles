@@ -18,7 +18,7 @@ const get = async (req, res) => {
     const {rows:[row]} = await db.getUserWithUserId(req.session.user.user_id)
 
     //
-    res.render(
+    return res.render(
         'my-settings-profile',
         {
             html_title: htmlTitle,
@@ -44,7 +44,7 @@ const post = async (req, res) => {
     await db.updateUserProfile(req.session.user.user_id, profile)
 
     //
-    res.render(
+    return res.render(
         'my-settings-profile',
         {
             html_title: htmlTitle,
