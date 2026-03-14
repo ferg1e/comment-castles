@@ -18,15 +18,13 @@ const get = async (req, res) => {
     const {rows:[row]} = await db.getUserWithUserId(req.session.user.user_id)
 
     //
-    return res.render(
-        'my-settings-profile',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: [],
-            profile: row.profile_blurb,
-        })
+    return res.render('my-settings-profile', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: [],
+        profile: row.profile_blurb,
+    })
 }
 
 //
@@ -44,16 +42,14 @@ const post = async (req, res) => {
     await db.updateUserProfile(req.session.user.user_id, profile)
 
     //
-    return res.render(
-        'my-settings-profile',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: [],
-            success: "profile updated",
-            profile: profile,
-        })
+    return res.render('my-settings-profile', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: [],
+        success: "profile updated",
+        profile: profile,
+    })
 }
 
 //
