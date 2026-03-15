@@ -2,6 +2,7 @@ const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {isUser} = require('../middleware/is-user.js')
 
 const router = express.Router()
 const regexUsername = /^[a-z0-9-]{4,16}$/i
@@ -9,11 +10,6 @@ const htmlTitle = 'Settings / Username'
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.redirect('/settings')
-    }
 
     //
     return res.render('my-settings-username', {
@@ -27,11 +23,6 @@ const get = async (req, res) => {
 
 //
 const post = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('nope...')
-    }
 
     //
     const errors = []
@@ -84,6 +75,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', get)
-router.post('/', post)
+router.get('/', isUser, get)
+router.post('/', isUser, post)
 module.exports = router
