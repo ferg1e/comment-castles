@@ -7,6 +7,10 @@ html
     link(rel='stylesheet', href=`${cssDir}/style.css`)
     link(rel='stylesheet', href=themeCss)
     link(rel="icon" href="/images/favicon-32.png" sizes="32x32")
+
+    if meta_desc
+      meta(name="description" content=meta_desc)
+
     block head
 
     if max_width !== null
