@@ -3,8 +3,6 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 
-const router = express.Router({mergeParams: true})
-
 //
 const get = async (req, res) => {
 
@@ -69,5 +67,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', sitePageValue, get)
 module.exports = router
