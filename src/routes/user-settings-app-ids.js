@@ -55,7 +55,7 @@ async function renderHtml(req, res, formData, errors, success) {
     const {rows:clients} = await db.getUserClients(req.session.user.user_id)
 
     //
-    res.render(
+    return res.render(
         'my-settings-app-ids',
         {
             html_title: htmlTitle,
