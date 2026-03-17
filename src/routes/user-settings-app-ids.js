@@ -4,53 +4,58 @@ const myMisc = require('../util/misc.js')
 const router = express.Router()
 const htmlTitle = 'Settings / App IDs'
 
-router.route('/')
-    .get(async (req, res) => {
+//
+const get = async (req, res) => {
 
-        //
-        if(!req.session.user) {
-            return res.redirect('/settings')
-        }
+    //
+    if(!req.session.user) {
+        return res.redirect('/settings')
+    }
 
-        //
+    //
 
-        renderHtml(req, res, {}, [])
-    })
-    .post(async (req, res) => {
+    renderHtml(req, res, {}, [])
+}
 
-        //
-        if(!req.session.user) {
-            return res.send(':)')
-        }
+//
+const post = async (req, res) => {
 
-        //
-        const errors = myMisc.validateOauthClient(
+    //
+    if(!req.session.user) {
+        return res.send(':)')
+    }
+
+    //
+    const errors = myMisc.validateOauthClient(
+        req.body.name,
+        req.body.ruri
+    )
+
+    if(errors.length > 0) {
+        renderHtml(
+            req,
+            res,
+            {
+                name: req.body.name,
+                ruri: req.body.ruri,
+            },
+            errors
+        )
+    }
+    else {
+        var {rows} = await db.createClient(
             req.body.name,
-            req.body.ruri
+            req.body.ruri,
+            req.session.user.user_id,
         )
 
-        if(errors.length > 0) {
-            renderHtml(
-                req,
-                res,
-                {
-                    name: req.body.name,
-                    ruri: req.body.ruri,
-                },
-                errors
-            )
-        }
-        else {
-            var {rows} = await db.createClient(
-                req.body.name,
-                req.body.ruri,
-                req.session.user.user_id,
-            )
+        return res.redirect(`/settings/app-id?id=${rows[0].public_client_id}`)
+    }
+}
 
-            return res.redirect(`/settings/app-id?id=${rows[0].public_client_id}`)
-        }
-    })
-
+//
+router.get('/', get)
+router.post('/', post)
 module.exports = router
 
 //
