@@ -55,15 +55,13 @@ async function renderHtml(req, res, formData, errors, success) {
     const {rows:clients} = await db.getUserClients(req.session.user.user_id)
 
     //
-    return res.render(
-        'my-settings-app-ids',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            clients: clients,
-            errors: errors,
-            success: success,
-            form_data: formData,
-        })
+    return res.render('my-settings-app-ids', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        clients: clients,
+        errors: errors,
+        success: success,
+        form_data: formData,
+    })
 }
