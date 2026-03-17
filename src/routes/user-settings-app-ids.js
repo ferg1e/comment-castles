@@ -8,11 +8,7 @@ const router = express.Router()
 const htmlTitle = 'Settings / App IDs'
 
 //
-const get = async (req, res) => {
-
-    //
-    renderHtml(req, res, {}, [])
-}
+const get = async (req, res) => renderHtml(req, res, {}, [])
 
 //
 const post = async (req, res) => {
