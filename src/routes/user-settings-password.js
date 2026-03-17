@@ -12,14 +12,12 @@ const htmlTitle = 'Settings / Password'
 const get = async (req, res) => {
 
     //
-    return res.render(
-        'my-settings-password',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: [],
-        })
+    return res.render('my-settings-password', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: [],
+    })
 }
 
 //
@@ -48,15 +46,13 @@ const post = async (req, res) => {
     }
 
     //
-    return res.render(
-        'my-settings-password',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            errors: errors,
-            success: success,
-        })
+    return res.render('my-settings-password', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        errors: errors,
+        success: success,
+    })
 }
 
 //
