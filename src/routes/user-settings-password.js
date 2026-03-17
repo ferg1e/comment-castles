@@ -12,7 +12,7 @@ const htmlTitle = 'Settings / Password'
 const get = async (req, res) => {
 
     //
-    res.render(
+    return res.render(
         'my-settings-password',
         {
             html_title: htmlTitle,
