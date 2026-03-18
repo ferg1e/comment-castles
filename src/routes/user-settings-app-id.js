@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {isUser} = require('../middleware/is-user.js')
 
 //
 const router = express.Router()
@@ -8,11 +9,6 @@ const htmlTitle = 'Settings / App ID'
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.redirect('/settings')
-    }
 
     //
     const {rows} = await db.getClient(req.query.id)
@@ -36,11 +32,6 @@ const get = async (req, res) => {
 
 //
 const post = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('please log in')
-    }
 
     //
     const {rows} = await db.getClient(req.query.id)
@@ -90,8 +81,8 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', get)
-router.post('/', post)
+router.get('/', isUser, get)
+router.post('/', isUser, post)
 module.exports = router
 
 //
