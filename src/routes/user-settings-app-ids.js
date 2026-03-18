@@ -32,7 +32,7 @@ const post = async (req, res) => {
     }
 
     //
-    var {rows} = await db.createClient(
+    const {rows} = await db.createClient(
         req.body.name,
         req.body.ruri,
         req.session.user.user_id,
