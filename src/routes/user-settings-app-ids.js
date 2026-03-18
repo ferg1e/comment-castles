@@ -20,7 +20,7 @@ const post = async (req, res) => {
     )
 
     if(errors.length > 0) {
-        renderHtml(
+        return renderHtml(
             req,
             res,
             {
