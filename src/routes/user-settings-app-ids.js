@@ -30,15 +30,15 @@ const post = async (req, res) => {
             errors
         )
     }
-    else {
-        var {rows} = await db.createClient(
-            req.body.name,
-            req.body.ruri,
-            req.session.user.user_id,
-        )
 
-        return res.redirect(`/settings/app-id?id=${rows[0].public_client_id}`)
-    }
+    //
+    var {rows} = await db.createClient(
+        req.body.name,
+        req.body.ruri,
+        req.session.user.user_id,
+    )
+
+    return res.redirect(`/settings/app-id?id=${rows[0].public_client_id}`)
 }
 
 //
