@@ -62,7 +62,6 @@ const post = async (req, res) => {
             [],
             'app info saved')
     }
-
 }
 
 //
