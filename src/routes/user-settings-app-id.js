@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
+const {checkOauthClient} = require('../middleware/check-oauth-client.js')
 
 //
 const router = express.Router()
@@ -11,12 +12,7 @@ const htmlTitle = 'Settings / App ID'
 const get = async (req, res) => {
 
     //
-    const {rows:[oauthClient]} = await db.getClient(req.query.id)
-
-    //
-    if(!oauthClient) {
-        return res.send('app does not exist')
-    }
+    const oauthClient = res.locals.oauthClient
 
     //
     if(oauthClient.user_id != req.session.user.user_id) {
@@ -78,7 +74,7 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', isUser, get)
+router.get('/', isUser, checkOauthClient, get)
 router.post('/', isUser, post)
 module.exports = router
 
