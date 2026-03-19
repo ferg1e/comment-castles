@@ -71,7 +71,7 @@ module.exports = router
 
 //
 function renderHtml(req, res, client, errors, success) {
-    res.render(
+    return res.render(
         'my-settings-app-id',
         {
             html_title: htmlTitle,
