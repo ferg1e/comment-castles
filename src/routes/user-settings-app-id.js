@@ -11,23 +11,20 @@ const htmlTitle = 'Settings / App ID'
 const get = async (req, res) => {
 
     //
-    const {rows} = await db.getClient(req.query.id)
+    const {rows:[oauthClient]} = await db.getClient(req.query.id)
 
     //
-    if(rows.length == 0) {
+    if(!oauthClient) {
         return res.send('app does not exist')
     }
 
     //
-    const row = rows[0]
-
-    //
-    if(row.user_id != req.session.user.user_id) {
+    if(oauthClient.user_id != req.session.user.user_id) {
         return res.send('wrong user')
     }
 
     //
-    renderHtml(req, res, row)
+    renderHtml(req, res, oauthClient)
 }
 
 //
