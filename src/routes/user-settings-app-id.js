@@ -27,18 +27,10 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
-    const {rows} = await db.getClient(req.query.id)
+    const oauthClient = res.locals.oauthClient
 
     //
-    if(rows.length == 0) {
-        return res.send('app does not exist')
-    }
-
-    //
-    const row = rows[0]
-
-    //
-    if(row.user_id != req.session.user.user_id) {
+    if(oauthClient.user_id != req.session.user.user_id) {
         return res.send('wrong user')
     }
 
@@ -49,7 +41,7 @@ const post = async (req, res) => {
     )
 
     const updatedRow = {
-        public_client_id: row.public_client_id,
+        public_client_id: oauthClient.public_client_id,
         app_name: req.body.name,
         redirect_uri: req.body.ruri
     }
@@ -59,7 +51,7 @@ const post = async (req, res) => {
     }
     else {
         await db.updateClient(
-            row.client_id,
+            oauthClient.client_id,
             req.body.name,
             req.body.ruri)
         
@@ -75,7 +67,7 @@ const post = async (req, res) => {
 
 //
 router.get('/', isUser, checkOauthClient, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkOauthClient, post)
 module.exports = router
 
 //
