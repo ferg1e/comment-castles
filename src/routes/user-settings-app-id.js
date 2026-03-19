@@ -5,7 +5,6 @@ const {isUser} = require('../middleware/is-user.js')
 const {checkOauthClient} = require('../middleware/check-oauth-client.js')
 
 //
-const router = express.Router()
 const htmlTitle = 'Settings / App ID'
 
 //
@@ -65,6 +64,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', isUser, checkOauthClient, get)
 router.post('/', isUser, checkOauthClient, post)
 module.exports = router
