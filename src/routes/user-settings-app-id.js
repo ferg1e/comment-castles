@@ -48,19 +48,19 @@ const post = async (req, res) => {
     if(errors.length > 0) {
         return renderHtml(req, res, updatedRow, errors)
     }
-    else {
-        await db.updateClient(
-            oauthClient.client_id,
-            req.body.name,
-            req.body.ruri)
-        
-        return renderHtml(
-            req,
-            res,
-            updatedRow,
-            [],
-            'app info saved')
-    }
+
+    //
+    await db.updateClient(
+        oauthClient.client_id,
+        req.body.name,
+        req.body.ruri)
+    
+    return renderHtml(
+        req,
+        res,
+        updatedRow,
+        [],
+        'app info saved')
 }
 
 //
