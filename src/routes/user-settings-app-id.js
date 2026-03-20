@@ -19,7 +19,7 @@ const get = async (req, res) => {
     }
 
     //
-    renderHtml(req, res, oauthClient)
+    return renderHtml(req, res, oauthClient)
 }
 
 //
@@ -46,7 +46,7 @@ const post = async (req, res) => {
     }
 
     if(errors.length > 0) {
-        renderHtml(req, res, updatedRow, errors)
+        return renderHtml(req, res, updatedRow, errors)
     }
     else {
         await db.updateClient(
@@ -54,7 +54,7 @@ const post = async (req, res) => {
             req.body.name,
             req.body.ruri)
         
-        renderHtml(
+        return renderHtml(
             req,
             res,
             updatedRow,
