@@ -39,7 +39,7 @@ router.get(
         //
         if(numPages > 0 && page > numPages) {
             return res.status(404).json({
-                errors: ['page (p) value high than number of pages'],
+                errors: ['page (p) value higher than number of pages'],
             })
         }
 
