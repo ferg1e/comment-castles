@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
+const {apiPageValue} = require('../middleware/api-page-value.js')
 
 //
 const router = express.Router()
@@ -10,16 +11,7 @@ const router = express.Router()
 const get = async (req, res) => {
 
     //
-    let page
-
-    try {
-        page = myMisc.getPageNum(req)
-    }
-    catch(e) {
-        return res.status(400).json({
-            errors: ['invalid page (p) value'],
-        })
-    }
+    const page = res.locals.page
 
     //
     const postsPerPage = config.defaultPostsPerPage
@@ -65,5 +57,5 @@ const get = async (req, res) => {
 }
 
 //
-router.get('/', get)
+router.get('/', apiPageValue, get)
 module.exports = router
