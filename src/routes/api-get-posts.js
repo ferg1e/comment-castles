@@ -33,24 +33,18 @@ const get = async (req, res) => {
         config.defaultDateFormat)
 
     //
-    const rows2 = []
+    const reKeyedPosts = rows.map(v => ({
+        post_id: v.public_id,
+        title: v.title,
+        link: v.link,
+        post_time: v.created_on_raw,
+        author_username: v.username,
+        author_user_id: v.user_public_id,
+        num_comments: v.num_comments,
+        sub: v.castle
+    }))
 
-    for(const i in rows) {
-        const v = rows[i]
-
-        rows2.push({
-            post_id: v.public_id,
-            title: v.title,
-            link: v.link,
-            post_time: v.created_on_raw,
-            author_username: v.username,
-            author_user_id: v.user_public_id,
-            num_comments: v.num_comments,
-            sub: v.castle
-        })
-    }
-
-    return res.json(rows2)
+    return res.json(reKeyedPosts)
 }
 
 //
