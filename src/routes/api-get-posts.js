@@ -25,7 +25,7 @@ const get = async (req, res) => {
     //
     const sort = myMisc.getPostSort(req)
 
-    const {rows} = await db.getPosts(
+    const {rows:posts} = await db.getPosts(
         config.defaultTimeZone,
         page,
         sort,
@@ -33,7 +33,7 @@ const get = async (req, res) => {
         config.defaultDateFormat)
 
     //
-    const reKeyedPosts = rows.map(v => ({
+    const reKeyedPosts = posts.map(v => ({
         post_id: v.public_id,
         title: v.title,
         link: v.link,
