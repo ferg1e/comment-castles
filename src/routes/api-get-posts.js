@@ -5,9 +5,6 @@ const config = require('../config')
 const {apiPageValue} = require('../middleware/api-page-value.js')
 
 //
-const router = express.Router()
-
-//
 const get = async (req, res) => {
 
     //
@@ -57,5 +54,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', apiPageValue, get)
 module.exports = router
