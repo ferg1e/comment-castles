@@ -2,7 +2,7 @@ const db = require('../db')
 const {oauthAuthenticate} = require('../util/oauth-authenticate')
 
 //
-module.exports = async (req, res) => {
+const post = async (req, res) => {
 
     //
     const title = (typeof req.body.title === 'undefined') ? '' : req.body.title
@@ -44,3 +44,6 @@ module.exports = async (req, res) => {
     //
     return res.json(newPost)
 }
+
+//
+module.exports = post
