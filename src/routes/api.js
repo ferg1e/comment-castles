@@ -15,7 +15,7 @@ const oauth = new OAuth2Server({
 })
 
 //
-router.use('/posts', require('./api-get-posts'))
+router.get('/posts', require('./api-get-posts'))
 
 //
 router.get(

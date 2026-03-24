@@ -1,4 +1,3 @@
-const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
@@ -48,6 +47,4 @@ const get = async (req, res) => {
 }
 
 //
-const router = express.Router()
-router.get('/', apiPageValue, get)
-module.exports = router
+module.exports = [apiPageValue, get]
