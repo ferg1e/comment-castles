@@ -58,7 +58,7 @@ const get = async (req, res) => {
         })
     }
 
-    res.json(rows2)
+    return res.json(rows2)
 }
 
 //
