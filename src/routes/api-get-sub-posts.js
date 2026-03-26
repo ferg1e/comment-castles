@@ -1,6 +1,7 @@
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
+const {apiPageValue} = require('../middleware/api-page-value.js')
 
 //
 const get = async (req, res) => {
@@ -25,15 +26,7 @@ const get = async (req, res) => {
     }
 
     //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            page = 1
-        }
-    }
+    const page = res.locals.page
 
     //
     const sort = myMisc.getPostSort(req)
@@ -69,4 +62,4 @@ const get = async (req, res) => {
 }
 
 //
-module.exports = get
+module.exports = [apiPageValue, get]
