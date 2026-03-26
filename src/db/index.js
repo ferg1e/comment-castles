@@ -363,6 +363,7 @@ exports.getSubPosts = (timeZone, page, castle, sort, pageSize, dateFormat) => {
             to_char(
                 timezone($1, p.created_on),
                 $2) created_on,
+            p.created_on created_on_raw,
             u.username,
             u.user_id,
             u.public_id as user_public_id,
