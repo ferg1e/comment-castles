@@ -1,7 +1,6 @@
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
 
 //
 const get = async (req, res) => {
@@ -37,15 +36,11 @@ const get = async (req, res) => {
     }
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
     const sort = myMisc.getPostSort(req)
-    const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
     //
     const {rows} = await db.getSubPosts(
-        timeZone,
+        config.defaultTimeZone,
         page,
         urlSub,
         sort,
