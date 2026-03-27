@@ -78,7 +78,7 @@ const get = async (req, res) => {
         sub: post.castle
     }
 
-    res.json(r)
+    return res.json(r)
 }
 
 //
