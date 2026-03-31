@@ -1,6 +1,5 @@
 const db = require('../db')
 const config = require('../config')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
 
 //
 const get = async (req, res) => {
@@ -13,16 +12,12 @@ const get = async (req, res) => {
     }
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
     const postPublicId = req.query.postid
-    const timeZone = oauthData ? oauthData.user.time_zone : config.defaultTimeZone
 
     //
     const {rows:[post]} = await db.getPostWithPublic2(
         postPublicId,
-        timeZone,
+        config.defaultTimeZone,
         config.defaultDateFormat)
 
     //
@@ -46,7 +41,7 @@ const get = async (req, res) => {
     //
     const{rows:comments} = await db.getPostComments(
         post.post_id,
-        timeZone,
+        config.defaultTimeZone,
         page,
         config.defaultDateFormat)
 
