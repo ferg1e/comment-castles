@@ -1,20 +1,13 @@
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
+const {isOauthUser} = require('../middleware/is-oauth-user')
 
 //
 const post = async (req, res) => {
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
-    if(!oauthData) {
-        return res.status(401).json({
-            errors: ['invalid or no user auth'],
-        })
-    }
+    const oauthUser = res.locals.oauthUser
 
     //
     const postId = req.body.post_id
@@ -51,7 +44,7 @@ const post = async (req, res) => {
         //
         const {rows:[row]} = await db.getPostWithPublic2(
             postId,
-            oauthData.user.time_zone,
+            oauthUser.time_zone,
             config.defaultDateFormat)
 
         //
@@ -70,7 +63,7 @@ const post = async (req, res) => {
         //
         const {rows:[newComment]} = await db.createPostComment(
             row.post_id,
-            oauthData.user.user_id,
+            oauthUser.user_id,
             compressedComment,
             row.user_id)
 
@@ -86,7 +79,7 @@ const post = async (req, res) => {
         //
         const {rows:[row]} = await db.getCommentWithPublic2(
             commentId,
-            oauthData.user.time_zone,
+            oauthUser.time_zone,
             config.defaultDateFormat)
 
         if(!row) {
@@ -104,10 +97,10 @@ const post = async (req, res) => {
         //
         const {rows:[newComment]} = await db.createCommentComment(
             row.post_id,
-            oauthData.user.user_id,
+            oauthUser.user_id,
             compressedComment,
             row.path,
-            oauthData.user.time_zone,
+            oauthUser.time_zone,
             config.defaultDateFormat,
             row.user_id)
 
@@ -121,4 +114,4 @@ const post = async (req, res) => {
 }
 
 //
-module.exports = post
+module.exports = [isOauthUser, post]
