@@ -1,19 +1,12 @@
 const db = require('../db')
 const config = require('../config')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
+const {isOauthUser} = require('../middleware/is-oauth-user')
 
 //
 const del = async (req, res) => {
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
-    if(!oauthData) {
-        return res.status(401).json({
-            errors: ['invalid or no user auth'],
-        })
-    }
+    const oauthUser = res.locals.oauthUser
 
     //
     if(typeof req.query.post_id === 'undefined') {
@@ -34,9 +27,9 @@ const del = async (req, res) => {
     }
 
     //
-    if(row.user_id != oauthData.user.user_id &&
-        config.adminUserId != oauthData.user.user_id &&
-        row.lead_mod != oauthData.user.user_id)
+    if(row.user_id != oauthUser.user_id &&
+        config.adminUserId != oauthUser.user_id &&
+        row.lead_mod != oauthUser.user_id)
     {
         return res.status(403).json({
             errors: ["wrong user"],
@@ -53,4 +46,4 @@ const del = async (req, res) => {
 }
 
 //
-module.exports = del
+module.exports = [isOauthUser, del]
