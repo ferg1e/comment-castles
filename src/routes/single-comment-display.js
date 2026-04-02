@@ -2,6 +2,7 @@ const config = require('../config')
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {sitePageValue} = require('../middleware/site-page-value')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Comment #'
@@ -21,15 +22,7 @@ const get = async (req, res) => {
     }
 
     //
-    let page = 1
-
-    if(typeof req.query.p !== 'undefined') {
-        page = parseInt(req.query.p)
-
-        if(isNaN(page)) {
-            return res.redirect(`/c/${commentPublicId}`)
-        }
-    }
+    const page = res.locals.page
 
     //
     const{rows:comments} = await db.getCommentComments(
@@ -89,15 +82,7 @@ const post = async (req, res) => {
     if(errors.length) {
 
         //
-        let page = 1
-
-        if(typeof req.query.p !== 'undefined') {
-            page = parseInt(req.query.p)
-
-            if(isNaN(page)) {
-                return res.redirect(`/c/${commentPublicId}`)
-            }
-        }
+        const page = res.locals.page
 
         const{rows:comments} = await db.getCommentComments(
             dbComment.path,
@@ -150,6 +135,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', get)
-router.post('/', post)
+router.get('/', sitePageValue, get)
+router.post('/', sitePageValue, post)
 module.exports = router
