@@ -54,17 +54,8 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
-    const commentPublicId = req.params[0]
-
-    const {rows:[dbComment]} = await db.getCommentWithPublic2(
-        commentPublicId,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
-
-    //
-    if(!dbComment) {
-        return res.send('not found')
-    }
+    const commentPublicId = res.locals.commentPublicId
+    const dbComment = res.locals.comment
 
     //
     let [compressedComment, errors] = myMisc.processComment(req.body.text_content)
@@ -126,5 +117,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', checkComment2, sitePageValue, get)
-router.post('/', isUser, sitePageValue, post)
+router.post('/', isUser, checkComment2, sitePageValue, post)
 module.exports = router
