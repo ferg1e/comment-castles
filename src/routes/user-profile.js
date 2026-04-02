@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {render404} = require('../util/render')
 
 const router = express.Router({mergeParams: true})
 
@@ -12,10 +13,9 @@ const get = async (req, res) => {
 
     //
     if(!dbUser) {
-        return res.status(404).render('http-error-404', {
-            message: `There is no user with that user ID. ` +
-                `<a href="/">Return to the home page</a>.`
-        })
+        return render404(res,
+            `There is no user with that user ID. ` +
+            `<a href="/">Return to the home page</a>.`)
     }
 
     //
