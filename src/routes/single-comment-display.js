@@ -3,23 +3,17 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value')
+const {checkComment2} = require('../middleware/check-comment2')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Comment #'
 
 //
 const get = async (req, res) => {
-    const commentPublicId = req.params[0]
-
-    const {rows:[dbComment]} = await db.getCommentWithPublic2(
-        commentPublicId,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
 
     //
-    if(!dbComment) {
-        return res.send('not found..')
-    }
+    const commentPublicId = res.locals.commentPublicId
+    const dbComment = res.locals.comment
 
     //
     const page = res.locals.page
@@ -135,6 +129,6 @@ const post = async (req, res) => {
 }
 
 //
-router.get('/', sitePageValue, get)
+router.get('/', checkComment2, sitePageValue, get)
 router.post('/', sitePageValue, post)
 module.exports = router
