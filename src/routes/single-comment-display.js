@@ -4,6 +4,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value')
 const {checkComment2} = require('../middleware/check-comment2')
+const {isUser} = require('../middleware/is-user')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Comment #'
@@ -51,11 +52,6 @@ const get = async (req, res) => {
 
 //
 const post = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('nope...')
-    }
 
     //
     const commentPublicId = req.params[0]
@@ -130,5 +126,5 @@ const post = async (req, res) => {
 
 //
 router.get('/', checkComment2, sitePageValue, get)
-router.post('/', sitePageValue, post)
+router.post('/', isUser, sitePageValue, post)
 module.exports = router
