@@ -5,8 +5,6 @@ const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
 
-const router = express.Router({mergeParams: true})
-
 //
 const get = async (req, res) => {
 
@@ -57,5 +55,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', checkSub, sitePageValue, get)
 module.exports = router
