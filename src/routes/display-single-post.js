@@ -4,6 +4,7 @@ const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {checkPost2} = require('../middleware/check-post2.js')
+const {renderPaginate404} = require('../util/render')
 const myMisc = require('../util/misc.js')
 
 //
@@ -22,11 +23,7 @@ const get = async (req, res) => {
 
     //
     if(numPages > 0 && page > numPages) {
-        return res.status(404).render('http-error-404', {
-            message: `There are only ${numPages} pages and ` +
-                `you tried to access page ${page}. ` +
-                `<a href="/p/${postPublicId}">Return to page 1</a>.`
-        })
+        return renderPaginate404(req, res, page, numPages)
     }
 
     //
