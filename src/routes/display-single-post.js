@@ -16,7 +16,6 @@ const get = async (req, res) => {
     //
     const page = res.locals.page
     const post = res.locals.post
-    const postPublicId = res.locals.postPublicId
 
     //
     const numPages = Math.ceil(post.num_comments/config.commentsPerPage)
