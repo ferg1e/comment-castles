@@ -3,3 +3,16 @@ module.exports.render404 = (res, message) => {
         message: message
     })
 }
+
+//
+module.exports.renderPaginate404 = (req, res, page, numPages) => {
+
+    //
+    const baseUrl = req.originalUrl.replace(/\?.*$/, '')
+
+    //
+    return module.exports.render404(res,
+        `There are only ${numPages} pages and ` +
+        `you tried to access page ${page}. ` +
+        `<a href="${baseUrl}">Return to page 1</a>.`)
+}
