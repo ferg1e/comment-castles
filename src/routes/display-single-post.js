@@ -8,9 +8,6 @@ const {renderPaginate404} = require('../util/render')
 const myMisc = require('../util/misc.js')
 
 //
-const router = express.Router({mergeParams: true})
-
-//
 const get = async (req, res) => {
     
     //
@@ -110,6 +107,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', checkPost2, sitePageValue, get)
 router.post('/', isUser, checkPost2, sitePageValue, post)
 module.exports = router
