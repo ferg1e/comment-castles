@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
+const {renderPaginate404} = require('../util/render')
 
 //
 const get = async (req, res) => {
@@ -31,11 +32,7 @@ const get = async (req, res) => {
 
         //
         if(numPages > 0 && page > numPages) {
-            return res.status(404).render('http-error-404', {
-                message: `There are only ${numPages} pages and ` +
-                    `you tried to access page ${page}. ` +
-                    `<a href="/t/${hashtag}">Return to page 1</a>.`
-            })
+            return renderPaginate404(req, res, page, numPages)
         }
 
         //
