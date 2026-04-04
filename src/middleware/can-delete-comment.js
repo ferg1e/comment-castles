@@ -1,4 +1,5 @@
 const config = require('../config')
+const {render403} = require('../util/render')
 
 //
 function canDeleteComment(req, res, next) {
@@ -16,10 +17,9 @@ function canDeleteComment(req, res, next) {
 
     //
     if(!canDelete) {
-        return res.status(403).render('http-error-403', {
-            message: `You do not have permission to delete this comment. ` +
-                `<a href="/">Return to the home page</a>.`
-        })
+        return render403(res,
+            `You do not have permission to delete this comment. ` +
+            `<a href="/">Return to the home page</a>.`)
     }
 
     //
