@@ -1,4 +1,5 @@
 const myMisc = require('../util/misc.js')
+const {render400} = require('../util/render')
 
 //
 function sitePageValue(req, res, next) {
@@ -11,11 +12,10 @@ function sitePageValue(req, res, next) {
         page = myMisc.getPageNum(req)
     }
     catch(e) {
-        return res.status(400).render('http-error-400', {
-            message: `Invalid pagination page value in URL. ` +
-                `This value must be an integer between 1 and ${Number.MAX_SAFE_INTEGER}. ` +
-                `<a href="${fullPath}">Return to page 1</a>.`
-        })
+        return render400(res,
+            `Invalid pagination page value in URL. ` +
+            `This value must be an integer between 1 and ${Number.MAX_SAFE_INTEGER}. ` +
+            `<a href="${fullPath}">Return to page 1</a>.`)
     }
 
     // redirect if p=1 in url
