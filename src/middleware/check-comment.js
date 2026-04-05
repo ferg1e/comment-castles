@@ -1,4 +1,5 @@
 const db = require('../db')
+const {render404} = require('../util/render')
 
 //
 async function checkComment(req, res, next) {
@@ -7,10 +8,9 @@ async function checkComment(req, res, next) {
 
     //
     if(!comment) {
-        return res.status(404).render('http-error-404', {
-            message: `There is no comment with ID ${commentPublicId}. ` +
-                `<a href="/">Return to the home page</a>.`
-        })
+        return render404(res,
+            `There is no comment with ID ${commentPublicId}. ` +
+            `<a href="/">Return to the home page</a>.`)
     }
 
     //
