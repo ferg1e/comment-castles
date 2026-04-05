@@ -2,6 +2,7 @@ const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {render403} = require('../util/render')
 
 const htmlTitle = 'Log In'
 
@@ -10,13 +11,12 @@ const get = (req, res) => {
 
     //
     if(req.session.user) {
-        return res.status(403).render('http-error-403', {
-            message: `You cannot log in because ` +
-                `you are already logged in. ` +
-                `If you want to log in as a different user ` +
-                `then please <a href="/logout">log out</a>. ` +
-                `Or <a href="/">return to the home page</a>.`
-        })
+        return render403(res,
+            `You cannot log in because ` +
+            `you are already logged in. ` +
+            `If you want to log in as a different user ` +
+            `then please <a href="/logout">log out</a>. ` +
+            `Or <a href="/">return to the home page</a>.`)
     }
 
     //
