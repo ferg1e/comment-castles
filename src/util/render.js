@@ -1,3 +1,10 @@
+module.exports.render400 = (res, message) => {
+    return res.status(400).render('http-error-400', {
+        message: message
+    })
+}
+
+//
 module.exports.render401 = (res, message) => {
     return res.status(401).render('http-error-401', {
         message: message
