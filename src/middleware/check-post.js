@@ -1,4 +1,5 @@
 const db = require('../db')
+const {render404} = require('../util/render')
 
 //
 async function checkPost(req, res, next) {
@@ -7,10 +8,9 @@ async function checkPost(req, res, next) {
 
     //
     if(!post) {
-        return res.status(404).render('http-error-404', {
-            message: `There is no post with ID ${postPublicId}. ` +
-                `<a href="/">Return to the home page</a>.`
-        })
+        return render404(res,
+            `There is no post with ID ${postPublicId}. ` +
+            `<a href="/">Return to the home page</a>.`)
     }
 
     //
