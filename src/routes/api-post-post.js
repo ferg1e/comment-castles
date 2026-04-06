@@ -1,5 +1,5 @@
 const db = require('../db')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
+const {isOauthUser} = require('../middleware/is-oauth-user')
 
 //
 const post = async (req, res) => {
@@ -11,14 +11,7 @@ const post = async (req, res) => {
     const sub = (typeof req.body.sub === 'undefined') ? '' : req.body.sub
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
-    if(!oauthData) {
-        return res.status(401).json({
-            errors: ['invalid or no user auth'],
-        })
-    }
+    const oauthUser = res.locals.oauthUser
 
     //
     const [errors, wsCompressedTitle, trimSub] = await db.validateNewPost(
@@ -35,7 +28,7 @@ const post = async (req, res) => {
 
     //
     const newPost = await db.createPost(
-        oauthData.user.user_id,
+        oauthUser.user_id,
         wsCompressedTitle,
         text_content,
         link,
@@ -46,4 +39,4 @@ const post = async (req, res) => {
 }
 
 //
-module.exports = post
+module.exports = [isOauthUser, post]
