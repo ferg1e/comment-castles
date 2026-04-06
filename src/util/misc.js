@@ -1,6 +1,4 @@
 const {URL} = require('url')
-const http = require('http')
-const https = require('https')
 const config = require('../config')
 
 //
@@ -328,30 +326,6 @@ exports.getPostSort = req => {
     }
 
     return sort
-}
-
-//
-exports.getUrlContent = url => {
-    return new Promise((resolve, reject) => {
-        const myUrl = new URL(url)
-        const protocol = myUrl.protocol == 'https:'
-            ? https
-            : http
-
-        protocol.get(url, res => {
-            res.setEncoding('utf8')
-
-            let rawData = ''
-
-            res.on('data', chunk => rawData += chunk)
-
-            res.on('end', () => {
-                resolve(rawData)
-            })
-        }).on('error', () => {
-            reject('error')
-        })
-    })
 }
 
 //
