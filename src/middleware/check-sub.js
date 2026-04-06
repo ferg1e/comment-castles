@@ -1,4 +1,5 @@
 const db = require('../db')
+const {render404} = require('../util/render')
 
 //
 async function checkSub(req, res, next) {
@@ -7,11 +8,10 @@ async function checkSub(req, res, next) {
 
     //
     if(!sub) {
-        return res.status(404).render('http-error-404', {
-            message: `The ${subSlug} sub does not exist yet. ` +
-                `You can start this sub by <a href="/new?sub=${subSlug}">posting to it</a>. ` +
-                `Or <a href="/">return to the home page</a>.`
-        })
+        return render404(res,
+            `The ${subSlug} sub does not exist yet. ` +
+            `You can start this sub by <a href="/new?sub=${subSlug}">posting to it</a>. ` +
+            `Or <a href="/">return to the home page</a>.`)
     }
 
     //
