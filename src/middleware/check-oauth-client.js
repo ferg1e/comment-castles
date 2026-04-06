@@ -1,4 +1,5 @@
 const db = require('../db')
+const {render404} = require('../util/render')
 
 //
 async function checkOauthClient(req, res, next) {
@@ -7,10 +8,9 @@ async function checkOauthClient(req, res, next) {
 
     //
     if(!oauthClient) {
-        return res.status(404).render('http-error-404', {
-            message: `There is no app with ID ${publicId}. ` +
-                `<a href="/">Return to the home page</a>.`
-        })
+        return render404(res,
+            `There is no app with ID ${publicId}. ` +
+            `<a href="/">Return to the home page</a>.`)
     }
 
     //
