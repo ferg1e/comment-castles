@@ -16,16 +16,13 @@ const get = async (req, res) => {
         myMisc.getCurrDateFormat(req))
 
     //
-    return res.render(
-        'dms',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            dmed_users: dmedUsers,
-            main_class: 'main-text'
-        }
-    )
+    return res.render('dms', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        dmed_users: dmedUsers,
+        main_class: 'main-text'
+    })
 }
 
 //
@@ -60,19 +57,16 @@ const post = async(req, res) => {
             myMisc.getCurrDateFormat(req))
 
         //
-        return res.render(
-            'dms',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                max_width: myMisc.getCurrSiteMaxWidth(req),
-                dmed_users: dmedUsers,
-                errors: errors,
-                message: req.body.message,
-                to: req.body.to,
-                main_class: 'main-text'
-            }
-        )
+        return res.render('dms', {
+            html_title: htmlTitle,
+            user: req.session.user,
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            dmed_users: dmedUsers,
+            errors: errors,
+            message: req.body.message,
+            to: req.body.to,
+            main_class: 'main-text'
+        })
     }
 
     //
