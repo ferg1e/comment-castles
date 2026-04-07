@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {render403} = require('../util/render')
 
 const router = express.Router()
 const htmlTitle = 'Sign Up'
@@ -9,9 +10,10 @@ const get = async (req, res) => {
 
     //
     if(req.session.user) {
-        return myMisc.renderMessage(req, res, htmlTitle,
-            "You already signed up. If you want to create another account then please <a href=\"/logout\">log out</a>.",
-            "main-text")
+        return render403(res,
+            `You already signed up. ` +
+            `If you want to create another account ` +
+            `then please <a href="/logout">log out</a>.`)
     }
 
     //
