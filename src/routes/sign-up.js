@@ -13,7 +13,8 @@ const get = async (req, res) => {
         return render403(res,
             `You already signed up. ` +
             `If you want to create another account ` +
-            `then please <a href="/logout">log out</a>.`)
+            `then please <a href="/logout">log out</a>. ` +
+            `Or <a href="/">return to the home page</a>.`)
     }
 
     //
