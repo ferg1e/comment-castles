@@ -1,19 +1,12 @@
 const db = require('../db')
 const myMisc = require('../util/misc.js')
-const {oauthAuthenticate} = require('../util/oauth-authenticate')
+const {isOauthUser} = require('../middleware/is-oauth-user')
 
 //
 const put = async (req, res) => {
 
     //
-    const oauthData = await oauthAuthenticate(req, res)
-
-    //
-    if(!oauthData) {
-        return res.status(401).json({
-            errors: ['invalid or no user auth'],
-        })
-    }
+    const oauthUser = res.locals.oauthUser
 
     //
     if(typeof req.body.comment_id === 'undefined') {
@@ -34,7 +27,7 @@ const put = async (req, res) => {
     }
 
     //
-    if(row.user_id != oauthData.user.user_id) {
+    if(row.user_id != oauthUser.user_id) {
         return res.status(403).json({
             errors: ["wrong user"],
         })
@@ -69,4 +62,4 @@ const put = async (req, res) => {
 }
 
 //
-module.exports = put
+module.exports = [isOauthUser, put]
