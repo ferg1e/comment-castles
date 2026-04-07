@@ -88,3 +88,4 @@ app.use(/^\/dm\/([a-z0-9]{22})\/delete$/i, require('./src/routes/single-dm-delet
 app.use('/api/v1/', require('./src/routes/api'))
 app.use('/api/ajax/', require('./src/routes/ajax'))
 app.use('/oauth/', require('./src/routes/oauth'))
+app.use('*', require('./src/routes/fallthrough'))
