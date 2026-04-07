@@ -3,7 +3,6 @@ const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
 
-const router = express.Router()
 const htmlTitle = 'Direct Messages'
 
 //
@@ -80,6 +79,7 @@ const post = async(req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', isUser, get)
 router.post('/', isUser, post)
 module.exports = router
