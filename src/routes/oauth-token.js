@@ -13,91 +13,92 @@ const oauth = new OAuth2Server({
 })
 
 //
-router.route('/')
-    .post(async (req, res) => {
+const post = async (req, res) => {
 
-        /*
-        --start PKCE check--
-        only emit PKCE errors here
-        because oauth.token() after will
-        handle the rest.
-        */
-        const clientId = req.body.client_id
-        const redirectUri = req.body.redirect_uri
-        const authCode = req.body.code
-        const isReadyForPkceCheck =
-            typeof clientId != 'undefined' &&
-            typeof redirectUri != 'undefined' &&
-            typeof authCode != 'undefined'
+    /*
+    --start PKCE check--
+    only emit PKCE errors here
+    because oauth.token() after will
+    handle the rest.
+    */
+    const clientId = req.body.client_id
+    const redirectUri = req.body.redirect_uri
+    const authCode = req.body.code
+    const isReadyForPkceCheck =
+        typeof clientId != 'undefined' &&
+        typeof redirectUri != 'undefined' &&
+        typeof authCode != 'undefined'
 
-        if(isReadyForPkceCheck) {
-            const {rows:[dbAuthCode]} = await db.getAuthCode(authCode)
+    if(isReadyForPkceCheck) {
+        const {rows:[dbAuthCode]} = await db.getAuthCode(authCode)
 
+        //
+        if(dbAuthCode) {
+            const isRecordMatch = dbAuthCode.public_client_id == clientId &&
+                dbAuthCode.redirect_uri == redirectUri
+            
             //
-            if(dbAuthCode) {
-                const isRecordMatch = dbAuthCode.public_client_id == clientId &&
-                    dbAuthCode.redirect_uri == redirectUri
-                
+            if(isRecordMatch) {
+                const codeVerifier = req.body.code_verifier
+
                 //
-                if(isRecordMatch) {
-                    const codeVerifier = req.body.code_verifier
+                if(typeof codeVerifier == 'undefined') {
+                    return res.status(400).json({
+                        errors: ['no code_verifier in body'],
+                    })
+                }
 
-                    //
-                    if(typeof codeVerifier == 'undefined') {
-                        return res.status(400).json({
-                            errors: ['no code_verifier in body'],
-                        })
-                    }
+                //
+                let isGoodPkce = false
 
-                    //
-                    let isGoodPkce = false
+                if(dbAuthCode.cc_method == 'plain') {
+                    isGoodPkce = dbAuthCode.code_challenge == codeVerifier
+                }
+                else {
+                    const nowHash = crypto
+                        .createHash('sha256')
+                        .update(codeVerifier)
+                        .digest('base64')
+                        .replace(/=/g, '')
+                        .replace(/\+/g, '-')
+                        .replace(/\//g, '_')
 
-                    if(dbAuthCode.cc_method == 'plain') {
-                        isGoodPkce = dbAuthCode.code_challenge == codeVerifier
-                    }
-                    else {
-                        const nowHash = crypto
-                            .createHash('sha256')
-                            .update(codeVerifier)
-                            .digest('base64')
-                            .replace(/=/g, '')
-                            .replace(/\+/g, '-')
-                            .replace(/\//g, '_')
+                    isGoodPkce = dbAuthCode.code_challenge == nowHash
+                }
 
-                        isGoodPkce = dbAuthCode.code_challenge == nowHash
-                    }
-
-                    if(!isGoodPkce) {
-                        return res.status(400).json({
-                            errors: ['invalid PKCE code verifier'],
-                        })
-                    }
+                if(!isGoodPkce) {
+                    return res.status(400).json({
+                        errors: ['invalid PKCE code verifier'],
+                    })
                 }
             }
         }
-        //--end PKCE check--
+    }
+    //--end PKCE check--
 
-        //
-        const request = new Request(req);
-        const response = new Response(res);
-        const options = {
-            requireClientAuthentication: {
-                authorization_code: false
-            }
+    //
+    const request = new Request(req);
+    const response = new Response(res);
+    const options = {
+        requireClientAuthentication: {
+            authorization_code: false
         }
+    }
 
-        //
-        oauth.token(request, response, options)
-            .then((token) => {
-                res.set(response.headers)
-                res.status(response.status)
-                return res.json(response.body)
+    //
+    oauth.token(request, response, options)
+        .then((token) => {
+            res.set(response.headers)
+            res.status(response.status)
+            return res.json(response.body)
+        })
+        .catch((error) => {
+            return res.status(400).json({
+                errors: [`the following error ocurred: ${error.message}`],
             })
-            .catch((error) => {
-                return res.status(400).json({
-                    errors: [`the following error ocurred: ${error.message}`],
-                })
-            })
-    })
+        })
+}
 
+//
+router.post('/', post)
 module.exports = router
