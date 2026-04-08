@@ -5,8 +5,6 @@ const Response = require('oauth2-server').Response
 const db = require('../db')
 const crypto = require('crypto')
 
-const router = express.Router()
-
 //
 const oauth = new OAuth2Server({
     model: require('../oauth-model.js')
@@ -100,5 +98,6 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.post('/', post)
 module.exports = router
