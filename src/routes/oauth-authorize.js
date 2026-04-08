@@ -5,7 +5,6 @@ const Response = require('oauth2-server').Response
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
-const router = express.Router()
 const authorizeHtmlTitle = "Authorize App"
 
 //
@@ -124,6 +123,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', get)
 router.post('/', post)
 module.exports = router
