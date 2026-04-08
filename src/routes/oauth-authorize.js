@@ -4,6 +4,7 @@ const Request = require('oauth2-server').Request
 const Response = require('oauth2-server').Response
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {render404} = require('../util/render')
 
 //
 const authorizeHtmlTitle = "Authorize App"
@@ -30,8 +31,7 @@ const get = async (req, res) => {
 
     //
     if(rows.length == 0) {
-        return myMisc.renderMessage(req, res, authorizeHtmlTitle,
-            "Unknown client ID.")
+        return render404(res, 'Unknown client ID')
     }
 
     //
