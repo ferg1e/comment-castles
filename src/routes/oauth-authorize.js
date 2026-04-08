@@ -5,6 +5,7 @@ const Response = require('oauth2-server').Response
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
+//
 const authorizeHtmlTitle = "Authorize App"
 
 //
