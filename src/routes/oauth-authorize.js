@@ -35,14 +35,12 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'oauth-authorize',
-        {
-            app_name: rows[0].app_name,
-            html_title: authorizeHtmlTitle,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('oauth-authorize', {
+        app_name: rows[0].app_name,
+        html_title: authorizeHtmlTitle,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
