@@ -1,19 +1,13 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {isUser} = require('../middleware/is-user')
 
 //
 const htmlTitle = 'Direct Messages'
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return myMisc.renderMessage(req, res, htmlTitle,
-            "<a href=\"/login\">Log in</a> to view your direct messages.",
-            "main-text")
-    }
 
     //
     const userPublicId = req.params[0]
@@ -57,11 +51,6 @@ const get = async (req, res) => {
 
 //
 const post = async(req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('blocked')
-    }
 
     //
     const userPublicId = req.params[0]
@@ -113,6 +102,6 @@ const post = async(req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', get)
-router.post('/', post)
+router.get('/', isUser, get)
+router.post('/', isUser, post)
 module.exports = router
