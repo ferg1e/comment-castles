@@ -4,9 +4,6 @@ const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 
 //
-const htmlTitle = 'Direct Messages'
-
-//
 const get = async (req, res) => {
 
     //
