@@ -2,8 +2,6 @@ const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
 const myMisc = require('../util/misc.js')
 
-const router = express.Router({mergeParams: true})
-
 //
 const get = async (req, res) => {
 
@@ -26,5 +24,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', checkSub, get)
 module.exports = router
