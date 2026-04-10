@@ -3,8 +3,6 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 
-const router = express.Router({mergeParams: true})
-
 //
 const get = async (req, res) => {
 
@@ -68,6 +66,7 @@ const post = async(req, res) => {
 }
 
 //
+const router = express.Router({mergeParams: true})
 router.get('/', checkSub, get)
 router.post('/', checkSub, post)
 module.exports = router
