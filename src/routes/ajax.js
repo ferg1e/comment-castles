@@ -4,9 +4,6 @@ const myMisc = require('../util/misc.js')
 const pug = require('pug')
 
 //
-const router = express.Router()
-
-//
 const postComment = async (req, res) => {
 
     //
@@ -64,5 +61,6 @@ const postComment = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.post('/comment', postComment)
 module.exports = router
