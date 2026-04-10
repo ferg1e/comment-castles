@@ -2,14 +2,10 @@ const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
+const {isUser} = require('../middleware/is-user')
 
 //
 const get = async (req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('nope')
-    }
 
     //
     const subSlug = res.locals.subSlug
@@ -34,11 +30,6 @@ const get = async (req, res) => {
 
 //
 const post = async(req, res) => {
-
-    //
-    if(!req.session.user) {
-        return res.send('nope')
-    }
 
     //
     const subSlug = res.locals.subSlug
@@ -67,6 +58,6 @@ const post = async(req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', checkSub, get)
-router.post('/', checkSub, post)
+router.get('/', isUser, checkSub, get)
+router.post('/', isUser, checkSub, post)
 module.exports = router
