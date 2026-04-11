@@ -58,14 +58,14 @@ const post = async (req, res) => {
     const isCodeChallengeMethod = typeof method != 'undefined'
 
     if(!isCodeChallenge || !isCodeChallengeMethod) {
-        return render400(res,`PKCE value(s) missing in URL`)
+        return render400(res, `PKCE value(s) missing in URL`)
     }
 
     //
     const isValidCcMethod = method == 'plain' || method == 'S256'
 
     if(!isValidCcMethod) {
-        return render400(res,`Invalid code challenge method in URL`)
+        return render400(res, `Invalid code challenge method in URL`)
     }
 
     //
