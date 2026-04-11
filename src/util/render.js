@@ -1,3 +1,5 @@
+const myMisc = require('./misc')
+
 module.exports.render400 = (res, message) => {
     return res.status(400).render('http-error-400', {
         message: message
@@ -23,6 +25,19 @@ module.exports.render404 = (res, message) => {
     return res.status(404).render('http-error-404', {
         message: message
     })
+}
+
+//
+module.exports.renderMessage = (req, res, title, message, mainClass = '') => {
+    return res.render(
+        'message',
+        {
+            html_title: title,
+            message: message,
+            user: req.session.user,
+            max_width: myMisc.getCurrSiteMaxWidth(req),
+            main_class: mainClass
+        })
 }
 
 //

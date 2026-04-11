@@ -380,19 +380,6 @@ exports.getCookieSettings = req => {
 }
 
 //
-exports.renderMessage = (req, res, title, message, mainClass = '') => {
-    return res.render(
-        'message',
-        {
-            html_title: title,
-            message: message,
-            user: req.session.user,
-            max_width: module.exports.getCurrSiteMaxWidth(req),
-            main_class: mainClass
-        })
-}
-
-//
 exports.setTheme = (theme, req) => {
     if(theme == 'original') {
         req.app.locals.oneBgColor = "fefefe"

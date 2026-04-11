@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
-const {render403} = require('../util/render')
+const {render403, renderMessage} = require('../util/render')
 
 const router = express.Router()
 const htmlTitle = 'Sign Up'
@@ -71,7 +71,7 @@ const post = async (req, res) => {
     }
 
     //
-    return myMisc.renderMessage(req, res, htmlTitle,
+    return renderMessage(req, res, htmlTitle,
         "Sign up was successful, you can now <a href=\"/login\">log in</a>.",
         "main-text")
 }
