@@ -113,8 +113,7 @@ const post = async (req, res) => {
             return res.redirect(response.headers.location)
         })
         .catch((error) => {
-            return myMisc.renderMessage(req, res, authorizeHtmlTitle,
-                `The following error ocurred: ${error.message}`)
+            return render400(res, error.message)
         })
 }
 
