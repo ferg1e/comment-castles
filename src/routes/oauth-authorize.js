@@ -84,8 +84,7 @@ const post = async (req, res) => {
     }
 
     if(!isValidCc) {
-        return myMisc.renderMessage(req, res, authorizeHtmlTitle,
-            `invalid PKCE code challenge`)
+        return render400(res, `Invalid PKCE code challenge`)
     }
 
     //
