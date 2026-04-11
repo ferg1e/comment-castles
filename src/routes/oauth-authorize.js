@@ -4,7 +4,7 @@ const Request = require('oauth2-server').Request
 const Response = require('oauth2-server').Response
 const db = require('../db')
 const myMisc = require('../util/misc.js')
-const {render404} = require('../util/render')
+const {render400, render404} = require('../util/render')
 
 //
 const authorizeHtmlTitle = "Authorize App"
@@ -58,8 +58,7 @@ const post = async (req, res) => {
     const isCodeChallengeMethod = typeof method != 'undefined'
 
     if(!isCodeChallenge || !isCodeChallengeMethod) {
-        return myMisc.renderMessage(req, res, authorizeHtmlTitle,
-            `PKCE value(s) missing in URL`)
+        return render400(res,`PKCE value(s) missing in URL`)
     }
 
     //
