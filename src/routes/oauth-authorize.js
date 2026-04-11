@@ -65,8 +65,7 @@ const post = async (req, res) => {
     const isValidCcMethod = method == 'plain' || method == 'S256'
 
     if(!isValidCcMethod) {
-        return myMisc.renderMessage(req, res, authorizeHtmlTitle,
-            `invalid code challenge method in URL`)
+        return render400(res,`Invalid code challenge method in URL`)
     }
 
     //
