@@ -4,7 +4,6 @@ const myMisc = require('../util/misc.js')
 const {render403, renderMessage} = require('../util/render')
 const {validateSignUp} = require('../util/validate')
 
-const router = express.Router()
 const htmlTitle = 'Sign Up'
 
 const get = async (req, res) => {
@@ -78,6 +77,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', get)
 router.post('/', post)
 module.exports = router
