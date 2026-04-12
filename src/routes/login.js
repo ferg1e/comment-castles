@@ -22,7 +22,7 @@ const get = (req, res) => {
     //
     return res.render('login', {
         html_title: htmlTitle,
-        errors:[],
+        errors: [],
         max_width: myMisc.getCurrSiteMaxWidth(req)
     })
 }
@@ -63,7 +63,7 @@ const post = async (req, res) => {
     //
     return res.render('login', {
         html_title: htmlTitle,
-        errors:errors,
+        errors: errors,
         max_width: myMisc.getCurrSiteMaxWidth(req)
     })
 }
