@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {render403, renderMessage} = require('../util/render')
+const {validateSignUp} = require('../util/validate')
 
 const router = express.Router()
 const htmlTitle = 'Sign Up'
@@ -30,7 +31,7 @@ const get = async (req, res) => {
 const post = async (req, res) => {
 
     //
-    const errors = myMisc.validateSignUp(req.body.username, req.body.password)
+    const errors = validateSignUp(req.body.username, req.body.password)
 
     //
     if(errors.length > 0) {
