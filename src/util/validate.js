@@ -5,18 +5,18 @@ module.exports.validateSignUp = (username, password) => {
 
     //
     if(username === '') {
-        errors.push({msg: 'Please fill in a username'})
+        errors.push('Please fill in a username')
     }
     else if(!regexUsername.test(username)) {
-        errors.push({msg: 'Username must be 4-16 characters (letters, numbers and dashes only)'})
+        errors.push('Username must be 4-16 characters (letters, numbers and dashes only)')
     }
 
     //
     if(password === '') {
-        errors.push({msg: 'Please fill in a password'})
+        errors.push('Please fill in a password')
     }
     else if(!regexPassword.test(password)) {
-        errors.push({msg: 'Password must be 9-100 characters'})
+        errors.push('Password must be 9-100 characters')
     }
 
     return errors

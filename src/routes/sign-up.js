@@ -57,7 +57,7 @@ const post = async (req, res) => {
         //
         return res.render('sign-up', {
             html_title: htmlTitle,
-            errors:[{msg:errorMessage}],
+            errors:[errorMessage],
             username: req.body.username,
             is_login: req.body.is_login,
             max_width: myMisc.getCurrSiteMaxWidth(req)
