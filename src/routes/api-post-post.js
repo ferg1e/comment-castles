@@ -1,5 +1,6 @@
 const db = require('../db')
 const {isOauthUser} = require('../middleware/is-oauth-user')
+const {validateNewPost} = require('../util/validate')
 
 //
 const post = async (req, res) => {
@@ -14,7 +15,7 @@ const post = async (req, res) => {
     const oauthUser = res.locals.oauthUser
 
     //
-    const [errors, wsCompressedTitle, trimSub] = await db.validateNewPost(
+    const [errors, wsCompressedTitle, trimSub] = await validateNewPost(
         title,
         link,
         sub)

@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
+const {validateNewPost} = require('../util/validate')
 
 const router = express.Router()
 const htmlTitle = 'New Post'
@@ -39,7 +40,7 @@ const get = async (req, res) => {
 const post = async(req, res) => {
 
     //
-    const [errors, wsCompressedTitle, trimCastle] = await db.validateNewPost(
+    const [errors, wsCompressedTitle, trimCastle] = await validateNewPost(
         req.body.title,
         req.body.link,
         req.body.castle)
