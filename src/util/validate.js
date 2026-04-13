@@ -18,7 +18,7 @@ exports.validateEditPost = (title, link) => {
     }
 
     //
-    let [wsCompressedTitle, error] = module.exports.processPostTitle(title)
+    let [wsCompressedTitle, error] = module.exports.validatePostTitle(title)
 
     if(error !== null) {
         errors.push(error)
@@ -45,7 +45,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
     }
 
     //
-    let [wsCompressedTitle, error] = module.exports.processPostTitle(title)
+    let [wsCompressedTitle, error] = module.exports.validatePostTitle(title)
 
     if(error !== null) {
         errors.push(error)
@@ -69,7 +69,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
 }
 
 //
-module.exports.processPostTitle = (rTitle) => {
+module.exports.validatePostTitle = (rTitle) => {
     const titleNoWhitespace = rTitle.replace(/\s/g, '')
     const numNonWsChars = titleNoWhitespace.length
     const wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
