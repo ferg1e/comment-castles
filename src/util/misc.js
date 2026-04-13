@@ -59,37 +59,6 @@ exports.processComment = (rawText) => {
 }
 
 //
-exports.processPostCastle = (castle) => {
-    const errors = []
-    const trimCastle = castle.trim().toLowerCase()
-
-    //if blank it's no sub,
-    //so just return without errors
-    if(trimCastle === '') {
-        return [
-            trimCastle,
-            []]
-    }
-
-    //
-    const isMatch = trimCastle.match(/^[0-9a-z-]+$/)
-
-    if(isMatch === null) {
-        errors.push({'msg': 'sub can only contain numbers, letters and dashes'})
-    }
-
-    const castleLen = trimCastle.length
-    const isLenOkay = castleLen >= 3 && castleLen <= 20
-
-    if(!isLenOkay) {
-        errors.push({'msg': 'sub must be 3-20 characters'})
-    }
-
-    //
-    return [trimCastle, errors]
-}
-
-//
 exports.validateOauthClient = (appName, redirectUri) => {
     const errors = []
 

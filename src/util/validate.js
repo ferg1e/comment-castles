@@ -52,7 +52,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
     }
 
     //
-    const [trimCastle, castleErrors] = myMisc.processPostCastle(castle)
+    const [trimCastle, castleErrors] = module.exports.processPostCastle(castle)
     errors = errors.concat(castleErrors)
 
     //
@@ -66,6 +66,37 @@ module.exports.validateNewPost = async (title, link, castle) => {
 
     //
     return [errors, wsCompressedTitle, trimCastle]
+}
+
+//
+module.exports.processPostCastle = (castle) => {
+    const errors = []
+    const trimCastle = castle.trim().toLowerCase()
+
+    //if blank it's no sub,
+    //so just return without errors
+    if(trimCastle === '') {
+        return [
+            trimCastle,
+            []]
+    }
+
+    //
+    const isMatch = trimCastle.match(/^[0-9a-z-]+$/)
+
+    if(isMatch === null) {
+        errors.push({'msg': 'sub can only contain numbers, letters and dashes'})
+    }
+
+    const castleLen = trimCastle.length
+    const isLenOkay = castleLen >= 3 && castleLen <= 20
+
+    if(!isLenOkay) {
+        errors.push({'msg': 'sub must be 3-20 characters'})
+    }
+
+    //
+    return [trimCastle, errors]
 }
 
 //
