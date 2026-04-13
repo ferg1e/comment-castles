@@ -1,5 +1,32 @@
 const myMisc = require('./misc')
 const db = require('../db')
+const config = require('../config/index')
+
+//
+exports.validateEditPost = (title, link) => {
+
+    //
+    let errors = []
+
+    //
+    const isValidLink = 
+        link === '' ||
+        config.singleUrlRegex.test(link)
+
+    if(!isValidLink) {
+        errors.push({msg: 'link must be an http or https URL'})
+    }
+
+    //
+    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
+
+    if(error !== null) {
+        errors.push(error)
+    }
+
+    //
+    return [errors, wsCompressedTitle]
+}
 
 //
 module.exports.validateNewPost = async (title, link, castle) => {

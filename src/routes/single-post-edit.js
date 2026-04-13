@@ -3,6 +3,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 const {checkPost} = require('../middleware/check-post.js')
+const {validateEditPost} = require('../util/validate')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Edit Post'
@@ -48,7 +49,7 @@ const post = async (req, res) => {
     }
 
     //
-    const [errors, wsCompressedTitle] = db.validateEditPost(
+    const [errors, wsCompressedTitle] = validateEditPost(
         req.body.title,
         req.body.link)
 

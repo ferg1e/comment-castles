@@ -1,5 +1,6 @@
 const db = require('../db')
 const {isOauthUser} = require('../middleware/is-oauth-user')
+const {validateEditPost} = require('../util/validate')
 
 //
 const put = async (req, res) => {
@@ -48,7 +49,7 @@ const put = async (req, res) => {
         : req.body.text_content
 
     //
-    const [errors, wsCompressedTitle] = await db.validateEditPost(
+    const [errors, wsCompressedTitle] = await validateEditPost(
         fTitle,
         fLink)
 

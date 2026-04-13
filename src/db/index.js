@@ -605,32 +605,6 @@ exports.deletePost = (postId) => {
     //post comments also delete via FK
 }
 
-//
-exports.validateEditPost = (title, link) => {
-
-    //
-    let errors = []
-
-    //
-    const isValidLink = 
-        link === '' ||
-        config.singleUrlRegex.test(link)
-
-    if(!isValidLink) {
-        errors.push({msg: 'link must be an http or https URL'})
-    }
-
-    //
-    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
-
-    if(error !== null) {
-        errors.push(error)
-    }
-
-    //
-    return [errors, wsCompressedTitle]
-}
-
 //domain name
 exports.createDomainName = (domainName) => {
     return query(`
