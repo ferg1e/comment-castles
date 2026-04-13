@@ -59,27 +59,6 @@ exports.processComment = (rawText) => {
 }
 
 //
-exports.processPostTitle = (rTitle) => {
-    const titleNoWhitespace = rTitle.replace(/\s/g, '')
-    const numNonWsChars = titleNoWhitespace.length
-    const wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
-    let error = null
-
-    if(rTitle.length === 0) {
-        error = {'msg': 'Please fill in a title'}
-    }
-    else if(numNonWsChars < 4) {
-        error = {'msg': 'Title must be at least 4 characters'}
-    }
-    else if(wsCompressedTitle.length > 160) {
-        error = {'msg': 'Title can\'t be more than 160 characters'}
-    }
-
-    //
-    return [wsCompressedTitle, error]
-}
-
-//
 exports.processPostCastle = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()

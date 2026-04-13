@@ -18,7 +18,7 @@ exports.validateEditPost = (title, link) => {
     }
 
     //
-    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
+    let [wsCompressedTitle, error] = module.exports.processPostTitle(title)
 
     if(error !== null) {
         errors.push(error)
@@ -45,7 +45,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
     }
 
     //
-    let [wsCompressedTitle, error] = myMisc.processPostTitle(title)
+    let [wsCompressedTitle, error] = module.exports.processPostTitle(title)
 
     if(error !== null) {
         errors.push(error)
@@ -66,6 +66,27 @@ module.exports.validateNewPost = async (title, link, castle) => {
 
     //
     return [errors, wsCompressedTitle, trimCastle]
+}
+
+//
+module.exports.processPostTitle = (rTitle) => {
+    const titleNoWhitespace = rTitle.replace(/\s/g, '')
+    const numNonWsChars = titleNoWhitespace.length
+    const wsCompressedTitle = rTitle.replace(/\s+/g, ' ').trim()
+    let error = null
+
+    if(rTitle.length === 0) {
+        error = {'msg': 'Please fill in a title'}
+    }
+    else if(numNonWsChars < 4) {
+        error = {'msg': 'Title must be at least 4 characters'}
+    }
+    else if(wsCompressedTitle.length > 160) {
+        error = {'msg': 'Title can\'t be more than 160 characters'}
+    }
+
+    //
+    return [wsCompressedTitle, error]
 }
 
 //
