@@ -52,7 +52,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
     }
 
     //
-    const [trimCastle, castleErrors] = module.exports.processPostCastle(castle)
+    const [trimCastle, castleErrors] = module.exports.validatePostSub(castle)
     errors = errors.concat(castleErrors)
 
     //
@@ -69,7 +69,7 @@ module.exports.validateNewPost = async (title, link, castle) => {
 }
 
 //
-module.exports.processPostCastle = (castle) => {
+module.exports.validatePostSub = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()
 
