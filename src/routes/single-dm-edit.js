@@ -28,15 +28,13 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
-        'edit-dm',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            errors: [],
-            message: row.dmessage,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    res.render('edit-dm', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        errors: [],
+        message: row.dmessage,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -66,15 +64,13 @@ const post = async (req, res) => {
 
     //
     if(messageErrors.length > 0) {
-        return res.render(
-            'edit-dm',
-            {
-                html_title: htmlTitle,
-                user: req.session.user,
-                errors: messageErrors,
-                message: req.body.message,
-                max_width: myMisc.getCurrSiteMaxWidth(req)
-            })
+        return res.render('edit-dm', {
+            html_title: htmlTitle,
+            user: req.session.user,
+            errors: messageErrors,
+            message: req.body.message,
+            max_width: myMisc.getCurrSiteMaxWidth(req)
+        })
     }
 
     //
