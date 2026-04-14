@@ -28,7 +28,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render('edit-dm', {
+    return res.render('edit-dm', {
         html_title: htmlTitle,
         user: req.session.user,
         errors: [],
