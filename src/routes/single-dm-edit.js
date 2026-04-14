@@ -32,16 +32,10 @@ const get = async (req, res) => {
 const post = async (req, res) => {
         
     //
-    const dmPublicId = req.params[0]
-    const {rows:[row]} = await db.getDmWithPublic(dmPublicId)
+    const dm = res.locals.dm
 
     //
-    if(!row) {
-        return res.send('unknown dm...')
-    }
-
-    //
-    if(row.from_user_id != req.session.user.user_id) {
+    if(dm.from_user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
@@ -61,16 +55,16 @@ const post = async (req, res) => {
 
     //
     await db.updateDm(
-        row.dm_id,
+        dm.dm_id,
         compressedMessage)
 
     //redirect to DMs for this user pair
-    const {rows:[toUser]} = await db.getUserWithUserId(row.to_user_id)
+    const {rows:[toUser]} = await db.getUserWithUserId(dm.to_user_id)
     return res.redirect('/dms/' + toUser.public_id)
 }
 
 //
 const router = express.Router({mergeParams: true})
 router.get('/', isUser, checkDm, get)
-router.post('/', isUser, post)
+router.post('/', isUser, checkDm, post)
 module.exports = router
