@@ -28,14 +28,12 @@ const get = async (req, res) => {
     }
 
     //
-    return res.render(
-        'delete-dm',
-        {
-            html_title: htmlTitle,
-            user: req.session.user,
-            message: row.dmessage,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('delete-dm', {
+        html_title: htmlTitle,
+        user: req.session.user,
+        message: row.dmessage,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
@@ -62,14 +60,12 @@ const post = async (req, res) => {
 
     await db.deleteDm(row.dm_id)
     
-    return res.render(
-        'message',
-        {
-            html_title: htmlTitle,
-            message: "The DM was successfully deleted.",
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
-        })
+    return res.render('message', {
+        html_title: htmlTitle,
+        message: "The DM was successfully deleted.",
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req)
+    })
 }
 
 //
