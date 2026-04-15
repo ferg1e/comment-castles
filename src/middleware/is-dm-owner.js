@@ -16,7 +16,7 @@ function isDmOwner(req, res, next) {
     if(!isOwner) {
         return render403(res,
             `You are not the owner of this direct message, and ` +
-            `therefore you cannot edit or delete it. `
+            `therefore you cannot edit or delete it. ` +
             `<a href="/">Return to the home page</a>.`)
     }
 
