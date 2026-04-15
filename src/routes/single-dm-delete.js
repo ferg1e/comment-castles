@@ -4,6 +4,7 @@ const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 const {checkDm} = require('../middleware/check-dm')
 const {isDmOwner} = require('../middleware/is-dm-owner')
+const {renderMessage} = require('../util/render')
 
 //
 const htmlTitle = 'Delete DM'
@@ -32,12 +33,8 @@ const post = async (req, res) => {
     //
     await db.deleteDm(dm.dm_id)
     
-    return res.render('message', {
-        html_title: htmlTitle,
-        message: "The DM was successfully deleted.",
-        user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
-    })
+    return renderMessage(req, res, htmlTitle,
+        "The DM was successfully deleted.")
 }
 
 //
