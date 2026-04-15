@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
+const {checkDm} = require('../middleware/check-dm')
 
 //
 const htmlTitle = 'Delete DM'
@@ -10,16 +11,10 @@ const htmlTitle = 'Delete DM'
 const get = async (req, res) => {
 
     //
-    const dmPublicId = req.params[0]
-    const {rows:[row]} = await db.getDmWithPublic(dmPublicId)
+    const dm = res.locals.dm
 
     //
-    if(!row) {
-        return res.send('unknown dm...')
-    }
-
-    //
-    if(row.from_user_id != req.session.user.user_id) {
+    if(dm.from_user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
@@ -27,7 +22,7 @@ const get = async (req, res) => {
     return res.render('delete-dm', {
         html_title: htmlTitle,
         user: req.session.user,
-        message: row.dmessage,
+        message: dm.dmessage,
         max_width: myMisc.getCurrSiteMaxWidth(req)
     })
 }
@@ -36,20 +31,14 @@ const get = async (req, res) => {
 const post = async (req, res) => {
             
     //
-    const dmPublicId = req.params[0]
-    const {rows:[row]} = await db.getDmWithPublic(dmPublicId)
+    const dm = res.locals.dm
 
     //
-    if(!row) {
-        return res.send('unknown dm...')
-    }
-
-    //
-    if(row.from_user_id != req.session.user.user_id) {
+    if(dm.from_user_id != req.session.user.user_id) {
         return res.send('wrong user...')
     }
 
-    await db.deleteDm(row.dm_id)
+    await db.deleteDm(dm.dm_id)
     
     return res.render('message', {
         html_title: htmlTitle,
@@ -61,6 +50,6 @@ const post = async (req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', isUser, get)
-router.post('/', isUser, post)
+router.get('/', isUser, checkDm, get)
+router.post('/', isUser, checkDm, post)
 module.exports = router
