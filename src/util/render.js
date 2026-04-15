@@ -29,15 +29,13 @@ module.exports.render404 = (res, message) => {
 
 //
 module.exports.renderMessage = (req, res, title, message, mainClass = '') => {
-    return res.render(
-        'message',
-        {
-            html_title: title,
-            message: message,
-            user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
-            main_class: mainClass
-        })
+    return res.render('message', {
+        html_title: title,
+        message: message,
+        user: req.session.user,
+        max_width: myMisc.getCurrSiteMaxWidth(req),
+        main_class: mainClass
+    })
 }
 
 //
