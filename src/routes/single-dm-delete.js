@@ -28,7 +28,7 @@ const get = async (req, res) => {
     }
 
     //
-    res.render(
+    return res.render(
         'delete-dm',
         {
             html_title: htmlTitle,
