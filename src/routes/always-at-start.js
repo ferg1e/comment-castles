@@ -4,8 +4,6 @@ const db = require('../db')
 //
 const all = async (req, res, next) => {
 
-    console.log(req.originalUrl)
-
     //todo: probably want to put this no www redirect in nginx/apache
     if(parseInt(process.env.IS_PROD) === 1) {
         let host = req.headers.host;
