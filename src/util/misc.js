@@ -303,18 +303,18 @@ exports.getCookieSettings = req => {
 }
 
 //
-exports.setTheme = (theme, req) => {
+exports.setTheme = (theme, res) => {
     if(theme == 'original') {
-        req.app.locals.oneBgColor = "fefefe"
-        req.app.locals.twoBgColor = "b6b09e"
-        req.app.locals.themeCss = `${config.cssDir}/theme-original.css`
-        req.app.locals.themeLogo = '/images/logo2.png'
+        res.locals.oneBgColor = "fefefe"
+        res.locals.twoBgColor = "b6b09e"
+        res.locals.themeCss = `${config.cssDir}/theme-original.css`
+        res.locals.themeLogo = '/images/logo2.png'
     }
     else {
-        req.app.locals.oneBgColor = "050505"
-        req.app.locals.twoBgColor = "323334"
-        req.app.locals.themeCss = `${config.cssDir}/theme-dark-mode.css`
-        req.app.locals.themeLogo = '/images/logo-dm.png'
+        res.locals.oneBgColor = "050505"
+        res.locals.twoBgColor = "323334"
+        res.locals.themeCss = `${config.cssDir}/theme-dark-mode.css`
+        res.locals.themeLogo = '/images/logo-dm.png'
     }
 }
 

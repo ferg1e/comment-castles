@@ -6,7 +6,7 @@ const all = async (req, res, next) => {
 
     //
     const theme = myMisc.getCurrTheme(req)
-    myMisc.setTheme(theme, req)
+    myMisc.setTheme(theme, res)
 
     //
     if(req.session.user) {

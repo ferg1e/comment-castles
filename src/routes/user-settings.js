@@ -146,7 +146,7 @@ const post = async (req, res) => {
     )
 
     //
-    myMisc.setTheme(req.body.theme, req)
+    myMisc.setTheme(req.body.theme, res)
 
     //
     const siteWidthNulled = req.body.site_width === ''
