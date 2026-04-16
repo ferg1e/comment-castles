@@ -52,7 +52,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
 
 //
-app.use('/', require('./src/routes/misc'))
+app.use('*', require('./src/routes/always-at-start'))
 app.use('/', require('./src/routes/home'))
 app.use('/help/', require('./src/routes/help'))
 app.use('/privacy-policy/', require('./src/routes/privacy-policy'))
