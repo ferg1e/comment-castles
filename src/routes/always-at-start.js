@@ -4,15 +4,6 @@ const db = require('../db')
 //
 const all = async (req, res, next) => {
 
-    //todo: probably want to put this no www redirect in nginx/apache
-    if(parseInt(process.env.IS_PROD) === 1) {
-        let host = req.headers.host;
-
-        if(!host.match(/^www\..*/i)) {
-            return res.redirect(301, req.protocol + '://www.' + host + req.originalUrl)
-        }
-    }
-
     //
     const theme = myMisc.getCurrTheme(req)
     myMisc.setTheme(theme, req)
