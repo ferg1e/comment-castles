@@ -32,7 +32,8 @@ const post = async (req, res) => {
 
     //
     await db.deleteDm(dm.dm_id)
-    
+
+    //
     return renderMessage(req, res, htmlTitle,
         "The DM was successfully deleted.")
 }
