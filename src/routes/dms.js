@@ -2,7 +2,7 @@ const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const myMisc = require('../util/misc.js')
-const {processDm} = require('../util/validate')
+const {validateDm} = require('../util/validate')
 
 //
 const htmlTitle = 'Direct Messages'
@@ -45,7 +45,7 @@ const post = async(req, res) => {
     }
 
     //
-    const [compressedMessage, messageErrors] = processDm(req.body.message)
+    const [compressedMessage, messageErrors] = validateDm(req.body.message)
     errors = errors.concat(messageErrors)
 
     //

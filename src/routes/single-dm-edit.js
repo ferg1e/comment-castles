@@ -4,7 +4,7 @@ const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 const {checkDm} = require('../middleware/check-dm')
 const {isDmOwner} = require('../middleware/is-dm-owner')
-const {processDm} = require('../util/validate')
+const {validateDm} = require('../util/validate')
 
 //
 const htmlTitle = 'Edit DM'
@@ -32,7 +32,7 @@ const post = async (req, res) => {
     const dm = res.locals.dm
 
     //
-    const [compressedMessage, messageErrors] = processDm(req.body.message)
+    const [compressedMessage, messageErrors] = validateDm(req.body.message)
 
     //
     if(messageErrors.length > 0) {
