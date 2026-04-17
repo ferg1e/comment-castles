@@ -23,24 +23,6 @@ exports.getCurrTimeZone = (req) => {
 }
 
 //
-exports.processDm = (rawText) => {
-    const noWhitespace = rawText.replace(/\s/g, '')
-    const numNonWsChars = noWhitespace.length
-    const compressedMessage = rawText.trim()
-    const errors = []
-
-    if(rawText.length === 0) {
-        errors.push('Please fill in a message')
-    }
-    else if(numNonWsChars < 1) {
-        errors.push('Message must be at least 1 character')
-    }
-
-    //
-    return [compressedMessage, errors]
-}
-
-//
 exports.processComment = (rawText) => {
     const noWhitespace = rawText.replace(/\s/g, '')
     const numNonWsChars = noWhitespace.length

@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
+const {processDm} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -62,7 +63,7 @@ const post = async(req, res) => {
     let errors = []
 
     //
-    const [compressedMessage, messageErrors] = myMisc.processDm(req.body.message)
+    const [compressedMessage, messageErrors] = processDm(req.body.message)
     errors = errors.concat(messageErrors)
 
     //
