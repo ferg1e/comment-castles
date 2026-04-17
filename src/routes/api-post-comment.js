@@ -2,6 +2,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {isOauthUser} = require('../middleware/is-oauth-user')
+const {processComment} = require('../util/validate')
 
 //
 const post = async (req, res) => {
@@ -53,7 +54,7 @@ const post = async (req, res) => {
         }
 
         //
-        const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+        const [compressedComment, errors] = processComment(req.body.text_content)
 
         //
         if(errors.length > 0) {
@@ -87,7 +88,7 @@ const post = async (req, res) => {
         }
 
         //
-        const [compressedComment, errors] = myMisc.processComment(req.body.text_content)
+        const [compressedComment, errors] = processComment(req.body.text_content)
 
         //
         if(errors.length > 0) {

@@ -3,6 +3,24 @@ const db = require('../db')
 const config = require('../config/index')
 
 //
+exports.processComment = (rawText) => {
+    const noWhitespace = rawText.replace(/\s/g, '')
+    const numNonWsChars = noWhitespace.length
+    const compressedText = rawText.trim()
+    const errors = []
+
+    if(rawText.length === 0) {
+        errors.push({'msg': 'Please fill in a comment'})
+    }
+    else if(numNonWsChars < 1) {
+        errors.push({'msg': 'Comment must be at least 1 character'})
+    }
+
+    //
+    return [compressedText, errors]
+}
+
+//
 exports.validateDm = (rawText) => {
     const noWhitespace = rawText.replace(/\s/g, '')
     const numNonWsChars = noWhitespace.length
