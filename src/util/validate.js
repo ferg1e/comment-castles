@@ -3,7 +3,7 @@ const db = require('../db')
 const config = require('../config/index')
 
 //
-exports.processComment = (rawText) => {
+exports.validateComment = (rawText) => {
     const noWhitespace = rawText.replace(/\s/g, '')
     const numNonWsChars = noWhitespace.length
     const compressedText = rawText.trim()

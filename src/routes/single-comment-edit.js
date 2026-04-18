@@ -3,7 +3,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 const {checkComment} = require('../middleware/check-comment.js')
-const {processComment} = require('../util/validate')
+const {validateComment} = require('../util/validate')
 
 //
 const htmlTitle = 'Edit Comment'
@@ -44,7 +44,7 @@ const post = async (req, res) => {
     }
 
     //
-    let [compressedComment, errors] = processComment(req.body.text_content)
+    let [compressedComment, errors] = validateComment(req.body.text_content)
 
     //
     if(errors.length) {

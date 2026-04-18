@@ -5,7 +5,7 @@ const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value')
 const {checkComment2} = require('../middleware/check-comment2')
 const {isUser} = require('../middleware/is-user')
-const {processComment} = require('../util/validate')
+const {validateComment} = require('../util/validate')
 
 const router = express.Router({mergeParams: true})
 const htmlTitle = 'Comment #'
@@ -59,7 +59,7 @@ const post = async (req, res) => {
     const dbComment = res.locals.comment
 
     //
-    let [compressedComment, errors] = processComment(req.body.text_content)
+    let [compressedComment, errors] = validateComment(req.body.text_content)
 
     if(errors.length) {
 

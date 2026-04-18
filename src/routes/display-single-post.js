@@ -6,7 +6,7 @@ const {sitePageValue} = require('../middleware/site-page-value.js')
 const {checkPost2} = require('../middleware/check-post2.js')
 const {renderPaginate404} = require('../util/render')
 const myMisc = require('../util/misc.js')
-const {processComment} = require('../util/validate')
+const {validateComment} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -54,7 +54,7 @@ const post = async (req, res) => {
     const postPublicId = res.locals.postPublicId
 
     //
-    const [compressedComment, errors] = processComment(req.body.text_content)
+    const [compressedComment, errors] = validateComment(req.body.text_content)
 
     //
     if(errors.length > 0) {

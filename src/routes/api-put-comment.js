@@ -1,7 +1,7 @@
 const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {isOauthUser} = require('../middleware/is-oauth-user')
-const {processComment} = require('../util/validate')
+const {validateComment} = require('../util/validate')
 
 //
 const put = async (req, res) => {
@@ -42,7 +42,7 @@ const put = async (req, res) => {
     }
 
     //
-    const [compressedComment, errors] = processComment(req.body.text_content)
+    const [compressedComment, errors] = validateComment(req.body.text_content)
 
     //
     if(errors.length) {
