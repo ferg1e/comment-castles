@@ -20,7 +20,6 @@ const get = async (req, res) => {
     return res.render('dms', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         dmed_users: dmedUsers,
         main_class: 'main-text'
     })
@@ -61,7 +60,6 @@ const post = async(req, res) => {
         return res.render('dms', {
             html_title: htmlTitle,
             user: req.session.user,
-            max_width: myMisc.getCurrSiteMaxWidth(req),
             dmed_users: dmedUsers,
             errors: errors,
             message: req.body.message,

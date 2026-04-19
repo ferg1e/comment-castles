@@ -1,6 +1,5 @@
 const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
-const myMisc = require('../util/misc.js')
 
 //
 const get = async (req, res) => {
@@ -18,7 +17,6 @@ const get = async (req, res) => {
         lead_mod_public_id: sub.lead_mod_public_id,
         lead_mod_username: sub.lead_mod_username,
         curr_castle: subSlug,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         main_class: 'main-text'
     })
 }

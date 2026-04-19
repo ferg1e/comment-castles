@@ -33,8 +33,7 @@ const get = async (req, res) => {
         theme: myMisc.getCurrTheme(req),
         commentReplyMode: myMisc.getCurrCommentReplyMode(req),
         siteWidth: myMisc.getCurrSiteMaxWidth(req),
-        dateFormat: myMisc.getCurrDateFormat(req),
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        dateFormat: myMisc.getCurrDateFormat(req)
     })
 }
 
@@ -126,8 +125,7 @@ const post = async (req, res) => {
             theme: req.body.theme,
             commentReplyMode: req.body.comment_reply_mode,
             siteWidth: req.body.site_width,
-            dateFormat: req.body.date_format,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            dateFormat: req.body.date_format
         })
     }
 
@@ -154,6 +152,9 @@ const post = async (req, res) => {
         : siteWidthInt
 
     //
+    res.locals.max_width = siteWidthNulled
+
+    //
     return res.render('my-settings', {
         html_title: htmlTitle,
         errors: [],
@@ -175,8 +176,7 @@ const post = async (req, res) => {
         theme: req.body.theme,
         commentReplyMode: req.body.comment_reply_mode,
         siteWidth: req.body.site_width,
-        dateFormat: req.body.date_format,
-        max_width: siteWidthNulled
+        dateFormat: req.body.date_format
     })
 }
 

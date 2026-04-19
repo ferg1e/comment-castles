@@ -5,6 +5,9 @@ const db = require('../db')
 const all = async (req, res, next) => {
 
     //
+    res.locals.max_width = myMisc.getCurrSiteMaxWidth(req)
+
+    //
     const theme = myMisc.getCurrTheme(req)
     myMisc.setTheme(theme, res)
 

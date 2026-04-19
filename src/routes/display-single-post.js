@@ -40,7 +40,6 @@ const get = async (req, res) => {
         comments,
         errors: [],
         comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         page,
         total_pages: numPages
     })
@@ -81,7 +80,6 @@ const post = async (req, res) => {
             comments,
             errors,
             comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-            max_width: myMisc.getCurrSiteMaxWidth(req),
             page,
             total_pages: totalPages
         })

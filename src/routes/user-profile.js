@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {render404} = require('../util/render')
 
 //
@@ -20,7 +19,6 @@ const get = async (req, res) => {
     return res.render('user-profile', {
         html_title: dbUser.username,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         username: dbUser.username,
         profile_text: dbUser.profile_blurb
     })

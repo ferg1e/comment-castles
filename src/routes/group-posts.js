@@ -44,7 +44,6 @@ const get = async (req, res) => {
         posts: rows,
         page: page,
         base_url: `/r/${subSlug}`,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         post_layout: myMisc.getCurrPostLayout(req),
         lead_mod_user_id: sub.lead_mod,
         curr_castle: subSlug,

@@ -1,7 +1,6 @@
 const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {render403} = require('../util/render')
 
 //
@@ -23,8 +22,7 @@ const get = (req, res) => {
     //
     return res.render('login', {
         html_title: htmlTitle,
-        errors: [],
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        errors: []
     })
 }
 
@@ -64,8 +62,7 @@ const post = async (req, res) => {
     //
     return res.render('login', {
         html_title: htmlTitle,
-        errors: errors,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        errors: errors
     })
 }
 

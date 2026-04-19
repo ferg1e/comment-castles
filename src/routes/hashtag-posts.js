@@ -55,7 +55,6 @@ const get = async (req, res) => {
         posts: posts,
         page: page,
         base_url: `/t/${hashtag}`,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         post_layout: myMisc.getCurrPostLayout(req),
         sort: sort,
         posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),

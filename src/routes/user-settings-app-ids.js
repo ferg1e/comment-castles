@@ -54,7 +54,6 @@ async function renderHtml(req, res, formData, errors, success) {
     return res.render('my-settings-app-ids', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         clients: clients,
         errors: errors,
         success: success,

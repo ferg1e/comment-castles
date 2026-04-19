@@ -47,7 +47,6 @@ const get = async (req, res) => {
         posts: rows,
         page: page,
         base_url: baseUrl,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         post_layout: myMisc.getCurrPostLayout(req),
         sort: sort,
         posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),

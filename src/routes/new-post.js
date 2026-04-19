@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 const {validateNewPost} = require('../util/validate')
 
@@ -31,8 +30,7 @@ const get = async (req, res) => {
         lead_mod_user_id: sub ? sub.lead_mod : undefined,
         submitLabel: 'Create Post',
         heading: 'New Post',
-        is_castle: true,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        is_castle: true
     })
 }
 
@@ -64,8 +62,7 @@ const post = async(req, res) => {
             lead_mod_user_id: sub ? sub.lead_mod : undefined,
             submitLabel: 'Create Post',
             heading: 'New Post',
-            is_castle: true,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            is_castle: true
         })
     }
 

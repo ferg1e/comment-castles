@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 const {checkPost} = require('../middleware/check-post.js')
 const {validateEditPost} = require('../util/validate')
@@ -31,8 +30,7 @@ const get = async (req, res) => {
         lead_mod_user_id: post.lead_mod,
         curr_castle: post.castle,
         submitLabel: 'Edit Post',
-        heading: 'Edit Post',
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        heading: 'Edit Post'
     })
 }
 
@@ -65,8 +63,7 @@ const post = async (req, res) => {
             lead_mod_user_id: post.lead_mod,
             curr_castle: post.castle,
             submitLabel: 'Edit Post',
-            heading: 'Edit Post',
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            heading: 'Edit Post'
         })
     }
 

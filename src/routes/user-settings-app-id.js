@@ -74,7 +74,6 @@ function renderHtml(req, res, client, errors, success) {
     return res.render('my-settings-app-id', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: errors,
         success: success,
         client: client,

@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {checkPost} = require('../middleware/check-post.js')
 const {isUser} = require('../middleware/is-user.js')
 const {canDeletePost} = require('../middleware/can-delete-post.js')
@@ -20,8 +19,7 @@ const get = async (req, res) => {
         user: req.session.user,
         title: post.title,
         lead_mod_user_id: post.lead_mod,
-        curr_castle: post.castle,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        curr_castle: post.castle
     })
 }
 
@@ -40,8 +38,7 @@ const post = async (req, res) => {
         message: "The post and all of its comments (if any) were successfully deleted.",
         user: req.session.user,
         lead_mod_user_id: post.lead_mod,
-        curr_castle: post.castle,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        curr_castle: post.castle
     })
 }
 

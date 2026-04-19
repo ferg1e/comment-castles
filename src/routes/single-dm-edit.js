@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 const {checkDm} = require('../middleware/check-dm')
 const {isDmOwner} = require('../middleware/is-dm-owner')
@@ -20,8 +19,7 @@ const get = async (req, res) => {
         html_title: htmlTitle,
         user: req.session.user,
         errors: [],
-        message: dm.dmessage,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        message: dm.dmessage
     })
 }
 
@@ -40,8 +38,7 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             user: req.session.user,
             errors: messageErrors,
-            message: req.body.message,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            message: req.body.message
         })
     }
 

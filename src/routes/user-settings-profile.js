@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 
 //
@@ -16,7 +15,6 @@ const get = async (req, res) => {
     return res.render('my-settings-profile', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: [],
         profile: row.profile_blurb,
     })
@@ -35,7 +33,6 @@ const post = async (req, res) => {
     return res.render('my-settings-profile', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: [],
         success: "profile updated",
         profile: profile,

@@ -3,7 +3,6 @@ const OAuth2Server = require('oauth2-server')
 const Request = require('oauth2-server').Request
 const Response = require('oauth2-server').Response
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {render400, render404} = require('../util/render')
 
 //
@@ -38,8 +37,7 @@ const get = async (req, res) => {
     return res.render('oauth-authorize', {
         app_name: rows[0].app_name,
         html_title: authorizeHtmlTitle,
-        user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        user: req.session.user
     })
 }
 

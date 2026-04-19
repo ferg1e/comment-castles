@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
@@ -28,7 +27,6 @@ const get = async (req, res) => {
     return res.render('subs', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         subs: subs,
         page: page,
         num_pages: numPages,

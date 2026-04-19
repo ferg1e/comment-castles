@@ -41,8 +41,7 @@ const get = async (req, res) => {
         user: req.session.user,
         comments: comments,
         page: page,
-        comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        comment_reply_mode: myMisc.getCurrCommentReplyMode(req)
     })
 }
 

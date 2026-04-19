@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 const {checkDm} = require('../middleware/check-dm')
 const {isDmOwner} = require('../middleware/is-dm-owner')
@@ -19,8 +18,7 @@ const get = async (req, res) => {
     return res.render('delete-dm', {
         html_title: htmlTitle,
         user: req.session.user,
-        message: dm.dmessage,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        message: dm.dmessage
     })
 }
 

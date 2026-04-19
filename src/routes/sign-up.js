@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {render403, renderMessage} = require('../util/render')
 const {validateSignUp} = require('../util/validate')
 
@@ -24,8 +23,7 @@ const get = async (req, res) => {
         html_title: htmlTitle,
         errors:[],
         username: "",
-        is_login: "yes",
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        is_login: "yes"
     })
 }
 
@@ -41,8 +39,7 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             errors: errors,
             username: req.body.username,
-            is_login: req.body.is_login,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            is_login: req.body.is_login
         })
     }
 
@@ -62,8 +59,7 @@ const post = async (req, res) => {
             html_title: htmlTitle,
             errors: [errorMessage],
             username: req.body.username,
-            is_login: req.body.is_login,
-            max_width: myMisc.getCurrSiteMaxWidth(req)
+            is_login: req.body.is_login
         })
     }
 

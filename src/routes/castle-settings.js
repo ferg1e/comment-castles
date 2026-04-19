@@ -1,7 +1,6 @@
 const {checkSub} = require('../middleware/check-sub.js')
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user')
 
 //
@@ -23,8 +22,7 @@ const get = async (req, res) => {
         errors: [],
         desc: sub.sub_desc,
         lead_mod_user_id: sub.lead_mod,
-        curr_castle: subSlug,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        curr_castle: subSlug
     })
 }
 
@@ -51,8 +49,7 @@ const post = async(req, res) => {
         errors: [],
         desc: req.body.desc,
         lead_mod_user_id: sub.lead_mod,
-        curr_castle: subSlug,
-        max_width: myMisc.getCurrSiteMaxWidth(req)
+        curr_castle: subSlug
     })
 }
 

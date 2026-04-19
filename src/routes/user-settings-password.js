@@ -1,7 +1,6 @@
 const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
 
 //
@@ -14,7 +13,6 @@ const get = async (req, res) => {
     return res.render('my-settings-password', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: [],
     })
 }
@@ -48,7 +46,6 @@ const post = async (req, res) => {
     return res.render('my-settings-password', {
         html_title: htmlTitle,
         user: req.session.user,
-        max_width: myMisc.getCurrSiteMaxWidth(req),
         errors: errors,
         success: success,
     })
