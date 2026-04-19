@@ -66,7 +66,7 @@ const post = async (req, res) => {
     const errors = []
 
     if(!rows.length) {
-        errors.push({msg: 'unknown time zone, pick again'})
+        errors.push('unknown time zone, pick again')
     }
 
     //
@@ -76,7 +76,7 @@ const post = async (req, res) => {
         (!wisNaN && siteWidthInt >= config.minSiteWidth && siteWidthInt <= config.maxSiteWidth)
 
     if(!widthOkay) {
-        errors.push({msg: `site width must be between ${config.minSiteWidth}-${config.maxSiteWidth}, or left blank`})
+        errors.push(`site width must be between ${config.minSiteWidth}-${config.maxSiteWidth}, or left blank`)
     }
 
     //
@@ -87,7 +87,7 @@ const post = async (req, res) => {
         postsPerPageInt <= config.maxPostsPerPage
 
     if(!pppOkay) {
-        errors.push({msg: `posts per page must be between ${config.minPostsPerPage}-${config.maxPostsPerPage}`})
+        errors.push(`posts per page must be between ${config.minPostsPerPage}-${config.maxPostsPerPage}`)
     }
 
     //
@@ -98,7 +98,7 @@ const post = async (req, res) => {
         postsVerticalSpacingInt <= config.maxPostsVerticalSpacing
 
     if(!pvsOkay) {
-        errors.push({msg: `posts vertical spacing must be between ${config.minPostsVerticalSpacing}-${config.maxPostsVerticalSpacing}`})
+        errors.push(`posts vertical spacing must be between ${config.minPostsVerticalSpacing}-${config.maxPostsVerticalSpacing}`)
     }
 
     //
