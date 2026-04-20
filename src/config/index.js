@@ -39,15 +39,18 @@ exports.minPostsVerticalSpacing = 2
 exports.maxPostsVerticalSpacing = 40
 
 //
-exports.dateFormat0 = 'Mon FMDD, YYYY FMHH12:MIam'
-exports.dateFormat1 = 'Mon FMDD, YYYY'
-exports.dateFormat2 = 'FMMM/FMDD/YYYY FMHH12:MIam'
-exports.dateFormat3 = 'FMMM/FMDD/YYYY'
-exports.dateFormat4 = 'FMDD/FMMM/YYYY FMHH12:MIam'
-exports.dateFormat5 = 'FMDD/FMMM/YYYY'
-exports.dateFormat6 = 'YYYY-MM-DD FMHH12:MIam'
-exports.dateFormat7 = 'YYYY-MM-DD'
-exports.defaultDateFormat = module.exports.dateFormat1
+exports.dateFormats = [
+    {format:'Mon FMDD, YYYY FMHH12:MIam',example:'Dec 1, 2021 1:00pm'},
+    {format:'Mon FMDD, YYYY',example:'Dec 1, 2021'},
+    {format:'FMMM/FMDD/YYYY FMHH12:MIam',example:'12/1/2021 1:00pm'},
+    {format:'FMMM/FMDD/YYYY',example:'12/1/2021'},
+    {format:'FMDD/FMMM/YYYY FMHH12:MIam',example:'1/12/2021 1:00pm'},
+    {format:'FMDD/FMMM/YYYY',example:'1/12/2021'},
+    {format:'YYYY-MM-DD FMHH12:MIam',example:'2021-12-01 1:00pm'},
+    {format:'YYYY-MM-DD',example:'2021-12-01'}
+]
+
+exports.defaultDateFormat = module.exports.dateFormats[1].format
 
 //
 exports.subsPerPage = 50
