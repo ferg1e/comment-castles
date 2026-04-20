@@ -105,6 +105,26 @@ module.exports.validateNewPost = async (title, link, castle) => {
 }
 
 //
+module.exports.validateOauthClient = (appName, redirectUri) => {
+    const errors = []
+
+    //
+    if(appName.trim() === '') {
+        errors.push('Please fill in an application name')
+    }
+
+    //
+    const urlRegex = /(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
+    const isValidUri = urlRegex.test(redirectUri)
+
+    if(!isValidUri) {
+        errors.push('Please enter a valid http or https URL for redirect URI')
+    }
+
+    return errors
+}
+
+//
 module.exports.validatePostSub = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()

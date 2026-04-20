@@ -23,26 +23,6 @@ exports.getCurrTimeZone = (req) => {
 }
 
 //
-exports.validateOauthClient = (appName, redirectUri) => {
-    const errors = []
-
-    //
-    if(appName.trim() === '') {
-        errors.push('Please fill in an application name')
-    }
-
-    //
-    const urlRegex = /(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]/ig
-    const isValidUri = urlRegex.test(redirectUri)
-
-    if(!isValidUri) {
-        errors.push('Please enter a valid http or https URL for redirect URI')
-    }
-
-    return errors
-}
-
-//
 exports.getCurrPostLayout = req => {
     if(req.session.user) {
         return (typeof req.session.user.post_layout === 'undefined')

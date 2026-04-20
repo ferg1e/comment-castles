@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isUser} = require('../middleware/is-user.js')
+const {validateOauthClient} = require('../util/validate')
 
 //
 const htmlTitle = 'Settings / App IDs'
@@ -13,7 +13,7 @@ const get = async (req, res) => renderHtml(req, res, {}, [])
 const post = async (req, res) => {
 
     //
-    const errors = myMisc.validateOauthClient(
+    const errors = validateOauthClient(
         req.body.name,
         req.body.ruri
     )
