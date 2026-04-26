@@ -5,14 +5,14 @@ const config = require('../config')
 const get = async (req, res) => {
 
     //
-    if(typeof req.query.commentid === 'undefined') {
+    if(typeof req.query.comment_id === 'undefined') {
         return res.status(400).json({
-            errors: ['no commentid in URL'],
+            errors: ['no comment_id in URL'],
         })
     }
 
     //
-    const commentPublicId = req.query.commentid
+    const commentPublicId = req.query.comment_id
 
     //
     const {rows:[comment]} = await db.getCommentWithPublic2(
@@ -23,7 +23,7 @@ const get = async (req, res) => {
     //
     if(!comment) {
         return res.status(404).json({
-            errors: ["no comment with that commentid"],
+            errors: ["no comment with that comment_id"],
         })
     }
 
