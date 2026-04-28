@@ -11,13 +11,11 @@ const cookieMaxAge = 1000*60*60*24*365*10;
 const get = async (req, res) => {
 
     //
-    const rows = config.timeZones
-
     return res.render('my-settings', {
         html_title: htmlTitle,
         errors: [],
         user: req.session.user,
-        time_zones: rows,
+        time_zones: config.timeZones,
         date_formats: config.dateFormats,
         time_zone: myMisc.getCurrTimeZone(req),
         postLayout: myMisc.getCurrPostLayout(req),
@@ -94,15 +92,12 @@ const post = async (req, res) => {
     }
 
     //
-    const rows2 = config.timeZones
-
-    //
     if(errors.length) {
         return res.render('my-settings', {
             html_title: htmlTitle,
             errors: errors,
             user: req.session.user,
-            time_zones: rows2,
+            time_zones: config.timeZones,
             date_formats: config.dateFormats,
             time_zone: req.body.time_zone,
             postLayout: req.body.post_layout,
@@ -146,7 +141,7 @@ const post = async (req, res) => {
         errors: [],
         success: 'Settings successfully saved.',
         user: req.session.user,
-        time_zones: rows2,
+        time_zones: config.timeZones,
         date_formats: config.dateFormats,
         time_zone: req.body.time_zone,
         postLayout: req.body.post_layout,
