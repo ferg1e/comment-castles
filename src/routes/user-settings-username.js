@@ -2,9 +2,9 @@ const express = require('express')
 const argon2 = require('argon2')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
+const {regexUsername} = require('../config')
 
 //
-const regexUsername = /^[a-z0-9-]{4,16}$/i
 const htmlTitle = 'Settings / Username'
 
 //

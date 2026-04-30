@@ -56,6 +56,7 @@ exports.defaultDateFormat = module.exports.dateFormats[1].format
 exports.subsPerPage = 50
 
 //
+exports.regexUsername = /^[a-z0-9-]{4,16}$/i
 exports.singleUrlRegex = /^(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]$/i
 exports.hashtagsRegex = /(?<=(\s|^)(([\(\[]?)|([bius`]{1,5}\[)))(#[0-9a-z-]{3,20})(?=[\.\?!\)\],;:]?(\s|$))/gi
 
