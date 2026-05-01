@@ -33,7 +33,7 @@ exports.createUser = async (username, password) => {
     /*
     Insert all default settings values here instead of relying on
     SQL column defaults so that we can easily change the defaults
-    one place (ie. in the config file).
+    in one place (ie. in the config file).
     */
     return await argon2.hash(password)
         .then(hash => query(`
