@@ -295,8 +295,6 @@ exports.createPost = async (userId, title, textContent, link, trimCastle) => {
         link: row.link,
         post_text: row.text_content,
         post_time: row.created_on,
-        //by: v.username,
-        //num_comments: v.num_comments,
         sub: trimCastle,
     }
 }
