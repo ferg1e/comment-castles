@@ -1,4 +1,3 @@
-const {URL} = require('url')
 const config = require('../config')
 
 //
@@ -173,12 +172,6 @@ exports.getCurrSiteMaxWidth = req => {
             }
         }
     }
-}
-
-//
-exports.getDomainName = link => {
-    const myUrl = new URL(link)
-    return myUrl.hostname.replace(/^(www\.)/, '')
 }
 
 //

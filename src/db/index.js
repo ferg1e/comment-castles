@@ -1,6 +1,7 @@
 const argon2 = require('argon2')
 const config = require('../config')
 const myMisc = require('../util/misc.js')
+const {getDomainName} = require('../util/compute')
 const {Pool, types} = require('pg')
 const {customAlphabet} = require('nanoid')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -252,7 +253,7 @@ exports.createPost = async (userId, title, textContent, link, trimCastle) => {
     let domainNameId = null
 
     if(link !== '') {
-        const domainName = myMisc.getDomainName(link)
+        const domainName = getDomainName(link)
         domainNameId = await module.exports.getDomainNameId(domainName)
     }
 
@@ -543,7 +544,7 @@ exports.updatePost = async (postId, title, textContent, link) => {
     let domainNameId = null
 
     if(link !== '') {
-        const domainName = myMisc.getDomainName(link)
+        const domainName = getDomainName(link)
         domainNameId = await module.exports.getDomainNameId(domainName)
     }
 
