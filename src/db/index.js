@@ -1,7 +1,7 @@
 const argon2 = require('argon2')
 const config = require('../config')
 const myMisc = require('../util/misc.js')
-const {getDomainName} = require('../util/compute')
+const {getDomainName, numToOrderedAlpha} = require('../util/compute')
 const {Pool, types} = require('pg')
 const {customAlphabet} = require('nanoid')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -679,7 +679,7 @@ exports.createPostComment = async (postId, userId, content, recipientUserId) => 
         returning
             public_id, text_content, created_on`,
         [postId, userId, content,
-            postId + '.' + myMisc.numToOrderedAlpha(nextPathInt),
+            postId + '.' + numToOrderedAlpha(nextPathInt),
             genId(), recipientUserId])
 }
 
@@ -721,7 +721,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
                 timezone($7, created_on),
                 $8) created_on`,
         [postId, userId, content,
-            parentPath + '.' + myMisc.numToOrderedAlpha(nextPathInt),
+            parentPath + '.' + numToOrderedAlpha(nextPathInt),
             genId(),
             recipientUserId,
             timeZone,
