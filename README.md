@@ -30,7 +30,6 @@ Set the following environment variables:
 * `PGPORT`: PostgreSQL port
 * `HTTP_PORT`: Port this app will use
 * `REDIS_PORT`: Redis port
-* `IS_PROD`: This is a redundant production flag (there's already the built-in `NODE_ENV`) that must be set. If `NODE_ENV` is `"production"` then set this flag to `1`, otherwise use `0`.
 * `SESSION_NAME`: `express-session` `name`
 * `SESSION_SECRET`: `express-session` `secret`
 * `NODE_ENV`: built-in node environment flag
@@ -45,7 +44,6 @@ PGPASSWORD=123abc
 PGPORT=5432
 HTTP_PORT=80
 REDIS_PORT=6379
-IS_PROD=1
 SESSION_NAME=mysesh
 SESSION_SECRET=wOgw3oQpmbYbie7V
 NODE_ENV=production
@@ -66,7 +64,6 @@ module.exports = {
             PGPORT: 5432,
             HTTP_PORT: 80,
             REDIS_PORT: 6379,
-            IS_PROD: 1,
             SESSION_NAME: "mysesh",
             SESSION_SECRET: "wOgw3oQpmbYbie7V",
             NODE_ENV: "production",
