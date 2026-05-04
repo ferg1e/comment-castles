@@ -1,4 +1,4 @@
-const myMisc = require('../util/misc.js')
+const {getPageNum} = require('../util/validate')
 const {render400} = require('../util/render')
 
 //
@@ -9,7 +9,7 @@ function sitePageValue(req, res, next) {
     let page
 
     try {
-        page = myMisc.getPageNum(req)
+        page = getPageNum(req)
     }
     catch(e) {
         return render400(res,

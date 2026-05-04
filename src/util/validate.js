@@ -125,6 +125,36 @@ module.exports.validateOauthClient = (appName, redirectUri) => {
 }
 
 //
+module.exports.getPageNum = (req) => {
+
+    //
+    if(typeof req.query.p === 'undefined') {
+        return 1
+    }
+
+    //
+    const rawPage = req.query.p
+    const intRegex = /^\-?(([1-9]\d*)|0)$/
+    const isInt = intRegex.test(rawPage)
+
+    if(!isInt) {
+        throw Error('invalid page value: not an integer')
+    }
+
+    //
+    const intPage = parseInt(rawPage)
+    const isInRange = intPage >= 1 && intPage <= Number.MAX_SAFE_INTEGER
+
+    //
+    if(!isInRange) {
+        throw Error('invalid page value: out of range')
+    }
+
+    //
+    return intPage
+}
+
+//
 module.exports.validatePostSub = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()

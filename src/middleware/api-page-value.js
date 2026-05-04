@@ -1,4 +1,4 @@
-const myMisc = require('../util/misc.js')
+const {getPageNum} = require('../util/validate')
 
 //
 function apiPageValue(req, res, next) {
@@ -7,7 +7,7 @@ function apiPageValue(req, res, next) {
     let page
 
     try {
-        page = myMisc.getPageNum(req)
+        page = getPageNum(req)
     }
     catch(e) {
         return res.status(400).json({
