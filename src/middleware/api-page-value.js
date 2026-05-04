@@ -1,4 +1,4 @@
-const {getPageNum} = require('../util/validate')
+const {validatePageNum} = require('../util/validate')
 
 //
 function apiPageValue(req, res, next) {
@@ -7,7 +7,7 @@ function apiPageValue(req, res, next) {
     let page
 
     try {
-        page = getPageNum(req)
+        page = validatePageNum(req)
     }
     catch(e) {
         return res.status(400).json({

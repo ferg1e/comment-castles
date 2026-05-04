@@ -125,7 +125,7 @@ module.exports.validateOauthClient = (appName, redirectUri) => {
 }
 
 //
-module.exports.getPageNum = (req) => {
+module.exports.validatePageNum = (req) => {
 
     //
     if(typeof req.query.p === 'undefined') {
