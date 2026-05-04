@@ -226,13 +226,6 @@ exports.setTheme = (theme, res) => {
     }
 }
 
-exports.extractHashtags = (text) => {
-    const matches = [...text.matchAll(config.hashtagsRegex)]
-
-    return matches
-        .map(v => v[0].substring(1).toLowerCase())
-}
-
 //
 exports.getPageNum = (req) => {
 

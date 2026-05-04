@@ -1,7 +1,6 @@
 const argon2 = require('argon2')
 const config = require('../config')
-const myMisc = require('../util/misc.js')
-const {getDomainName, numToOrderedAlpha, orderedAlphaToNum} = require('../util/compute')
+const {extractHashtags, getDomainName, numToOrderedAlpha, orderedAlphaToNum} = require('../util/compute')
 const {Pool, types} = require('pg')
 const {customAlphabet} = require('nanoid')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -1047,8 +1046,8 @@ exports.createPostHashtag = (hashtagId, postId) => {
 exports.createPostHashtags = async (postId, title, textContent) => {
 
     //
-    const titleHashtags = myMisc.extractHashtags(title)
-    const contentHashtags = myMisc.extractHashtags(textContent)
+    const titleHashtags = extractHashtags(title)
+    const contentHashtags = extractHashtags(textContent)
     const allUniqueHashtags = [...new Set([...titleHashtags, ...contentHashtags])]
 
     //

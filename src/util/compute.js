@@ -1,4 +1,13 @@
 const {URL} = require('url')
+const config = require('../config')
+
+//
+module.exports.extractHashtags = (text) => {
+    const matches = [...text.matchAll(config.hashtagsRegex)]
+
+    return matches
+        .map(v => v[0].substring(1).toLowerCase())
+}
 
 //
 module.exports.getDomainName = link => {
