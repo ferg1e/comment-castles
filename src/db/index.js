@@ -1,7 +1,7 @@
 const argon2 = require('argon2')
 const config = require('../config')
 const myMisc = require('../util/misc.js')
-const {getDomainName, numToOrderedAlpha} = require('../util/compute')
+const {getDomainName, numToOrderedAlpha, orderedAlphaToNum} = require('../util/compute')
 const {Pool, types} = require('pg')
 const {customAlphabet} = require('nanoid')
 const nanoidAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -667,7 +667,7 @@ exports.createPostComment = async (postId, userId, content, recipientUserId) => 
     if(row) {
         const lastDotIndex = row.path.lastIndexOf('.')
         const lastTriple = row.path.substring(lastDotIndex + 1)
-        nextPathInt = myMisc.orderedAlphaToNum(lastTriple) + 1
+        nextPathInt = orderedAlphaToNum(lastTriple) + 1
     }
 
     //
@@ -705,7 +705,7 @@ exports.createCommentComment = async (postId, userId, content, parentPath, timeZ
     if(row) {
         const lastDotIndex = row.path.lastIndexOf('.')
         const lastTriple = row.path.substring(lastDotIndex + 1)
-        nextPathInt = myMisc.orderedAlphaToNum(lastTriple) + 1
+        nextPathInt = orderedAlphaToNum(lastTriple) + 1
     }
 
     return query(`
