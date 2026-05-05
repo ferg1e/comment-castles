@@ -1,7 +1,7 @@
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {apiPageValue} = require('../middleware/api-page-value.js')
+const {getPostSort} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -29,7 +29,7 @@ const get = async (req, res) => {
     const page = res.locals.page
 
     //
-    const sort = myMisc.getPostSort(req)
+    const sort = getPostSort(req)
 
     //
     const {rows} = await db.getSubPosts(

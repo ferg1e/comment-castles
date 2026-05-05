@@ -3,6 +3,7 @@ const db = require('../db')
 const myMisc = require('../util/misc.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
+const {getPostSort} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -10,7 +11,7 @@ const get = async (req, res) => {
     //
     const hashtag = req.params[0]
     const page = res.locals.page
-    const sort = myMisc.getPostSort(req)
+    const sort = getPostSort(req)
 
     // unknown sort
     if(typeof req.query.sort !== 'undefined' && sort === '') {

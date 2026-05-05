@@ -155,6 +155,20 @@ module.exports.validatePageNum = (req) => {
 }
 
 //
+exports.getPostSort = req => {
+    let sort = ''
+    const validSortVals = ['oldest', 'comments', 'last']
+    const isSortVal = (typeof req.query.sort !== 'undefined')
+    const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
+
+    if(isSort) {
+        sort = req.query.sort
+    }
+
+    return sort
+}
+
+//
 module.exports.validatePostSub = (castle) => {
     const errors = []
     const trimCastle = castle.trim().toLowerCase()

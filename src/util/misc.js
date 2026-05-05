@@ -175,20 +175,6 @@ exports.getCurrSiteMaxWidth = req => {
 }
 
 //
-exports.getPostSort = req => {
-    let sort = ''
-    const validSortVals = ['oldest', 'comments', 'last']
-    const isSortVal = (typeof req.query.sort !== 'undefined')
-    const isSort = isSortVal && (validSortVals.indexOf(req.query.sort) != -1)
-
-    if(isSort) {
-        sort = req.query.sort
-    }
-
-    return sort
-}
-
-//
 exports.getCookieSettings = req => {
     const settingsC = req.cookies.settings
     const defaults = {
