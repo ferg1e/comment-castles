@@ -1,4 +1,4 @@
-const myMisc = require('../util/misc.js')
+const myMisc = require('../util/user-settings.js')
 const db = require('../db')
 
 //

@@ -1,5 +1,5 @@
 const db = require('../db')
-const myMisc = require('../util/misc.js')
+const myMisc = require('../util/user-settings.js')
 const {render404} = require('../util/render')
 
 //

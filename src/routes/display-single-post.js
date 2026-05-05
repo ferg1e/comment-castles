@@ -5,7 +5,7 @@ const {isUser} = require('../middleware/is-user.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {checkPost2} = require('../middleware/check-post2.js')
 const {renderPaginate404} = require('../util/render')
-const myMisc = require('../util/misc.js')
+const myMisc = require('../util/user-settings.js')
 const {validateComment} = require('../util/validate')
 
 //

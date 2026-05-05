@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
-const myMisc = require('../util/misc.js')
+const myMisc = require('../util/user-settings.js')
 const {validateDm} = require('../util/validate')
 
 //

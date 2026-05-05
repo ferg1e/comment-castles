@@ -2,7 +2,7 @@ const express = require('express')
 const config = require('../config')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
-const myMisc = require('../util/misc.js')
+const myMisc = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
 
