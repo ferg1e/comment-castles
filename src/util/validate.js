@@ -1,4 +1,3 @@
-const myMisc = require('./misc')
 const db = require('../db')
 const config = require('../config/index')
 
