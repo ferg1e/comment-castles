@@ -4,7 +4,7 @@ const myMisc = require('../util/misc.js')
 const config = require('../config')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
-const {getPostSort} = require('../util/validate')
+const {validatePostSort} = require('../util/validate')
 
 const htmlTitle = config.siteName
 
@@ -13,7 +13,7 @@ const get = async (req, res) => {
 
     //
     const page = res.locals.page
-    const sort = getPostSort(req)
+    const sort = validatePostSort(req)
     const baseUrl = '/'
 
     // unknown sort

@@ -155,7 +155,7 @@ module.exports.validatePageNum = (req) => {
 }
 
 //
-exports.getPostSort = req => {
+exports.validatePostSort = req => {
     let sort = ''
     const validSortVals = ['oldest', 'comments', 'last']
     const isSortVal = (typeof req.query.sort !== 'undefined')
