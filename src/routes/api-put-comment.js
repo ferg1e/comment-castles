@@ -1,5 +1,4 @@
 const db = require('../db')
-const myMisc = require('../util/misc.js')
 const {isOauthUser} = require('../middleware/is-oauth-user')
 const {validateComment} = require('../util/validate')
 
