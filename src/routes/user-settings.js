@@ -3,7 +3,6 @@ const db = require('../db')
 const userSettings = require('../util/user-settings.js')
 const config = require('../config')
 
-const router = express.Router()
 const htmlTitle = 'Settings'
 
 //
@@ -154,6 +153,7 @@ const post = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', get)
 router.post('/', post)
 module.exports = router
