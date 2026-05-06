@@ -1,5 +1,5 @@
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {render404} = require('../util/render')
 
 //
@@ -7,8 +7,8 @@ async function checkComment2(req, res, next) {
     const commentPublicId = req.params[0]
     const {rows:[comment]} = await db.getCommentWithPublic2(
             commentPublicId,
-            myMisc.getCurrTimeZone(req),
-            myMisc.getCurrDateFormat(req))
+            userSettings.getCurrTimeZone(req),
+            userSettings.getCurrDateFormat(req))
 
     //
     if(!comment) {

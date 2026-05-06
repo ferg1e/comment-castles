@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const config = require('../config')
 
 const router = express.Router()
@@ -17,14 +17,14 @@ const get = async (req, res) => {
         user: req.session.user,
         time_zones: config.timeZones,
         date_formats: config.dateFormats,
-        time_zone: myMisc.getCurrTimeZone(req),
-        postLayout: myMisc.getCurrPostLayout(req),
-        postsPerPage: myMisc.getCurrPostsPerPage(req),
-        postsVerticalSpacing: myMisc.getCurrPostsVerticalSpacing(req),
-        theme: myMisc.getCurrTheme(req),
-        commentReplyMode: myMisc.getCurrCommentReplyMode(req),
-        siteWidth: myMisc.getCurrSiteMaxWidth(req),
-        dateFormat: myMisc.getCurrDateFormat(req)
+        time_zone: userSettings.getCurrTimeZone(req),
+        postLayout: userSettings.getCurrPostLayout(req),
+        postsPerPage: userSettings.getCurrPostsPerPage(req),
+        postsVerticalSpacing: userSettings.getCurrPostsVerticalSpacing(req),
+        theme: userSettings.getCurrTheme(req),
+        commentReplyMode: userSettings.getCurrCommentReplyMode(req),
+        siteWidth: userSettings.getCurrSiteMaxWidth(req),
+        dateFormat: userSettings.getCurrDateFormat(req)
     })
 }
 
@@ -125,7 +125,7 @@ const post = async (req, res) => {
     )
 
     //
-    myMisc.setTheme(req.body.theme, res)
+    userSettings.setTheme(req.body.theme, res)
 
     //
     const siteWidthNulled = req.body.site_width === ''
@@ -207,7 +207,7 @@ async function updateSettings(
     }
     else {
 
-        const cSettings = myMisc.getCookieSettings(req)
+        const cSettings = userSettings.getCookieSettings(req)
 
         cSettings.time_zone = timeZone
         cSettings.post_layout = postLayout

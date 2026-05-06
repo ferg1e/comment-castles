@@ -5,7 +5,7 @@ const {isUser} = require('../middleware/is-user.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {checkPost2} = require('../middleware/check-post2.js')
 const {renderPaginate404} = require('../util/render')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {validateComment} = require('../util/validate')
 
 //
@@ -26,9 +26,9 @@ const get = async (req, res) => {
     //
     const {rows:comments} = await db.getPostComments(
         post.post_id,
-        myMisc.getCurrTimeZone(req),
+        userSettings.getCurrTimeZone(req),
         page,
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrDateFormat(req))
 
     //
     return res.render('single-post', {
@@ -39,7 +39,7 @@ const get = async (req, res) => {
         curr_castle: post.castle,
         comments,
         errors: [],
-        comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+        comment_reply_mode: userSettings.getCurrCommentReplyMode(req),
         page,
         total_pages: numPages
     })
@@ -63,9 +63,9 @@ const post = async (req, res) => {
 
         const {rows:comments} = await db.getPostComments(
             post.post_id,
-            myMisc.getCurrTimeZone(req),
+            userSettings.getCurrTimeZone(req),
             page,
-            myMisc.getCurrDateFormat(req))
+            userSettings.getCurrDateFormat(req))
 
         //
         const totalPages = Math.ceil(post.num_comments/config.commentsPerPage)
@@ -79,7 +79,7 @@ const post = async (req, res) => {
             curr_castle: post.castle,
             comments,
             errors,
-            comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+            comment_reply_mode: userSettings.getCurrCommentReplyMode(req),
             page,
             total_pages: totalPages
         })

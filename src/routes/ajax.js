@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const pug = require('pug')
 const {validateComment} = require('../util/validate')
 
@@ -32,8 +32,8 @@ const postComment = async (req, res) => {
         req.session.user.user_id,
         compressedComment,
         comment.path,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req),
+        userSettings.getCurrTimeZone(req),
+        userSettings.getCurrDateFormat(req),
         comment.user_id)
 
     //

@@ -2,7 +2,7 @@ const express = require('express')
 const config = require('../config')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
 
@@ -30,10 +30,10 @@ const get = async (req, res) => {
 
     //
     const{rows:comments} = await db.getInboxComments(
-        myMisc.getCurrTimeZone(req),
+        userSettings.getCurrTimeZone(req),
         req.session.user.user_id,
         page,
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrDateFormat(req))
 
     //
     return res.render('inbox', {
@@ -41,7 +41,7 @@ const get = async (req, res) => {
         user: req.session.user,
         comments: comments,
         page: page,
-        comment_reply_mode: myMisc.getCurrCommentReplyMode(req)
+        comment_reply_mode: userSettings.getCurrCommentReplyMode(req)
     })
 }
 

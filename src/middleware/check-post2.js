@@ -1,5 +1,5 @@
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {render404} = require('../util/render')
 
 //
@@ -7,8 +7,8 @@ async function checkPost2(req, res, next) {
     const postPublicId = req.params[0]
     const {rows:[post]} = await db.getPostWithPublic2(
         postPublicId,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrTimeZone(req),
+        userSettings.getCurrDateFormat(req))
 
     //
     if(!post) {

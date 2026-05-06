@@ -1,6 +1,6 @@
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const config = require('../config')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
@@ -22,7 +22,7 @@ const get = async (req, res) => {
     }
 
     //
-    const postsPerPage = myMisc.getCurrPostsPerPage(req)
+    const postsPerPage = userSettings.getCurrPostsPerPage(req)
     const {rows:[{count:postsCount}]} = await db.getPostsCount()
     const numPages = Math.ceil(postsCount/postsPerPage)
 
@@ -33,11 +33,11 @@ const get = async (req, res) => {
 
     //
     const {rows} = await db.getPosts(
-        myMisc.getCurrTimeZone(req),
+        userSettings.getCurrTimeZone(req),
         page,
         sort,
         postsPerPage,
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrDateFormat(req))
 
     return res.render('posts2', {
         html_title: htmlTitle,
@@ -47,9 +47,9 @@ const get = async (req, res) => {
         posts: rows,
         page: page,
         base_url: baseUrl,
-        post_layout: myMisc.getCurrPostLayout(req),
+        post_layout: userSettings.getCurrPostLayout(req),
         sort: sort,
-        posts_vertical_spacing: myMisc.getCurrPostsVerticalSpacing(req),
+        posts_vertical_spacing: userSettings.getCurrPostsVerticalSpacing(req),
         num_pages: numPages
     })
 }

@@ -1,15 +1,15 @@
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const db = require('../db')
 
 //
 const all = async (req, res, next) => {
 
     //
-    res.locals.max_width = myMisc.getCurrSiteMaxWidth(req)
+    res.locals.max_width = userSettings.getCurrSiteMaxWidth(req)
 
     //
-    const theme = myMisc.getCurrTheme(req)
-    myMisc.setTheme(theme, res)
+    const theme = userSettings.getCurrTheme(req)
+    userSettings.setTheme(theme, res)
 
     //
     if(req.session.user) {

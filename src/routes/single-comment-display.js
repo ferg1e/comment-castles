@@ -1,7 +1,7 @@
 const config = require('../config')
 const express = require('express')
 const db = require('../db')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value')
 const {checkComment2} = require('../middleware/check-comment2')
 const {isUser} = require('../middleware/is-user')
@@ -23,9 +23,9 @@ const get = async (req, res) => {
     //
     const{rows:comments} = await db.getCommentComments(
         dbComment.path,
-        myMisc.getCurrTimeZone(req),
+        userSettings.getCurrTimeZone(req),
         page,
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrDateFormat(req))
 
     //
     const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
@@ -41,7 +41,7 @@ const get = async (req, res) => {
             comment: dbComment,
             comments: comments,
             errors: [],
-            comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+            comment_reply_mode: userSettings.getCurrCommentReplyMode(req),
             page: page,
             total_pages: totalPages,
             lead_mod_user_id: dbComment.lead_mod,
@@ -67,9 +67,9 @@ const post = async (req, res) => {
 
         const{rows:comments} = await db.getCommentComments(
             dbComment.path,
-            myMisc.getCurrTimeZone(req),
+            userSettings.getCurrTimeZone(req),
             page,
-            myMisc.getCurrDateFormat(req))
+            userSettings.getCurrDateFormat(req))
 
         //
         const {rows:[{count:numComments}]} = await db.getCommentNumComments(dbComment.path)
@@ -85,7 +85,7 @@ const post = async (req, res) => {
                 comment: dbComment,
                 comments: comments,
                 errors: errors,
-                comment_reply_mode: myMisc.getCurrCommentReplyMode(req),
+                comment_reply_mode: userSettings.getCurrCommentReplyMode(req),
                 page,
                 total_pages: totalPages,
                 lead_mod_user_id: dbComment.lead_mod,

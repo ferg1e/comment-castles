@@ -1,7 +1,7 @@
 const express = require('express')
 const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
-const myMisc = require('../util/user-settings.js')
+const userSettings = require('../util/user-settings.js')
 const {validateDm} = require('../util/validate')
 
 //
@@ -13,8 +13,8 @@ const get = async (req, res) => {
     //
     const {rows:dmedUsers} = await db.getDmedUsers(
         req.session.user.user_id,
-        myMisc.getCurrTimeZone(req),
-        myMisc.getCurrDateFormat(req))
+        userSettings.getCurrTimeZone(req),
+        userSettings.getCurrDateFormat(req))
 
     //
     return res.render('dms', {
@@ -53,8 +53,8 @@ const post = async(req, res) => {
         //
         const {rows:dmedUsers} = await db.getDmedUsers(
             req.session.user.user_id,
-            myMisc.getCurrTimeZone(req),
-            myMisc.getCurrDateFormat(req))
+            userSettings.getCurrTimeZone(req),
+            userSettings.getCurrDateFormat(req))
 
         //
         return res.render('dms', {
