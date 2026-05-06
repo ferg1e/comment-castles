@@ -5,7 +5,6 @@ const config = require('../config')
 
 const router = express.Router()
 const htmlTitle = 'Settings'
-const cookieMaxAge = 1000*60*60*24*365*10;
 
 //
 const get = async (req, res) => {
@@ -33,7 +32,7 @@ const post = async (req, res) => {
 
     //
     if(req.body.defaults === '1') {
-        await updateSettings(
+        await userSettings.updateSettings(
             req,
             res,
             config.defaultTimeZone,
@@ -111,7 +110,7 @@ const post = async (req, res) => {
     }
 
     //
-    await updateSettings(
+    await userSettings.updateSettings(
         req,
         res,
         req.body.time_zone,
@@ -158,68 +157,3 @@ const post = async (req, res) => {
 router.get('/', get)
 router.post('/', post)
 module.exports = router
-
-//
-async function updateSettings(
-    req,
-    res,
-    timeZone,
-    commentReplyMode,
-    siteWidth,
-    postLayout,
-    postsPerPage,
-    postsVerticalSpacing,
-    theme,
-    dateFormat
-) {
-
-    //
-    const siteWidthEmptied = siteWidth === ''
-        ? ''
-        : parseInt(siteWidth)
-
-    //
-    const siteWidthNulled = siteWidth === ''
-        ? null
-        : parseInt(siteWidth)
-
-    //
-    if(req.session.user) {
-        await db.updateUser(
-            req.session.user.user_id,
-            timeZone,
-            commentReplyMode,
-            siteWidthNulled,
-            postLayout,
-            postsPerPage,
-            postsVerticalSpacing,
-            theme,
-            dateFormat)
-
-        req.session.user.time_zone = timeZone
-        req.session.user.post_layout = postLayout
-        req.session.user.posts_per_page = postsPerPage
-        req.session.user.posts_vertical_spacing = postsVerticalSpacing
-        req.session.user.theme = theme
-        req.session.user.comment_reply_mode = commentReplyMode
-        req.session.user.date_format = dateFormat
-        req.session.user.site_width = siteWidthNulled
-    }
-    else {
-
-        const cSettings = userSettings.getCookieSettings(req)
-
-        cSettings.time_zone = timeZone
-        cSettings.post_layout = postLayout
-        cSettings.posts_per_page = postsPerPage
-        cSettings.posts_vertical_spacing = postsVerticalSpacing
-        cSettings.theme = theme
-        cSettings.site_width = siteWidthEmptied
-        cSettings.date_format = dateFormat
-
-        res.cookie(
-            'settings',
-            JSON.stringify(cSettings),
-            {maxAge: cookieMaxAge})
-    }
-}
