@@ -3,8 +3,8 @@ const {checkSub} = require('../middleware/check-sub.js')
 const db = require('../db')
 const userSettings = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
+const {sitePostSortValue} = require('../middleware/site-post-sort-value')
 const {renderPaginate404} = require('../util/render')
-const {validatePostSort} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -13,12 +13,7 @@ const get = async (req, res) => {
     const subSlug = res.locals.subSlug
     const sub = res.locals.sub
     const page = res.locals.page
-    const sort = validatePostSort(req)
-
-    // unknown sort
-    if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect(`/r/${subSlug}`)
-    }
+    const sort = res.locals.sort
 
     //
     const postsPerPage = userSettings.getCurrPostsPerPage(req)
@@ -56,5 +51,5 @@ const get = async (req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', checkSub, sitePageValue, get)
+router.get('/', checkSub, sitePageValue, sitePostSortValue, get)
 module.exports = router
