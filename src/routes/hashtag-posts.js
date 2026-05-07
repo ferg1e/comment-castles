@@ -2,8 +2,8 @@ const express = require('express')
 const db = require('../db')
 const userSettings = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
+const {sitePostSortValue} = require('../middleware/site-post-sort-value')
 const {renderPaginate404} = require('../util/render')
-const {validatePostSort} = require('../util/validate')
 
 //
 const get = async (req, res) => {
@@ -11,12 +11,7 @@ const get = async (req, res) => {
     //
     const hashtag = req.params[0]
     const page = res.locals.page
-    const sort = validatePostSort(req)
-
-    // unknown sort
-    if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect(`/t/${hashtag}`)
-    }
+    const sort = res.locals.sort
 
     //
     const {rows:[dbHashtag]} = await db.getHashtag(hashtag)
@@ -65,5 +60,5 @@ const get = async (req, res) => {
 
 //
 const router = express.Router({mergeParams: true})
-router.get('/', sitePageValue, get)
+router.get('/', sitePageValue, sitePostSortValue, get)
 module.exports = router
