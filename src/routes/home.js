@@ -3,8 +3,8 @@ const db = require('../db')
 const userSettings = require('../util/user-settings.js')
 const config = require('../config')
 const {sitePageValue} = require('../middleware/site-page-value.js')
+const {sitePostSortValue} = require('../middleware/site-post-sort-value')
 const {renderPaginate404} = require('../util/render')
-const {validatePostSort} = require('../util/validate')
 
 const htmlTitle = config.siteName
 
@@ -13,13 +13,8 @@ const get = async (req, res) => {
 
     //
     const page = res.locals.page
-    const sort = validatePostSort(req)
+    const sort = res.locals.sort
     const baseUrl = '/'
-
-    // unknown sort
-    if(typeof req.query.sort !== 'undefined' && sort === '') {
-        return res.redirect(baseUrl)
-    }
 
     //
     const postsPerPage = userSettings.getCurrPostsPerPage(req)
@@ -56,5 +51,5 @@ const get = async (req, res) => {
 
 //
 const router = express.Router()
-router.get('/', sitePageValue, get)
+router.get('/', sitePageValue, sitePostSortValue, get)
 module.exports = router
