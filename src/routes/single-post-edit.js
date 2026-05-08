@@ -21,7 +21,6 @@ const get = async (req, res) => {
     //
     return res.render('new-post2', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         title: post.title,
         link: post.link === null ? '' : post.link,
@@ -55,7 +54,6 @@ const post = async (req, res) => {
     if(errors.length) {
         return res.render('new-post2', {
             html_title: htmlTitle,
-            user: req.session.user,
             errors: errors,
             title: req.body.title,
             link: req.body.link,

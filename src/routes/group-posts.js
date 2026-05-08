@@ -36,7 +36,6 @@ const get = async (req, res) => {
 
     return res.render('posts2', {
         html_title: subSlug,
-        user: req.session.user,
         posts: rows,
         page: page,
         base_url: `/r/${subSlug}`,

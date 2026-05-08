@@ -5,6 +5,7 @@ const db = require('../db')
 const all = async (req, res, next) => {
 
     //
+    res.locals.user = req.session.user
     res.locals.max_width = userSettings.getCurrSiteMaxWidth(req)
 
     //

@@ -4,7 +4,6 @@ const express = require('express')
 const get = (req, res) => {
     return res.render('privacy-policy', {
         html_title: 'Privacy Policy',
-        user: req.session.user,
         main_class: 'main-text'
     })
 }

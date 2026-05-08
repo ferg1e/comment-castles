@@ -5,7 +5,6 @@ const config = require('../config')
 const get = (req, res) => {
     return res.render('help', {
         html_title: 'Help',
-        user: req.session.user,
         default_site_width: config.defaultSiteWidth,
         min_site_width: config.minSiteWidth,
         max_site_width: config.maxSiteWidth,

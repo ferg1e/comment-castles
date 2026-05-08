@@ -17,7 +17,6 @@ const get = async (req, res) => {
     //
     return res.render('edit-dm', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         message: dm.dmessage
     })
@@ -36,7 +35,6 @@ const post = async (req, res) => {
     if(messageErrors.length > 0) {
         return res.render('edit-dm', {
             html_title: htmlTitle,
-            user: req.session.user,
             errors: messageErrors,
             message: req.body.message
         })

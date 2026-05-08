@@ -13,7 +13,6 @@ const get = async (req, res) => {
     return res.render('my-settings', {
         html_title: htmlTitle,
         errors: [],
-        user: req.session.user,
         time_zones: config.timeZones,
         date_formats: config.dateFormats,
         time_zone: userSettings.getCurrTimeZone(req),
@@ -95,7 +94,6 @@ const post = async (req, res) => {
         return res.render('my-settings', {
             html_title: htmlTitle,
             errors: errors,
-            user: req.session.user,
             time_zones: config.timeZones,
             date_formats: config.dateFormats,
             time_zone: req.body.time_zone,
@@ -139,7 +137,6 @@ const post = async (req, res) => {
         html_title: htmlTitle,
         errors: [],
         success: 'Settings successfully saved.',
-        user: req.session.user,
         time_zones: config.timeZones,
         date_formats: config.dateFormats,
         time_zone: req.body.time_zone,

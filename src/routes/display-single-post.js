@@ -33,7 +33,6 @@ const get = async (req, res) => {
     //
     return res.render('single-post', {
         html_title: post.title,
-        user: req.session.user,
         post: post,
         lead_mod_user_id: post.lead_mod,
         curr_castle: post.castle,
@@ -73,7 +72,6 @@ const post = async (req, res) => {
         //
         return res.render('single-post', {
             html_title: post.title,
-            user: req.session.user,
             post: post,
             lead_mod_user_id: post.lead_mod,
             curr_castle: post.castle,

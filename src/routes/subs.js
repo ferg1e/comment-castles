@@ -26,7 +26,6 @@ const get = async (req, res) => {
 
     return res.render('subs', {
         html_title: htmlTitle,
-        user: req.session.user,
         subs: subs,
         page: page,
         num_pages: numPages,

@@ -17,7 +17,6 @@ const get = async (req, res) => {
     //
     return res.render('delete-dm', {
         html_title: htmlTitle,
-        user: req.session.user,
         message: dm.dmessage
     })
 }

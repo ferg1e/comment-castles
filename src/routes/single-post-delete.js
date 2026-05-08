@@ -16,7 +16,6 @@ const get = async (req, res) => {
     //
     return res.render('delete-post', {
         html_title: htmlTitle,
-        user: req.session.user,
         title: post.title,
         lead_mod_user_id: post.lead_mod,
         curr_castle: post.castle
@@ -36,7 +35,6 @@ const post = async (req, res) => {
     return res.render('message', {
         html_title: htmlTitle,
         message: "The post and all of its comments (if any) were successfully deleted.",
-        user: req.session.user,
         lead_mod_user_id: post.lead_mod,
         curr_castle: post.castle
     })

@@ -13,7 +13,6 @@ const get = async (req, res) => {
     //
     return res.render('my-settings-username', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         username: req.session.user.username
     })
@@ -50,7 +49,6 @@ const post = async (req, res) => {
     if(errors.length) {
         return res.render('my-settings-username', {
             html_title: htmlTitle,
-            user: req.session.user,
             errors: errors,
             username: username
         })
@@ -63,7 +61,6 @@ const post = async (req, res) => {
     //
     return res.render('my-settings-username', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         success: 'Username successfully saved',
         username: username

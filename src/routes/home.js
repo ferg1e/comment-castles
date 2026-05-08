@@ -39,7 +39,6 @@ const get = async (req, res) => {
         html_title: htmlTitle,
         meta_desc: "This is an internet forum with posts and nested comments. " +
             "It supports subs/communities and hashtags for the posts.",
-        user: req.session.user,
         posts: rows,
         page: page,
         base_url: baseUrl,

@@ -53,7 +53,6 @@ async function renderHtml(req, res, formData, errors, success) {
     //
     return res.render('my-settings-app-ids', {
         html_title: htmlTitle,
-        user: req.session.user,
         clients: clients,
         errors: errors,
         success: success,

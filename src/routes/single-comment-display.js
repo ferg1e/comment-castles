@@ -36,7 +36,6 @@ const get = async (req, res) => {
         'single-comment',
         {
             html_title: htmlTitle + commentPublicId,
-            user: req.session.user,
             post_public_id: dbComment.post_public_id,
             comment: dbComment,
             comments: comments,
@@ -80,7 +79,6 @@ const post = async (req, res) => {
             'single-comment',
             {
                 html_title: htmlTitle + commentPublicId,
-                user: req.session.user,
                 post_public_id: dbComment.post_public_id,
                 comment: dbComment,
                 comments: comments,

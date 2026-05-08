@@ -47,7 +47,6 @@ const get = async (req, res) => {
     return res.render('posts2', {
         html_title: `#${hashtag}`,
         page_title: `#${hashtag}`,
-        user: req.session.user,
         posts: posts,
         page: page,
         base_url: `/t/${hashtag}`,

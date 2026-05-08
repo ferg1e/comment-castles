@@ -18,7 +18,6 @@ const get = async (req, res) => {
     //
     return res.render('castle-settings', {
         html_title: `${subSlug} Settings`,
-        user: req.session.user,
         errors: [],
         desc: sub.sub_desc,
         lead_mod_user_id: sub.lead_mod,
@@ -44,7 +43,6 @@ const post = async(req, res) => {
     //
     return res.render('castle-settings', {
         html_title: `${subSlug} Settings`,
-        user: req.session.user,
         success: 'Settings successfully saved.',
         errors: [],
         desc: req.body.desc,

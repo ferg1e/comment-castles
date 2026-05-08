@@ -30,7 +30,6 @@ module.exports.renderMessage = (req, res, title, message, mainClass = '') => {
     return res.render('message', {
         html_title: title,
         message: message,
-        user: req.session.user,
         main_class: mainClass
     })
 }

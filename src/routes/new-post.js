@@ -20,7 +20,6 @@ const get = async (req, res) => {
     //
     return res.render('new-post2', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         title: "",
         link: "",
@@ -52,7 +51,6 @@ const post = async(req, res) => {
         //
         return res.render('new-post2', {
             html_title: htmlTitle,
-            user: req.session.user,
             errors: errors,
             title: req.body.title,
             link: req.body.link,

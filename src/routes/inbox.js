@@ -38,7 +38,6 @@ const get = async (req, res) => {
     //
     return res.render('inbox', {
         html_title: 'Inbox',
-        user: req.session.user,
         comments: comments,
         page: page,
         comment_reply_mode: userSettings.getCurrCommentReplyMode(req)

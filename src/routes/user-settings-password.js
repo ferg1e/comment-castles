@@ -12,7 +12,6 @@ const get = async (req, res) => {
     //
     return res.render('my-settings-password', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
     })
 }
@@ -45,7 +44,6 @@ const post = async (req, res) => {
     //
     return res.render('my-settings-password', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: errors,
         success: success,
     })

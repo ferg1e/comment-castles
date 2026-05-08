@@ -14,7 +14,6 @@ const get = async (req, res) => {
     //
     return res.render('my-settings-profile', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         profile: row.profile_blurb,
     })
@@ -32,7 +31,6 @@ const post = async (req, res) => {
     //
     return res.render('my-settings-profile', {
         html_title: htmlTitle,
-        user: req.session.user,
         errors: [],
         success: "profile updated",
         profile: profile,

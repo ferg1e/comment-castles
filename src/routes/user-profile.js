@@ -18,7 +18,6 @@ const get = async (req, res) => {
     //
     return res.render('user-profile', {
         html_title: dbUser.username,
-        user: req.session.user,
         username: dbUser.username,
         profile_text: dbUser.profile_blurb
     })
