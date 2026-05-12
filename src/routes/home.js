@@ -15,7 +15,6 @@ const get = async (req, res) => {
     //
     const page = res.locals.page
     const sort = res.locals.sort
-    const baseUrl = '/'
 
     //
     const postsPerPage = userSettings.getCurrPostsPerPage(req)
@@ -41,7 +40,7 @@ const get = async (req, res) => {
             "It supports subs/communities and hashtags for the posts.",
         posts: rows,
         page: page,
-        base_url: baseUrl,
+        base_url: '/',
         post_layout: userSettings.getCurrPostLayout(req),
         sort: sort,
         posts_vertical_spacing: userSettings.getCurrPostsVerticalSpacing(req),
