@@ -3,7 +3,6 @@ const db = require('../db')
 const {isUser} = require('../middleware/is-user.js')
 const {validateNewPost} = require('../util/validate')
 
-const router = express.Router()
 const htmlTitle = 'New Post'
 
 //
@@ -76,6 +75,7 @@ const post = async(req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', isUser, get)
 router.post('/', isUser, post)
 module.exports = router
