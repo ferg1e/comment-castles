@@ -6,8 +6,6 @@ const userSettings = require('../util/user-settings.js')
 const {sitePageValue} = require('../middleware/site-page-value.js')
 const {renderPaginate404} = require('../util/render')
 
-const router = express.Router()
-
 //
 const get = async (req, res) => {
 
@@ -45,5 +43,6 @@ const get = async (req, res) => {
 }
 
 //
+const router = express.Router()
 router.get('/', isUser, sitePageValue, get)
 module.exports = router
