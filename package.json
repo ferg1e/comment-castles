@@ -8,7 +8,6 @@
   "dependencies": {
     "argon2": "^0.44.0",
     "connect-pg-simple": "^10.0.0",
-    "connect-redis": "^4.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
