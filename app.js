@@ -8,12 +8,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const {v4:uuid} = require('uuid')
 const session = require('express-session')
-const redisStore = require('connect-redis')(session)
-const redis = require('redis')
 const config = require('./src/config')
 
 //
-const redisClient = redis.createClient(process.env.REDIS_PORT)
 const app = express()
 const server = app.listen(process.env.HTTP_PORT)
 
@@ -38,7 +35,9 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new redisStore({ host: "localhost", port: process.env.REDIS_PORT, client: redisClient })
+    store: new (require('connect-pg-simple')(session))({
+        // Insert connect-pg-simple options here
+    }),
     })
 )
 
