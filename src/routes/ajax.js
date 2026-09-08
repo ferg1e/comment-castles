@@ -38,20 +38,7 @@ const postComment = async (req, res) => {
 
     //
     newComment.by = req.session.user.username
-
-    //
-    const sPublicId = req.session.user.public_id
-
-    // this user public_id may not be set on the session if
-    // they've been logged in for a long time, so get it from the db
-    // if it's not there
-    if(typeof sPublicId == 'undefined') {
-        const {rows:[xRow]} = await db.getUserWithUserId(req.session.user.user_id)
-        newComment.user_public_id = xRow.public_id
-    }
-    else {
-        newComment.user_public_id = sPublicId
-    }
+    newComment.user_public_id = req.session.user.public_id
 
     //
     const bbCodesOnly = pug.compileFile('src/views/bbCodesOnly.pug')
